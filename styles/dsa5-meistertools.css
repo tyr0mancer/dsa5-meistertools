@@ -1,0 +1,13 @@
+.meistertools-container h2 {
+    font-size: 2em;
+}
+
+button.select-scene:hover {
+    cursor: pointer
+}
+
+form.dsa5-meistertools p.info-text {
+    font-size: 0.8em;
+    font-style: italic;
+    color: grey;
+}

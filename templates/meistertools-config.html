@@ -1,0 +1,85 @@
+<form autocomplete="off" class="dsa5-meistertools">
+    <nav class="sheet-tabs tabs">
+        <a class="item active" data-tab="scenes"><i class="fas fa-map-marked-alt"></i> Manage Scenes</a>
+        <a class="item" data-tab="nsc"><i class="fas fa-user-plus"></i> NSC Generator</a>
+    </nav>
+    <section id="config-tabs" class="content">
+        <div class="tab active" data-tab="scenes">
+            <h1>Manage Scenes</h1>
+            <div class="form-group">
+                <label><h3>Importierte Szenen filtern</h3></label>
+                <input type="checkbox" name="filterExisting" data-dtype="Boolean" {{checked scenes.filterExisting}}/>
+            </div>
+            <p class="info-text">Falls deaktiviert, werden alle bereits importierten Szenen aus diesem Ordner immer und
+                unabhängig vom Suchbegriff angezeigt</p>
+
+            <div class="form-group">
+                <label>Ausgewählte Szenen per default aktivieren</label>
+                <input type="checkbox" name="activateDefault" data-dtype="Boolean" {{checked scenes.activateDefault}}/>
+            </div>
+            <p class="info-text">Falls aktiviert, werden ausgewählte Szenen per default nicht nur selektiert sondern
+                auch als aktive Szenen ausgewählt. Kann bei der Auswahl der Szene geändert werden.</p>
+
+            <div class="form-group">
+                <label>Alternative Playlist suchen</label>
+                <input type="checkbox" name="updatePlaylist" data-dtype="Boolean" {{checked scenes.updatePlaylist}}/>
+            </div>
+            <p class="info-text">Falls aktiviert: Merkt sich Name einer zugeordneten Playlist. Falls diese
+                zwischenzeitlich unter gleichem Namen neu angelegt wurde, wird sie der Szene bei Aktivierung
+                zugewiesen</p>
+            <div class="form-group">
+                <label>Default Playlist</label>
+                <select name="defaultPlaylist">
+                    {{#select scenes.defaultPlaylist}}
+                    <option value="">- keine -</option>
+                    {{#each playlists}}
+                    <option value="{{name}}">{{name}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+            <p class="info-text">Falls eine Szene ohne Playlist aktiviert wird, wird ihr diese Playlist zugeordnet.</p>
+
+            {{#each scenes.categories as |category id|}}
+            <div>
+                <hr/>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="scenecategory_name" data-dtype="String" value="{{name}}"/>
+                </div>
+                <div class="form-group">
+                    <label>Scene Ordner</label>
+                    <input type="text" name="scenecategory_folder" data-dtype="String" value="{{folder}}"/>
+                </div>
+                <div class="form-group">
+                    <label>Suchbegriffe</label>
+                    <input type="text" name="scenecategory_keywords" data-dtype="String" value="{{keywords}}"/>
+                </div>
+                <div class="form-group">
+                    <label>Kompendium</label>
+                    <select name="scenecategory_packname">
+                        {{#select this.packname}}
+                        {{#each ../packnameList as |name key|}}
+                        <option value="{{name}}">{{name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <button class="delete-scene-pack" name="delete-scene-pack" value="{{id}}" type="cancel">delete scene
+                    pack
+                </button>
+            </div>
+            {{/each}}
+            <hr/>
+            <button class="add-scene-pack" name="add-scene-pack" type="cancel">add scene pack</button>
+        </div>
+
+        <div class="tab active" data-tab="nsc">
+            <h1>NSC Generator</h1>
+        </div>
+
+    </section>
+    <footer class="sheet-footer flexrow">
+        <button type="submit" name="submit"><i class="fas fa-save"></i> Änderungen speichern</button>
+    </footer>
+</form>

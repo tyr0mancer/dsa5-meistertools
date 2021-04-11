@@ -1,10 +1,34 @@
 {
   "name": "dsa5-meistertools",
-  "title": "DSA5 - Meistertools",
-  "description": "Tools für DSA5 Spielleiter auf Foundry VTT",
+  "title": "DSA5 - MeisterTools",
+  "description": "Hilfen für DSA5 Spielleiter auf Foundry VTT",
   "author": "tyr0mancer",
   "version": "0.0.1",
+  "url": "https://github.com/tyr0mancer/dsa5-meistertools",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.7.9",
-  "packs": []
+  "languages": [
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "styles": [
+    "/styles/dsa5-meistertools.css"
+  ],
+  "esmodules": [
+    "/dsa5-meistertools.js"
+  ],
+  "dependencies": [
+    {
+      "name": "dsa5",
+      "type": "system"
+    }
+  ]
 }

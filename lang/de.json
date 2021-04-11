@@ -1,0 +1,8 @@
+{
+  "dsa5-meistertools": {
+    "createBiest": "Monster Generator",
+    "createNSC": "NSC Generator",
+    "randomEncounter": "Zufallsbegegnung",
+    "randomLibrary": "Zufallsbibliothek"
+  }
+}

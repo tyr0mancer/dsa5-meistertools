@@ -1,12 +1,13 @@
 export const moduleName = "dsa5-meistertools";
 
+import {CreateNSC} from './modules/create-nsc.js'
 import {createBeast} from './modules/create-beast.js'
-import {createNSC} from './modules/create-nsc.js'
 
 import {randomLibrary} from './modules/random-library.js'
 import {randomEncounter} from './modules/random-encounter.js'
 
 import {ManageScenes} from './modules/manage-scenes.js'
+
 import {playerWhisper} from './modules/player-whisper.js'
 
 import {registerSettings} from './modules/register-settings.js'
@@ -117,7 +118,8 @@ function pushControlButtons(controls) {
                 icon: "fas fa-user-plus",
                 visible: true,
                 button: true,
-                onClick: () => createNSC()
+                onClick: () => new CreateNSC().render(true)
+
             },
             {
                 name: "SceneManager",

@@ -18,6 +18,9 @@ import {registerSettings} from './modules/register-settings.js'
  * and replaced with a playlist with the same name
  */
 Hooks.on('updateScene', (scene, data) => {
+    if (!game.user.isGM)
+        return;
+
     const settings = game.settings.get(moduleName, 'settings')
     if (!settings.scenes.updatePlaylist)
         return
@@ -54,10 +57,7 @@ Hooks.on('updateScene', (scene, data) => {
             scene.unsetFlag(moduleName, 'playlistName')
         }
     }
-
     //console.log(JSON.stringify(data));
-
-
 });
 
 
@@ -90,6 +90,12 @@ Hooks.once('init', () => {
 
     Handlebars.registerHelper('stringify', function (obj, opts) {
         return JSON.stringify(obj, null, 2)
+    });
+
+
+    Handlebars.registerHelper('ifeq', function (a, b, options) {
+        if (a == b) { return options.fn(this); }
+        return options.inverse(this);
     });
 
 

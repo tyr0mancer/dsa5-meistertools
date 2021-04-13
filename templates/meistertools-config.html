@@ -4,32 +4,37 @@
         <a class="item" data-tab="nsc"><i class="fas fa-user-plus"></i> NSC Generator</a>
     </nav>
     <section id="config-tabs" class="content">
+
+        <!-- Scene Manager Settings -->
         <div class="tab active" data-tab="scenes">
             <h1>Manage Scenes</h1>
             <div class="form-group">
                 <label><h3>Importierte Szenen filtern</h3></label>
-                <input type="checkbox" name="filterExisting" data-dtype="Boolean" {{checked scenes.filterExisting}}/>
+                <input type="checkbox" name="scenes.filterExisting" data-dtype="Boolean" {{checked
+                       scenes.filterExisting}}/>
             </div>
             <p class="info-text">Falls deaktiviert, werden alle bereits importierten Szenen aus diesem Ordner immer und
                 unabhängig vom Suchbegriff angezeigt</p>
 
             <div class="form-group">
                 <label>Ausgewählte Szenen per default aktivieren</label>
-                <input type="checkbox" name="activateDefault" data-dtype="Boolean" {{checked scenes.activateDefault}}/>
+                <input type="checkbox" name="scenes.activateDefault" data-dtype="Boolean" {{checked
+                       scenes.activateDefault}}/>
             </div>
             <p class="info-text">Falls aktiviert, werden ausgewählte Szenen per default nicht nur selektiert sondern
                 auch als aktive Szenen ausgewählt. Kann bei der Auswahl der Szene geändert werden.</p>
 
             <div class="form-group">
                 <label>Alternative Playlist suchen</label>
-                <input type="checkbox" name="updatePlaylist" data-dtype="Boolean" {{checked scenes.updatePlaylist}}/>
+                <input type="checkbox" name="scenes.updatePlaylist" data-dtype="Boolean" {{checked
+                       scenes.updatePlaylist}}/>
             </div>
             <p class="info-text">Falls aktiviert: Merkt sich Name einer zugeordneten Playlist. Falls diese
                 zwischenzeitlich unter gleichem Namen neu angelegt wurde, wird sie der Szene bei Aktivierung
                 zugewiesen</p>
             <div class="form-group">
                 <label>Default Playlist</label>
-                <select name="defaultPlaylist">
+                <select name="scenes.defaultPlaylist">
                     {{#select scenes.defaultPlaylist}}
                     <option value="">- keine -</option>
                     {{#each playlists}}
@@ -45,38 +50,75 @@
                 <hr/>
                 <div class="form-group">
                     <label>Name</label>
-                    <input type="text" name="scenecategory_name" data-dtype="String" value="{{name}}"/>
+                    <input type="text" name="scenes.categories_name" data-dtype="String" value="{{name}}"/>
                 </div>
                 <div class="form-group">
                     <label>Scene Ordner</label>
-                    <input type="text" name="scenecategory_folder" data-dtype="String" value="{{folder}}"/>
+                    <input type="text" name="scenes.categories_folder" data-dtype="String" value="{{folder}}"/>
                 </div>
                 <div class="form-group">
                     <label>Suchbegriffe</label>
-                    <input type="text" name="scenecategory_keywords" data-dtype="String" value="{{keywords}}"/>
+                    <input type="text" name="scenes.categories_keywords" data-dtype="String" value="{{keywords}}"/>
                 </div>
                 <div class="form-group">
                     <label>Kompendium</label>
-                    <select name="scenecategory_packname">
+                    <select name="scenes.categories_packname">
                         {{#select this.packname}}
-                        {{#each ../packnameList as |name key|}}
+                        {{#each ../scenePacks as |name key|}}
                         <option value="{{name}}">{{name}}</option>
                         {{/each}}
                         {{/select}}
                     </select>
                 </div>
-                <button class="delete-scene-pack" name="delete-scene-pack" value="{{id}}" type="cancel">delete scene
-                    pack
-                </button>
+                <button class="delete-element" name="scenes.categories" value="{{id}}" type="cancel">Pack entfernen</button>
             </div>
             {{/each}}
             <hr/>
-            <button class="add-scene-pack" name="add-scene-pack" type="cancel">add scene pack</button>
+            <button class="insert-element" name="scenes.categories" type="cancel">neues Pack</button>
         </div>
 
+
+        <!-- NSC Generator Settings -->
         <div class="tab active" data-tab="nsc">
             <h1>NSC Generator</h1>
+            <div class="form-group">
+                <label><h3>defaultOrigin</h3></label>
+                <input type="text" name="nsc.defaultOrigin" data-dtype="String" value="{{nsc.defaultOrigin}}"/>
+            </div>
+            <div class="form-group">
+                <label><h3>defaultCulture</h3></label>
+                <input type="text" name="nsc.defaultCulture" data-dtype="String" value="{{nsc.defaultCulture}}"/>
+            </div>
+            <div class="form-group">
+                <label><h3>defaultProfession</h3></label>
+                <input type="text" name="nsc.defaultProfession" data-dtype="String" value="{{nsc.defaultProfession}}"/>
+            </div>
+
+            {{#each nsc.packs as |pack id|}}
+            <div>
+                <hr/>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="nsc.packs_name" data-dtype="String" value="{{name}}"/>
+                </div>
+                <div class="form-group">
+                    <label>Kompendium</label>
+                    <select name="nsc.packs_packname">
+                        {{#select this.packname}}
+                        {{#each ../actorPacks as |name key|}}
+                        <option value="{{name}}">{{name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <button class="delete-element" name="nsc.packs" value="{{id}}" type="cancel">Pack entfernen</button>
+            </div>
+            {{/each}}
+            <hr/>
+            <button class="insert-element" name="nsc.packs" type="cancel">neues Pack</button>
+
         </div>
+
 
     </section>
     <footer class="sheet-footer flexrow">

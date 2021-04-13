@@ -3,7 +3,12 @@
 }
 
 button.select-scene:hover {
-    cursor: pointer
+    cursor: pointer;
+}
+
+button.select-pattern:hover {
+    cursor: pointer;
+    background-color: blue;
 }
 
 form.dsa5-meistertools p.info-text {

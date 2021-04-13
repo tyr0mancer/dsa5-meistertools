@@ -132,4 +132,14 @@ export class ManageScenes extends Application {
     }
 
 
+    static getDefaultSettings() {
+        return {
+            activateDefault: true,
+            updatePlaylist: false,
+            defaultPlaylist: '',
+            filterExisting: false,
+            categories: []
+        }
+    }
+
 }

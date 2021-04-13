@@ -1,11 +1,13 @@
 import {moduleName} from "../dsa5-meistertools.js";
+import {CreateNSC} from "./create-nsc.js";
+import {ManageScenes} from "./manage-scenes.js";
 
 export function registerSettings() {
 
     game.settings.registerMenu(moduleName, "manage-scenes", {
         name: "DSA5 Meistertools",
         label: "Einstellungen",
-        hint: "Alle Einstellungen der Meistertools",
+        hint: "Alle Einstellungen der DSA5 Meistertools",
         icon: "fas fa-eye",
         type: MeistertoolsConfig,
         restricted: true
@@ -26,13 +28,8 @@ class MeistertoolsConfig extends FormApplication {
 
     static DEFAULT_SETTINGS() {
         return {
-            scenes: {
-                activateDefault: true,
-                updatePlaylist: false,
-                defaultPlaylist: '',
-                filterExisting: false,
-                categories: []
-            }
+            scenes: ManageScenes.getDefaultSettings(),
+            nsc: CreateNSC.getDefaultSettings()
         }
     }
 
@@ -40,15 +37,17 @@ class MeistertoolsConfig extends FormApplication {
         super(object, options);
         game.settings.sheet.close();
 
-        const packnameList = game.packs
+        const scenePacks = game.packs
             .filter(p => p.metadata.entity === 'Scene')
             .map(p => p.metadata.package + '.' + p.metadata.name)
 
+        const actorPacks = game.packs
+            .filter(p => p.metadata.entity === 'Actor')
+            .map(p => p.metadata.package + '.' + p.metadata.name)
 
-        console.clear()
-        console.log(packnameList)
         this.dataObject = mergeObject({
-            packnameList: packnameList,
+            scenePacks: scenePacks,
+            actorPacks: actorPacks,
             playlists: game.playlists
         }, game.settings.get(moduleName, 'settings') || MeistertoolsConfig.DEFAULT_SETTINGS());
     }
@@ -76,16 +75,14 @@ class MeistertoolsConfig extends FormApplication {
 
     activateListeners(html) {
         super.activateListeners(html);
+        html.find('.insert-element').click(event => this._insertArrayElement(event));
+        html.find('.delete-element').click(event => this._deleteArrayElement(event));
+
         html.find('.add-scene-pack').click(ev => {
             ev.preventDefault();
             if (this.dataObject.scenes.categories === undefined)
                 this.dataObject.scenes.categories = []
-            this.dataObject.scenes.categories.push({
-                name: '',
-                folder: '',
-                packname: '',
-                keywords: ''
-            })
+            this.dataObject.scenes.categories.push({})
             this.render()
         });
 
@@ -96,37 +93,69 @@ class MeistertoolsConfig extends FormApplication {
         });
     }
 
-    _updateObject(event, formData) {
-        let newDataObject = game.settings.get(moduleName, 'settings')
-        newDataObject.scenes = {
-            activateDefault: formData.activateDefault,
-            filterExisting: formData.filterExisting,
-            updatePlaylist: formData.activateDefault,
-            defaultPlaylist: formData.defaultPlaylist,
-            categories: []
-        }
-        console.log(formData)
-        console.log(newDataObject)
-        if (Array.isArray(formData.scenecategory_packname)) {
-            let index
-            for (index = 0; index < formData.scenecategory_packname.length; index++) {
-                newDataObject.scenes.categories.push({
-                    name: formData.scenecategory_name[index],
-                    folder: formData.scenecategory_folder[index],
-                    packname: formData.scenecategory_packname[index],
-                    keywords: formData.scenecategory_keywords[index]
-                })
-            }
-        } else {
-            if (formData.scenecategory_packname)
-                newDataObject.scenes.categories = [{
-                    name: formData.scenecategory_name,
-                    folder: formData.scenecategory_folder,
-                    packname: formData.scenecategory_packname,
-                    keywords: formData.scenecategory_keywords
-                }]
-        }
-        game.settings.set(moduleName, 'settings', newDataObject);
+    _deleteArrayElement(event) {
+        event.preventDefault();
+        console.log(event.target.name)
+        console.log(event.target.value)
+        const path = event.target.name.split('.')
+        this.dataObject[path[0]][path[1]].splice(event.target.value, 1);
+        this.render()
     }
-}
 
+    _insertArrayElement(event) {
+        event.preventDefault();
+        //console.log(event.target.name)
+        const path = event.target.name.split('.')
+        if (this.dataObject[path[0]][path[1]] === undefined)
+            this.dataObject[path[0]][path[1]] = []
+        this.dataObject[path[0]][path[1]].push({})
+        this.render()
+    }
+
+
+    // todo there GOTTA be a better way to do this dynamically with handlebars data-binding. maybe someday Ill learn how
+    _updateObject(event, formData) {
+        let updatedSettings = game.settings.get(moduleName, 'settings')
+        const settingMainKeys = Object.keys(updatedSettings)
+        const formDataKeys = Object.keys(formData)
+        for (let mainKey of settingMainKeys) {
+            let arrayData = {}
+            for (let formDataKey of formDataKeys) {
+                if (formDataKey.startsWith(mainKey)) {
+                    let dataKey = formDataKey.substr(mainKey.length + 1)
+                    let dataValue = formData[formDataKey]
+                    let arrayIndex = dataKey.indexOf('_')
+                    if (arrayIndex !== -1) {
+                        let arrayName = dataKey.substr(0, arrayIndex);
+                        if (arrayData[arrayName] === undefined)
+                            arrayData[arrayName] = []
+                        arrayData[arrayName].push(dataKey.substr(arrayName.length + 1))
+                        continue
+                    }
+                    updatedSettings[mainKey][dataKey] = dataValue
+                }
+            }
+            const arrayKeys = Object.keys(arrayData)
+            for (let arrayKey of arrayKeys) {
+                let arr = []
+                console.log(arrayKey)
+                for (let arrayElem of arrayData[arrayKey]) {
+                    const elem = formData[mainKey + '.' + arrayKey + "_" + arrayElem]
+                    if (!Array.isArray(elem)) {
+                        if (arr.length === 0) arr = [{}]
+                        arr[0][arrayElem] = elem
+                    } else {
+                        if (arr.length === 0)
+                            for (let index = 0; index < elem.length; index++)
+                                arr.push({})
+                        for (let index = 0; index < elem.length; index++)
+                            arr[index][arrayElem] = elem[index]
+                    }
+                }
+                updatedSettings[mainKey][arrayKey] = arr
+            }
+        }
+        game.settings.set(moduleName, 'settings', updatedSettings);
+    }
+
+}

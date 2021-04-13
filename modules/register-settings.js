@@ -45,9 +45,23 @@ class MeistertoolsConfig extends FormApplication {
             .filter(p => p.metadata.entity === 'Actor')
             .map(p => p.metadata.package + '.' + p.metadata.name)
 
+        const origins = CreateNSC.getRuleset().archetypes.map(a => {
+            return {key: a.key, name: a.name}
+        })
+
+        let cultures = []
+        for (let archetype of CreateNSC.getRuleset().archetypes) {
+            if (archetype.cultures !== undefined)
+                cultures = cultures.concat(archetype.cultures)
+        }
+
+        console.log(cultures)
+
         this.dataObject = mergeObject({
-            scenePacks: scenePacks,
-            actorPacks: actorPacks,
+            scenePacks,
+            actorPacks,
+            origins,
+            cultures,
             playlists: game.playlists
         }, game.settings.get(moduleName, 'settings') || MeistertoolsConfig.DEFAULT_SETTINGS());
     }

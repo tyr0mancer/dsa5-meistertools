@@ -19,14 +19,14 @@ export class CreateNSC extends FormApplication {
             culture: this.moduleSettings.defaultCulture,
             packs: this.moduleSettings.packs,
             anzahl: 1,
-            gender: 'm'
+            gender: 'random'
         }
 
         this.storedPatterns = this.moduleSettings.storedPatterns
         this.players = Util.activePlayers().map(a => {
             return {name: a.name, _id: a._id}
         })
-        this.nsc = [{name: "BBEG", _id: "117"}, {name: "Companion", _id: "129"}]
+        this.nsc = []
     }
 
 
@@ -53,9 +53,10 @@ export class CreateNSC extends FormApplication {
         html.find('input.pattern-setting').change(event => this._setConfig(event, html));
         html.find('select.pattern-setting').change(event => this._setConfig(event, html));
 
-
-        html.find('.delete-pattern').click(ev => this._deletePattern(ev));
-        html.find('.save-pattern').click(ev => this._savePattern(ev));
+        /*
+                html.find('.delete-pattern').click(ev => this._deletePattern(ev));
+                html.find('.save-pattern').click(ev => this._savePattern(ev));
+        */
 
 
     }
@@ -85,8 +86,9 @@ export class CreateNSC extends FormApplication {
 
     async _selectPattern(ev) {
         const patternId = ev.currentTarget.value
-        this.config = this.moduleSettings.storedPatterns[patternId].config
-        this.render(true)
+        this.config = await this.moduleSettings.storedPatterns[patternId].config
+        console.log(this.moduleSettings.storedPatterns[patternId].config)
+        this.render()
     }
 
     async _deletePattern(ev) {

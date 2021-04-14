@@ -25,6 +25,11 @@
             <input type="checkbox" class="set-active-default" name="activateScene" data-dtype="Boolean" {{checked ../activateScene}}/>
         </div>
 
+        <div class="form-group">
+            <label>Heldengruppe hinzufügen </label>
+            <input type="checkbox" class="set-addplayers" name="addplayers" data-dtype="Boolean" {{checked addplayers}}/>
+        </div>
+
         <button value="{{showAllString}}" class="set-search-button">Alle anzeigen</button>
         {{#each keywords}}
         <button value="{{this}}" class="set-search-button">{{this}}</button>

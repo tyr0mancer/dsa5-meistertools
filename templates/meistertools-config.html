@@ -70,6 +70,24 @@
                         {{/select}}
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Helden automatisch platzieren</label>
+                    <input type="checkbox" name="scenes.categories_addplayers" data-dtype="Boolean" {{checked
+                           this.addplayers}}/>
+                </div>
+                <p class="info-text">Falls aktiviert, werden der ausgewählten Szenen die Heldengruppe hinzugefügt.</p>
+                <div class="form-group">
+                    <label>Position</label>
+                    <select name="scenes.categories_position">
+                        <option value="">---</option>
+                        {{#select this.position}}
+                        <option value="mitte"> Mitte </option>
+                        <option value="untenlinks">Unten link</option>
+                        <option value="obenlinks">Oben links</option>
+                        {{/select}}
+                    </select>
+                </div>
+
                 <button class="delete-element" name="scenes.categories" value="{{id}}" type="cancel">Pack entfernen
                 </button>
             </div>
@@ -105,55 +123,53 @@
                     {{/select}}
                 </select>
             </div>
-        </div>
-        <p class="info-text">Gültig falls Herkunft = mittellande</p>
+            <p class="info-text">Gültig falls Herkunft = mittellande</p>
 
-        <div class="form-group">
-            <label><h3>Default Beruf</h3></label>
-            <input type="text" name="nsc.defaultProfession" data-dtype="String" value="{{nsc.defaultProfession}}"/>
-        </div>
-        <p class="info-text">(...)</p>
+            <div class="form-group">
+                <label><h3>Default Beruf</h3></label>
+                <input type="text" name="nsc.defaultProfession" data-dtype="String" value="{{nsc.defaultProfession}}"/>
+            </div>
+            <p class="info-text">(...)</p>
 
-        <hr/>
-        <div class="form-group">
-            <label><h3>Profession Quelle</h3></label>
-            <select name="nsc.professionPack">
-                <option value="">- keine -</option>
-                {{#select nsc.professionPack}}
-                {{#each actorPacks as |name key|}}
-                <option value="{{name}}">{{name}}</option>
-                {{/each}}
-                {{/select}}
-            </select>
-        </div>
-        <p class="info-text">Falls deaktiviert, werden alle bereits importierten Szenen aus diesem Ordner immer und
-            unabhängig vom Suchbegriff angezeigt</p>
-        <hr/>
-
-
-        {{#each nsc.packs as |pack id|}}
-        <div>
             <hr/>
             <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="nsc.packs_name" data-dtype="String" value="{{name}}"/>
-            </div>
-            <div class="form-group">
-                <label>Kompendium</label>
-                <select name="nsc.packs_packname">
-                    {{#select this.packname}}
-                    {{#each ../actorPacks as |name key|}}
+                <label><h3>Profession Quelle</h3></label>
+                <select name="nsc.professionPack">
+                    <option value="">- keine -</option>
+                    {{#select nsc.professionPack}}
+                    {{#each actorPacks as |name key|}}
                     <option value="{{name}}">{{name}}</option>
                     {{/each}}
                     {{/select}}
                 </select>
             </div>
-            <button class="delete-element" name="nsc.packs" value="{{id}}" type="cancel">Pack entfernen</button>
-        </div>
-        {{/each}}
-        <hr/>
-        <button class="insert-element" name="nsc.packs" type="cancel">neues Pack</button>
+            <p class="info-text">Falls deaktiviert, werden alle bereits importierten Szenen aus diesem Ordner immer und
+                unabhängig vom Suchbegriff angezeigt</p>
+            <hr/>
 
+
+            {{#each nsc.packs as |pack id|}}
+            <div>
+                <hr/>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="nsc.packs_name" data-dtype="String" value="{{name}}"/>
+                </div>
+                <div class="form-group">
+                    <label>Kompendium</label>
+                    <select name="nsc.packs_packname">
+                        {{#select this.packname}}
+                        {{#each ../actorPacks as |name key|}}
+                        <option value="{{name}}">{{name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <button class="delete-element" name="nsc.packs" value="{{id}}" type="cancel">Pack entfernen</button>
+                {{/each}}
+                <hr/>
+                <button class="insert-element" name="nsc.packs" type="cancel">neues Pack</button>
+            </div>
         </div>
 
 

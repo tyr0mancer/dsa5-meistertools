@@ -6,13 +6,32 @@ button.select-scene:hover {
     cursor: pointer;
 }
 
-button.select-pattern:hover {
-    cursor: pointer;
-    background-color: blue;
-}
-
-form.dsa5-meistertools p.info-text {
+.dsa5-meistertools p.info-text {
     font-size: 0.8em;
     font-style: italic;
     color: grey;
 }
+
+
+button.select-pattern {
+    width: 70%;
+    font-weight: bold;
+    background-color: lightblue;
+}
+
+button.select-pattern:hover {
+    cursor: pointer;
+    color: white;
+    background-color: blue;
+}
+
+button.delete-pattern {
+    width: 25%;
+    background-color: indianred;
+}
+
+button.delete-pattern:hover {
+    color: white;
+    background-color: darkred;
+}
+

@@ -7,11 +7,23 @@ export class CreateNSC extends FormApplication {
         super();
         //game.settings.set(moduleName, 'settings', undefined)
         const settings = game.settings.get(moduleName, 'settings')
-        console.log(settings.nsc)
+        //console.log(settings.nsc)
         this.moduleSettings = mergeObject(settings.nsc, CreateNSC.getRuleset())
 
+
+        this.players = Util.activePlayers().map(a => {
+            return {name: a.name, _id: a._id}
+        })
+
         // todo aus pack auslesen
+        console.clear()
+        console.log(this.moduleSettings.professionPack)
+        console.log(this.moduleSettings.packs)
+
+        this.professionsPack = game.packs.find(t => t.collection === this.moduleSettings.professionPack);
+        console.log(compendium)
         this.professions = ['Bürger', 'Bäcker', 'Wirt']
+        this.nsc = []
 
         this.config = {
             profession: this.moduleSettings.defaultProfession,
@@ -23,10 +35,6 @@ export class CreateNSC extends FormApplication {
         }
 
         this.storedPatterns = this.moduleSettings.storedPatterns
-        this.players = Util.activePlayers().map(a => {
-            return {name: a.name, _id: a._id}
-        })
-        this.nsc = []
     }
 
 
@@ -40,7 +48,7 @@ export class CreateNSC extends FormApplication {
         options.resizable = true;
         options.top = 80;
         options.left = 100;
-        options.width = 600;
+        options.width = 400;
         options.height = 800;
         return options;
     }
@@ -53,29 +61,40 @@ export class CreateNSC extends FormApplication {
         html.find('input.pattern-setting').change(event => this._setConfig(event, html));
         html.find('select.pattern-setting').change(event => this._setConfig(event, html));
 
-        /*
-                html.find('.delete-pattern').click(ev => this._deletePattern(ev));
-                html.find('.save-pattern').click(ev => this._savePattern(ev));
-        */
+        html.find('.delete-pattern').click(ev => this._deletePattern(ev));
+        html.find('.save-pattern').click(ev => this._savePattern(ev));
 
 
     }
 
 
     async getData() {
+        if (this.professionsPack.index = [])
+            await this.professionsPack.getIndex()
+
+        const professions = this.professionsPack.index.map(p => p.name)
+        console.log(professions)
+
         return {
             ...this.config,
             storedPatterns: this.storedPatterns,
 
             archetypes: this.moduleSettings.archetypes,
             defaultGender: this.moduleSettings.defaultGender,
-            professions: this.professions,
+            professions,
 
             players: this.players,
         };
     }
 
     async _setConfig(event, html) {
+        /*
+                console.log(this.storedPatterns)
+                console.log(this.moduleSettings.storedPatterns)
+                console.log(this.config)
+                console.log(event.target.name)
+                console.log(event.target.value)
+        */
         this.config[event.target.name] = event.target.value
     }
 
@@ -86,9 +105,18 @@ export class CreateNSC extends FormApplication {
 
     async _selectPattern(ev) {
         const patternId = ev.currentTarget.value
-        this.config = await this.moduleSettings.storedPatterns[patternId].config
-        console.log(this.moduleSettings.storedPatterns[patternId].config)
-        this.render()
+        const newConfig = await this.moduleSettings.storedPatterns[patternId].config
+        this.config = {
+            profession: newConfig.profession,
+            origin: newConfig.origin,
+            culture: newConfig.culture,
+            anzahl: newConfig.anzahl,
+            gender: newConfig.gender
+        }
+        //this.render(true)
+
+        this._updateObject(null, this.config)
+        this.close()
     }
 
     async _deletePattern(ev) {

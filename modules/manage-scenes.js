@@ -35,7 +35,7 @@ export class ManageScenes extends Application {
         html.find('.set-search').change(ev => this._changeSetting(ev));
         html.find('.set-search-button').click(ev => this._changeSetting(ev));
         html.find('.set-active-default').change(ev => this._setActiveDefault(ev));
-
+        html.find('.set-addplayers').change(ev => this._setAddPlayers(ev));
         html.find('.select-scene').click(ev => this._selectScene(ev));
         html.find('.import-scene').click(ev => this._importScene(ev));
     }
@@ -91,6 +91,11 @@ export class ManageScenes extends Application {
     async _setActiveDefault(ev) {
         this.activateScene = !this.activateScene
         await this.rerender();
+    }
+
+    async _setAddPlayers(ev) {
+        //this.addplayers = !this.activateScene
+        //await this.rerender();
     }
 
     async rerender() {

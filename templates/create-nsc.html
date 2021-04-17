@@ -1,121 +1,243 @@
-<div class="content">
+<section class="content meistertools">
 
+    <!-- Navigation -->
     <nav class="scene-type-tabs tabs" data-tab-container="primary">
-        <a class="item active" data-tab="random-nsc"> Zufällige NSC</a>
-        <a class="item" data-tab="characters"> Helden und Meisterfiguren</a>
+        <a class="item active" data-tab="random-nsc">Zufällige NSC</a>
+        <a class="item" data-tab="characters">Helden und Meisterfiguren</a>
     </nav>
 
-    <div class="tab" data-tab="random-nsc">
-        <form>
-            <h1>Zufällige NSC</h1>
+
+    <!--
+    {{stringify data}}
+    section 1 - generate random NPC
+    -->
+    <section class="tab" data-tab="random-nsc">
+
+        <!-- Pick Origin and Potential Culture -->
+        <form class="nsc-form">
+
+            <!-- each species gets a box -->
             {{#each archetypes}}
-            <div class="form-group">
-                <label>{{name}}
+            <div class="form-box container flow"
+                 style="background-image: url('{{img}}')">
+
+                {{#each origins}}
+                <div class="card {{active key ../../data.origin}}">
+                    <label class="inputbox flow radio">
+                        {{name}}
+                        <input name="origin" value="{{key}}" type="radio" data-dtype="String"/>
+                    </label>
+
                     {{#if cultures}}
-                    <select name="culture" class="pattern-setting">
-                        {{#select ../culture}}
-                        <option value="">---</option>
-                        {{#each cultures}}
-                        <option value="{{key}}">{{name}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
+                    <label class="inputbox select {{#ifeq ../../data.origin key}}active{{/ifeq}}">
+                        <select name="culture" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                            {{#select ../../data.culture}}
+                            <option value="">---</option>
+                            {{#each cultures}}
+                            <option value="{{key}}">{{name}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </label>
                     {{/if}}
-                </label>
-                <div class="form-fields">
-                    <input type="radio" value="{{key}}" class='pattern-setting' name="origin" data-dtype="String"
-                           {{#ifeq key ../origin}}
-                    checked="checked"{{/ifeq}}/>
+                    <!--if cultures-->
+
                 </div>
+                {{/each}}
+                <!--each origins-->
+
             </div>
             {{/each}}
+            <!-- each archetypes -->
+
+            <!-- gender options box -->
+            <div class="form-box container flow">
+                {{#each settings.genderOptions}}
+                <div class="card {{active key ../data.gender key}}">
+                    <label class="inputbox gender radio  {{active key ../data.gender key}}">
+                        <span><i class="{{icon}}"> </i></span>
+                        <input name="gender" value="{{key}}" type="radio" data-dtype="String"/>
+                    </label>
+                </div>
+                {{/each}}
+                <!-- each settings.genderOptions -->
+            </div>
+
+            <!-- generate nsc - placed this in the middle of the form for faster access -->
+            <div class="form-box container flow submit">
+                <div class="card {{active data.import true}}">
+                    <label class="inputbox gender checkbox {{active data.import true}}">
+                        Szene
+                        <input name="import" type="checkbox" data-dtype="Boolean"/>
+                    </label>
+                </div>
+                <div class="card {{nactive data.anzahl}}">
+                    <label class="inputbox text">
+                        <input name="anzahl" placeholder="Anzahl / Wurf" value="{{data.anzahl}}" type="text"
+                               data-dtype="String"/>
+                    </label>
+                </div>
+                <div>
+                    <div class="button">
+                        <button name="generate-nsc" type="button">NSC erstellen</button>
+                    </div>
+                </div>
+            </div>
             <hr/>
-            <div class="form-group">
-                <label>Geschlecht </label>
-                <div class="form-fields">
-                    <select name="gender" class="pattern-setting">
-                        {{#select gender}}
-                        <option value="random">zufall</option>
-                        {{#each defaultGender}}
-                        <option value="{{key}}">{{name}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
+
+            <!-- pick the profession -->
+            <div class="form-box container flow"
+                 style="background-image: url('systems/dsa5/icons/categories/Skill.webp')">
+                {{#each professions}}
+                <div class="card {{active _id ../data.profession}}">
+                    <label class="inputbox flow radio profession"
+                           style="background-image: url('{{img}}')">
+                        {{name}}
+                        <input name="profession" value="{{_id}}" type="radio" data-dtype="String"/>
+                    </label>
+                </div>
+                {{/each}}
+                <!-- each professions -->
+            </div>
+
+            <hr/>
+
+            <!-- store pattern for quick access -->
+            <div class="form-box container flow">
+                <div class="card {{nactive data.patternName}}">
+                    <label class="inputbox text">
+                        <input name="patternName" placeholder="" value="{{data.patternName}}" type="text"
+                               data-dtype="String"/>
+                    </label>
+                </div>
+
+                <div class="button-box">
+                    {{#unless data.patternName}}
+                    <button disabled class="inactive" type="button">speichern</button>
+                    {{else}}
+                    <button name="store-pattern" type="button">speichern</button>
+                    {{/unless}}
                 </div>
             </div>
 
-
             <hr/>
-            <div class="form-group">
-                <label>Profession </label>
-                <div class="form-fields">
-                    <select name="profession" class="pattern-setting">
-                        {{#select profession}}
-                        {{#each professions}}
-                        <option value="{{this}}">{{this}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
-                </div>
-            </div>
 
-            <hr/>
-            <div class="form-group">
-                <label>Anzahl </label>
-                <div class="form-fields">
-                    <input type="text" class="player pattern-setting" value="{{anzahl}}" name="anzahl"
-                           data-dtype="String"/>
-                </div>
-            </div>
-            <input type="text" class="pattern-setting" value="" name="patternName" data-dtype="String"/>
-            <button class="save-pattern" type="button">speichern</button>
-            <button type="submit">erstellen</button>
-        </form>
-
-        <hr/>
-        <div class="dsa5-meistertools">
-            <h1>Aus Vorlage wählen</h1>
-            {{#each storedPatterns as |pattern id|}}
-            <p class="info-text">{{stringify pattern.config}}</p>
-            <button class="select-pattern" value="{{id}}">{{name}}</button>
-            <button class="delete-pattern" value="{{id}}">löschen</button>
-            {{/each}}
-        </div>
-    </div>
-
-
-    <div class="tab" data-tab="characters">
-        <h1>Helden</h1>
-        <form>
-            <div>
-                <button type="button">Ausgewählte Helden zu aktiver Szene zufügen</button>
-                {{#each players}}
-                <div class="form-group">
-                    <label>{{name}}</label>
-                    <input type="checkbox" class="player" value="{{_id}}" name="{{_id}}" data-dtype="Boolean"
-                           checked="checked"/>
+            <!-- list alle stored patterns -->
+            <div class="form-box container flow">
+                {{#each settings.storedPatterns as |pattern n|}}
+                <!--
+                                {{stringify this}}
+                -->
+                <div class="button-box">
+                    <button name="load-pattern" data-pattern="{{n}}" type="button">{{pattern.name}}</button>
+                    <button name="delete-pattern" data-pattern="{{n}}" type="button" class="delete"><i
+                            class="fas fa-trash-alt"></i></button>
                 </div>
                 {{/each}}
             </div>
+
         </form>
 
-        <h1>Meisterfiguren</h1>
-        {{#each packs}}
-        <form>
-            <div>
-                <button type="button" name="import-nsc"><b><i>{{name}}</i></b> zu aktiver Szene zufügen</button>
-                <i>not implemented yet</i>
-                <!--
-                                {{#each nsc}}
-                                <div class="form-group">
-                                    <label>{{name}}</label>
-                                    <input type="checkbox" name="{{_id}}" data-dtype="Boolean"/>
-                                </div>
-                                {{/each}}
-                -->
+    </section>
+
+
+    <!-- add players and stored NPC into viewed scene -->
+    <section class="tab" data-tab="characters">
+        <form class="nsc-form">
+            <h1>Heldengruppe</h1>
+            <div class="form-box container flow"
+                 style="background-image: url('systems/dsa5/icons/categories/ability_fate_points.webp')">
+
+                {{#ifeq players.length 0}}
+                <h2><i>(atuell sind leider<br/> keine Spieler online.)</i></h2>
+                {{/ifeq}}
+                <!--ifeq players undefined-->
+
+                {{#each players}}
+                <div class="card {{ifIsProperty ../data.playerSelection _id 'active'}}">
+                    <label class="inputbox checkbox profession"
+                           style="background-image: url('{{img}}')">
+                        {{name}}
+                        <input name="playerSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
+                    </label>
+                </div>
+                {{/each}}
+                <!--each players-->
             </div>
+
+            <!-- import player -->
+            <div class="form-box container flow submit">
+                <div>
+                    <div class="button">
+                        {{#ifeq players.length 0}}
+                        <button disabled class="inactive" type="button">ausgewählte Helden importieren</button>
+                        {{else}}
+                        <button name="import-selected-players" type="button">ausgewählte Helden importieren</button>
+                        {{/ifeq}}
+                    </div>
+                </div>
+            </div>
+
         </form>
-        {{/each}}
+        <hr/>
+
+        <form class="nsc-form">
+
+<!--
+            <pre>{{stringify npcList}}</pre>
+-->
+
+            <!-- each Kompendium as a box -->
+            {{#each npcList}}
+            <h1>{{name}}</h1>
+            <div class="form-box container flow"
+                 style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
+                {{#each index}}
+                <div class="card {{ifIsProperty ../../data.nscSelection _id 'active'}}">
+                    <label class="inputbox checkbox profession"
+                           style="background-image: url('{{img}}')">
+                        {{name}}
+                        <input name="nscSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
+                    </label>
+                </div>
+                {{/each}}
+                <!--each index-->
+            </div>
+            {{/each}}
+            <!-- each npcList -->
+            <hr/>
+            <!-- import NPC -->
+            <div class="form-box container flow submit">
+                <div>
+                    <div class="button">
+                        <button name="import-selected-npc" type="button">ausgewählte Meisterfiguren importieren</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </section>
+
+    <h2>Hilfe <i class="fas fa-info-circle help" onclick="$('.help-info.help-origin').toggle();"></i></h2>
+    <div class="help-info help-origin">
+        <!-- todo nach lang/de.json -->
+        <h3>Name</h3>
+        <p>Der Name bestimmt sich aus der <b>Herkunft</b> (gruppiert nach Spezies), der <b>Region</b>
+            <i>(optional)</i> und des <b>Geschlechts</b>. Die Region ist nur auswählbar,
+            falls zur Herkunft Regionen definiert wurden.
+        </p>
+
+        <h3>Token und Avatar</h3>
+        <p>Das Token bestimmt sich aus <b>Herkunft</b>, <b>Geschlecht</b> und <b>Beruf</b>.
+            Im Module Ordner './images/actor_archetypes' wird nun nach einem Token gesucht.
+            Dabei wird folgende Ordnerstruktur erwartet:</p>
+        <pre>[modulePath]/images/actor_archetypes/
+            [herkunft]/[geschlecht]/[beruf]</pre>
+        <p>Aus dem tiefst-möglichen Ordner wird ein Bild per Zufall als Token und Avatar ausgewählt.</p>
+
+        <h3>Character Sheet</h3>
+        <p>Verwendet wird das dem <b>Beruf</b> zugeordnete Sheet. Angepasst werden derzeit nur der Name und das
+            Token.</p>
     </div>
 
-</div>
+</section>

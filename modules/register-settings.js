@@ -1,6 +1,6 @@
 import {moduleName} from "../dsa5-meistertools.js";
-import {CreateNSC} from "./create-nsc.js";
 import {ManageScenes} from "./manage-scenes.js";
+import {getRuleset} from "./create-nsc.js";
 
 export function registerSettings() {
 
@@ -29,7 +29,12 @@ class MeistertoolsConfig extends FormApplication {
     static DEFAULT_SETTINGS() {
         return {
             scenes: ManageScenes.getDefaultSettings(),
-            nsc: CreateNSC.getDefaultSettings()
+            nsc: {
+                defaultOrigin: '',
+                defaultCulture: '',
+                defaultProfession: '',
+                storedPatterns: []
+            }
         }
     }
 
@@ -45,17 +50,14 @@ class MeistertoolsConfig extends FormApplication {
             .filter(p => p.metadata.entity === 'Actor')
             .map(p => p.metadata.package + '.' + p.metadata.name)
 
-        const origins = CreateNSC.getRuleset().archetypes.map(a => {
-            return {key: a.key, name: a.name}
-        })
-
+        let origins = []
         let cultures = []
-        for (let archetype of CreateNSC.getRuleset().archetypes) {
-            if (archetype.cultures !== undefined)
-                cultures = cultures.concat(archetype.cultures)
-        }
-
-        console.log(cultures)
+        for (let archetype of getRuleset().archetypes)
+            for (let origin of archetype.origins) {
+                origins.push({key: origin.key, name: origin.name})
+                if (origin.cultures !== undefined)
+                    cultures = cultures.concat(origin.cultures)
+            }
 
         this.dataObject = mergeObject({
             scenePacks,

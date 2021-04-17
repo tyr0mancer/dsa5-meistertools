@@ -133,7 +133,7 @@
 
             <hr/>
             <div class="form-group">
-                <label><h3>Profession Quelle</h3></label>
+                <label><h3>Berufe Pack</h3></label>
                 <select name="nsc.professionPack">
                     <option value="">- keine -</option>
                     {{#select nsc.professionPack}}
@@ -143,17 +143,21 @@
                     {{/select}}
                 </select>
             </div>
-            <p class="info-text">Falls deaktiviert, werden alle bereits importierten Szenen aus diesem Ordner immer und
-                unabhängig vom Suchbegriff angezeigt</p>
+            <div class="form-group">
+                <label><h3>NSC Ordner</h3></label>
+                <input type="text" name="nsc.folder" data-dtype="String" value="{{nsc.folder}}"/>
+            </div>
+            <p class="info-text">Actors aus diesem Pack bilden die Basis und damit Auswahlmöglichkeiten der Berufe</p>
             <hr/>
 
 
             {{#each nsc.packs as |pack id|}}
+            <p class="info-text">Actors aus den folgenden Packs können über Schnellimport Szenen zugewiesen werden</p>
             <div>
                 <hr/>
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" name="nsc.packs_name" data-dtype="String" value="{{name}}"/>
+                    <label>Ordner</label>
+                    <input type="text" name="nsc.packs_folder" data-dtype="String" value="{{folder}}"/>
                 </div>
                 <div class="form-group">
                     <label>Kompendium</label>

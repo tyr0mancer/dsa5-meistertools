@@ -1,0 +1,44 @@
+<section class="content">
+    <h1>Auf Reisen</h1>
+    {{stringify packLists.professions}}
+
+    <label>
+        <input name="foo" value="{{data.foo}}" custom="true" type="text" data-dtype="String"/>
+    </label>
+
+    <label class="container">
+        Test
+        <input name="checkbox" value="test" type="checkbox" data-dtype="Boolean" {{checked data.checkbox}}/>
+        <span class="checkmark checkbox"></span>
+    </label>
+
+    <label class="container">
+        Test 1
+        <input name="radiobutton" value="test1" type="radio" data-dtype="String" {{#ifeq data.radiobutton 'test1'}}
+        checked="checked"{{/ifeq}}/>
+        <span class="checkmark radio"></span>
+    </label>
+
+    <label class="container">
+        Test 2
+        <input name="radiobutton" value="test2" type="radio" data-dtype="String" {{#ifeq data.radiobutton 'test2'}}
+        checked="checked"{{/ifeq}}/>
+        <span class="checkmark radio"></span>
+    </label>
+
+    {{#each packLists.professions}}
+    <div>
+        Packlist:
+    </div>
+    {{/each}}
+
+
+    {{#each data.sections as |section id|}}
+    <div arr-id="{{id}}">
+        <label>
+            <input name="sections.{{id}}.name" value="{{name}}" custom="true" type="text" data-dtype="String"/>
+        </label>
+    </div>
+    {{/each}}
+
+</section>

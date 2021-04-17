@@ -1,12 +1,14 @@
 export const moduleName = "dsa5-meistertools";
 
-import {CreateNSC} from './modules/create-nsc.js'
+import {createNSC} from './modules/create-nsc.js'
 import {createBeast} from './modules/create-beast.js'
 
 import {randomLibrary} from './modules/random-library.js'
 import {randomEncounter} from './modules/random-encounter.js'
 
 import {ManageScenes} from './modules/manage-scenes.js'
+import {manageTravels} from './modules/manage-travels.js'
+
 
 import {playerWhisper} from './modules/player-whisper.js'
 
@@ -34,7 +36,6 @@ Hooks.on('updateScene', (scene, data) => {
             }
 
             if (playlistName) {
-                console.clear()
                 console.log(moduleName + ' :: scene has no playlist, update from getFlag() ', playlistName)
                 const playlist = game.playlists.find(p => p.name === playlistName)
                 if (playlist) {
@@ -48,11 +49,9 @@ Hooks.on('updateScene', (scene, data) => {
     if (hasProperty(data, 'playlist')) {
         const playlistName = scene.playlist?.data?.name
         if (playlistName) {
-            console.clear()
             console.log(moduleName + ' :: playlist was updated, setFlag() ', playlistName)
             scene.setFlag(moduleName, 'playlistName', playlistName)
         } else {
-            console.clear()
             console.log(moduleName + ' :: playlist was deleted, unsetFlag() ')
             scene.unsetFlag(moduleName, 'playlistName')
         }
@@ -92,12 +91,24 @@ Hooks.once('init', () => {
         return JSON.stringify(obj, null, 2)
     });
 
-
     Handlebars.registerHelper('ifeq', function (a, b, options) {
-        if (a == b) { return options.fn(this); }
+        if (a == b) {
+            return options.fn(this);
+        }
         return options.inverse(this);
     });
 
+    Handlebars.registerHelper('active', function (a, b) {
+        return (a === b) ? 'active' : ''
+    });
+
+    Handlebars.registerHelper('nactive', function (a, b) {
+        return (a !== undefined && a !== '') ? 'active' : ''
+    });
+
+    Handlebars.registerHelper('ifIsProperty', function (obj, property, value) {
+        return (obj !== undefined && obj[property]) ? value : ''
+    });
 
 });
 
@@ -124,8 +135,7 @@ function pushControlButtons(controls) {
                 icon: "fas fa-user-plus",
                 visible: true,
                 button: true,
-                onClick: () => new CreateNSC().render(true)
-
+                onClick: () => createNSC()
             },
             {
                 name: "SceneManager",
@@ -158,6 +168,14 @@ function pushControlButtons(controls) {
                 visible: true,
                 button: true,
                 onClick: () => createBeast()
+            },
+            {
+                name: "travel",
+                title: 'Wildnis',
+                icon: "fas fa-tree",
+                visible: true,
+                button: true,
+                onClick: () => manageTravels()
             }
         ]
 

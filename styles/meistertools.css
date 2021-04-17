@@ -1,0 +1,248 @@
+/* ---------------------------------
+    Navigation
+ --------------------------------- */
+
+/* Navigation Tabs */
+.meistertools nav.tabs a {
+    font-size: 1.42em;
+    font-weight: bold;
+}
+
+
+/* ---------------------------------
+    Help Boxes
+ --------------------------------- */
+
+/* Help Box */
+.meistertools .help-info {
+    color: #7a7971;
+    margin: 6px 6px 6px 12px;
+    padding: 0px 12px;
+    border-left: 2px solid #7a7971;
+    display: none;
+}
+
+.meistertools .help-info h3 {
+    font-weight: bolder;
+}
+
+/* Info Icon */
+.meistertools i.help:hover {
+    cursor: pointer;
+}
+
+
+/* ---------------------------------
+    Layout
+ --------------------------------- */
+
+/* Container */
+.meistertools .container {
+}
+
+/* Flow Layout */
+.meistertools .container.flow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.meistertools .container.flow > div {
+    float: left;
+    padding: 5px
+}
+
+/* Grid Layout */
+.meistertools .container.grid {
+    display: grid;
+    grid: 60px / auto auto auto auto auto auto auto;
+    grid-gap: 10px;
+}
+
+
+/* ---------------------------------
+    Forms
+ --------------------------------- */
+
+/* Container */
+.meistertools .container.form-box {
+    padding: 0px 0px 0px 64px;
+    background-repeat: no-repeat;
+    background-position: 8px 0px;
+    background-size: 48px 48px;
+}
+
+.meistertools .container.form-box > div {
+    margin: 5px;
+}
+
+.meistertools .container .card {
+    border-radius: 5px;
+    border: 2px solid lightgrey;
+    color: grey;
+    background-color: beige;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+}
+
+
+.meistertools .container.form-box > div.active {
+    border: 2px dotted darkgoldenrod;
+    background-color: goldenrod;
+    color: black;
+}
+
+.meistertools .inputbox {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+}
+
+
+/* Text */
+.meistertools .inputbox.text {
+    border-radius: 2px;
+    padding: 0px;
+}
+
+.meistertools .inputbox.text input:focus {
+    background-color: lightyellow;
+}
+
+.meistertools div.active input {
+    background-color: lightgrey;
+}
+
+
+/* Radio Buttons and Checkboxes */
+.meistertools .inputbox.radio {
+    width: 110px;
+    border-radius: 2px;
+    padding: 1px;
+}
+
+.meistertools .inputbox.radio input {
+    position: absolute;
+    opacity: 0;
+}
+
+.meistertools .inputbox.radio:hover {
+    background-color: lightgreen;
+}
+
+.meistertools div.active .radio {
+    background-color: lightgrey;
+}
+
+.meistertools div.active .radio:hover {
+    background-color: lightgrey;
+}
+
+/*Checkbox*/
+.meistertools .inputbox.checkbox {
+    border-radius: 2px;
+    padding: 1px;
+}
+
+.meistertools .inputbox.checkbox input {
+    position: absolute;
+    opacity: 0;
+}
+
+.meistertools .inputbox.checkbox:hover {
+    background-color: lightgreen;
+}
+
+.meistertools div.active .checkbox {
+    background-color: lightgrey;
+}
+
+.meistertools div.active .checkbox:hover {
+    background-color: beige;
+}
+
+
+/* Select */
+.meistertools .inputbox.select {
+    width: auto;
+    opacity: 20%;
+    background-color: transparent;
+    text-color: #cccccc;
+}
+
+.meistertools .inputbox.select.active {
+    opacity: 100%;
+    background-color: lightgrey;
+}
+
+
+/* Buttons */
+.meistertools .form-box .button-box {
+    background: transparent;
+}
+
+.meistertools .form-box button {
+    transition-duration: 0.4s;
+    background-color: mediumblue;
+    color: white;
+    padding: 0px 5px;
+    width: auto;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.meistertools .form-box button.inactive {
+    background-color: #eeeeee;
+    cursor: pointer;
+    color: grey;
+}
+
+.meistertools .form-box button.inactive:hover {
+    background-color: #eeeeee;
+    color: grey;
+}
+
+.meistertools .form-box button:hover {
+    background-color: #4CAF50;
+    color: black;
+}
+
+.meistertools .form-box button:active {
+    background-color: lightyellow;
+}
+
+.meistertools button.delete {
+    background-color: white;
+    color: red;
+}
+.meistertools button.delete:hover {
+    background-color: red;
+    color: black;
+}
+
+
+/* special form elements */
+.meistertools .inputbox.gender {
+    width: 50px;
+    padding: 2px;
+}
+
+.meistertools .inputbox.profession {
+    text-align: left;
+    width: 110px;
+    font-size: 15px;
+    min-height: 40px;
+    padding: 0 5px 0 36px;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 32px 32px;
+
+}
+

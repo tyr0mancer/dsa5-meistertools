@@ -19,10 +19,18 @@
     }
   ],
   "styles": [
-    "/styles/dsa5-meistertools.css"
+    "/styles/meistertools.css"
   ],
   "esmodules": [
     "/dsa5-meistertools.js"
+  ],
+  "packs": [
+    {
+      "name": "names",
+      "label": "Namensliste",
+      "path": "packs/rolltables-names.db",
+      "entity": "RollTable"
+    }
   ],
   "dependencies": [
     {

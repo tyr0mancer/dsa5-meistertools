@@ -268,8 +268,7 @@ class CreateNSC extends Application {
         let paddingLeft = canvas.scene.data.padding * canvas.scene.data.width
         let posTop = (Math.ceil(paddingTop / parseInt(canvas.scene.data.grid))) * tokenSize
         let posLeft = (Math.ceil(paddingLeft / parseInt(canvas.scene.data.grid))) * tokenSize
-        let posBottom = (Math.floor((paddingTop + canvas.scene.data.height) / parseInt(canvas.scene.data.grid)) - 1) * tokenSize
-        let posRight = (Math.floor((paddingLeft + canvas.scene.data.width) / parseInt(canvas.scene.data.grid)) - 1) * tokenSize
+        let posBottom = (Math.floor((paddingTop + canvas.scene.data.height) / parseInt(canvas.scene.data.grid))) * tokenSize
         let tokenPerRow = Math.floor(canvas.scene.data.width / tokenSize)
         let index = this.lastTokenIndex++
         if (!index) {
@@ -281,6 +280,11 @@ class CreateNSC extends Application {
                 return {
                     x: posLeft + (index % tokenPerRow) * tokenSize,
                     y: posTop + Math.floor(index / tokenPerRow) * tokenSize
+                }
+            case TOKEN_POSITION.BOTTOM_LEFT:
+                return {
+                    x: posLeft + (index % tokenPerRow) * tokenSize,
+                    y: posBottom
                 }
             default:
                 return {

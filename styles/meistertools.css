@@ -277,3 +277,31 @@
 .meistertools .inputbox.anzahl {
     width: 64px;
 }
+
+
+/* positioning select */
+.meistertools .card.outside {
+    border-radius: 5px;
+    text-align: center;
+    border: 5px solid goldenrod;
+}
+
+.meistertools .card.top-left {
+    border-radius: 5px;
+    text-align: center;
+    border-top: 5px solid goldenrod;
+    border-left: 5px solid goldenrod;
+    border-right: 5px solid lightgrey;
+    border-bottom: 5px solid lightgrey;
+}
+
+.meistertools .card.bottom-left {
+    border-radius: 5px;
+    text-align: center;
+    border-top: 5px solid lightgrey;
+    border-left: 5px solid goldenrod;
+    border-right: 5px solid lightgrey;
+    border-bottom: 5px solid goldenrod;
+}
+
+

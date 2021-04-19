@@ -105,11 +105,11 @@
                                data-dtype="String"/>
                     </label>
                 </div>
-                <div class="card">
-                    <select name="import" style="width:100%; margin: 0 -5px;font-size: 0.7em">
-                        {{#select data.import}}
-                        <option> kein Import in Szene</option>
-                        {{#each tokenPositions}}
+                <div class="card {{data.tokenPosition}}">
+                    <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                        {{#select data.tokenPosition}}
+                        <option value="">kein Import in Szene</option>
+                        {{#each tokenPositionOptions}}
                         <option value="{{key}}">{{name}}</option>
                         {{/each}}
                         {{/select}}
@@ -246,10 +246,10 @@
             </div>
             <hr/>
             <div class="form-box container flow submit">
-                <div class="card">
-                    <select name="import" style="width:100%; margin: 0 -5px;font-size: 0.7em">
-                        {{#select data.import}}
-                        {{#each tokenPositions}}
+                <div class="card {{data.tokenPosition}}">
+                    <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                        {{#select data.tokenPosition}}
+                        {{#each tokenPositionOptions}}
                         <option value="{{key}}">{{name}}</option>
                         {{/each}}
                         {{/select}}

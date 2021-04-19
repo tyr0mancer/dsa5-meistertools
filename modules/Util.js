@@ -1,5 +1,11 @@
 export class Util {
 
+    static rollDice(pattern) {
+        let r = new Roll(pattern);
+        r.evaluate()
+        return parseInt(r.total)
+    }
+
     static activePlayers() {
         const activeUserIds = game.users
             .filter(u => u.active && u.role !== 4)
@@ -71,7 +77,7 @@ export class MyCompendia {
                 ui.notifications.error(`Could not find pack '${packName}'`);
                 return Error(`pack not found: ${packName}`)
             }
-            console.log(pack)
+            //console.log(pack)
 
             // set entity type
             entityType = pack.metadata.entity.toLowerCase();
@@ -109,11 +115,12 @@ export class MyCompendia {
     /*
         Main purpose is providing data for the getData() Method in Application instances
      */
-    async getCollectionIndex(collectionName = 'global', name = null) {
-        if (this.updateAvailable)
-            await this._updateIndex()
-        return this.compendia
+    getCollectionIndex(collectionName = 'global', key = null) {
+        //console.log('looking for', collectionName)
+        //console.log(this.compendia)
+        const filteredArray = this.compendia
             .filter(c => c.collectionName === collectionName)
+        return (!key) ? filteredArray : filteredArray.find(c => c.key === key)
     }
 
 
@@ -150,6 +157,7 @@ export class MyCompendia {
 
     async update(force = false) {
         if (!this.updateAvailable && !force) return
+        console.log('dsa5-meistertools |', 'reading index and existing entities of a pack')
         await this._updateExisting()
         await this._updateIndex()
         this.updateAvailable = false

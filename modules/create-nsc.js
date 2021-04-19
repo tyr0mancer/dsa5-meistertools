@@ -47,8 +47,8 @@ class CreateNSC extends Application {
             general options for selection
         */
         let playerSelection = {}
-        let nscSelection = {}
-        let importedNscSelection = {}
+        let packNscSelection = {}
+        let stockNscSelection = {}
 
         /*
             current players, per default all are selected
@@ -70,9 +70,9 @@ class CreateNSC extends Application {
             tokenPosition: TOKEN_POSITION.OUTSIDE,
 
             // todo find better namings
-            importedNscSelection,
+            stockNscSelection,
             playerSelection,
-            nscSelection,
+            packNscSelection,
         }
 
 
@@ -96,7 +96,7 @@ class CreateNSC extends Application {
     /* collect and provide data for the template */
     async getData() {
         await this.myCompendia.update()
-        const npcList = await this.myCompendia.getCollectionIndex('npc')
+        const packNscSelection = await this.myCompendia.getCollectionIndex('npc')
         const professions = await this.myCompendia.getCollectionIndex('global', 'professions')
         const tokenPositionOptions = Object.keys(TOKEN_POSITION).map(k => {
             return {
@@ -104,14 +104,12 @@ class CreateNSC extends Application {
                 name: k,
             }
         })
-
         return {
             data: this.observableData,
             settings: this.settings,
             professions: professions.index,
-            importedNsc: professions.existing,
-            npcList,
-
+            stockNsc: professions.existing,
+            packNscSelection,
             tokenPositionOptions,
             archetypes: getRuleset().archetypes,
             players: this.players
@@ -127,6 +125,7 @@ class CreateNSC extends Application {
     }
 
     _updateDate(varName, varValue) {
+        this.npcImageChoices = undefined
         this.observableData = Util.updateByPath(this.observableData, varName, varValue)
         this.render()
     }
@@ -134,7 +133,6 @@ class CreateNSC extends Application {
 
     async _saveSettings() {
         const settings = game.settings.get(moduleName, 'settings')
-        console.clear()
         this.settings.defaultProfession = this.observableData.profession
         game.settings.set(moduleName, 'settings', mergeObject(settings, {nsc: this.settings}))
     }
@@ -146,11 +144,22 @@ class CreateNSC extends Application {
         html.find("input[type='radio']").change(event => this._handleTextChange(event, html));
         html.find("select").change(event => this._handleTextChange(event, html));
 
+        html.find("input[name='profession']").change(event => {
+            this.observableData.professionName = $(event.currentTarget).attr("data-profession-name")
+        });
+
         html.find("button[name='store-pattern']").click(event => this._storePattern(event, html));
         html.find("button[name='delete-pattern']").click(event => this._deletePattern(event, html));
         html.find("button[name='load-pattern']").click(event => this._loadPattern(event, html));
         html.find("button[name='generate-nsc']").click(event => this._generateNSC(event, html));
-        html.find("button[name='generate-name']").click(event => this._generateName(event, html));
+        html.find("button[name='generate-name']").click(async event => {
+            await this._generateName(event, html);
+            this.render()
+        });
+        html.find("button[name='generate-image']").click(async event => {
+            await this._generateImage(event, html);
+            this.render()
+        });
 
         html.find("button[name='import-selected-players']").click(event => this._importSelectedPlayers(event, html));
         html.find("button[name='import-selected-npc']").click(event => this._importSelectedNpc(event, html));
@@ -193,7 +202,7 @@ class CreateNSC extends Application {
 
 
     /**
-     * callbakc function for _generateName
+     * callback function for _generateName
      * @param match
      * @param ruleset
      * @param allTables
@@ -213,23 +222,33 @@ class CreateNSC extends Application {
 
     }
 
+    _rollGender() {
+        let genderChanceM = 0.5
+        for (let species of getRuleset().archetypes) {
+            let origin = species.origins.find(o => o.key === this.observableData.origin)
+            if (origin && origin.gender) {
+                if (origin.gender) genderChanceM = origin.gender['m'] / 100
+                break
+            }
+        }
+        this.observableData.gender = (Math.random() < genderChanceM) ? 'm' : 'w'
+    }
+
 
     /**
      * generate random name based on culture / origin  combo
-     * @param event
-     * @param html
      * @return {Promise<void>}
      * @private
      */
-    async _generateName(event, html) {
+    async _generateName() {
+        if (this.observableData.gender === "random")
+            await this._rollGender()
         let nameKey = null
-        let genderChanceM = 0.5
         for (let species of getRuleset().archetypes) {
             let origin = species.origins.find(o => o.key === this.observableData.origin)
             if (origin) {
                 nameKey = origin.key
                 if (origin.cultures) nameKey = origin.cultures.find(c => c.key === this.observableData.culture).key
-                if (origin.gender) genderChanceM = origin.gender['m'] / 100
                 break
             }
         }
@@ -238,13 +257,9 @@ class CreateNSC extends Application {
             ui.notifications.error(`Keine Regeln zur Generierung von Namen "${nameKey}" definiert. Prüfe '/config/random-name-rule-sets.js'`);
             return
         }
-        let gender = this.observableData.gender
-        // roll gender set to random
-        if (gender === 'random')
-            gender = await (Math.random() < genderChanceM) ? 'm' : 'w'
         const allTables = await game.packs.get(moduleName + ".names").getContent()
         let result;
-        let name = ruleset.rules ? ruleset.rules[gender] : `_vorname${gender} _nachname`
+        let name = ruleset.rules ? ruleset.rules[this.observableData.gender] : `_vorname${this.observableData.gender} _nachname`
         let tmpName = name
         const regex = /_([a-z]+)/g  // finds all names of tables
         while ((result = regex.exec(tmpName)) !== null) {
@@ -252,7 +267,6 @@ class CreateNSC extends Application {
             name = name.replace(/(_[a-z]+)/, resultText.trim())     // trims and also removes the '_' char in front of the found match, hence another regex
         }
         this.observableData.nsc_name = name
-        this.render()
     }
 
 
@@ -295,12 +309,11 @@ class CreateNSC extends Application {
     }
 
     /* todo
-        berücksichtig keine vom Actor-Avatar abweichende Token-Icon
-        berücksichtig Größe des Actors nicht
+        doesnt consider actor-avatars might be different than token-icon
+        doenst consider size of actors
      */
-    moveActorTokenInScene(actor, positionType) {
-        console.log(positionType)
-        const tokenPosition = this._getTokenPosition(positionType)
+    moveActorTokenInScene(actor) {
+        const tokenPosition = this._getTokenPosition(this.observableData.tokenPosition)
         let newToken = {
             name: actor.name,
             x: tokenPosition.x,
@@ -317,114 +330,92 @@ class CreateNSC extends Application {
         return canvas.scene.createEmbeddedEntity("Token", newToken)
     }
 
-    async _getImagesByConfig(origin, gender, profession) {
+    // todo avoid FP.render() here or find alternative approach
+    async _getImagesByConfig() {
+        console.log(moduleName, '| checking for new files')
         const FP = new FilePicker({type: "image"})
-        this.npcImageChoices = await FP.browse(`${NPC_IMAGE_FOLDER}/${origin}/${gender}/${profession}`)
-        console.log(this.npcImageChoices)
+        const images = await FP.browse(`${NPC_IMAGE_FOLDER}/${this.observableData.origin}/${this.observableData.gender}/${this.observableData.professionName}`)
+        this.npcImageChoices = images.files
     }
 
     async _generateImage(event, html) {
-        if (this.npcImageChoices === [])
-            _getImagesByConfig()
+        if (this.observableData.gender === "random")
+            await this._rollGender()
+        if (!this.npcImageChoices || this.npcImageChoices === [])
+            await this._getImagesByConfig()
+        this.observableData.nsc_img = this.npcImageChoices[Math.floor(Math.random() * this.npcImageChoices.length)]
     }
 
 
+    /**
+     * generates NPC based on this.observableData
+     * @private
+     */
     async _generateNSC(event, html) {
-        if (!this.observableData.nsc_name || this.observableData.nsc_name === "")
-            await this._generateName(event, html)
-
         /* import actor and find token */
         try {
+            const randomGender = (this.observableData.gender === "random")
+            if (randomGender) this._rollGender()
 
-            const professions = await this.myCompendia.getCollectionIndex('global', 'professions')
-            console.log(this.observableData)
-            console.log(professions)
-
-            // Pick Image from deepest reachable folder /origin/gender/profession
-            // todo check FilePicker implementation on how to do this without rendering
-            const FP = new FilePicker({type: "image"})
+            /* if no random images or names have been generated we have to do that now */
+            if (!this.observableData.nsc_name || this.observableData.nsc_name === "")
+                await this._generateName(event, html)
+            if (!this.observableData.nsc_img)
+                await this._generateImage(event, html)
 
 
-            const images = await FP.browse(`${NPC_IMAGE_FOLDER}/${this.observableData.origin}/${this.observableData.nsc_gender}/${'actor.name'}`)
-            //const images = await FP.browse(`${NPC_IMAGE_FOLDER}/${this.observableData.origin}/${this.observableData.nsc_gender}/${'actor.name'}`)
-
-            //const thingy = `${this.observableData.anzahl}`
-            const thingy = '' + this.observableData.anzahl.toString()
-            console.log(thingy)
+            // roll how many actors shall be created
             const amount = Util.rollDice(this.observableData.anzahl.toString())
             for (let i = 0; i < amount; i++) {
-
-                const {extra, type} = await Util.prepareImport(this.settings.professionPack, this.settings.folder)
-                let actor = await game[type].importFromCollection(this.settings.professionPack, this.observableData.profession, extra)
-                let img = images.files[Math.floor(Math.random() * images.files.length)];
+                const actor = await this.myCompendia.getEntities(this.observableData.profession, 'global', 'professions')
+                let img = this.observableData.nsc_img;
                 let name = this.observableData.nsc_name
                 let token = duplicate(actor.data.token);
                 token['name'] = name
                 token['img'] = img
                 await actor.update({name, img, token});
-
                 if (this.observableData.tokenPosition && this.observableData.tokenPosition !== "")
-                    await this.moveActorTokenInScene(actor, this.observableData.tokenPosition)
+                    await this.moveActorTokenInScene(actor)
 
+                // in case we generate another actor
+                if (randomGender) this._rollGender()
                 await this._generateName()
+                await this._generateImage()
+                this.render()
             }
 
-            // and reset the generated names and img
+            // after the last one, we reset the generated names and img to null, so we dont reuse the combo
             this.observableData.nsc_name = ""
             this.observableData.nsc_img = null
         } catch (e) {
             console.log(e)
-            return ui.notifications.error(`Cant create Actor`);
+            return ui.notifications.error(`Cant create Actor. Error Details see console`);
         }
 
+        this.render()
     }
 
 
-    /**
-     * Add Tokens to scene
-     */
-    _importSelectedPlayers(event, html) {
-        console.clear()
-        console.log('_importSelectedPlayers')
-        console.log(JSON.stringify(this.observableData))
+    async _importSelectedPlayers() {
+        const arr = Object.keys(this.observableData.playerSelection)
+        const entities = await Util.activePlayers().filter(p => arr.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
+        for (let actor of entities)
+            this.moveActorTokenInScene(actor)
+        this.render()
     }
+
 
     async _importSelectedNpc(event, html) {
+        const entities = await this.myCompendia.getEntities(this.observableData.packNscSelection, 'npc')
+        for (let actor of entities)
+            this.moveActorTokenInScene(actor)
 
-        let npcArray = []
-        for (let key of Object.keys(this.observableData.nscSelection)) {
-            if (this.observableData.nscSelection[key])
-                npcArray.push(key)
-        }
+        const stockEntities = await this.myCompendia.getEntities(this.observableData.stockNscSelection, 'global', 'professions')
+        for (let actor of stockEntities)
+            this.moveActorTokenInScene(actor)
 
-        console.clear()
-        console.log(npcArray)
-        console.log(this.npcPackList)
-        for (let npcPack of this.npcPackList) {
-            for (let _id of npcArray) {
-                const result = npcPack.index.find(e => e._id === _id)
-                if (result) {
-                    console.log(result)
-
-                    //
-                    const {extra, type} = await Util.prepareImport(npcPack.packName, this.settings.folder)
-                }
-            }
-        }
-
-
-        // add token from already imported actors to the scene
-        const folder = game.folders.entities.find(f => f.name === this.settings.folder)?.entities
-        for (let key of Object.keys(this.observableData.importedNscSelection)) {
-            if (!this.observableData.importedNscSelection[key])
-                continue
-            const actor = await folder.find(e => e._id === key)
-            if (actor)
-                await this.moveActorTokenInScene(actor, this.observableData.tokenPosition)
-        }
-
-        this.observableData.nscSelection = {}
-        this.observableData.importedNscSelection = {}
+        this.observableData.packNscSelection = {}
+        this.observableData.stockNscSelection = {}
         this.render()
     }
 }

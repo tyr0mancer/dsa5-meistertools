@@ -30,6 +30,7 @@
 
         <!-- Pick Origin and Potential Culture -->
         <form class="nsc-form">
+            {{data.professionName}}
 
             <!-- each species gets a box -->
             {{#each archetypes}}
@@ -87,7 +88,7 @@
                     <label class="inputbox flow radio profession"
                            style="background-image: url('{{img}}')">
                         {{name}}
-                        <input name="profession" value="{{_id}}" type="radio" data-dtype="String"/>
+                        <input name="profession" value="{{_id}}" type="radio" data-profession-name="{{name}}" data-dtype="String"/>
                     </label>
                 </div>
                 {{/each}}
@@ -133,6 +134,17 @@
                         <textarea name="nsc_name" placeholder="(Name und Bild werden übernommen)" type="text"
                                   data-dtype="String">{{data.nsc_name}}</textarea>
                     </label>
+                </div>
+
+            </div>
+            <div class="form-box container flow">
+                <div>
+                    <button class="dice" name="generate-image" type="button">Bild<br/> <i
+                            class="fas fa-dice"></i></button>
+                </div>
+
+                <div class="card nsc_name {{nactive data.nsc_img}}">
+                    <img src="{{data.nsc_img}}" style="width: 150px" />
                 </div>
 
             </div>
@@ -193,9 +205,9 @@
                 <div>
                     <div class="button">
                         {{#ifeq players.length 0}}
-                        <button disabled class="inactive" type="button">ausgewählte Helden importieren</button>
+                        <button disabled class="inactive" type="button">ausgewählte Helden in Szene bewegen</button>
                         {{else}}
-                        <button name="import-selected-players" type="button">ausgewählte Helden importieren</button>
+                        <button name="import-selected-players" type="button">ausgewählte Helden in Szene bewegen</button>
                         {{/ifeq}}
                     </div>
                 </div>
@@ -206,16 +218,16 @@
 
         <form class="nsc-form">
             <!-- each Kompendium as a box -->
-            {{#each npcList}}
+            {{#each packNscSelection}}
             <h1>{{name}}</h1>
             <div class="form-box container flow"
                  style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
                 {{#each index}}
-                <div class="card {{ifIsProperty ../../data.nscSelection _id 'active'}}">
+                <div class="card {{ifIsProperty ../../data.packNscSelection _id 'active'}}">
                     <label class="inputbox checkbox profession"
                            style="background-image: url('{{img}}')">
                         {{name}}
-                        <input name="nscSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
+                        <input name="packNscSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
                     </label>
                 </div>
                 {{/each}}
@@ -233,16 +245,19 @@
             <h1>Zufalls NSC</h1>
             <div class="form-box container flow"
                  style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
-                {{#each importedNsc}}
-                <div class="card {{ifIsProperty ../data.importedNscSelection _id 'active'}}">
+<!--
+                {{stringify stockNsc}}
+-->
+                {{#each stockNsc}}
+                <div class="card {{ifIsProperty ../data.stockNscSelection _id 'active'}}">
                     <label class="inputbox checkbox profession"
                            style="background-image: url('{{img}}')">
                         {{name}}
-                        <input name="importedNscSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
+                        <input name="stockNscSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
                     </label>
                 </div>
                 {{/each}}
-                <!--each importedNsc-->
+                <!--each stockNsc-->
             </div>
             <hr/>
             <div class="form-box container flow submit">
@@ -257,7 +272,7 @@
                 </div>
                 <div>
                     <div class="button">
-                        <button name="import-selected-npc" type="button">ausgewählte Meisterfiguren importieren</button>
+                        <button name="import-selected-npc" type="button">ausgewählte NSC in Szene bewegen</button>
                     </div>
                 </div>
             </div>

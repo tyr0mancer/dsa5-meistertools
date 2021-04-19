@@ -33,7 +33,12 @@ class MeistertoolsConfig extends FormApplication {
                 defaultOrigin: '',
                 defaultCulture: '',
                 defaultProfession: '',
-                storedPatterns: []
+                storedPatterns: [],
+                genderOptions: [
+                    {key: 'random', icon: 'fas fa-dice', name: 'zufall'},
+                    {key: 'w', icon: 'fas fa-venus', name: 'weiblich'},
+                    {key: 'm', icon: 'fas fa-mars', name: 'männlich'},
+                ]
             }
         }
     }

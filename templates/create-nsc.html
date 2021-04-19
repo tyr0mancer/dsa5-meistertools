@@ -13,6 +13,21 @@
     -->
     <section class="tab" data-tab="random-nsc">
 
+        <!-- list alle stored patterns -->
+        <div class="form-box container flow">
+            {{#each settings.storedPatterns as |pattern n|}}
+            <!--
+                            {{stringify this}}
+            -->
+            <div class="button-box">
+                <button name="load-pattern" data-pattern="{{n}}" type="button">{{pattern.name}}</button>
+                <button name="delete-pattern" data-pattern="{{n}}" type="button" class="delete"><i
+                        class="fas fa-trash-alt"></i></button>
+            </div>
+            {{/each}}
+        </div>
+        <hr/>
+
         <!-- Pick Origin and Potential Culture -->
         <form class="nsc-form">
 
@@ -62,27 +77,6 @@
                 {{/each}}
                 <!-- each settings.genderOptions -->
             </div>
-
-            <!-- generate nsc - placed this in the middle of the form for faster access -->
-            <div class="form-box container flow submit">
-                <div class="card {{active data.import true}}">
-                    <label class="inputbox gender checkbox {{active data.import true}}">
-                        Szene
-                        <input name="import" type="checkbox" data-dtype="Boolean"/>
-                    </label>
-                </div>
-                <div class="card {{nactive data.anzahl}}">
-                    <label class="inputbox text">
-                        <input name="anzahl" placeholder="Anzahl / Wurf" value="{{data.anzahl}}" type="text"
-                               data-dtype="String"/>
-                    </label>
-                </div>
-                <div>
-                    <div class="button">
-                        <button name="generate-nsc" type="button">NSC erstellen</button>
-                    </div>
-                </div>
-            </div>
             <hr/>
 
             <!-- pick the profession -->
@@ -101,6 +95,49 @@
             </div>
 
             <hr/>
+
+            <!-- generate nsc - placed this in the middle of the form for faster access -->
+            <div class="form-box container flow submit">
+
+                <div class="card {{nactive data.anzahl}}">
+                    <label class="inputbox text anzahl">
+                        <input name="anzahl" placeholder="Anzahl / Wurf" value="{{data.anzahl}}" type="text"
+                               data-dtype="String"/>
+                    </label>
+                </div>
+                <div class="card">
+                    <select name="import" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                        {{#select data.import}}
+                        <option> kein Import in Szene</option>
+                        {{#each tokenPositions}}
+                        <option value="{{key}}">{{name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div>
+                    <div class="button">
+                        <button name="generate-nsc" type="button">NSC erstellen</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-box container flow">
+                <div>
+                    <button class="dice" name="generate-name" type="button">Name<br/> <i
+                            class="fas fa-dice"></i></button>
+                </div>
+
+                <div class="card nsc_name {{nactive data.nsc_name}}">
+                    <label class="inputbox text">
+                        <textarea name="nsc_name" placeholder="(Name und Bild werden übernommen)" type="text"
+                                  data-dtype="String">{{data.nsc_name}}</textarea>
+                    </label>
+                </div>
+
+            </div>
+            <hr/>
+
 
             <!-- store pattern for quick access -->
             <div class="form-box container flow">
@@ -121,20 +158,6 @@
             </div>
 
             <hr/>
-
-            <!-- list alle stored patterns -->
-            <div class="form-box container flow">
-                {{#each settings.storedPatterns as |pattern n|}}
-                <!--
-                                {{stringify this}}
-                -->
-                <div class="button-box">
-                    <button name="load-pattern" data-pattern="{{n}}" type="button">{{pattern.name}}</button>
-                    <button name="delete-pattern" data-pattern="{{n}}" type="button" class="delete"><i
-                            class="fas fa-trash-alt"></i></button>
-                </div>
-                {{/each}}
-            </div>
 
         </form>
 
@@ -182,11 +205,6 @@
         <hr/>
 
         <form class="nsc-form">
-
-<!--
-            <pre>{{stringify npcList}}</pre>
--->
-
             <!-- each Kompendium as a box -->
             {{#each npcList}}
             <h1>{{name}}</h1>
@@ -205,17 +223,46 @@
             </div>
             {{/each}}
             <!-- each npcList -->
+        </form>
+
+        <form class="nsc-form">
+
+            <!--
+                        <pre>{{stringify importedNsc}}</pre>
+            -->
+            <h1>Zufalls NSC</h1>
+            <div class="form-box container flow"
+                 style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
+                {{#each importedNsc}}
+                <div class="card {{ifIsProperty ../data.importedNscSelection _id 'active'}}">
+                    <label class="inputbox checkbox profession"
+                           style="background-image: url('{{img}}')">
+                        {{name}}
+                        <input name="importedNscSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
+                    </label>
+                </div>
+                {{/each}}
+                <!--each importedNsc-->
+            </div>
             <hr/>
-            <!-- import NPC -->
             <div class="form-box container flow submit">
+                <div class="card">
+                    <select name="import" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                        {{#select data.import}}
+                        {{#each tokenPositions}}
+                        <option value="{{key}}">{{name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
                 <div>
                     <div class="button">
                         <button name="import-selected-npc" type="button">ausgewählte Meisterfiguren importieren</button>
                     </div>
                 </div>
             </div>
-
         </form>
+
     </section>
 
     <h2>Hilfe <i class="fas fa-info-circle help" onclick="$('.help-info.help-origin').toggle();"></i></h2>

@@ -81,7 +81,7 @@
                     <select name="scenes.categories_position">
                         <option value="">---</option>
                         {{#select this.position}}
-                        <option value="mitte"> Mitte </option>
+                        <option value="mitte"> Mitte</option>
                         <option value="untenlinks">Unten link</option>
                         <option value="obenlinks">Oben links</option>
                         {{/select}}
@@ -130,7 +130,6 @@
                 <input type="text" name="nsc.defaultProfession" data-dtype="String" value="{{nsc.defaultProfession}}"/>
             </div>
             <p class="info-text">(...)</p>
-
             <hr/>
             <div class="form-group">
                 <label><h3>Berufe Pack</h3></label>
@@ -151,6 +150,7 @@
             <hr/>
 
 
+            <textarea readonly>{{stringify nsc.genderOptions}}</textarea>
             {{#each nsc.packs as |pack id|}}
             <p class="info-text">Actors aus den folgenden Packs können über Schnellimport Szenen zugewiesen werden</p>
             <div>

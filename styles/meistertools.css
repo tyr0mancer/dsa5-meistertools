@@ -104,7 +104,7 @@
 }
 
 
-/* Text */
+/* Text Input */
 .meistertools .inputbox.text {
     border-radius: 2px;
     padding: 0px;
@@ -118,8 +118,22 @@
     background-color: lightgrey;
 }
 
+/* Textarea */
+.meistertools textarea {
+    border-radius: 2px;
+    padding: 3px;
+}
 
-/* Radio Buttons and Checkboxes */
+.meistertools textarea:focus {
+    background-color: lightyellow;
+}
+
+.meistertools div.active textarea {
+    background-color: lightgrey;
+}
+
+
+/* Radio and Checkboxes */
 .meistertools .inputbox.radio {
     width: 110px;
     border-radius: 2px;
@@ -222,6 +236,7 @@
     background-color: white;
     color: red;
 }
+
 .meistertools button.delete:hover {
     background-color: red;
     color: black;
@@ -232,6 +247,14 @@
 .meistertools .inputbox.gender {
     width: 50px;
     padding: 2px;
+}
+
+.meistertools button.dice {
+    width: 50px
+}
+
+.meistertools div.card.nsc_name input {
+    height: 64px
 }
 
 .meistertools .inputbox.profession {
@@ -246,3 +269,11 @@
 
 }
 
+.meistertools div.card.nsc_name textarea {
+    width: 165px;
+}
+
+
+.meistertools .inputbox.anzahl {
+    width: 64px;
+}

@@ -3,7 +3,7 @@
   "title": "DSA5 - MeisterTools",
   "description": "Hilfen für DSA5 Spielleiter auf Foundry VTT",
   "author": "tyr0mancer",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.7.9",
   "languages": [

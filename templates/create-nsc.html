@@ -88,7 +88,8 @@
                     <label class="inputbox flow radio profession"
                            style="background-image: url('{{img}}')">
                         {{name}}
-                        <input name="profession" value="{{_id}}" type="radio" data-profession-name="{{name}}" data-dtype="String"/>
+                        <input name="profession" value="{{_id}}" type="radio" data-profession-name="{{name}}"
+                               data-dtype="String"/>
                     </label>
                 </div>
                 {{/each}}
@@ -97,32 +98,34 @@
 
             <hr/>
 
-            <!-- generate nsc - placed this in the middle of the form for faster access -->
+            <!-- Main buttons -->
             <div class="form-box container flow submit">
-
                 <div class="card {{nactive data.anzahl}}">
                     <label class="inputbox text anzahl">
                         <input name="anzahl" placeholder="Anzahl / Wurf" value="{{data.anzahl}}" type="text"
                                data-dtype="String"/>
                     </label>
                 </div>
+
                 <div class="card {{data.tokenPosition}}">
-                    <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
-                        {{#select data.tokenPosition}}
-                        <option value="">kein Import in Szene</option>
-                        {{#each tokenPositionOptions}}
-                        <option value="{{key}}">{{name}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
+                    <label>
+                        <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                            {{#select data.tokenPosition}}
+                            <option value="">kein Import in Szene</option>
+                            {{#each tokenPositionOptions}}
+                            <option value="{{key}}">{{name}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </label>
                 </div>
                 <div>
                     <div class="button">
                         <button name="generate-nsc" type="button">NSC erstellen</button>
                     </div>
                 </div>
-
             </div>
+
             <div class="form-box container flow">
                 <div>
                     <button class="dice" name="generate-name" type="button">Name<br/> <i
@@ -135,18 +138,16 @@
                                   data-dtype="String">{{data.nsc_name}}</textarea>
                     </label>
                 </div>
-
             </div>
+
             <div class="form-box container flow">
                 <div>
                     <button class="dice" name="generate-image" type="button">Bild<br/> <i
                             class="fas fa-dice"></i></button>
                 </div>
-
                 <div class="card nsc_name {{nactive data.nsc_img}}">
-                    <img src="{{data.nsc_img}}" style="width: 150px" />
+                    <img src="{{data.nsc_img}}" style="width: 150px"/>
                 </div>
-
             </div>
             <hr/>
 
@@ -202,12 +203,26 @@
 
             <!-- import player -->
             <div class="form-box container flow submit">
+
+                <div class="card {{data.tokenPosition}}">
+                    <label>
+                        <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                            {{#select data.tokenPosition}}
+                            {{#each tokenPositionOptions}}
+                            <option value="{{key}}">{{name}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </label>
+                </div>
+
                 <div>
                     <div class="button">
                         {{#ifeq players.length 0}}
                         <button disabled class="inactive" type="button">ausgewählte Helden in Szene bewegen</button>
                         {{else}}
-                        <button name="import-selected-players" type="button">ausgewählte Helden in Szene bewegen</button>
+                        <button name="import-selected-players" type="button">ausgewählte Helden in Szene bewegen
+                        </button>
                         {{/ifeq}}
                     </div>
                 </div>
@@ -238,16 +253,9 @@
         </form>
 
         <form class="nsc-form">
-
-            <!--
-                        <pre>{{stringify importedNsc}}</pre>
-            -->
             <h1>Zufalls NSC</h1>
             <div class="form-box container flow"
                  style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
-<!--
-                {{stringify stockNsc}}
--->
                 {{#each stockNsc}}
                 <div class="card {{ifIsProperty ../data.stockNscSelection _id 'active'}}">
                     <label class="inputbox checkbox profession"

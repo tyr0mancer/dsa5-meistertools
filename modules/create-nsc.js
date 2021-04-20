@@ -211,6 +211,9 @@ class CreateNSC extends Application {
      */
     async _drawFromMatch(match, ruleset, allTables) {
         try {
+            if (Array.isArray(ruleset.tables[match[1]]))
+                return ruleset.tables[match[1]][Math.floor(Math.random() * ruleset.tables[match[1]].length)]
+
             const result = await allTables
                 .find(t => t.data.name === ruleset.tables[match[1]])
                 .draw({displayChat: false})

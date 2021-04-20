@@ -22,7 +22,7 @@ export default [
             {name: 'Novadis', key: 'novadis'},
             {name: 'Nivesen', key: 'nivesen'},
             {name: 'Moha', key: 'moha'},
-            {name: 'Amazonen', key: 'amazonen'},
+            {name: 'Amazonen', key: 'amazonen', gender: {w: 100, m: 0}},
         ]
     },
     {

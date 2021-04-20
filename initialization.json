@@ -20,7 +20,7 @@
     },
     {
       "_id": "978a47c87598f67e",
-      "name": "Random NSC",
+      "name": "Random NPC",
       "type": "Actor",
       "sort": 300000,
       "parent": null,

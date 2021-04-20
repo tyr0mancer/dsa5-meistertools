@@ -18,8 +18,6 @@ export class CreateNSC extends Application {
 
     constructor() {
         super();
-        //game.settings.set(moduleName, 'settings', undefined)
-
 
         /*
             read settings
@@ -398,6 +396,8 @@ export class CreateNSC extends Application {
         }
 
         this.render()
+        if (this.settings.closeAfterGeneration)
+            this.close()
     }
 
 
@@ -406,11 +406,14 @@ export class CreateNSC extends Application {
         const entities = await Util.activePlayers().filter(p => arr.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
         for (let actor of entities)
             this.moveActorTokenInScene(actor)
+
         this.render()
+        if (this.settings.closeAfterGeneration)
+            this.close()
     }
 
 
-    async _importSelectedNpc(event, html) {
+    async _importSelectedNpc(event, html) {1
         const entities = await this.myCompendia.getEntities(this.observableData.packNscSelection, 'npc')
         for (let actor of entities)
             this.moveActorTokenInScene(actor)
@@ -421,11 +424,15 @@ export class CreateNSC extends Application {
 
         this.observableData.packNscSelection = {}
         this.observableData.stockNscSelection = {}
+
         this.render()
+        if (this.settings.closeAfterGeneration)
+            this.close()
     }
 
     static getDefaultSettings() {
         return {
+            closeAfterGeneration: true,
             tokenImageFolder: "modules/dsa5-meistertools/images/actor_archetypes",
             defaultOrigin: '',
             defaultCulture: '',

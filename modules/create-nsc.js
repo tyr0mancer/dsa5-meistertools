@@ -1,8 +1,10 @@
 import {moduleName} from "../dsa5-meistertools.js";
-import {Util, MyCompendia} from "./Util.js";
+import {Util} from "./Util.js";
 
 import randomNameRuleSets from "../config/random-name-rule-sets.js";
 import archetypes from "../config/archetypes.js";
+import {MyCompendia} from "./MyCompendia.js";
+import {MyFilePicker} from "./MyFilePicker.js";
 
 const NPC_IMAGE_FOLDER = `modules/dsa5-meistertools/images/actor_archetypes`
 const TOKEN_POSITION = {'OUTSIDE': "outside", 'TOP_LEFT': "top-left", 'BOTTOM_LEFT': "bottom-left"}
@@ -68,8 +70,6 @@ class CreateNSC extends Application {
             anzahl: "1",
             gender: 'random',
             tokenPosition: TOKEN_POSITION.OUTSIDE,
-
-            // todo find better namings
             stockNscSelection,
             playerSelection,
             packNscSelection,
@@ -311,9 +311,9 @@ class CreateNSC extends Application {
         }
     }
 
-    /* todo
-        doesnt consider actor-avatars might be different than token-icon
-        doenst consider size of actors
+    /*
+        todo doesnt consider actor-avatars might be different than token-icon
+       todo doenst consider size of actors
      */
     moveActorTokenInScene(actor) {
         const tokenPosition = this._getTokenPosition(this.observableData.tokenPosition)
@@ -336,7 +336,7 @@ class CreateNSC extends Application {
     // todo avoid FP.render() here or find alternative approach
     async _getImagesByConfig() {
         console.log(moduleName, '| checking for new files')
-        const FP = new FilePicker({type: "image"})
+        const FP = new MyFilePicker({type: "image"})
         const images = await FP.browse(`${NPC_IMAGE_FOLDER}/${this.observableData.origin}/${this.observableData.gender}/${this.observableData.professionName}`)
         this.npcImageChoices = images.files
     }

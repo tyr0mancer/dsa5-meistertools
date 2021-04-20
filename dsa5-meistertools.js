@@ -56,7 +56,6 @@ Hooks.on('updateScene', (scene, data) => {
             scene.unsetFlag(moduleName, 'playlistName')
         }
     }
-    //console.log(JSON.stringify(data));
 });
 
 
@@ -74,7 +73,6 @@ Hooks.on("getSceneControlButtons", (controls) => {
 Hooks.once('init', () => {
     console.log("Initializing DSA5 MeisterTools")
     registerLayer()
-    //registerControls()
     registerSettings()
     //registerHandlebarHelpers()
 

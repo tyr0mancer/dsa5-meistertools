@@ -37,12 +37,13 @@ class CreateNSC extends Application {
             key: 'professions',
         })
         // npc packages
-        this.settings.packs.forEach(pack => this.myCompendia.add({
-            packName: pack.packname,
-            folderName: pack.folder,
-            key: pack.packname,
-            collectionName: 'npc'
-        }))
+        if (this.settings.packs)
+            this.settings.packs.forEach(pack => this.myCompendia.add({
+                packName: pack.packname,
+                folderName: pack.folder,
+                key: pack.packname,
+                collectionName: 'npc'
+            }))
 
 
         /*

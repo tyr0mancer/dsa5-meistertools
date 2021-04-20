@@ -1,3 +1,5 @@
+import {Util} from "./Util.js";
+
 export class MyCompendia {
 
     constructor() {
@@ -6,9 +8,9 @@ export class MyCompendia {
     }
 
 
-    add({key = null, name = null, folderName = null, packName, collectionName = 'global'}) {
+    async add({key = null, name = null, folderName = null, packName, collectionName = 'global'}) {
 
-        let {entityType, folder, type, extra, pack} = {}
+        let {entityType, folder, pack} = {}
 
         // set the pack if its not local only packages
         if (packName) {
@@ -25,24 +27,16 @@ export class MyCompendia {
             // set folder and prepare in case we want to import from pack
             folder = game.folders.find(f => f.name === folderName && f.type === pack.entity)?.id;
             if (folderName && !folder) {
-                // todo create folder
-                /*
-                                let createdFolders = await Folder.create(foldersToCreate);
-                                if (!Array.isArray(createdFolders))
-                                    createdFolders = [createdFolders]
-                                for (let folder of createdFolders)
-                                    this.folders[folder.data.name] = folder;
-
-                                for (let folder in this.folders) {
-                                    let parent = this.folders[folder].getFlag("dsa5", "parent")
-                                    if (parent) {
-                                        let parentId = this.folders[parent].data._id
-                                        this.folders[folder].update({ parent: parentId })
-                                    }
-                                }
-                */
-
-                ui.notifications.warn(`Your world does not have any ${entityType} folders named '${folderName}'. Storing in Root Folder for now`);
+                ui.notifications.info(`Your world did not have a ${entityType} folder named '${folderName}'. DSA5 Meistertools created this folder automatically.`);
+                await Folder.create({
+                    "name": folderName,
+                    "type": "Actor",
+                    "sort": 300000,
+                    "parent": null,
+                    "sorting": "m",
+                    "color": "#373d6d"
+                });
+                folder = game.folders.find(f => f.name === folderName && f.type === pack.entity)?.id;
             }
         }
 
@@ -51,7 +45,6 @@ export class MyCompendia {
 
         if (!name && pack)
             name = pack.metadata.label
-
         this.compendia.push({
             pack,
             name,
@@ -76,14 +69,6 @@ export class MyCompendia {
         return (!key) ? filteredArray : filteredArray.find(c => c.key === key)
     }
 
-
-    /*
-        imports Entity into folder
-     */
-    async import(_id, packName) {
-        const {extra, entityType} = this.compendia.find(c => c.packName === packName)
-        return await game[entityType].importFromCollection(packName, _id, extra)
-    }
 
     async _updateExisting() {
         let updatedCompendia = []
@@ -155,23 +140,6 @@ export class MyCompendia {
             }
         }
         return result
-    }
-
-
-    /*
-        Find an enitiy by at least id, ideally also collectionName and key
-        todo: can there realistically be collisions? is this unnecessary?
-     */
-    async getImportedEntity(entityId, collectionName = 'global', key) {
-        const pack = await this.getCollectionIndex(collectionName, key)
-        if (!pack) return new Error('Pack not found')
-        console.log(pack)
-        /*
-                const entity = await game[pack.entityType].importFromCollection(pack.packName, entityId, pack.folder ? {folder: pack.folder} : null)
-                //getCollectionIndex
-                getEntities('npc', null, this.observableData.stockNscSelection)
-        */
-
     }
 
 }

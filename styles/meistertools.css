@@ -2,12 +2,12 @@
     Color Definition
  --------------------------------- */
 :root {
-    --button-background: rgba(11, 11, 217, 1);
+    --button-background: #373d6d;
     --button-text: white;
     --button-hover-background: #4CAF50;
     --button-hover-text: black;
     --button-click-background: lightyellow;
-    --button-click-text: rgba(11, 11, 217, 1);
+    --button-click-text: #373d6d;
     --button-inactive-background: transparent;
     --button-inactive-text: darkgrey;
     --button-inactive-hover-background: transparent;

@@ -73,7 +73,7 @@ class InitializerForm extends FormApplication {
                                 "name": "Battlemaps Wald",
                                 "folder": "BM Wald",
                                 "keywords": "mainroad,sideroad,well",
-                                "packname": "dsa5-homebrew.bm-forest",
+                                "packname": "dsa5-homebrew.scene-bm-forest",
                                 "addplayers": false,
                                 "position": "center"
                             }]
@@ -83,7 +83,8 @@ class InitializerForm extends FormApplication {
                             "tokenImageFolder": "modules/dsa5-homebrew/images/actors/random-npc",
                             "defaultOrigin": "mittellande",
                             "defaultCulture": "garethisch",
-                            "defaultProfession": "",
+                            "defaultProfession": "AENj6jLndvawKiHG",
+                            "defaultProfessionName": "Bürger",
                             "storedPatterns": [],
                             "genderOptions": [{"key": "random", "icon": "fas fa-dice", "name": "zufall"}, {
                                 "key": "w",

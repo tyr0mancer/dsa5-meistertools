@@ -4,12 +4,19 @@ import {CreateNSC, getRuleset} from "./create-nsc.js";
 
 export function registerSettings() {
 
-    game.settings.registerMenu(moduleName, "manage-scenes", {
+    game.settings.registerMenu(moduleName, "config-ui", {
         name: "DSA5 Meistertools",
         label: "Einstellungen",
         hint: "Alle Einstellungen der DSA5 Meistertools",
         icon: "fas fa-eye",
         type: MeistertoolsConfig,
+        restricted: true
+    });
+
+    game.settings.registerMenu(moduleName, "reset-settings", {
+        name: "Initialize",
+        label: "Initialisieren",
+        type: InitializerForm,
         restricted: true
     });
 
@@ -21,8 +28,79 @@ export function registerSettings() {
         type: Object
     });
 
+
 }
 
+class InitializerForm extends FormApplication {
+
+    render() {
+        let content = `<h1>DSA5 Meistertools initialisieren</h1>`
+        let buttons = {
+            reset: {
+                icon: '<i class="fa fa-check"></i>',
+                label: 'zurück setzen',
+                callback: html => {
+                    game.settings.set(moduleName, 'settings', undefined)
+                }
+            },
+            cancel: {
+                icon: '<i class="fas fa-cancel"></i>',
+                label: 'Abbruch',
+                callback: html => {
+                }
+            }
+        }
+
+        if (game.modules.get('dsa5-homebrew')) {
+            buttons['homebrew'] = {
+                icon: '<i class="fa fa-check"></i>',
+                label: 'Für dsa5-homebrew konfigurieren',
+                callback: html => {
+                    game.settings.set(moduleName, 'settings', {
+                        "scenes": {
+                            "activateDefault": true,
+                            "updatePlaylist": true,
+                            "defaultPlaylist": "",
+                            "filterExisting": true,
+                            "categories": [{
+                                "name": "Theatre Of The Mind",
+                                "folder": "TOTM",
+                                "keywords": "Einkauf,Taverne,Tempel",
+                                "packname": "dsa5-homebrew.scene-totm",
+                                "addplayers": true,
+                                "position": "untenlinks"
+                            }, {
+                                "name": "Battlemaps Wald",
+                                "folder": "BM Wald",
+                                "keywords": "mainroad,sideroad,well",
+                                "packname": "dsa5-homebrew.bm-forest",
+                                "addplayers": false,
+                                "position": "center"
+                            }]
+                        },
+                        "nsc": {
+                            "closeAfterGeneration": true,
+                            "tokenImageFolder": "modules/dsa5-homebrew/images/actors/random-npc",
+                            "defaultOrigin": "mittellande",
+                            "defaultCulture": "garethisch",
+                            "defaultProfession": "",
+                            "storedPatterns": [],
+                            "genderOptions": [{"key": "random", "icon": "fas fa-dice", "name": "zufall"}, {
+                                "key": "w",
+                                "icon": "fas fa-venus",
+                                "name": "weiblich"
+                            }, {"key": "m", "icon": "fas fa-mars", "name": "männlich"}],
+                            "professionPack": "dsa5-homebrew.actor-archetypen",
+                            "folder": "Zufalls NPC"
+                        }
+                    })
+                }
+            }
+            content += `<p>DSA5 Homebrew wurde gefunden und kann für Meistertools konfiguriert werden!</p>`
+        }
+        new Dialog({title: 'Meistertools initialisieren', content, buttons, default: 'cancel'}).render(true)
+    }
+}
 
 class MeistertoolsConfig extends FormApplication {
 
@@ -152,7 +230,6 @@ class MeistertoolsConfig extends FormApplication {
             const arrayKeys = Object.keys(arrayData)
             for (let arrayKey of arrayKeys) {
                 let arr = []
-                console.log(arrayKey)
                 for (let arrayElem of arrayData[arrayKey]) {
                     const elem = formData[mainKey + '.' + arrayKey + "_" + arrayElem]
                     if (!Array.isArray(elem)) {

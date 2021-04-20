@@ -333,11 +333,11 @@ export class CreateNSC extends Application {
         return canvas.scene.createEmbeddedEntity("Token", newToken)
     }
 
-    // todo avoid FP.render() here or find alternative approach
     async _getImagesByConfig() {
-        console.log(moduleName, '| checking for new files')
+        console.log(moduleName, '| checking for new files with MyFilePicker')
         const FP = new MyFilePicker({type: "image"})
-        const images = await FP.browse(`${this.settings.tokenImageFolder}/${this.observableData.origin}/${this.observableData.gender}/${this.observableData.professionName}`)
+        const target = `${this.settings.tokenImageFolder}/${this.observableData.origin}/${this.observableData.gender}/${this.observableData.professionName}`
+        const images = await FP.browse(target)
         this.npcImageChoices = images.files
     }
 

@@ -1,18 +1,13 @@
 export const moduleName = "dsa5-meistertools";
-
 import {createNSC} from './modules/create-nsc.js'
-import {createBeast} from './modules/create-beast.js'
+import {ManageScenes} from './modules/manage-scenes.js'
+import {playerWhisper} from './modules/player-whisper.js'
+import {registerSettings} from './modules/register-settings.js'
 
+import {createBeast} from './modules/create-beast.js'
 import {randomLibrary} from './modules/random-library.js'
 import {randomEncounter} from './modules/random-encounter.js'
-
-import {ManageScenes} from './modules/manage-scenes.js'
 import {manageTravels} from './modules/manage-travels.js'
-
-
-import {playerWhisper} from './modules/player-whisper.js'
-
-import {registerSettings} from './modules/register-settings.js'
 
 
 /**
@@ -76,9 +71,9 @@ Hooks.once('init', () => {
     registerSettings()
     //registerHandlebarHelpers()
 
+    // todo organise Handlebars.helper
     Handlebars.registerHelper('each_when', function (list, k, v, opts) {
         let i, result = '';
-        //console.log(list)
         for (i = 0; i < list.length; ++i)
             if (list[i][k].includes(v))
                 result = result + opts.fn(list[i]);

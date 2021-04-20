@@ -153,8 +153,7 @@
             <p>{{stringify nsc.genderOptions}}</p>
             <hr/>
 
-            //game.settings.set(moduleName, 'settings', undefined)
-
+            <input type="hidden" name="nsc.tokenImageFolder" data-dtype="String" value="{{nsc.tokenImageFolder}}"/>
             <label>Bilder zu Archetypen werden gesucht in Ordner <i>{{nsc.tokenImageFolder}}</i>
                 <button name="change-token-image-folder" type="button">Pfad ändern (Wildcard Folder)</button>
             </label>

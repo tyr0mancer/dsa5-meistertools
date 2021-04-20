@@ -6,7 +6,6 @@ import archetypes from "../config/archetypes.js";
 import {MyCompendia} from "./MyCompendia.js";
 import {MyFilePicker} from "./MyFilePicker.js";
 
-const NPC_IMAGE_FOLDER = `modules/dsa5-meistertools/images/actor_archetypes`
 const TOKEN_POSITION = {'OUTSIDE': "outside", 'TOP_LEFT': "top-left", 'BOTTOM_LEFT': "bottom-left"}
 
 export async function createNSC() {
@@ -15,10 +14,12 @@ export async function createNSC() {
 }
 
 
-class CreateNSC extends Application {
+export class CreateNSC extends Application {
 
     constructor() {
         super();
+        //game.settings.set(moduleName, 'settings', undefined)
+
 
         /*
             read settings
@@ -338,7 +339,7 @@ class CreateNSC extends Application {
     async _getImagesByConfig() {
         console.log(moduleName, '| checking for new files')
         const FP = new MyFilePicker({type: "image"})
-        const images = await FP.browse(`${NPC_IMAGE_FOLDER}/${this.observableData.origin}/${this.observableData.gender}/${this.observableData.professionName}`)
+        const images = await FP.browse(`${this.settings.tokenImageFolder}/${this.observableData.origin}/${this.observableData.gender}/${this.observableData.professionName}`)
         this.npcImageChoices = images.files
     }
 
@@ -422,6 +423,22 @@ class CreateNSC extends Application {
         this.observableData.stockNscSelection = {}
         this.render()
     }
+
+    static getDefaultSettings() {
+        return {
+            tokenImageFolder: "modules/dsa5-meistertools/images/actor_archetypes",
+            defaultOrigin: '',
+            defaultCulture: '',
+            defaultProfession: '',
+            storedPatterns: [],
+            genderOptions: [
+                {key: 'random', icon: 'fas fa-dice', name: 'zufall'},
+                {key: 'w', icon: 'fas fa-venus', name: 'weiblich'},
+                {key: 'm', icon: 'fas fa-mars', name: 'männlich'},
+            ]
+        }
+    }
+
 }
 
 export function getRuleset() {

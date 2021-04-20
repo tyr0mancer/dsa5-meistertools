@@ -1,6 +1,6 @@
 import {moduleName} from "../dsa5-meistertools.js";
 import {ManageScenes} from "./manage-scenes.js";
-import {getRuleset} from "./create-nsc.js";
+import {CreateNSC, getRuleset} from "./create-nsc.js";
 
 export function registerSettings() {
 
@@ -29,17 +29,7 @@ class MeistertoolsConfig extends FormApplication {
     static DEFAULT_SETTINGS() {
         return {
             scenes: ManageScenes.getDefaultSettings(),
-            nsc: {
-                defaultOrigin: '',
-                defaultCulture: '',
-                defaultProfession: '',
-                storedPatterns: [],
-                genderOptions: [
-                    {key: 'random', icon: 'fas fa-dice', name: 'zufall'},
-                    {key: 'w', icon: 'fas fa-venus', name: 'weiblich'},
-                    {key: 'm', icon: 'fas fa-mars', name: 'männlich'},
-                ]
-            }
+            nsc: CreateNSC.getDefaultSettings(),
         }
     }
 
@@ -106,6 +96,9 @@ class MeistertoolsConfig extends FormApplication {
             this.dataObject.scenes.categories.push({})
             this.render()
         });
+
+        html.find("button[name='change-token-image-folder']").click(event => this._changeTokenImageFolder());
+
 
         html.find('.delete-scene-pack').click(ev => {
             ev.preventDefault();
@@ -179,4 +172,16 @@ class MeistertoolsConfig extends FormApplication {
         game.settings.set(moduleName, 'settings', updatedSettings);
     }
 
+    _setTokenImageFolder(path) {
+        this.dataObject.nsc.tokenImageFolder = path
+        this.render()
+    }
+
+    async _changeTokenImageFolder() {
+        await new FilePicker({
+            type: "image",
+            current: this.dataObject.nsc.tokenImageFolder,
+            callback: (imagePath) => this._setTokenImageFolder(imagePath),
+        }).browse(this.dataObject.nsc.tokenImageFolder, {wildcard: true});
+    }
 }

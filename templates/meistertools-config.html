@@ -143,7 +143,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label><h3>NSC Ordner</h3></label>
+                <label><h3>Lokaler Ordner</h3></label>
                 <input type="text" name="nsc.folder" data-dtype="String" value="{{nsc.folder}}"/>
             </div>
             <p class="info-text">Actors aus diesem Pack bilden die Basis und damit Auswahlmöglichkeiten der Berufe</p>
@@ -151,6 +151,9 @@
 
 
             <textarea readonly>{{stringify nsc.genderOptions}}</textarea>
+
+            <p>{{nsc.tokenImageFolder}}</p><button name="change-token-image-folder" type="button">Pfad ändern</button>
+
             {{#each nsc.packs as |pack id|}}
             <p class="info-text">Actors aus den folgenden Packs können über Schnellimport Szenen zugewiesen werden</p>
             <div>

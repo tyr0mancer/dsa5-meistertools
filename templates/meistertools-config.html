@@ -123,13 +123,13 @@
                     {{/select}}
                 </select>
             </div>
-            <p class="info-text">Gültig falls Herkunft = mittellande</p>
+            <p class="info-text">Gültig falls Herkunft Unterregionen hat (in der Basiskonfiguration sind das nur die Mitellande)</p>
 
             <div class="form-group">
-                <label><h3>Default Beruf</h3></label>
+                <label><h3>Default Beruf ID</h3></label>
                 <input type="text" name="nsc.defaultProfession" data-dtype="String" value="{{nsc.defaultProfession}}"/>
             </div>
-            <p class="info-text">(...)</p>
+            <p class="info-text">Achtung! Wird derzeit beim speichern einer NSC Konfiguration überschrieben.</p>
             <hr/>
             <div class="form-group">
                 <label><h3>Berufe Pack</h3></label>
@@ -149,11 +149,25 @@
             <p class="info-text">Actors aus diesem Pack bilden die Basis und damit Auswahlmöglichkeiten der Berufe</p>
             <hr/>
 
+            <h3>Aktuelle Auswahl-Optionen zu Geschlecht. Anpassbar in <i>CreateNSC.getDefaultSettings()</i></h3>
+            <p>{{stringify nsc.genderOptions}}</p>
+            <hr/>
 
-            <textarea readonly>{{stringify nsc.genderOptions}}</textarea>
+            //game.settings.set(moduleName, 'settings', undefined)
 
-            <p>{{nsc.tokenImageFolder}}</p><button name="change-token-image-folder" type="button">Pfad ändern</button>
+            <label>Bilder zu Archetypen werden gesucht in Ordner <i>{{nsc.tokenImageFolder}}</i>
+                <button name="change-token-image-folder" type="button">Pfad ändern (Wildcard Folder)</button>
+            </label>
+            <hr/>
 
+            <div class="form-group">
+                <label><h3>Nach NSC Erstellung die App schließen?</h3></label>
+                <input type="checkbox" name="nsc.closeAfterGeneration" data-dtype="Boolean" {{checked
+                       nsc.closeAfterGeneration}}/>
+            </div>
+            <hr/>
+
+            <h2>Weitere Packs aus denen ein Actor importiert werden kann</h2>
             {{#each nsc.packs as |pack id|}}
             <p class="info-text">Actors aus den folgenden Packs können über Schnellimport Szenen zugewiesen werden</p>
             <div>

@@ -384,7 +384,6 @@ export class CreateNSC extends Application {
                 if (randomGender) this._rollGender()
                 await this._generateName()
                 await this._generateImage()
-                this.render()
             }
 
             // after the last one, we reset the generated names and img to null, so we dont reuse the combo
@@ -395,9 +394,10 @@ export class CreateNSC extends Application {
             return ui.notifications.error(`Cant create Actor. Error Details see console`);
         }
 
-        this.render()
+
         if (this.settings.closeAfterGeneration)
-            this.close()
+            await this.close()
+        this.render()
     }
 
 
@@ -407,13 +407,14 @@ export class CreateNSC extends Application {
         for (let actor of entities)
             this.moveActorTokenInScene(actor)
 
-        this.render()
         if (this.settings.closeAfterGeneration)
-            this.close()
+            await this.close()
+        this.render()
     }
 
 
-    async _importSelectedNpc(event, html) {1
+    async _importSelectedNpc(event, html) {
+        1
         const entities = await this.myCompendia.getEntities(this.observableData.packNscSelection, 'npc')
         for (let actor of entities)
             this.moveActorTokenInScene(actor)
@@ -425,9 +426,9 @@ export class CreateNSC extends Application {
         this.observableData.packNscSelection = {}
         this.observableData.stockNscSelection = {}
 
-        this.render()
         if (this.settings.closeAfterGeneration)
-            this.close()
+            await this.close()
+        this.render()
     }
 
     static getDefaultSettings() {
@@ -448,7 +449,9 @@ export class CreateNSC extends Application {
 
 }
 
-export function getRuleset() {
+export function
+
+getRuleset() {
     return {
         randomNameRuleSets,
         archetypes,

@@ -1,4 +1,45 @@
 /* ---------------------------------
+    Color Definition
+ --------------------------------- */
+:root {
+    --button-background: rgba(11, 11, 217, 1);
+    --button-text: white;
+    --button-hover-background: #4CAF50;
+    --button-hover-text: black;
+    --button-click-background: lightyellow;
+    --button-click-text: rgba(11, 11, 217, 1);
+    --button-inactive-background: transparent;
+    --button-inactive-text: darkgrey;
+    --button-inactive-hover-background: transparent;
+    --button-inactive-hover-text: white;
+
+    --border-active: goldenrod;
+    --border-inactive: lightgrey;
+
+    --field-inactive-background: lightgrey;
+    --field-inactive-text: #cccccc;
+
+    --field-active-background: goldenrod;
+    --field-active-border: darkgoldenrod;
+    --field-active-hover-background: beige;
+    --field-active-background-inner: lightgrey;
+
+
+    --field-inactive-border: lightgrey;
+    --field-inactive-hover-background: lightgrey;
+    --field-inactive-hover-text: lightgrey;
+
+    --field-active-text: lightgrey;
+    --field-active-hover-text: lightgrey;
+
+    --field-focus-background: lightyellow;
+    --field-focus-text: beige;
+
+}
+
+
+
+/* ---------------------------------
     Navigation
  --------------------------------- */
 
@@ -86,8 +127,8 @@
 
 
 .meistertools .container.form-box > div.active {
-    border: 2px dotted darkgoldenrod;
-    background-color: goldenrod;
+    border: 2px dotted var(--field-active-border);
+    background-color: var(--field-active-background);
     color: black;
 }
 
@@ -111,11 +152,11 @@
 }
 
 .meistertools .inputbox.text input:focus {
-    background-color: lightyellow;
+    background-color: var(--field-focus-background);
 }
 
 .meistertools div.active input {
-    background-color: lightgrey;
+    background-color: var(--field-active-background-inner);
 }
 
 /* Textarea */
@@ -173,11 +214,11 @@
 }
 
 .meistertools div.active .checkbox {
-    background-color: lightgrey;
+    background-color: var(--field-active-background-inner);
 }
 
 .meistertools div.active .checkbox:hover {
-    background-color: beige;
+    background-color: var(--field-active-hover-background);
 }
 
 
@@ -186,12 +227,12 @@
     width: auto;
     opacity: 20%;
     background-color: transparent;
-    text-color: #cccccc;
+    text-color: var(--field-inactive-text);
 }
 
 .meistertools .inputbox.select.active {
     opacity: 100%;
-    background-color: lightgrey;
+    background-color: var(--field-inactive-background);
 }
 
 
@@ -200,10 +241,10 @@
     background: transparent;
 }
 
-.meistertools .form-box button {
+.meistertools button {
     transition-duration: 0.4s;
-    background-color: mediumblue;
-    color: white;
+    background-color: var(--button-background);
+    color: var(--button-text);
     padding: 0px 5px;
     width: auto;
     font-weight: bold;
@@ -212,35 +253,28 @@
     cursor: pointer;
 }
 
-.meistertools .form-box button.inactive {
-    background-color: #eeeeee;
+.meistertools button:hover {
+    background-color: var(--button-hover-background);
+    color: var(--button-hover-text);
+}
+
+.meistertools button:active {
+    background-color: var(--button-click-background);
+    color: var(--button-click-text);
+}
+
+.meistertools button.inactive {
+    background-color: var(--button-inactive-background);
+    color: var(--button-inactive-text);
     cursor: pointer;
-    color: grey;
 }
 
-.meistertools .form-box button.inactive:hover {
-    background-color: #eeeeee;
-    color: grey;
+.meistertools button.inactive:hover {
+    background-color: var(--button-inactive-hover-background);
+    color: var(--button-inactive-hover-text);
 }
 
-.meistertools .form-box button:hover {
-    background-color: #4CAF50;
-    color: black;
-}
 
-.meistertools .form-box button:active {
-    background-color: lightyellow;
-}
-
-.meistertools button.delete {
-    background-color: white;
-    color: red;
-}
-
-.meistertools button.delete:hover {
-    background-color: red;
-    color: black;
-}
 
 
 /* special form elements */
@@ -266,7 +300,6 @@
     background-repeat: no-repeat;
     background-position: top left;
     background-size: 32px 32px;
-
 }
 
 .meistertools div.card.nsc_name textarea {
@@ -283,25 +316,34 @@
 .meistertools .card.outside {
     border-radius: 5px;
     text-align: center;
-    border: 5px solid goldenrod;
+    border: 5px solid var(--border-active);
 }
 
 .meistertools .card.top-left {
     border-radius: 5px;
     text-align: center;
-    border-top: 5px solid goldenrod;
-    border-left: 5px solid goldenrod;
-    border-right: 5px solid lightgrey;
-    border-bottom: 5px solid lightgrey;
+    border-top: 5px solid var(--border-active);
+    border-left: 5px solid var(--border-active);
+    border-right: 5px solid var(--border-inactive);
+    border-bottom: 5px solid var(--border-inactive);
 }
 
 .meistertools .card.bottom-left {
     border-radius: 5px;
     text-align: center;
-    border-top: 5px solid lightgrey;
-    border-left: 5px solid goldenrod;
-    border-right: 5px solid lightgrey;
-    border-bottom: 5px solid goldenrod;
+    border-top: 5px solid var(--border-inactive);
+    border-left: 5px solid var(--border-active);
+    border-right: 5px solid var(--border-inactive);
+    border-bottom: 5px solid var(--border-active);
 }
 
+/* buttons */
+.meistertools button.delete {
+    background-color: white;
+    color: red;
+}
 
+.meistertools button.delete:hover {
+    background-color: red;
+    color: black;
+}

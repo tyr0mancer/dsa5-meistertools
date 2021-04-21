@@ -207,7 +207,7 @@ function pushControlButtons(controls) {
     // tools.push({ name: "playground", title: 'playground', icon: "fas fa-vial", visible: true, button: true, onClick: () => playground() })
 
     controls.push({
-        name: "DSA MeisterTools",
+        name: "dsa5-meistertools",
         title: "DSA MeisterTools",
         icon: "fas fa-eye",
         layer: "MeistertoolsLayer",

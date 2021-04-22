@@ -187,6 +187,7 @@ export class CreateNSC extends Application {
         this._saveSettings().then(() => this.render())
     }
 
+
     _loadPattern(event, html) {
         const pattern = this.settings.storedPatterns[parseInt($(event.currentTarget).attr("data-pattern"))]
         this.observableData = {

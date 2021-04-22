@@ -161,14 +161,6 @@ function pushControlButtons(controls) {
                 visible: true,
                 button: true,
                 onClick: () => createBeast()
-            },
-            {
-                name: "travel",
-                title: 'Wildnis',
-                icon: "fas fa-tree",
-                visible: true,
-                button: true,
-                onClick: () => manageTravels()
             }
         ]
 

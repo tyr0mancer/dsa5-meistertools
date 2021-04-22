@@ -146,6 +146,7 @@ function pushControlButtons(controls) {
                 button: true,
                 onClick: () => randomEncounter()
             },
+/*
             {
                 name: "library",
                 title: game.i18n.localize(moduleName + ".randomLibrary"),
@@ -162,6 +163,8 @@ function pushControlButtons(controls) {
                 button: true,
                 onClick: () => createBeast()
             }
+*/
+
         ]
 
     /*

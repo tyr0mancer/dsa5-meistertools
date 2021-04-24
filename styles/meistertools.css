@@ -347,3 +347,9 @@
     background-color: red;
     color: black;
 }
+
+
+
+.manage-music button.active {
+    background-color: green;
+}

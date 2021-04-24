@@ -1,0 +1,7 @@
+<section class="content manage-music">
+    <h1>Playlists</h1>
+    {{#each playlists}}
+    <button {{#if playing}}class="active"{{/if}} name="start-playlist" data-playlist-id="{{_id}}">{{name}} ({{sounds.length}})</button>
+    {{/each}}
+    <!--playlists-->
+</section>

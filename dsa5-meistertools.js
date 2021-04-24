@@ -1,4 +1,4 @@
-export const moduleName = "dsa5-meistertools";
+import ManageMusic from "./modules/manage-music.js";
 import {createNSC} from './modules/create-nsc.js'
 import {ManageScenes} from './modules/manage-scenes.js'
 import {playerWhisper} from './modules/player-whisper.js'
@@ -8,6 +8,9 @@ import {createBeast} from './modules/create-beast.js'
 import {randomLibrary} from './modules/random-library.js'
 import {randomEncounter} from './modules/random-encounter.js'
 import {manageTravels} from './modules/manage-travels.js'
+
+
+export const moduleName = "dsa5-meistertools";
 
 
 /**
@@ -139,6 +142,14 @@ function pushControlButtons(controls) {
                 onClick: () => new ManageScenes().render(true)
             },
             {
+                name: "MusicManager",
+                title: "Music Manager",
+                icon: "fas fa-volume-up",
+                visible: true,
+                button: true,
+                onClick: () => new ManageMusic().render(true)
+            },
+            {
                 name: "randomEncounter",
                 title: game.i18n.localize(moduleName + ".randomEncounter"),
                 icon: "fas fa-dice-d20",
@@ -146,24 +157,24 @@ function pushControlButtons(controls) {
                 button: true,
                 onClick: () => randomEncounter()
             },
-/*
-            {
-                name: "library",
-                title: game.i18n.localize(moduleName + ".randomLibrary"),
-                icon: "fas fa-book",
-                visible: true,
-                button: true,
-                onClick: () => randomLibrary()
-            },
-            {
-                name: "beast",
-                title: game.i18n.localize(moduleName + ".beastGenerator"),
-                icon: "fas fa-spider",
-                visible: true,
-                button: true,
-                onClick: () => createBeast()
-            }
-*/
+            /*
+                        {
+                            name: "library",
+                            title: game.i18n.localize(moduleName + ".randomLibrary"),
+                            icon: "fas fa-book",
+                            visible: true,
+                            button: true,
+                            onClick: () => randomLibrary()
+                        },
+                        {
+                            name: "beast",
+                            title: game.i18n.localize(moduleName + ".beastGenerator"),
+                            icon: "fas fa-spider",
+                            visible: true,
+                            button: true,
+                            onClick: () => createBeast()
+                        }
+            */
 
         ]
 

@@ -18,7 +18,7 @@ export async function randomEncounter() {
 
 
 function getRandomEncounter(type, location) {
-    console.clear()
+    //todo fetch random encounter by API
     const result = ALL_ENCOUNTER[type].filter(e => filterByLocation(e, location))
     if (result)
         return result[Math.floor(Math.random() * result.length)]
@@ -49,6 +49,7 @@ function filterByLocation(entry, location) {
 }
 
 
+// temporary
 const ALL_ENCOUNTER = {
     nachwache: [
         {

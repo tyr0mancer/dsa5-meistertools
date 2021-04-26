@@ -1,14 +1,10 @@
-import ManageMusic from "./modules/manage-music.js";
-import {createNSC} from './modules/create-nsc.js'
+import Jukebox from "./modules/jukebox.js";
+
 import {ManageScenes} from './modules/manage-scenes.js'
+import {createNSC} from './modules/create-nsc.js'
 import {playerWhisper} from './modules/player-whisper.js'
 import {registerSettings} from './modules/register-settings.js'
-
-import {createBeast} from './modules/create-beast.js'
-import {randomLibrary} from './modules/random-library.js'
 import {randomEncounter} from './modules/random-encounter.js'
-import {manageTravels} from './modules/manage-travels.js'
-
 
 export const moduleName = "dsa5-meistertools";
 
@@ -142,12 +138,12 @@ function pushControlButtons(controls) {
                 onClick: () => createNSC()
             },
             {
-                name: "MusicManager",
-                title: "Music Manager",
+                name: "jukebox",
+                title: "Jukebox",
                 icon: "fas fa-volume-up",
                 visible: true,
                 button: true,
-                onClick: () => new ManageMusic().render(true)
+                onClick: () => new Jukebox().render(true)
             },
             {
                 name: "randomEncounter",

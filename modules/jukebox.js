@@ -1,7 +1,7 @@
 import {moduleName} from "../meistertools.js";
 
 
-export default class ManageMusic extends Application {
+export default class Jukebox extends Application {
 
     constructor() {
         super();
@@ -12,7 +12,7 @@ export default class ManageMusic extends Application {
         const options = super.defaultOptions;
         options.title = `Jukebox`;
         options.id = `${moduleName}.jukebox`;
-        options.template = `modules/${moduleName}/templates/manage-music.html`;
+        options.template = `modules/${moduleName}/templates/jukebox.html`;
         options.resizable = true;
         options.top = 80;
         options.left = 100;

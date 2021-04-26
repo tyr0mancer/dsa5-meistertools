@@ -33,8 +33,25 @@
         </div>
     </section>
     {{/each}}
-
     <hr/>
+
+
+    {{#if scenePack.meta.thumbFolder}}
+    <h1>Erstelle Szene</h1>
+    {{#each thumbs}}
+    <section style="background-color: lightblue">
+        <div style="display: grid; grid-template-columns: 320px auto">
+            <img src="{{this}}" style="width: 300px; height:300px; object-fit: cover"/>
+            <div>
+                <button name="create-scene" data-thumb-name="{{this}}">Szene erstellen</button>
+            </div>
+        </div>
+    </section>
+    {{/each}}
+    <!--thumbs-->
+
+    {{else}}
+    <!--scenePack.meta.thumbFolder-->
     <h1>Importiere aus <i>{{scenePack.packName}}</i></h1>
     {{#each scenePack.index}}
     <section style="background-color: lightgray">
@@ -56,5 +73,7 @@
     </section>
     {{/each}}
     <!--scenePack.index-->
+    {{/if}}
+    <!--scenePack.meta.thumbFolder-->
 
 </section>

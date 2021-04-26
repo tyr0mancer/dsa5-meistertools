@@ -75,7 +75,9 @@ class InitializerForm extends FormApplication {
                                 "keywords": "mainroad,sideroad,well",
                                 "packname": "dsa5-homebrew.scene-bm-forest",
                                 "addplayers": false,
-                                "position": "center"
+                                "position": "center",
+                                "thumbFolder": "modules/dsa5-homebrew/images/battlemaps/forest-bm/thumbs",
+                                "templateId": "gk4KBgTv0KjqkCKf"
                             }]
                         },
                         "nsc": {

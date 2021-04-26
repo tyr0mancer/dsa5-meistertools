@@ -31,10 +31,13 @@ export class ManageScenes extends Application {
                 meta: {
                     addPlayers: pack.addplayers,
                     positionPlayer: pack.position,
-                    keywords: pack.keywords
+                    keywords: pack.keywords,
+                    thumbFolder: pack.thumbFolder,
+                    templateId: pack.templateId,
                 }
             })
         }
+
 
         this.activateScene = this.settings.activateDefault
         this.keyword = ''
@@ -65,6 +68,7 @@ export class ManageScenes extends Application {
 
         html.find('button[name=activate-scene]').click(event => this._activateScene(event));
         html.find('.show-scene').click(event => this._showScene(event));
+        html.find('button[name=create-scene]').click(event => this._createScene(event));
 
 
     }
@@ -82,30 +86,38 @@ export class ManageScenes extends Application {
             this.activeCategory = categories[0].key
 
         // filter scenes by navigation and keyword
-        let scenePack = this.myCompendia.getCollectionIndex('global', this.activeCategory)
+        this.scenePack = this.myCompendia.getCollectionIndex('global', this.activeCategory)
 
         const filterKeyword = (entry) => {
             if (!this.keyword || this.keyword === SHOW_ALL) return true
             return entry.name.toLowerCase().includes(this.keyword.toLowerCase())
         }
 
-        if (scenePack)
-            scenePack = {
-                ...scenePack,
-                index: scenePack.index?.filter(filterKeyword),
-                existing: scenePack.existing?.filter(filterKeyword),
+        if (this.scenePack)
+            this.scenePack = {
+                ...this.scenePack,
+                index: this.scenePack.index?.filter(filterKeyword),
+                existing: this.scenePack.existing?.filter(filterKeyword),
             }
         else
-            scenePack = {}
+            this.scenePack = {}
+
+        this.thumbs = []
+        if (this.scenePack.meta.thumbFolder) {
+            const FP = new MyFilePicker({type: "image"})
+            const images = await FP.browse(this.scenePack.meta.thumbFolder)
+            this.thumbs = images.files
+        }
 
         return {
             activateScene: this.activateScene,
             keyword: this.keyword,
-            keywords: scenePack.meta.keywords.split(','),
+            keywords: this.scenePack.meta.keywords.split(','),
             showAll: SHOW_ALL,
             activeCategory: this.activeCategory,
             settings: this.settings,
-            categories, scenePack
+            thumbs: this.thumbs,
+            categories, scenePack: this.scenePack
         };
     }
 
@@ -135,5 +147,31 @@ export class ManageScenes extends Application {
         const scene = await this.myCompendia.getEntities(sceneId, 'global', this.activeCategory)
         scene.activate()
         this.close()
+    }
+
+    async _createScene(event) {
+        const sceneId = this.scenePack?.meta.templateId
+        if (!sceneId)
+            return
+        const img = $(event.currentTarget).attr("data-thumb-name").replace('thumbs/', '')
+        if (!img)
+            return
+        const templateScene = await this.myCompendia.getEntities(sceneId, 'global', this.activeCategory)
+        if (!templateScene)
+            return
+        templateScene.update({name: 'New awesome Battlemap', img})
+        templateScene.view()
+        /*
+
+                templateScene.sjow()
+                console.log(JSON.stringify(templateScene), thumbName)
+        */
+
+        /*
+        replace background with large one from thumbName
+        templateScene.show()
+         */
+
+        this.render()
     }
 }

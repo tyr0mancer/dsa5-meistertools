@@ -1,3 +1,60 @@
-<section class="content">
-<h1>Szenen</h1>
+<section class="content meistertools">
+
+    <nav>
+        {{#each categories}}
+        <a class="set-category {{#ifeq ../activeCategory key}}active{{/ifeq}}"
+           data-category-key="{{key}}">{{name}}</a>
+        {{/each}}
+        <!--categories-->
+    </nav>
+
+    <hr/>
+    <h2>{{scenePack.name}} (gefiltert nach <i>'{{keyword}}'</i>)</h2>
+    <div>
+        <input name="keyword" value="{{keyword}}"/>
+        <button name="set-keyword" data-keyword="{{showAll}}">Alle</button>
+        {{#each keywords}}
+        <button name="set-keyword" data-keyword="{{this}}">{{this}}</button>
+        {{/each}}
+
+    </div>
+
+    <h1>Bereits in Ordner <i>{{scenePack.folderName}}</i>:</h1>
+    {{#each scenePack.existing}}
+    <section style="background-color: lightgreen">
+        <h2>{{name}}</h2>
+        <div style="display: grid; grid-template-columns: 320px auto">
+            <a class="show-scene"
+               data-scene-id="{{_id}}"><img src="{{img}}" style="width: 300px; height:100px; object-fit: cover"/>
+            </a>
+            <div>
+                <button name="activate-scene" class="activate-scene" data-scene-id="{{_id}}">aktivieren</button>
+            </div>
+        </div>
+    </section>
+    {{/each}}
+
+    <hr/>
+    <h1>Importiere aus <i>{{scenePack.packName}}</i></h1>
+    {{#each scenePack.index}}
+    <section style="background-color: lightgray">
+        <h2>{{name}}</h2>
+        <div style="display: grid; grid-template-columns: 320px auto">
+            <img src="{{img}}" style="width: 300px; height:100px; object-fit: cover"/>
+            <div>
+                <div>
+                    <button name="activate-scene" class="activate-scene" data-scene-id="{{_id}}">importieren und
+                        aktivieren
+                    </button>
+                </div>
+                <div style="margin-top: 10px">
+                    <button name="show-scene" class="show-scene" data-scene-id="{{_id}}">importieren und anzeigen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{/each}}
+    <!--scenePack.index-->
+
 </section>

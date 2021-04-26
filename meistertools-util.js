@@ -115,7 +115,7 @@ export class MyCompendia {
     }
 
 
-    async add({key = null, name = null, folderName = null, packName, collectionName = 'global'}) {
+    async add({key = null, name = null, folderName = null, packName, collectionName = 'global', meta = undefined}) {
 
         let {entityType, folder, pack} = {}
 
@@ -137,7 +137,7 @@ export class MyCompendia {
                 ui.notifications.info(`Your world did not have a ${entityType} folder named '${folderName}'. DSA5 Meistertools created this folder automatically.`);
                 await Folder.create({
                     "name": folderName,
-                    "type": "Actor",
+                    "type": pack.entity,
                     "sort": 300000,
                     "parent": null,
                     "sorting": "m",
@@ -161,6 +161,7 @@ export class MyCompendia {
             packName,
             folderName,
             entityType,
+            meta,
             existing: [],
             index: [],
         })

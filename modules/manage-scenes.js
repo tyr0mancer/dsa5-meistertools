@@ -1,141 +1,9 @@
 import {moduleName} from "../meistertools.js";
+import {MeistertoolsUtil, MyCompendia, MyFilePicker} from "../meistertools-util.js";
 
 const SHOW_ALL = 'SHOW_ALL'
 
 export class ManageScenes extends Application {
-
-    constructor() {
-        super();
-        this.settings = game.settings.get(moduleName, 'settings')
-        const packNames = this.settings.scenes.categories.map(c => c.packname)
-        this.packList = game.packs.filter(p => (p.metadata.entity === 'Scene' && packNames.includes(p.metadata.package + '.' + p.metadata.name)))
-        this.packListIndexed = false
-        this.keyword = ''
-        this.activateScene = this.settings.scenes.activateDefault
-    }
-
-    static get defaultOptions() {
-        const options = super.defaultOptions;
-        options.title = `Manage Scenes`;
-        options.id = `${moduleName}.manage-scenes`;
-        options.template = `modules/${moduleName}/templates/manage-scene.html`;
-        options.tabs = [{navSelector: ".tabs", contentSelector: ".content", initial: "scene-0"}]
-
-        options.resizable = true;
-        options.top = 80;
-        options.left = 100;
-        options.width = 300;
-        options.height = 800;
-        return options;
-    }
-
-    activateListeners(html) {
-        super.activateListeners(html);
-        html.find('input[class=\'set-search\']').focus()
-        html.find('.set-search').change(ev => this._changeSetting(ev));
-        html.find('.set-search-button').click(ev => this._changeSetting(ev));
-        html.find('.set-active-default').change(ev => this._setActiveDefault(ev));
-        html.find('.set-addplayers').change(ev => this._setAddPlayers(ev));
-        html.find('.select-scene').click(ev => this._selectScene(ev));
-        html.find('.import-scene').click(ev => this._importScene(ev));
-    }
-
-
-    async getData() {
-
-        // get index array from scene packs if not done already
-        if (!this.packListIndexed) {
-            console.log('indexing packs')
-            for (let pack of this.packList)
-                await pack.getIndex()
-            this.packListIndexed = true
-        }
-        //console.log(JSON.stringify(game.folders.entities))
-
-        this.sceneCategories = this.settings.scenes.categories.map(scene => {
-                const existingScenes = game.folders.entities
-                    .find(f => (f.name === scene.folder && f.type === "Scene"))?.content
-                    .map(scene => {
-                        return {
-                            _id: scene._id,
-                            img: scene._data.img,
-                            name: scene._data.name,
-                        }
-                    })
-                    .filter(scene => (!this.settings.scenes.filterExisting || this.keyword === SHOW_ALL || (this.keyword !== '' && scene.name.toLowerCase().includes(this.keyword.toLowerCase())))) || []
-                const scenesFromPack = this.packList.find(p => (p.metadata.package + '.' + p.metadata.name === scene.packname)).index
-                    .filter(scene => (this.keyword === SHOW_ALL || (this.keyword !== '' && scene.name.toLowerCase().includes(this.keyword.toLowerCase())))) || []
-                return {
-                    ...scene,
-                    keywords: scene.keywords.split(','),
-                    showAllString: SHOW_ALL,
-                    scenesFromPack,
-                    existingScenes
-                }
-            }
-        )
-
-        return {
-            keyword: (this.keyword !== SHOW_ALL) ? this.keyword : '',
-            filterExisting: this.settings.scenes.filterExisting,
-            activateScene: this.activateScene,
-            sceneCategories: this.sceneCategories
-        };
-    }
-
-    async _changeSetting(ev) {
-        this.keyword = ev.target.value
-        await this.rerender();
-    }
-
-    async _setActiveDefault(ev) {
-        this.activateScene = !this.activateScene
-        await this.rerender();
-    }
-
-    async _setAddPlayers(ev) {
-        //this.addplayers = !this.activateScene
-        //await this.rerender();
-    }
-
-    async rerender() {
-        await this.render(false);
-        this.setPosition();
-    }
-
-    async _selectScene(ev) {
-        const sceneId = ev.currentTarget.value
-        const scene = await game.scenes.get(sceneId);
-        await this._loadScene(scene)
-    }
-
-    async _importScene(ev) {
-        const target = ev.currentTarget.value.split('-')
-        const categoryId = target[0]
-        const packName = this.sceneCategories[categoryId].packname
-        const folderName = this.sceneCategories[categoryId].folder
-
-        const folder = game.folders.find(f => f.name === folderName && f.type === 'Scene')?.id;
-        const extra = folder ? {folder} : null
-        if (folderName && !folder) {
-            ui.notifications.warn(`Your world does not have any Scene folders named '${folderName}'`);
-        }
-
-        const sceneId = target[1]
-        game.scenes.importFromCollection(packName, sceneId, extra)
-            .then(scene => {
-                this._loadScene(scene)
-            })
-    }
-
-    async _loadScene(scene) {
-        if (this.activateScene)
-            scene.activate()
-        else
-            scene.view()
-        this.close()
-    }
-
 
     static getDefaultSettings() {
         return {
@@ -147,4 +15,125 @@ export class ManageScenes extends Application {
         }
     }
 
+    constructor() {
+        super();
+        /* read settings */
+        const {scenes: settings} = game.settings.get(moduleName, 'settings')
+        this.settings = settings
+
+        /* prepare data which we will extract from the various compendia */
+        this.myCompendia = new MyCompendia()
+        for (let pack of this.settings.categories) {
+            this.myCompendia.add({
+                name: pack.name,
+                packName: pack.packname,
+                folderName: pack.folder,
+                meta: {
+                    addPlayers: pack.addplayers,
+                    positionPlayer: pack.position,
+                    keywords: pack.keywords
+                }
+            })
+        }
+
+        this.activateScene = this.settings.activateDefault
+        this.keyword = ''
+        this.activeCategory = null
+    }
+
+    static get defaultOptions() {
+        const options = super.defaultOptions;
+        options.title = `Manage Scenes`;
+        options.id = `${moduleName}.manage-scenes`;
+        options.template = `modules/${moduleName}/templates/manage-scenes.html`;
+        options.tabs = [{navSelector: ".tabs", contentSelector: ".content", initial: "scene-0"}]
+
+        options.resizable = true;
+        options.top = 80;
+        options.left = 100;
+        options.width = 600;
+        options.height = 800;
+        return options;
+    }
+
+    activateListeners(html) {
+        super.activateListeners(html);
+        html.find('a.set-category').click(event => this._setCategory(event));
+        html.find('input[name=keyword]').change(event => this._changeKeyword(event));
+        html.find('button[name=set-keyword]').click(event => this._changeKeyword(event));
+
+
+        html.find('button[name=activate-scene]').click(event => this._activateScene(event));
+        html.find('.show-scene').click(event => this._showScene(event));
+
+
+    }
+
+
+    async getData() {
+        // updates only once
+        await this.myCompendia.update()
+
+        // available categories
+        const categories = this.myCompendia.getCollectionIndex().map(pack => {
+            return {name: pack.name, key: pack.key,}
+        })
+        if (!this.activeCategory)
+            this.activeCategory = categories[0].key
+
+        // filter scenes by navigation and keyword
+        let scenePack = this.myCompendia.getCollectionIndex('global', this.activeCategory)
+
+        const filterKeyword = (entry) => {
+            if (!this.keyword || this.keyword === SHOW_ALL) return true
+            return entry.name.toLowerCase().includes(this.keyword.toLowerCase())
+        }
+
+        if (scenePack)
+            scenePack = {
+                ...scenePack,
+                index: scenePack.index?.filter(filterKeyword),
+                existing: scenePack.existing?.filter(filterKeyword),
+            }
+        else
+            scenePack = {}
+
+        return {
+            activateScene: this.activateScene,
+            keyword: this.keyword,
+            keywords: scenePack.meta.keywords.split(','),
+            showAll: SHOW_ALL,
+            activeCategory: this.activeCategory,
+            settings: this.settings,
+            categories, scenePack
+        };
+    }
+
+
+    _setCategory(event) {
+        this.activeCategory = $(event.currentTarget).attr("data-category-key")
+        this.render()
+    }
+
+    _changeKeyword(event) {
+        if (event.currentTarget.value)
+            this.keyword = event.currentTarget.value
+        else
+            this.keyword = $(event.currentTarget).attr("data-keyword")
+        this.render()
+    }
+
+    async _showScene(event) {
+        const sceneId = $(event.currentTarget).attr("data-scene-id")
+        const scene = await this.myCompendia.getEntities(sceneId, 'global', this.activeCategory)
+        scene.view()
+        this.close()
+    }
+
+    async _activateScene(event) {
+        const sceneId = $(event.currentTarget).attr("data-scene-id")
+        const scene = await this.myCompendia.getEntities(sceneId, 'global', this.activeCategory)
+        scene.activate()
+        this.close()
+    }
 }

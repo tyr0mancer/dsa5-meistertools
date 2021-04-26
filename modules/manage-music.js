@@ -47,9 +47,8 @@ export default class ManageMusic extends Application {
         await game.playlists.forEach(playlist => playlist.stopAll())
         await game.playlists.find(playlist => playlist._id === playlistId).playAll()
         setTimeout(()=>{
-            console.log('render now')
             this.render()
-        }, 1500)
+        }, 1000)
     }
 
     async _startPlaylist(event) {
@@ -62,9 +61,8 @@ export default class ManageMusic extends Application {
                 playlist.stopAll()
         })
         setTimeout(()=>{
-            console.log('render now')
             this.render()
-        }, 1500)
+        }, 1000)
     }
 }
 

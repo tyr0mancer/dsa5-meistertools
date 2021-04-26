@@ -33,7 +33,6 @@ export async function getLocations() {
             points.push(drawing.points[i][1] + drawing.y);
         }
         const polygon = new PIXI.Polygon(points)
-        console.log(drawing.flags)
         const value = drawing.flags[moduleName]
         if (value && polygon.contains(tokenX, tokenY)) {
             for (let key in value) {

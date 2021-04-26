@@ -55,10 +55,20 @@ export class CreateNSC extends Application {
         /*
             current players, per default all are selected
         */
+        Util.activePlayers().map(a => {
+            playerSelection[a._id] = true
+        })
+
+        this.players = game.actors.map(a => {
+            return {name: a.name, _id: a._id, img: a.img}
+        })
+/*
         this.players = Util.activePlayers().map(a => {
             playerSelection[a._id] = true
             return {name: a.name, _id: a._id, img: a.img}
         })
+*/
+
 
         /*
             initial formData state

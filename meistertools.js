@@ -3,8 +3,8 @@ import Jukebox from "./modules/jukebox.js";
 import {ManageScenes} from './modules/manage-scenes.js'
 import {createNSC} from './modules/create-nsc.js'
 import {playerWhisper} from './modules/player-whisper.js'
+
 import {registerSettings} from './modules/register-settings.js'
-import {randomEncounter} from './modules/random-encounter.js'
 
 export const moduleName = "dsa5-meistertools";
 
@@ -145,15 +145,15 @@ function pushControlButtons(controls) {
                 button: true,
                 onClick: () => new Jukebox().render(true)
             },
-            {
-                name: "randomEncounter",
-                title: game.i18n.localize(moduleName + ".randomEncounter"),
-                icon: "fas fa-dice-d20",
-                visible: true,
-                button: true,
-                onClick: () => randomEncounter()
-            },
             /*
+                        {
+                            name: "randomEncounter",
+                            title: game.i18n.localize(moduleName + ".randomEncounter"),
+                            icon: "fas fa-dice-d20",
+                            visible: true,
+                            button: true,
+                            onClick: () => randomEncounter()
+                        },
                         {
                             name: "library",
                             title: game.i18n.localize(moduleName + ".randomLibrary"),

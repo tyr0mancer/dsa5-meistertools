@@ -6,7 +6,7 @@ export async function randomEncounter() {
 
     new Dialog({
         title: game.i18n.localize(`${moduleName}.randomEncounter`),
-        content: `<h2>Zufallsbegegnung</h2><pre>${ausgabe.text}</pre>`,
+        content: `<h2>Zufallsbegegnung</h2><p>${ausgabe.text}</p><hr/><pre>${JSON.stringify(location, null, 2)}</pre>`,
         buttons: {
             yes: {
                 icon: '<i class="fas fa-check"></i>',
@@ -27,7 +27,7 @@ function getRandomEncounter(type, location) {
 
 
 function filterByLocation(entry, location) {
-   if (entry.biome)
+    if (entry.biome)
         if (!location.biome?.key || !entry.biome.split(',').includes(location.biome.key)) return false
     if (entry.region) {
         for (let regionKey in entry.region) {

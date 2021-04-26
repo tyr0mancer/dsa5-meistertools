@@ -1,7 +1,29 @@
 <section class="content manage-music">
     <h1>Playlists</h1>
     {{#each playlists}}
-    <button {{#if playing}}class="active"{{/if}} name="start-playlist" data-playlist-id="{{_id}}">{{name}} ({{sounds.length}})</button>
+    {{#if playing}}
+
+    <div style="display: grid; grid-template-columns: auto 48px">
+        <h2>{{name}} ({{sounds.length}})</h2>
+        <button name="skip-sound" data-playlist-id="{{_id}}">skip</button>
+    </div>
+    <ul>
+        {{#each sounds}}
+        {{#if playing}}
+        <li><b>{{name}}</b></li>
+        {{else}}
+        <li>{{name}}</li>
+        {{/if}}
+        {{/each}}
+        <!--sounds-->
+    </ul>
+    <hr/>
+    {{else}}
+    <!--playing-->
+    <button name="start-playlist" data-playlist-id="{{_id}}">{{name}} ({{sounds.length}})</button>
+    {{/if}}
+    <!--playing-->
+
     {{/each}}
     <!--playlists-->
 </section>

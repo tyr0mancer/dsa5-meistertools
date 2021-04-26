@@ -206,10 +206,10 @@
             <!-- import player -->
             <div class="form-box container flow submit">
 
-                <div class="card {{data.tokenPosition}}">
+                <div class="card {{data.playerTokenPosition}}">
                     <label>
-                        <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
-                            {{#select data.tokenPosition}}
+                        <select name="playerTokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                            {{#select data.playerTokenPosition}}
                             {{#each tokenPositionOptions}}
                             <option value="{{key}}">{{name}}</option>
                             {{/each}}

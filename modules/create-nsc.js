@@ -4,7 +4,7 @@ import {MeistertoolsUtil, MyCompendia, MyFilePicker} from "../meistertools-util.
 import randomNameRuleSets from "../config/random-name-rule-sets.js";
 import archetypes from "../config/archetypes.js";
 
-const TOKEN_POSITION = {'OUTSIDE': "outside", 'TOP_LEFT': "top-left", 'BOTTOM_LEFT': "bottom-left"}
+const TOKEN_POSITION = {'OUTSIDE': "outside", 'TOP_LEFT': "top-left", 'BOTTOM_LEFT': "bottom-left", 'CENTER': "center"}
 
 export async function createNSC() {
     const app = new CreateNSC()
@@ -68,7 +68,8 @@ export class CreateNSC extends Application {
             profession: settings.defaultProfession,
             anzahl: "1",
             gender: 'random',
-            tokenPosition: TOKEN_POSITION.OUTSIDE,
+            tokenPosition: TOKEN_POSITION.TOP_LEFT,
+            playerTokenPosition: TOKEN_POSITION.CENTER,
             stockNscSelection,
             playerSelection,
             packNscSelection,
@@ -283,8 +284,12 @@ export class CreateNSC extends Application {
         let tokenSize = parseInt(canvas.scene.data.grid)
         let paddingTop = canvas.scene.data.padding * canvas.scene.data.height
         let paddingLeft = canvas.scene.data.padding * canvas.scene.data.width
-        let posTop = (Math.ceil(paddingTop / parseInt(canvas.scene.data.grid))) * tokenSize
         let posLeft = (Math.ceil(paddingLeft / parseInt(canvas.scene.data.grid))) * tokenSize
+
+        let posCenterX = (Math.ceil((paddingLeft + canvas.scene.data.width / 2) / parseInt(canvas.scene.data.grid))) * tokenSize
+        let posCenterY = (Math.ceil((paddingTop + canvas.scene.data.height / 2) / parseInt(canvas.scene.data.grid))) * tokenSize
+
+        let posTop = (Math.ceil(paddingTop / parseInt(canvas.scene.data.grid))) * tokenSize
         let posBottom = (Math.floor((paddingTop + canvas.scene.data.height) / parseInt(canvas.scene.data.grid))) * tokenSize
         let tokenPerRow = Math.floor(canvas.scene.data.width / tokenSize)
         let index = this.lastTokenIndex++
@@ -293,6 +298,11 @@ export class CreateNSC extends Application {
             this.lastTokenIndex = 1
         }
         switch (positionType) {
+            case TOKEN_POSITION.CENTER:
+                return {
+                    x: posCenterX + (index % tokenPerRow) * tokenSize,
+                    y: posCenterY + Math.floor(index / tokenPerRow) * tokenSize
+                }
             case TOKEN_POSITION.TOP_LEFT:
                 return {
                     x: posLeft + (index % tokenPerRow) * tokenSize,
@@ -315,8 +325,8 @@ export class CreateNSC extends Application {
         todo doesnt consider actor-avatars might be different than token-icon
        todo doenst consider size of actors
      */
-    moveActorTokenInScene(actor) {
-        const tokenPosition = this._getTokenPosition(this.observableData.tokenPosition)
+    moveActorTokenInScene(actor, position = this.observableData.tokenPosition) {
+        const tokenPosition = this._getTokenPosition(position)
         let newToken = {
             name: actor.name,
             x: tokenPosition.x,
@@ -402,11 +412,10 @@ export class CreateNSC extends Application {
 
 
     async _importSelectedPlayers() {
-        const arr = Object.keys(this.observableData.playerSelection)
-        const entities = await game.actors.filter(p => arr.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
+        const selectedPlayers = Object.keys(this.observableData.playerSelection)
+        const entities = await game.actors.filter(p => selectedPlayers.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
         for (let actor of entities)
-            this.moveActorTokenInScene(actor)
-
+            this.moveActorTokenInScene(actor, this.observableData.playerTokenPosition)
         if (this.settings.closeAfterGeneration)
             await this.close()
         this.render()

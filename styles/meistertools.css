@@ -319,6 +319,13 @@
     border: 5px solid var(--border-active);
 }
 
+.meistertools .card.center {
+    border-radius: 5px;
+    border: 5px solid var(--border-inactive);
+    text-align: center;
+    background-color: var(--border-active);
+}
+
 .meistertools .card.top-left {
     border-radius: 5px;
     text-align: center;

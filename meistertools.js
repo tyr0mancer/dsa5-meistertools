@@ -126,20 +126,20 @@ function pushControlButtons(controls) {
     if (game.user.isGM)
         tools = [
             {
+                name: "manage-scenes",
+                title: 'Szenen verwalten',
+                icon: "fas fa-film",
+                visible: true,
+                button: true,
+                onClick: () => new ManageScenes().render(true)
+            },
+            {
                 name: "NSCGenerator",
                 title: 'NSC Generator',
                 icon: "fas fa-user-plus",
                 visible: true,
                 button: true,
                 onClick: () => createNSC()
-            },
-            {
-                name: "SceneManager",
-                title: 'Scene Manager',
-                icon: "fas fa-map-marked-alt",
-                visible: true,
-                button: true,
-                onClick: () => new ManageScenes().render(true)
             },
             {
                 name: "MusicManager",

@@ -403,7 +403,7 @@ export class CreateNSC extends Application {
 
     async _importSelectedPlayers() {
         const arr = Object.keys(this.observableData.playerSelection)
-        const entities = await MeistertoolsUtil.activePlayers().filter(p => arr.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
+        const entities = await game.actors.filter(p => arr.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
         for (let actor of entities)
             this.moveActorTokenInScene(actor)
 

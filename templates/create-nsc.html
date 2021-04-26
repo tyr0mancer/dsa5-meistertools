@@ -30,9 +30,9 @@
 
         <!-- Pick Origin and Potential Culture -->
         <form class="nsc-form">
-<!--
-            {{data.professionName}}
--->
+            <!--
+                        {{data.professionName}}
+            -->
 
             <!-- each species gets a box -->
             {{#each archetypes}}
@@ -136,7 +136,7 @@
 
                 <div class="card nsc_name {{nactive data.nsc_name}}">
                     <label class="inputbox text">
-                        <textarea name="nsc_name" placeholder="(Name und Bild werden übernommen)" type="text"
+                        <textarea name="nsc_name" placeholder="(Name wird automatisch generiert)" type="text"
                                   data-dtype="String">{{data.nsc_name}}</textarea>
                     </label>
                 </div>
@@ -148,7 +148,11 @@
                             class="fas fa-dice"></i></button>
                 </div>
                 <div class="card nsc_name {{nactive data.nsc_img}}">
-                    <img src="{{data.nsc_img}}" style="width: 165px"/>
+                    {{#if data.nsc_img}}
+                    <img src="{{data.nsc_img}}" style="width: 165px; height: 165px; object-fit: cover"/>
+                    {{else}}
+                    <i>Bild wird automatisch generiert</i>
+                    {{/if}}
                 </div>
             </div>
             <hr/>

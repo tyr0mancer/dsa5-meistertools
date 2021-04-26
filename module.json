@@ -17,7 +17,7 @@
     "/styles/meistertools.css"
   ],
   "esmodules": [
-    "/dsa5-meistertools.js"
+    "/meistertools.js"
   ],
   "packs": [
     {

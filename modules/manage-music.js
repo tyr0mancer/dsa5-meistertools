@@ -1,4 +1,4 @@
-import {moduleName} from "../dsa5-meistertools.js";
+import {moduleName} from "../meistertools.js";
 
 
 export default class ManageMusic extends Application {

@@ -1,4 +1,4 @@
-import {moduleName} from "../dsa5-meistertools.js";
+import {moduleName} from "../meistertools.js";
 import {ManageScenes} from "./manage-scenes.js";
 import {CreateNSC, getRuleset} from "./create-nsc.js";
 

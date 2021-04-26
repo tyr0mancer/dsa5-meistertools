@@ -1,10 +1,8 @@
-import {moduleName} from "../dsa5-meistertools.js";
-import {Util} from "./Util.js";
+import {moduleName} from "../meistertools.js";
+import {MeistertoolsUtil, MyCompendia, MyFilePicker} from "../meistertools-util.js";
 
 import randomNameRuleSets from "../config/random-name-rule-sets.js";
 import archetypes from "../config/archetypes.js";
-import {MyCompendia} from "./MyCompendia.js";
-import {MyFilePicker} from "./MyFilePicker.js";
 
 const TOKEN_POSITION = {'OUTSIDE': "outside", 'TOP_LEFT': "top-left", 'BOTTOM_LEFT': "bottom-left"}
 
@@ -55,7 +53,7 @@ export class CreateNSC extends Application {
         /*
             current players, per default all are selected
         */
-        Util.activePlayers().map(a => playerSelection[a._id] = true)
+        MeistertoolsUtil.activePlayers().map(a => playerSelection[a._id] = true)
         this.players = game.actors.map(a => {
             return {name: a.name, _id: a._id, img: a.img}
         })
@@ -127,7 +125,7 @@ export class CreateNSC extends Application {
 
     _updateDate(varName, varValue) {
         this.npcImageChoices = undefined
-        this.observableData = Util.updateByPath(this.observableData, varName, varValue)
+        this.observableData = MeistertoolsUtil.updateByPath(this.observableData, varName, varValue)
         this.render()
     }
 
@@ -370,7 +368,7 @@ export class CreateNSC extends Application {
 
 
             // roll how many actors shall be created
-            const amount = Util.rollDice(this.observableData.anzahl.toString())
+            const amount = MeistertoolsUtil.rollDice(this.observableData.anzahl.toString())
             for (let i = 0; i < amount; i++) {
                 const actor = await this.myCompendia.getEntities(this.observableData.profession, 'global', 'professions')
                 let img = this.observableData.nsc_img;
@@ -405,7 +403,7 @@ export class CreateNSC extends Application {
 
     async _importSelectedPlayers() {
         const arr = Object.keys(this.observableData.playerSelection)
-        const entities = await Util.activePlayers().filter(p => arr.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
+        const entities = await MeistertoolsUtil.activePlayers().filter(p => arr.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
         for (let actor of entities)
             this.moveActorTokenInScene(actor)
 

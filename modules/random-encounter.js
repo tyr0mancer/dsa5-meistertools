@@ -1,4 +1,4 @@
-import {moduleName} from "../dsa5-meistertools.js";
+import {moduleName} from "../meistertools.js";
 
 export async function randomEncounter() {
     const location = game.settings.get("dsa5-traveller", 'location')

@@ -1,4 +1,4 @@
-import {moduleName} from '../dsa5-meistertools.js'
+import {moduleName} from "../meistertools.js";
 
 const SHOW_ALL = 'SHOW_ALL'
 

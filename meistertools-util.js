@@ -1,4 +1,111 @@
-import {Util} from "./Util.js";
+export class MeistertoolsUtil {
+
+    static rollDice(pattern) {
+        let r = new Roll(pattern);
+        r.evaluate()
+        return parseInt(r.total)
+    }
+
+    static activePlayers() {
+        const activeUserIds = game.users
+            .filter(u => u.active && u.role !== 4)
+            .map(u => u._id)
+
+        return game.actors
+            .filter(u => {
+                for (let userId of activeUserIds) {
+                    if (u.data.permission[userId] === 3)
+                        return true
+                }
+                return false
+            })
+    }
+
+    static updateByPath(obj, varName, varValue) {
+        let path = varName.split(".");
+        let fieldName = path.splice(path.length - 1, 1);
+        let objField = path.reduce((r, u) => r && r[u] ? r[u] : '', obj);
+        if (varValue === 'TOGGLE_CHECKBOX')
+            objField[fieldName] = (objField[fieldName] === undefined || objField[fieldName] === false);
+        else
+            objField[fieldName] = varValue;
+        return obj
+    }
+
+    static getRandomId(length = 16) {
+        let result = [];
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result.push(characters.charAt(Math.floor(Math.random() *
+                charactersLength)));
+        }
+        return result.join('');
+    }
+
+}
+
+
+export class MyFilePicker extends FilePicker {
+    constructor(options) {
+        super(options);
+    }
+
+    /* -------------------------------------------- */
+
+    /**
+     * Browse to a specific location for this FilePicker instance
+     * @param {string} [target]   The target within the currently active source location.
+     * @param {Object} [options]  Browsing options
+     */
+    async browse(target, options = {}) {
+
+        // If the user does not have permission to browse, do not proceed
+        if (game.world && !game.user.can("FILES_BROWSE")) return;
+
+        // Configure browsing parameters
+        target = typeof target === "string" ? target : this.target;
+        const source = this.activeSource;
+        options = mergeObject({
+            extensions: this.extensions,
+            wildcard: false
+        }, options);
+
+        // Determine the S3 buckets which may be used
+        if (source === "s3") {
+            if (this.constructor.S3_BUCKETS === null) {
+                const buckets = await this.constructor.browse("s3", "");
+                this.constructor.S3_BUCKETS = buckets.dirs;
+            }
+            this.sources.s3.buckets = this.constructor.S3_BUCKETS;
+            if (!this.source.bucket) this.source.bucket = this.constructor.S3_BUCKETS[0];
+            options.bucket = this.source.bucket;
+        }
+
+        // Avoid browsing certain paths
+        if (target.startsWith("/")) target = target.slice(1);
+        if (target === CONST.DEFAULT_TOKEN) target = this.constructor.LAST_BROWSED_DIRECTORY;
+
+        // Request files from the server
+        const result = await this.constructor.browse(source, target, options).catch(error => {
+            ui.notifications.warn(error);
+            return this.constructor.browse(source, "", options);
+        });
+
+        // Populate browser content
+        this.result = result;
+        this.source.target = result.target;
+        if (source === "s3") this.source.bucket = result.bucket;
+        this.constructor.LAST_BROWSED_DIRECTORY = result.target;
+        this._loaded = true;
+
+        // Render the application
+        return result;
+    }
+
+
+}
+
 
 export class MyCompendia {
 

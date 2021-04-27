@@ -325,7 +325,7 @@ export class CreateNSC extends Application {
         todo doesnt consider actor-avatars might be different than token-icon
        todo doenst consider size of actors
      */
-    moveActorTokenInScene(actor, position = this.observableData.tokenPosition) {
+    moveActorTokenInScene(actor, position = this.observableData.tokenPosition, vision = false) {
         const tokenPosition = this._getTokenPosition(position)
         let newToken = {
             name: actor.name,
@@ -334,7 +334,7 @@ export class CreateNSC extends Application {
             img: actor.img,
             width: 1,
             height: 1,
-            vision: false,
+            vision,
             hidden: false,
             actorId: actor.id,
             actorLink: true,
@@ -415,7 +415,7 @@ export class CreateNSC extends Application {
         const selectedPlayers = Object.keys(this.observableData.playerSelection)
         const entities = await game.actors.filter(p => selectedPlayers.includes(p._id) && this.observableData.playerSelection[p._id] !== false)
         for (let actor of entities)
-            this.moveActorTokenInScene(actor, this.observableData.playerTokenPosition)
+            this.moveActorTokenInScene(actor, this.observableData.playerTokenPosition, true)
         if (this.settings.closeAfterGeneration)
             await this.close()
         this.render()

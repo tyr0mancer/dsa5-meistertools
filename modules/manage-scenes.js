@@ -24,6 +24,13 @@ export class ManageScenes extends Application {
         /* prepare data which we will extract from the various compendia */
         this.myCompendia = new MyCompendia()
         for (let pack of this.settings.categories) {
+
+            // todo terrible hack but I need this fast
+            if (pack.packname === "dsa5-homebrew.scene-bm-forest") {
+                pack.thumbFolder = "modules/dsa5-homebrew/images/battlemaps/forest-bm/thumbs"
+                pack.templateId = "gk4KBgTv0KjqkCKf"
+            }
+
             this.myCompendia.add({
                 name: pack.name,
                 packName: pack.packname,

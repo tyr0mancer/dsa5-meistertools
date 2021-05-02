@@ -346,7 +346,8 @@ export class CreateNSC extends Application {
     async _getImagesByConfig() {
         console.log(moduleName, '| checking for new files with MyFilePicker')
         const FP = new MyFilePicker({type: "image"})
-        const target = `${this.settings.tokenImageFolder}/${this.observableData.origin}/${this.observableData.gender}/${this.observableData.professionName}`
+        let professionName = this.observableData.professionName?.split(',')[0]
+        const target = `${this.settings.tokenImageFolder}/${this.observableData.origin}/${this.observableData.gender}/${professionName}`
         const images = await FP.browse(target)
         this.npcImageChoices = images.files
     }

@@ -459,9 +459,7 @@ export class CreateNSC extends Application {
 
 }
 
-export function
-
-getRuleset() {
+export function getRuleset() {
     return {
         randomNameRuleSets,
         archetypes,

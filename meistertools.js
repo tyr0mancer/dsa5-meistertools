@@ -1,6 +1,8 @@
 import Jukebox from "./modules/jukebox.js";
 
 import {ManageScenes} from './modules/manage-scenes.js'
+import {Dsa5Nightwatch} from './modules/nightwatch.js'
+
 import {createNSC} from './modules/create-nsc.js'
 import {playerWhisper} from './modules/player-whisper.js'
 
@@ -135,7 +137,7 @@ function pushControlButtons(controls) {
                 icon: "fas fa-user-plus",
                 visible: true,
                 button: true,
-                onClick: () => createNSC()
+                onClick: () => createNSC(true)
             },
             {
                 name: "jukebox",
@@ -145,6 +147,15 @@ function pushControlButtons(controls) {
                 button: true,
                 onClick: () => new Jukebox().render(true)
             },
+            {
+                name: "nightwatch",
+                title: 'Nachtlager',
+                icon: "fas fa-campground",
+                visible: true,
+                button: true,
+                onClick: () => new Dsa5Nightwatch().render(true)
+            },
+
             /*
                         {
                             name: "randomEncounter",

@@ -2,10 +2,24 @@
     color palette
  --------------------------------- */
 :root {
-    --color-main: #5D3A9B;
-    --color-complementary: #789B3A;
-    --color-second: #9B3A48;
-    --color-second-complementary: #3A9B8D;
+    /*
+    --color-primary: #763626;
+    --color-secondary: #2A3132;
+    --color-tertiary: #336B87;
+    --color-quaternary: #90AFC5;
+    */
+
+    --color-primary: #763626;
+    --color-secondary: #340C01;
+    --color-tertiary: #1B3B4B;
+    --color-quaternary: #9C9FB8;
+
+
+    --color-disabled: #cccccc;
+    --color-disabled-background: #cccccc;
+
+    --color-light: #ffffe0;
+
 }
 
 
@@ -14,7 +28,7 @@
  --------------------------------- */
 
 .meistertools nav.tabs {
-    border-bottom: 2px solid var(--color-second);
+    border-bottom: 2px solid var(--color-primary);
 }
 
 .meistertools nav.tabs a {
@@ -23,45 +37,74 @@
 }
 
 
+
 /* ---------------------------------
-    general elements
+    flow-boxes
  --------------------------------- */
-
-.meistertools h1, .meistertools h2, .meistertools h3 {
-    color: var(--color-second);
+.meistertools .flow-box {
+    overflow: hidden;
 }
 
-.meistertools p {
-    color: var(--color-main);
+.meistertools .flow-box > * {
+    float: left;
 }
-
 
 /* ---------------------------------
     boxes layout
  --------------------------------- */
 .meistertools .round-box {
-    border: 3px solid darkslategrey;
-    border-radius: 15px;
+    border: 2px solid var(--color-primary);
+    border-radius: 5px;
     padding: 10px;
     margin-top: 25px;
     margin-bottom: 10px;
     box-shadow: 0 0 5px #aaa;
 }
 
-.meistertools .round-box header h1 {
-    box-shadow: 0 0 5px #aaa;
+.meistertools .round-box.inner {
+    border: 2px dotted var(--color-primary);
+}
+
+
+.meistertools .round-box header > h1,
+.meistertools .round-box header > h2 {
     position: relative;
-    top: -30px;
-    background-color: lightgrey;
+    height: fit-content;
     width: fit-content;
-    margin-bottom: -20px;
-    border: 2px solid darkslategrey;
+    top: -30px;
+    box-shadow: 0 0 5px #aaa;
+    border: 2px solid var(--color-secondary);
     border-radius: 10px;
     padding: 0 10px;
-    font-size: 1.5em;
-    height: fit-content;
-    font-weight: bold;
+    margin-bottom: -20px;
 }
+
+.meistertools .round-box header > h1 {
+    font-size: 1.5em;
+    color: white;
+    background-color: var(--color-primary);
+}
+
+.meistertools .round-box header > h2 {
+    font-size: 1.2em;
+    color: var(--color-secondary);
+    background-color: var(--color-light);
+}
+
+
+/* - Grid --------------------- */
+.round-box.col-3 main {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+}
+.round-box.col-4 main {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 10px;
+
+}
+
 
 
 /* - help boxes --------------------- */
@@ -72,7 +115,10 @@
 }
 
 .meistertools .help-icon {
-    cursor: help
+    font-size: 2em;
+    position: relative;
+    cursor: help;
+    margin-bottom: -15px;
 }
 
 .meistertools .help-info {

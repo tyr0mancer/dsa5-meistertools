@@ -1,3 +1,26 @@
+/* ---------------------------------
+    label
+ --------------------------------- */
+.select-css select + label,
+.boxed-input * + label {
+    position: absolute;
+    top: -16px;
+    left: 0;
+    color: black;
+    /*background-color: var(--color-quaternary);*/
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 5px;
+    border-radius: 5px 5px 0 0;
+    margin: 0;
+}
+
+.select-css select:focus + label,
+.boxed-input *:focus + label {
+    background-color: var(--color-primary);
+    color: white;
+}
+
 
 /* ---------------------------------
     switch-style checkbox
@@ -16,10 +39,10 @@
     display: block;
     cursor: pointer;
     font-family: sans-serif;
-    font-size: 1.5em;
-    line-height: 1.3;
+    font-size: 1.2em;
+    line-height: 1.1;
     padding-left: 40px;
-    margin-top: -30px;
+    margin-top: -20px;
 }
 
 .switch-checkbox input[type="checkbox"] + label:before {
@@ -73,7 +96,7 @@
 .boxed-radio input[type="checkbox"] + label {
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    border: 2px solid darkslategrey;
+    border: 2px solid var(--color-primary);
     width: auto;
     padding: 5px;
     margin: 5px;
@@ -95,27 +118,44 @@
 
 
 /* ---------------------------------
-    textarea
+    text input
  --------------------------------- */
 
+.boxed-input {
+    position: relative;
+    display: block;
+    margin-top: 22px;
+}
 
-.meistertools textarea {
+
+.boxed-input input[type="text"] {
+    text-align: left;
+    cursor: text;
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--color-secondary);
     border-radius: 5px;
-    border: 2px solid darkslategrey;
-    margin: 5px
+}
+
+
+.boxed-input input[type="text"]:focus {
+    background-color: var(--color-light);
 }
 
 
 /* ---------------------------------
-    text input
+    textarea
  --------------------------------- */
 
 
-.meistertools input[type="text"] {
+.boxed-input textarea {
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
-    border: 2px solid darkslategrey;
+    border: 1px solid var(--color-secondary);
+    margin-top: 10px;
+}
+
+.boxed-input textarea + label {
+    top: -6px;
 }
 
 
@@ -123,23 +163,35 @@
     select / drop downs
  --------------------------------- */
 
+.select-css {
+    position: relative;
+}
+
 .select-css select {
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    width: 150px;
+    border-color: var(--color-secondary);
+    width: 100%;
+    margin-top: 25px;
 }
 
-.select-css label {
+.select-css select + label {
+    top: 8px;
 }
 
 .select-css select option {
-    background-color: lightgrey;
+    background-color: var(--color-light);
+    color: var(--color-secondary);
+}
+
+select:focus > option:hover {
+    background: #000 !important;
 }
 
 .select-css select option:checked {
-    box-shadow: 0 0 0 3px lime;
-    background-color: green;
-    color: black;
+    box-shadow: 0 0 0 3px black;
+    background-color: var(--color-primary);
+    color: var(--color-light);
 }
 
 
@@ -150,8 +202,8 @@
 .meistertools button {
     margin: 5px 0px;
     transition-duration: 0.4s;
-    background-color: var(--color-complementary);
-    color: var(--color-main);
+    background-color: var(--color-primary);
+    color: var(--color-light);
     padding: 1px 10px;
     width: auto;
     font-weight: bold;
@@ -161,23 +213,45 @@
 }
 
 .meistertools button:hover {
-    background-color: var(--color-second);
-    color: var(--color-second-complementary);
+    background-color: var(--color-secondary);
+    color: var(--color-quaternary);
 }
 
 .meistertools button:active {
-    background-color: var(--color-second-complementary);
-    color: var(--color-second);
+    background-color: var(--color-quaternary);
+    color: var(--color-secondary);
 }
 
-.meistertools button.inactive {
-    background-color: var(--button-inactive-background);
-    color: var(--button-inactive-text);
+.meistertools button:disabled {
+    background-color: var(--color-disabled);
+    color: var(--color-disabled-background);
     cursor: pointer;
 }
 
-.meistertools button.inactive:hover {
-    background-color: var(--button-inactive-hover-background);
-    color: var(--button-inactive-hover-text);
+
+/* Reset buttons */
+
+.meistertools button.reset {
+    background-color: var(--color-quaternary);
+    color: var(--color-primary);
 }
 
+.meistertools button.reset:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-quaternary);
+}
+
+.meistertools button.reset:active {
+    background-color: var(--color-quaternary);
+    color: var(--color-secondary);
+}
+
+
+/* icons as buttons */
+.meistertools i.button {
+    margin-right: 10px;
+}
+
+.meistertools i.button.fa-minus-circle {
+    color: red
+}

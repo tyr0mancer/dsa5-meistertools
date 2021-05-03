@@ -3,7 +3,7 @@
  --------------------------------- */
 :root {
 
-    --color-main: #5D3A9B;
+/*    --color-main: #5D3A9B;
     --color-complementary: #789B3A;
     --color-second: #9B3A48;
     --color-second-complementary: #3A9B8D;
@@ -40,7 +40,7 @@
     --field-active-hover-text: lightgrey;
 
     --field-focus-background: lightyellow;
-    --field-focus-text: beige;
+    --field-focus-text: beige;*/
 
 }
 
@@ -137,9 +137,6 @@
     padding: 0px;
 }
 
-.meistertools .inputbox.text input:focus {
-    background-color: var(--field-focus-background);
-}
 
 .meistertools div.active input {
     background-color: var(--field-active-background-inner);

@@ -1,0 +1,183 @@
+/* ---------------------------------
+    switch-style checkbox
+    source: https://boolie.org/css-checkbox-styling
+ --------------------------------- */
+
+.switch-checkbox input[type="checkbox"] {
+    position: relative;
+    left: 30px;
+    top: 0;
+    z-index: 0;
+    -webkit-appearance: none;
+}
+
+.switch-checkbox input[type="checkbox"] + label {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 1.5em;
+    line-height: 1.3;
+    padding-left: 40px;
+    margin-top: -30px;
+}
+
+.switch-checkbox input[type="checkbox"] + label:before {
+    width: 30px;
+    height: 15px;
+    border-radius: 15px;
+    border: 2px solid #ddd;
+    background-color: #EEE;
+    content: "";
+    margin-right: 15px;
+    transition: background-color 0.5s linear;
+    z-index: 5;
+    position: absolute;
+    left: 0;
+}
+
+.switch-checkbox input[type="checkbox"] + label:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    background-color: #fff;
+    content: "";
+    transition: margin 0.1s linear;
+    box-shadow: 0 0 5px #aaa;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    z-index: 10;
+}
+
+.switch-checkbox input[type="checkbox"]:checked + label:before {
+    background-color: #2b8718;
+}
+
+.switch-checkbox input[type="checkbox"]:checked + label:after {
+    margin: 0 0 0 15px;
+}
+
+
+/* ---------------------------------
+    boxed-style radio button / checkbox button
+ --------------------------------- */
+
+.boxed-radio input[type="radio"],
+.boxed-radio input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.boxed-radio input[type="radio"] + label,
+.boxed-radio input[type="checkbox"] + label {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 2px solid darkslategrey;
+    width: auto;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.boxed-radio input[type="radio"] + label:hover,
+.boxed-radio input[type="checkbox"] + label:hover {
+    background-color: lightblue;
+    border-color: lightgrey;
+}
+
+.boxed-radio input[type="radio"]:checked + label,
+.boxed-radio input[type="checkbox"]:checked + label {
+    background-color: lightgrey;
+    border-color: green;
+}
+
+
+/* ---------------------------------
+    textarea
+ --------------------------------- */
+
+
+textarea {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    border: 2px solid darkslategrey;
+    margin: 5px
+}
+
+
+/* ---------------------------------
+    text input
+ --------------------------------- */
+
+
+input[type="text"] {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    border: 2px solid darkslategrey;
+}
+
+
+/* ---------------------------------
+    select / drop downs
+ --------------------------------- */
+
+.select-css select {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    width: 150px;
+}
+
+.select-css label {
+}
+
+.select-css select option {
+    background-color: lightgrey;
+}
+
+.select-css select option:checked {
+    box-shadow: 0 0 0 3px lime;
+    background-color: green;
+    color: black;
+}
+
+
+/* ---------------------------------
+    buttons
+ --------------------------------- */
+
+.meistertools button {
+    margin: 5px 0px;
+    transition-duration: 0.4s;
+    background-color: var(--color-complementary);
+    color: var(--color-main);
+    padding: 1px 10px;
+    width: auto;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.meistertools button:hover {
+    background-color: var(--color-second);
+    color: var(--color-second-complementary);
+}
+
+.meistertools button:active {
+    background-color: var(--color-second-complementary);
+    color: var(--color-second);
+}
+
+.meistertools button.inactive {
+    background-color: var(--button-inactive-background);
+    color: var(--button-inactive-text);
+    cursor: pointer;
+}
+
+.meistertools button.inactive:hover {
+    background-color: var(--button-inactive-hover-background);
+    color: var(--button-inactive-hover-text);
+}
+

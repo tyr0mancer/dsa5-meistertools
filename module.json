@@ -14,7 +14,9 @@
     }
   ],
   "styles": [
-    "/styles/meistertools.css"
+    "/styles/meistertools_deprecated.css",
+    "/styles/meistertools.css",
+    "/styles/forms.css"
   ],
   "esmodules": [
     "/meistertools.js"

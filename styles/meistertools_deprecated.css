@@ -56,27 +56,7 @@
 }
 
 
-/* ---------------------------------
-    Help Boxes
- --------------------------------- */
 
-/* Help Box */
-.meistertools .help-info {
-    color: #7a7971;
-    margin: 6px 6px 6px 12px;
-    padding: 0px 12px;
-    border-left: 2px solid #7a7971;
-    display: none;
-}
-
-.meistertools .help-info h3 {
-    font-weight: bolder;
-}
-
-/* Info Icon */
-.meistertools i.help:hover {
-    cursor: pointer;
-}
 
 
 /* ---------------------------------
@@ -112,14 +92,14 @@
  --------------------------------- */
 
 /* Container */
-.meistertools .container.form-box {
+.meistertools .container.round-box {
     padding: 0px 0px 0px 64px;
     background-repeat: no-repeat;
     background-position: 8px 0px;
     background-size: 48px 48px;
 }
 
-.meistertools .container.form-box > div {
+.meistertools .container.round-box > div {
     margin: 5px;
 }
 
@@ -132,7 +112,7 @@
 }
 
 
-.meistertools .container.form-box > div.active {
+.meistertools .container.round-box > div.active {
     border: 2px dotted var(--field-active-border);
     background-color: var(--field-active-background);
     color: black;
@@ -251,7 +231,7 @@
 
 
 /* Buttons */
-.meistertools .form-box .button-box {
+.meistertools .round-box .button-box {
     background: transparent;
 }
 

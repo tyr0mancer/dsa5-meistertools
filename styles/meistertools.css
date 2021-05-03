@@ -37,25 +37,49 @@
 
 
 /* ---------------------------------
-    general layout
+    boxes layout
  --------------------------------- */
-
-.meistertools .float-box {
-
+.meistertools .round-box {
+    border: 3px solid darkslategrey;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px #aaa;
 }
 
-.meistertools .grid-box {
-
+.meistertools .round-box header h1 {
+    box-shadow: 0 0 5px #aaa;
+    position: relative;
+    top: -30px;
+    background-color: lightgrey;
+    width: fit-content;
+    margin-bottom: -20px;
+    border: 2px solid darkslategrey;
+    border-radius: 10px;
+    padding: 0 10px;
+    font-size: 1.5em;
+    height: fit-content;
+    font-weight: bold;
 }
 
 
-/* ---------------------------------
-    template specific layouts
- --------------------------------- */
+/* - help boxes --------------------- */
 
-main.tab input,
-main.tab select,
-main.tab input + label,
-main.tab textarea {
-    width: 200px;
+.meistertools .with-help.round-box > header {
+    display: grid;
+    grid-template-columns: auto 24px
 }
+
+.meistertools .help-icon {
+    cursor: help
+}
+
+.meistertools .help-info {
+    color: #7a7971;
+    margin: 6px 6px 6px 12px;
+    padding: 0 12px;
+    border-left: 2px solid #7a7971;
+    display: none;
+}
+

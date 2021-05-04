@@ -9,7 +9,7 @@ export class Dsa5Nightwatch extends Application {
 
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            title : `Nachtwache`,
+            title: `Nachtwache`,
             resizable: true,
             top: 80,
             left: 100,
@@ -25,6 +25,10 @@ export class Dsa5Nightwatch extends Application {
 
     activateListeners(html) {
         super.activateListeners(html);
+        html.find("nav.help-icon").click((event) => {
+            let helpToken = $(event.currentTarget).attr("data-help")
+            $('.help-info.help-' + helpToken).toggle();
+        })
     }
 
     async getData() {

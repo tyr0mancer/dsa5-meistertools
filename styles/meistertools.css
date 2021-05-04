@@ -43,7 +43,6 @@ span.bold {
 }
 
 
-
 /* ---------------------------------
     flow-boxes
  --------------------------------- */
@@ -104,13 +103,13 @@ span.bold {
     grid-template-columns: auto auto auto;
     grid-gap: 10px;
 }
+
 .round-box.col-4 main {
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 10px;
 
 }
-
 
 
 /* - help boxes --------------------- */
@@ -136,25 +135,32 @@ span.bold {
 }
 
 
-
-
-
 /* ---------------------------------
     nachtlager
  --------------------------------- */
 
-.nachtlager > main  {
+.nachtlager > main {
     display: grid;
     grid-template-columns: 80px auto auto auto auto auto;
     grid-gap: 10px;
 }
 
-.nachtlager img {
+.nachtlager img.tile {
     width: 48px;
     border: none;
 }
+
+.nachtlager img.tile:hover {
+    box-shadow: 0 0 5px #aaa;
+}
+
+.nachtlager img.tile:active {
+    box-shadow: 0 0 10px #aaa;
+}
+
 .nachtlager img.player {
     width: 64px;
+    border: none;
 }
 
 

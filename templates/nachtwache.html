@@ -17,9 +17,9 @@
                     </header>
                     <main>
                         <img src="{{img}}" class="player"/>
-                        <a name="make-fire" data-player-id="{{_id}}" title="Feuer machen"><img src="{{../images.fireplace}}" /></a>
-                        <a name="setup-tent" data-player-id="{{_id}}" title="Zelt aufbauen"><img src="{{../images.tent}}" /></a>
-                        <a name="place-sleeping-bag" data-player-id="{{_id}}" title="Schlafsack ausbreiten"><img src="{{../images.bag}}" /></a>
+                        <a name="make-fire" data-player-id="{{_id}}" title="Feuer machen"><img class="tile" src="{{../images.fireplace}}"  alt="Feuer machen"/></a>
+                        <a name="setup-tent" data-player-id="{{_id}}" title="Zelt aufbauen"><img class="tile" src="{{../images.tent}}" alt="Zelt aufbauen"/></a>
+                        <a name="place-sleeping-bag" data-player-id="{{_id}}" title="Schlafsack ausbreiten"><img class="tile" src="{{../images.bag}}" alt="Schlafsack ausbreiten" /></a>
                     </main>
                 </section>
                 {{/each}}

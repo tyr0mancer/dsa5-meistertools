@@ -135,3 +135,26 @@ span.bold {
     display: none;
 }
 
+
+
+
+
+/* ---------------------------------
+    nachtlager
+ --------------------------------- */
+
+.nachtlager > main  {
+    display: grid;
+    grid-template-columns: 80px auto auto auto auto auto;
+    grid-gap: 10px;
+}
+
+.nachtlager img {
+    width: 48px;
+    border: none;
+}
+.nachtlager img.player {
+    width: 64px;
+}
+
+

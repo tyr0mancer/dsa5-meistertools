@@ -1,7 +1,85 @@
-<section class="content meistertools">
+<section class="meistertools content">
+    <nav class="tabs">
+        <a class="item active" data-tab="lager"><i class="fas fa-film"></i> Nachtlager</a>
+        <a class="item" data-tab="wache"><i class="fas fa-user-plus"></i> Nachtwache</a>
+    </nav>
 
-    <h1>Nachtwache</h1>
+    <main class="tab" data-tab="lager">
+        <section class="round-box">
+            <header>
+                <h1>Nachtlager</h1>
+            </header>
+            <main>
+                {{#each players}}
+                <section class="round-box inner nachtlager">
+                    <header>
+                        <h2>{{name}}</h2>
+                    </header>
+                    <main>
+                        <img src="{{img}}" class="player"/>
+                        <a name="make-fire" data-player-id="{{_id}}" title="Feuer machen"><img src="{{../images.fireplace}}" /></a>
+                        <a name="setup-tent" data-player-id="{{_id}}" title="Zelt aufbauen"><img src="{{../images.tent}}" /></a>
+                        <a name="place-sleeping-bag" data-player-id="{{_id}}" title="Schlafsack ausbreiten"><img src="{{../images.bag}}" /></a>
+                    </main>
+                </section>
+                {{/each}}
+            </main>
+        </section>
+    </main>
 
+    <main class="tab" data-tab="wache">
+        <section class="round-box">
+            <header>
+                <h1><a><i class="button fas fa-plus-circle"></i></a> Nachtwache</h1>
+            </header>
+            <main>
+                <section class="round-box inner">
+                    <header>
+                        <h2>Erste Wache</h2>
+                    </header>
+                    <main>
+                        <div class="boxed-radio">
+                            {{#each players}}
+                            <input id="wache1-{{_id}}" name="wache1-{{_id}}" type="checkbox"/>
+                            <label for="wache1-{{_id}}">{{name}}</label>
+                            {{/each}}
+                        </div>
 
+                    </main>
+                </section>
+                <section class="round-box inner">
+                    <header>
+                        <h2>Zweite Wache</h2>
+                    </header>
+                    <main>
+                        <div class="boxed-radio">
+                            {{#each players}}
+                            <input id="wache2-{{_id}}" name="wache2-{{_id}}" type="checkbox"/>
+                            <label for="wache2-{{_id}}">{{name}}</label>
+                            {{/each}}
+                        </div>
+                    </main>
+                </section>
+                <section class="round-box inner">
+                    <header>
+                        <h2>Dritte Wache</h2>
+                    </header>
+                    <main>
+                        <div class="boxed-radio">
+                            {{#each players}}
+                            <input id="wache3-{{_id}}" name="wache3-{{_id}}" type="checkbox"/>
+                            <label for="wache3-{{_id}}">{{name}}</label>
+                            {{/each}}
+                        </div>
+                    </main>
+                </section>
+            </main>
+        </section>
+    </main>
+
+    <footer>
+        <button type="button" name="reset-settings"><i class="fas fa-save"></i> Gute Nacht</button>
+        <button type="button" class="reset"><i class="fas fa-trash"></i> Nachtlager abbauen</button>
+    </footer>
 
 </section>

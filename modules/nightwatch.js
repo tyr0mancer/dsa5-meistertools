@@ -5,6 +5,8 @@ export class Dsa5Nightwatch extends Application {
 
     constructor() {
         super();
+        this.tiles = []
+        this.players = MeistertoolsUtil.playerActors()
     }
 
     static get defaultOptions() {
@@ -25,14 +27,20 @@ export class Dsa5Nightwatch extends Application {
 
     activateListeners(html) {
         super.activateListeners(html);
-        html.find("nav.help-icon").click((event) => {
-            let helpToken = $(event.currentTarget).attr("data-help")
-            $('.help-info.help-' + helpToken).toggle();
-        })
+        html.find("nav.help-icon").click((event) => $('.help-info.help-' + $(event.currentTarget).attr("data-help")).toggle())
+
+
     }
 
     async getData() {
-        return {};
+        return {
+            players: this.players,
+            images: {
+                fireplace: "modules/dsa5-core/icons/equipment/FeuersteinundStahl.webp",
+                tent: "modules/dsa5-core/icons/equipment/Zelt1Person.webp",
+                bag: "modules/dsa5-core/icons/equipment/Schlafsack.webp"
+            }
+        };
     }
 
 }

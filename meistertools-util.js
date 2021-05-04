@@ -21,6 +21,21 @@ export class MeistertoolsUtil {
             })
     }
 
+    static playerActors() {
+        const activeUserIds = game.users
+            .filter(u => u.role !== 4)
+            .map(u => u._id)
+
+        return game.actors
+            .filter(u => {
+                for (let userId of activeUserIds) {
+                    if (u.data.permission[userId] === 3)
+                        return true
+                }
+                return false
+            })
+    }
+
     static updateByPath(obj, varName, varValue) {
         let path = varName.split(".");
         let fieldName = path.splice(path.length - 1, 1);

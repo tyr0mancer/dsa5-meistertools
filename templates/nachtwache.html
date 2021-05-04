@@ -10,16 +10,34 @@
                 <h1>Nachtlager</h1>
             </header>
             <main>
-                {{#each players}}
+                {{#each props as |prop id|}}
+                <div style="float:left; margin: 10px">
+                    <img src="{{prop.img}}" class="placed-prop"/>
+                    <h3>{{prop.token}}</h3>
+                    <p><a name="remove-prop" data-prop-id="{{id}}">entfernen</a></p>
+                </div>
+                {{/each}}
+                <!--props-->
+
+                <hr style="clear: left; margin-bottom: 20px"/>
+
+                {{#each tokens}}
                 <section class="round-box inner nachtlager">
                     <header>
                         <h2>{{name}}</h2>
                     </header>
                     <main>
                         <img src="{{img}}" class="player"/>
-                        <a name="make-fire" data-player-id="{{_id}}" title="Feuer machen"><img class="tile" src="{{../images.fireplace}}"  alt="Feuer machen"/></a>
-                        <a name="setup-tent" data-player-id="{{_id}}" title="Zelt aufbauen"><img class="tile" src="{{../images.tent}}" alt="Zelt aufbauen"/></a>
-                        <a name="place-sleeping-bag" data-player-id="{{_id}}" title="Schlafsack ausbreiten"><img class="tile" src="{{../images.bag}}" alt="Schlafsack ausbreiten" /></a>
+                        <a name="make-fire" data-token-id="{{_id}}" data-token-name="{{name}}"
+                           title="Feuer machen"><img class="prop" src="{{../images.fireplace}}" alt="Feuer machen"/></a>
+
+                        {{#each ../propOptions as |prop id|}}
+                        <a name="place-prop"
+                           data-token-id="{{../_id}}" data-prop-id="{{id}}"
+                           title="{{prop.name}}"><img
+                                class="prop" src="{{prop.img}}" alt="{{prop.name}}"/></a>
+                        {{/each}}
+                        <!--props-->
                     </main>
                 </section>
                 {{/each}}
@@ -39,7 +57,7 @@
                     </header>
                     <main>
                         <div class="boxed-radio">
-                            {{#each players}}
+                            {{#each tokens}}
                             <input id="wache1-{{_id}}" name="wache1-{{_id}}" type="checkbox"/>
                             <label for="wache1-{{_id}}">{{name}}</label>
                             {{/each}}
@@ -53,7 +71,7 @@
                     </header>
                     <main>
                         <div class="boxed-radio">
-                            {{#each players}}
+                            {{#each tokens}}
                             <input id="wache2-{{_id}}" name="wache2-{{_id}}" type="checkbox"/>
                             <label for="wache2-{{_id}}">{{name}}</label>
                             {{/each}}
@@ -66,7 +84,7 @@
                     </header>
                     <main>
                         <div class="boxed-radio">
-                            {{#each players}}
+                            {{#each tokens}}
                             <input id="wache3-{{_id}}" name="wache3-{{_id}}" type="checkbox"/>
                             <label for="wache3-{{_id}}">{{name}}</label>
                             {{/each}}
@@ -75,11 +93,9 @@
                 </section>
             </main>
         </section>
+        <div>
+            <button type="button" name="nightwatch"><i class="fas fa-save"></i> Gute Nacht</button>
+        </div>
     </main>
-
-    <footer>
-        <button type="button" name="reset-settings"><i class="fas fa-save"></i> Gute Nacht</button>
-        <button type="button" class="reset"><i class="fas fa-trash"></i> Nachtlager abbauen</button>
-    </footer>
 
 </section>

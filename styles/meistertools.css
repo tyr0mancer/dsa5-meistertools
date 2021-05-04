@@ -145,16 +145,16 @@ span.bold {
     grid-gap: 10px;
 }
 
-.nachtlager img.tile {
+.nachtlager img.prop {
     width: 48px;
     border: none;
 }
 
-.nachtlager img.tile:hover {
+.nachtlager img.prop:hover {
     box-shadow: 0 0 5px #aaa;
 }
 
-.nachtlager img.tile:active {
+.nachtlager img.prop:active {
     box-shadow: 0 0 10px #aaa;
 }
 
@@ -164,3 +164,8 @@ span.bold {
 }
 
 
+img.placed-prop {
+    width: 100px;
+    height: 100px;
+    border: none
+}

@@ -1,5 +1,51 @@
 export class MeistertoolsUtil {
 
+    static async requestRoll({talent, modifier, reason, playerName}) {
+        return new Promise((resolve, reject) => {
+
+            let whisper = playerName ? ChatMessage.getWhisperRecipients(playerName) : undefined
+            const mod = modifier < 0 ? ` ${modifier}` : (modifier > 0 ? ` +${modifier}` : "")
+            let msg = `<a class="roll-button request-roll" data-type="skill" data-modifier="${modifier}" data-name="${talent}"><i class="fas fa-dice"></i> ${talent}${mod}</a>`
+            if (reason)
+                msg += ` - <b>${playerName}</b>`
+            ChatMessage.create({content: msg, whisper});
+            new Dialog({
+                title: `Eine Probe in ${talent} anfordern`,
+                content: `<h3>${reason}</h3>`,
+                buttons: {
+                    one: {
+                        icon: '<i class="fas fa-check"></i>',
+                        label: "1 QS",
+                        callback: () => resolve({success: true, qs: 1})
+                    },
+                    two: {
+                        icon: '<i class="fas fa-check"></i>',
+                        label: "2 QS",
+                        callback: () => resolve({success: true, qs: 2})
+                    },
+                    three: {
+                        icon: '<i class="fas fa-check"></i>',
+                        label: "3 QS",
+                        callback: () => resolve({success: true, qs: 3})
+                    },
+                    failure: {
+                        icon: '<i class="fas fa-times"></i>',
+                        label: "Nicht bestanden",
+                        callback: () => resolve({success: false})
+                    },
+                    critical: {
+                        icon: '<i class="fas fa-times"></i>',
+                        label: "Patzer",
+                        callback: () => resolve({success: false, critical: true})
+                    }
+                },
+                default: "failure"
+            }).render(true);
+
+        });
+    }
+
+
     static rollDice(pattern) {
         let r = new Roll(pattern);
         r.evaluate()

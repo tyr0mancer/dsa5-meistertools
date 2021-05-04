@@ -96,6 +96,8 @@
 .boxed-radio input[type="checkbox"] + label {
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
+    color: var(--color-primary);
+    background-color: var(--color-quaternary);
     border: 2px solid var(--color-primary);
     width: auto;
     padding: 5px;
@@ -106,14 +108,19 @@
 
 .boxed-radio input[type="radio"] + label:hover,
 .boxed-radio input[type="checkbox"] + label:hover {
-    background-color: lightblue;
-    border-color: lightgrey;
+    color: var(--color-secondary);
+    border: 2px solid var(--color-secondary);
 }
 
 .boxed-radio input[type="radio"]:checked + label,
 .boxed-radio input[type="checkbox"]:checked + label {
-    background-color: lightgrey;
-    border-color: green;
+    color: var(--color-light);
+    background-color: var(--color-tertiary);
+    border-color: var(--color-secondary);
+
+    /*
+    border: 2px solid var(--color-secondary);
+    */
 }
 
 
@@ -200,10 +207,10 @@ select:focus > option:hover {
  --------------------------------- */
 
 .meistertools button {
+    color: var(--color-secondary);
+    background-color: var(--color-quaternary);
     margin: 5px 0px;
     transition-duration: 0.4s;
-    background-color: var(--color-primary);
-    color: var(--color-light);
     padding: 1px 10px;
     width: auto;
     font-weight: bold;
@@ -213,13 +220,13 @@ select:focus > option:hover {
 }
 
 .meistertools button:hover {
-    background-color: var(--color-secondary);
-    color: var(--color-quaternary);
+    color: var(--color-secondary);
+    background-color: var(--color-light);
 }
 
 .meistertools button:active {
+    color: var(--color-primary);
     background-color: var(--color-quaternary);
-    color: var(--color-secondary);
 }
 
 .meistertools button:disabled {
@@ -232,18 +239,12 @@ select:focus > option:hover {
 /* Reset buttons */
 
 .meistertools button.reset {
-    background-color: var(--color-quaternary);
-    color: var(--color-primary);
-}
-
-.meistertools button.reset:hover {
-    background-color: var(--color-secondary);
-    color: var(--color-quaternary);
-}
-
-.meistertools button.reset:active {
-    background-color: var(--color-quaternary);
     color: var(--color-secondary);
+    background-color: var(--color-light);
+}
+.meistertools button.reset:active {
+    color: var(--color-primary);
+    background-color: var(--color-light);
 }
 
 

@@ -23,6 +23,12 @@
 }
 
 
+span.bold {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+
 /* ---------------------------------
     navigation
  --------------------------------- */

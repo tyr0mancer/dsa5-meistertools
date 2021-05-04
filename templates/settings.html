@@ -70,8 +70,23 @@
                     </main>
 
                     <section class="help-info help-scene-pack">
-                        <h2>Scene Pack Hilfe</h2>
-                        <p>Lorem usw.</p>
+                        <h2>Hilfe zur Szenen Verwaltung</h2>
+                        <ul>
+                            <li>Scene Pack hinzufügen mit <i class="fas fa-plus-circle"></i> und entfernen mit <i
+                                    class="fas fa-minus-circle"></i></li>
+                            <li><h3>Kategorie Name</h3> Name der Kategorie zur einfacheren Übersicht</li>
+                            <li><h3>Ordner Name</h3> Ein Szene-Ordner mit diesem Namen wird beim Start der App
+                                automatisch angelegt (aktuell nur Hauptordner), falls er nicht existiert. Hier werden
+                                aus dem Pack importierte Szenen in der lokalen Welt gespeichert
+                            </li>
+                            <li><h3>Suchbegriffe</h3> Durch ',' (Komma) getrennte Suchbegriffe sind
+                                in der App als Tag-Button für schnelle Suchen verfügbar.
+                            </li>
+                            <li><h3>Compendium Pack</h3> Auswahl einer Scene-Pack und Zuordnung zu dieser Kategorie.
+                                Szenen aus diesem Pack werden mit Vorschau angezeigt und können so schnell in die Welt
+                                importiert werden.
+                            </li>
+                        </ul>
                     </section>
                 </section>
 
@@ -106,7 +121,17 @@
                     </main>
                     <section class="help-info help-jukebox">
                         <h2>Jukebox Hilfe</h2>
-                        <p>Lorem usw.</p>
+                        <h3>Playlist in Scene anpassen</h3>
+                        <p>
+                            Falls aktiv: wird eine Szene aktiviert, die einer Playlist-ID zugeordnet ist,
+                            die in der aktuellen Playlist nicht enthalten ist, aber eine Playlist mit dem gleichen Namen
+                            ist vorhanden, so wird die namensgleiche Playlist dieser Szene zugeordnet.
+                        </p>
+                        <h3>Default Playlist</h3>
+                        <p>
+                            Falls hier eine Playlist ausgewählt wurde, wird diese der Szene zugeordnet, falls ihr bisher
+                            keine Playlist zugeordnet oder diese nicht gefunden wurde.
+                        </p>
                     </section>
                 </section>
             </div>
@@ -151,19 +176,27 @@
                                     </select>
                                     <label for="defaultProfession">Default Basis Actor</label>
                                 </div>
-
-
                             </main>
                             <section class="help-info help-nsc-generator-profession">
                                 <h2>Basis Actor Sheet auswählen</h2>
-                                <p>Lorem usw.</p>
+                                <p>Das Basis Actor Sheet wird in der App "Beruf" genannt und wird für die Erstellung
+                                    neuer Akteure als Grundlage verwendet</p>
+                                <ul>
+                                    <li><h3>Compendium Pack</h3> Akteure aus diesem Pack werden als "Beruf" in der App
+                                        angezeigt.
+                                    </li>
+
+                                    <li><h3>Default Basis Actor</h3> Dieser Akteur ist per Default ausgewählt</li>
+                                </ul>
                             </section>
                         </section>
 
                         <!--Ordner-->
-                        <section class="inner round-box">
+                        <section class="inner round-box with-help">
                             <header>
                                 <h2>Ordner</h2>
+                                <nav class="help-icon" data-help="nsc-generator-folder"><i
+                                        class="fas fa-info-circle"></i></nav>
                             </header>
                             <main>
                                 <div class="boxed-input">
@@ -171,7 +204,7 @@
                                            name="settings.nsc.folder"
                                            value="{{settings.nsc.folder}}"
                                     />
-                                    <label for="folder">Ordner Name (Akteurverzeichnis)</label>
+                                    <label for="folder">Ordner für generierte NSC</label>
                                 </div>
                                 <div class="boxed-input">
                                     <input id="tokenImageFolder" type="text" readonly
@@ -184,13 +217,30 @@
                                     </button>
                                 </div>
                             </main>
+                            <footer class="help-info help-nsc-generator-folder">
+                                <h2>Ordner</h2>
+                                <h3>Ordner für generierte NSC</h3>
+                                <p>
+                                    In diesem lokalen Welt Ordner werden Akteure gespeichert, die mit Meistertools
+                                    generiert wurden. Akteure in diesem Ordner können außerdem schnell in aktuelle
+                                    Szenen importiert werden.
+                                </p>
+                                <h3>Bilder Basis-Ordner</h3>
+                                <p>Dieser Ordner ist die Basis, wenn Meistertools versucht, Zufalls-Bilder für einen NSC
+                                    zu finden.</p>
+                                <p>Meistertools sicht im Unterordner</p>
+                                <pre>{herkunft}/{geschlecht}/{beruf}</pre>
+                                <p>Dabei wird zunächst versucht, aus im untersten Ordner per Zufall eines auszuwählen.
+                                    Ist der Ordner leer, oder existiert er nicht, wird im übergeordneten
+                                    nachgesehen.</p>
+                            </footer>
                         </section>
 
 
                         <!--Allgemeines-->
                         <section class="inner round-box">
                             <header>
-                                <h2>Herkunft</h2>
+                                <h2>Allgemeines</h2>
                             </header>
                             <main>
                                 <div class="select-css">
@@ -232,7 +282,8 @@
                         <!--Gender Optionen-->
                         <section class="inner round-box">
                             <header>
-                                <h2><a name="add-gender"><i class="button fas fa-plus-circle"></i></a> Gender Optionen</h2>
+                                <h2><a name="add-gender"><i class="button fas fa-plus-circle"></i></a> Gender Optionen
+                                </h2>
                             </header>
                             <main>
                                 {{#each settings.nsc.genderOptions as |option id|}}

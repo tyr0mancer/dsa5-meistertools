@@ -14,7 +14,7 @@
     <section class="tab" data-tab="random-nsc">
 
         <!-- list alle stored patterns -->
-        <div class="form-box container flow">
+        <div class="round-box container flow">
             {{#each settings.storedPatterns as |pattern n|}}
             <!--
                             {{stringify this}}
@@ -36,7 +36,7 @@
 
             <!-- each species gets a box -->
             {{#each archetypes}}
-            <div class="form-box container flow"
+            <div class="round-box container flow"
                  style="background-image: url('{{img}}')">
 
                 {{#each origins}}
@@ -69,7 +69,7 @@
             <!-- each archetypes -->
 
             <!-- gender options box -->
-            <div class="form-box container flow">
+            <div class="round-box container flow">
                 {{#each settings.genderOptions}}
                 <div class="card {{active key ../data.gender key}}">
                     <label class="inputbox gender radio  {{active key ../data.gender key}}">
@@ -83,7 +83,7 @@
             <hr/>
 
             <!-- pick the profession -->
-            <div class="form-box container flow"
+            <div class="round-box container flow"
                  style="background-image: url('systems/dsa5/icons/categories/Skill.webp')">
                 {{#each professions}}
                 <div class="card {{active _id ../data.profession}}">
@@ -101,7 +101,7 @@
             <hr/>
 
             <!-- Main buttons -->
-            <div class="form-box container flow submit">
+            <div class="round-box container flow submit">
                 <div class="card {{nactive data.anzahl}}">
                     <label class="inputbox text anzahl">
                         <input name="anzahl" placeholder="Anzahl / Wurf" value="{{data.anzahl}}" type="text"
@@ -128,7 +128,7 @@
                 </div>
             </div>
 
-            <div class="form-box container flow">
+            <div class="round-box container flow">
                 <div>
                     <button class="dice" name="generate-name" type="button">Name<br/> <i
                             class="fas fa-dice"></i></button>
@@ -142,7 +142,7 @@
                 </div>
             </div>
 
-            <div class="form-box container flow">
+            <div class="round-box container flow">
                 <div>
                     <button class="dice" name="generate-image" type="button">Bild<br/> <i
                             class="fas fa-dice"></i></button>
@@ -159,7 +159,7 @@
 
 
             <!-- store pattern for quick access -->
-            <div class="form-box container flow">
+            <div class="round-box container flow">
                 <div class="card {{nactive data.patternName}}">
                     <label class="inputbox text">
                         <input name="patternName" placeholder="" value="{{data.patternName}}" type="text"
@@ -187,7 +187,7 @@
     <section class="tab" data-tab="characters">
         <form class="nsc-form">
             <h1>Heldengruppe</h1>
-            <div class="form-box container flow"
+            <div class="round-box container flow"
                  style="background-image: url('systems/dsa5/icons/categories/ability_fate_points.webp')">
 
                 {{#ifeq players.length 0}}
@@ -208,7 +208,7 @@
             </div>
 
             <!-- import player -->
-            <div class="form-box container flow submit">
+            <div class="round-box container flow submit">
 
                 <div class="card {{data.playerTokenPosition}}">
                     <label>
@@ -241,7 +241,7 @@
             <!-- each Kompendium as a box -->
             {{#each packNscSelection}}
             <h1>{{name}}</h1>
-            <div class="form-box container flow"
+            <div class="round-box container flow"
                  style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
                 {{#each index}}
                 <div class="card {{ifIsProperty ../../data.packNscSelection _id 'active'}}">
@@ -260,7 +260,7 @@
 
         <form class="nsc-form">
             <h1>Zufalls NSC</h1>
-            <div class="form-box container flow"
+            <div class="round-box container flow"
                  style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
                 {{#each stockNsc}}
                 <div class="card {{ifIsProperty ../data.stockNscSelection _id 'active'}}">
@@ -274,7 +274,7 @@
                 <!--each stockNsc-->
             </div>
             <hr/>
-            <div class="form-box container flow submit">
+            <div class="round-box container flow submit">
                 <div class="card {{data.tokenPosition}}">
                     <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
                         {{#select data.tokenPosition}}

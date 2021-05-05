@@ -1,372 +1,178 @@
 /* ---------------------------------
-    Color Definition
+    color palette
  --------------------------------- */
 :root {
-    --button-background: #373d6d;
-    --button-text: white;
-    --button-hover-background: #4CAF50;
-    --button-hover-text: black;
-    --button-click-background: lightyellow;
-    --button-click-text: #373d6d;
-    --button-inactive-background: transparent;
-    --button-inactive-text: darkgrey;
-    --button-inactive-hover-background: transparent;
-    --button-inactive-hover-text: white;
+    /*
+    --color-primary: #763626;
+    --color-secondary: #2A3132;
+    --color-tertiary: #336B87;
+    --color-quaternary: #90AFC5;
+    */
 
-    --border-active: goldenrod;
-    --border-inactive: lightgrey;
-
-    --field-inactive-background: lightgrey;
-    --field-inactive-text: #cccccc;
-
-    --field-active-background: goldenrod;
-    --field-active-border: darkgoldenrod;
-    --field-active-hover-background: beige;
-    --field-active-background-inner: lightgrey;
+    --color-primary: #763626;
+    --color-secondary: #340C01;
+    --color-tertiary: #1B3B4B;
+    --color-quaternary: #9C9FB8;
 
 
-    --field-inactive-border: lightgrey;
-    --field-inactive-hover-background: lightgrey;
-    --field-inactive-hover-text: lightgrey;
+    --color-disabled: #cccccc;
+    --color-disabled-background: #cccccc;
 
-    --field-active-text: lightgrey;
-    --field-active-hover-text: lightgrey;
-
-    --field-focus-background: lightyellow;
-    --field-focus-text: beige;
+    --color-light: #ffffe0;
 
 }
 
 
-
-/* ---------------------------------
-    Navigation
- --------------------------------- */
-
-/* Navigation Tabs */
-.meistertools nav.tabs a {
-    font-size: 1.42em;
+span.bold {
+    color: var(--color-primary);
     font-weight: bold;
 }
 
 
 /* ---------------------------------
-    Help Boxes
+    navigation
  --------------------------------- */
 
-/* Help Box */
+.meistertools nav.tabs {
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.meistertools nav.tabs a {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+
+/* ---------------------------------
+    flow-boxes
+ --------------------------------- */
+.meistertools .flow-box {
+    overflow: hidden;
+}
+
+.meistertools .flow-box > * {
+    float: left;
+}
+
+/* ---------------------------------
+    boxes layout
+ --------------------------------- */
+.meistertools .round-box {
+    border: 2px solid var(--color-primary);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px #aaa;
+}
+
+.meistertools .round-box.inner {
+    border: 2px dotted var(--color-primary);
+}
+
+
+.meistertools .round-box header > h1,
+.meistertools .round-box header > h2 {
+    position: relative;
+    height: fit-content;
+    width: fit-content;
+    top: -30px;
+    box-shadow: 0 0 5px #aaa;
+    border: 2px solid var(--color-secondary);
+    border-radius: 10px;
+    padding: 0 10px;
+    margin-bottom: -20px;
+}
+
+.meistertools .round-box header > h1 {
+    font-size: 1.5em;
+    color: white;
+    background-color: var(--color-primary);
+}
+
+.meistertools .round-box header > h2 {
+    font-size: 1.2em;
+    color: var(--color-secondary);
+    background-color: var(--color-light);
+}
+
+
+/* - Grid --------------------- */
+.col-2 {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+}
+
+/*todo überarbeiten*/
+.round-box.col-3 main {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+}
+
+.round-box.col-4 main {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 10px;
+
+}
+
+
+/* - help boxes --------------------- */
+
+.meistertools .with-help.round-box > header {
+    display: grid;
+    grid-template-columns: auto 24px
+}
+
+.meistertools .help-icon {
+    font-size: 2em;
+    position: relative;
+    cursor: help;
+    margin-bottom: -15px;
+}
+
 .meistertools .help-info {
     color: #7a7971;
     margin: 6px 6px 6px 12px;
-    padding: 0px 12px;
+    padding: 0 12px;
     border-left: 2px solid #7a7971;
     display: none;
 }
 
-.meistertools .help-info h3 {
-    font-weight: bolder;
-}
-
-/* Info Icon */
-.meistertools i.help:hover {
-    cursor: pointer;
-}
-
 
 /* ---------------------------------
-    Layout
+    nachtlager
  --------------------------------- */
 
-/* Container */
-.meistertools .container {
-}
-
-/* Flow Layout */
-.meistertools .container.flow:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.meistertools .container.flow > div {
-    float: left;
-    padding: 5px
-}
-
-/* Grid Layout */
-.meistertools .container.grid {
+.nachtlager > main {
     display: grid;
-    grid: 60px / auto auto auto auto auto auto auto;
+    grid-template-columns: 80px auto auto auto auto auto;
     grid-gap: 10px;
 }
 
-
-/* ---------------------------------
-    Forms
- --------------------------------- */
-
-/* Container */
-.meistertools .container.form-box {
-    padding: 0px 0px 0px 64px;
-    background-repeat: no-repeat;
-    background-position: 8px 0px;
-    background-size: 48px 48px;
-}
-
-.meistertools .container.form-box > div {
-    margin: 5px;
-}
-
-.meistertools .container .card {
-    border-radius: 5px;
-    border: 2px solid lightgrey;
-    color: grey;
-    background-color: beige;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
-}
-
-
-.meistertools .container.form-box > div.active {
-    border: 2px dotted var(--field-active-border);
-    background-color: var(--field-active-background);
-    color: black;
-}
-
-.meistertools .inputbox {
-    display: block;
-    position: relative;
-    cursor: pointer;
-    font-size: 16px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    text-align: center;
-}
-
-
-/* Text Input */
-.meistertools .inputbox.text {
-    border-radius: 2px;
-    padding: 0px;
-}
-
-.meistertools .inputbox.text input:focus {
-    background-color: var(--field-focus-background);
-}
-
-.meistertools div.active input {
-    background-color: var(--field-active-background-inner);
-}
-
-/* Textarea */
-.meistertools textarea {
-    border-radius: 2px;
-    padding: 3px;
-}
-
-.meistertools textarea:focus {
-    background-color: lightyellow;
-}
-
-.meistertools div.active textarea {
-    background-color: lightgrey;
-}
-
-
-/* Radio and Checkboxes */
-.meistertools .inputbox.radio {
-    width: 110px;
-    border-radius: 2px;
-    padding: 1px;
-}
-
-.meistertools .inputbox.radio input {
-    position: absolute;
-    opacity: 0;
-}
-
-.meistertools .inputbox.radio:hover {
-    background-color: lightgreen;
-}
-
-.meistertools div.active .radio {
-    background-color: lightgrey;
-}
-
-.meistertools div.active .radio:hover {
-    background-color: lightgrey;
-}
-
-/*Checkbox*/
-.meistertools .inputbox.checkbox {
-    border-radius: 2px;
-    padding: 1px;
-}
-
-.meistertools .inputbox.checkbox input {
-    position: absolute;
-    opacity: 0;
-}
-
-.meistertools .inputbox.checkbox:hover {
-    background-color: lightgreen;
-}
-
-.meistertools div.active .checkbox {
-    background-color: var(--field-active-background-inner);
-}
-
-.meistertools div.active .checkbox:hover {
-    background-color: var(--field-active-hover-background);
-}
-
-
-/* Select */
-.meistertools .inputbox.select {
-    width: auto;
-    opacity: 20%;
-    background-color: transparent;
-    text-color: var(--field-inactive-text);
-}
-
-.meistertools .inputbox.select.active {
-    opacity: 100%;
-    background-color: var(--field-inactive-background);
-}
-
-
-/* Buttons */
-.meistertools .form-box .button-box {
-    background: transparent;
-}
-
-.meistertools button {
-    transition-duration: 0.4s;
-    background-color: var(--button-background);
-    color: var(--button-text);
-    padding: 0px 5px;
-    width: auto;
-    font-weight: bold;
+.nachtlager img.prop {
+    width: 48px;
     border: none;
-    border-radius: 10px;
-    cursor: pointer;
 }
 
-.meistertools button:hover {
-    background-color: var(--button-hover-background);
-    color: var(--button-hover-text);
+.nachtlager img.prop:hover {
+    box-shadow: 0 0 5px #aaa;
 }
 
-.meistertools button:active {
-    background-color: var(--button-click-background);
-    color: var(--button-click-text);
+.nachtlager img.prop:active {
+    box-shadow: 0 0 10px #aaa;
 }
 
-.meistertools button.inactive {
-    background-color: var(--button-inactive-background);
-    color: var(--button-inactive-text);
-    cursor: pointer;
-}
-
-.meistertools button.inactive:hover {
-    background-color: var(--button-inactive-hover-background);
-    color: var(--button-inactive-hover-text);
-}
-
-
-
-
-/* special form elements */
-.meistertools .inputbox.gender {
-    width: 50px;
-    padding: 2px;
-}
-
-.meistertools button.dice {
-    width: 50px
-}
-
-.meistertools div.card.nsc_name input {
-    height: 64px
-}
-
-.meistertools .inputbox.profession {
-    text-align: left;
-    width: 110px;
-    font-size: 15px;
-    min-height: 40px;
-    padding: 0 5px 0 36px;
-    background-repeat: no-repeat;
-    background-position: top left;
-    background-size: 32px 32px;
-}
-
-.meistertools div.card.nsc_name textarea {
-    width: 165px;
-}
-
-
-.meistertools .inputbox.anzahl {
+.nachtlager img.player {
     width: 64px;
+    border: none;
 }
 
 
-/* positioning select */
-.meistertools .card.outside {
-    border-radius: 5px;
-    text-align: center;
-    border: 5px solid var(--border-active);
-}
-
-.meistertools .card.center {
-    border-radius: 5px;
-    border: 5px solid var(--border-inactive);
-    text-align: center;
-    background-color: var(--border-active);
-}
-
-.meistertools .card.top-left {
-    border-radius: 5px;
-    text-align: center;
-    border-top: 5px solid var(--border-active);
-    border-left: 5px solid var(--border-active);
-    border-right: 5px solid var(--border-inactive);
-    border-bottom: 5px solid var(--border-inactive);
-}
-
-.meistertools .card.bottom-left {
-    border-radius: 5px;
-    text-align: center;
-    border-top: 5px solid var(--border-inactive);
-    border-left: 5px solid var(--border-active);
-    border-right: 5px solid var(--border-inactive);
-    border-bottom: 5px solid var(--border-active);
-}
-
-/* buttons */
-.meistertools button.delete {
-    background-color: white;
-    color: red;
-}
-
-.meistertools button.delete:hover {
-    background-color: red;
-    color: black;
-}
-
-
-
-.manage-music button.active {
-    background-color: green;
-}
-
-.meistertools a.set-category {
-    margin-right: 10px;
-}
-
-.meistertools a.set-category.active {
-    font-weight: bold;
-    font-size: 1.1em;
-    border-top: 1px solid black;
+img.placed-prop {
+    width: 100px;
+    height: 100px;
+    border: none
 }

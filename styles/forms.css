@@ -1,0 +1,262 @@
+/* ---------------------------------
+    label
+ --------------------------------- */
+.select-css select + label,
+.boxed-input * + label {
+    position: absolute;
+    top: -16px;
+    left: 0;
+    color: black;
+    /*background-color: var(--color-quaternary);*/
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 5px;
+    border-radius: 5px 5px 0 0;
+    margin: 0;
+}
+
+.select-css select:focus + label,
+.boxed-input *:focus + label {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+
+/* ---------------------------------
+    switch-style checkbox
+    source: https://boolie.org/css-checkbox-styling
+ --------------------------------- */
+.switch-checkbox input[type="checkbox"] {
+    position: relative;
+    left: 30px;
+    top: 0;
+    z-index: 0;
+    -webkit-appearance: none;
+}
+
+.switch-checkbox input[type="checkbox"] + label {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    line-height: 1.1;
+    padding-left: 40px;
+    margin-top: -20px;
+}
+
+.switch-checkbox input[type="checkbox"] + label:before {
+    width: 30px;
+    height: 15px;
+    border-radius: 15px;
+    border: 2px solid #ddd;
+    background-color: #EEE;
+    content: "";
+    margin-right: 15px;
+    transition: background-color 0.5s linear;
+    z-index: 5;
+    position: absolute;
+    left: 0;
+}
+
+.switch-checkbox input[type="checkbox"] + label:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    background-color: #fff;
+    content: "";
+    transition: margin 0.1s linear;
+    box-shadow: 0 0 5px #aaa;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    z-index: 10;
+}
+
+.switch-checkbox input[type="checkbox"]:checked + label:before {
+    background-color: #2b8718;
+}
+
+.switch-checkbox input[type="checkbox"]:checked + label:after {
+    margin: 0 0 0 15px;
+}
+
+
+/* ---------------------------------
+    boxed-style radio button / checkbox button
+ --------------------------------- */
+
+.boxed-radio input[type="radio"],
+.boxed-radio input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.boxed-radio input[type="radio"] + label,
+.boxed-radio input[type="checkbox"] + label {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    color: var(--color-primary);
+    background-color: var(--color-quaternary);
+    border: 2px solid var(--color-primary);
+    width: auto;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.boxed-radio input[type="radio"] + label:hover,
+.boxed-radio input[type="checkbox"] + label:hover {
+    color: var(--color-secondary);
+    border: 2px solid var(--color-secondary);
+}
+
+.boxed-radio input[type="radio"]:checked + label,
+.boxed-radio input[type="checkbox"]:checked + label {
+    color: var(--color-light);
+    background-color: var(--color-tertiary);
+    border-color: var(--color-secondary);
+
+    /*
+    border: 2px solid var(--color-secondary);
+    */
+}
+
+
+/* ---------------------------------
+    text input
+ --------------------------------- */
+
+.meistertools input[type="text"] {
+    text-align: left;
+    cursor: text;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--color-secondary);
+    border-radius: 5px;
+}
+
+.meistertools input[type="text"]:focus {
+    background-color: var(--color-light);
+}
+
+.boxed-input {
+    position: relative;
+    display: block;
+    margin-top: 22px;
+}
+
+
+/* ---------------------------------
+    textarea
+ --------------------------------- */
+
+
+.boxed-input textarea {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    border: 1px solid var(--color-secondary);
+    margin-top: 10px;
+}
+
+.boxed-input textarea + label {
+    top: -6px;
+}
+
+
+/* ---------------------------------
+    select / drop downs
+ --------------------------------- */
+
+.select-css {
+    position: relative;
+}
+
+.select-css select {
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border-color: var(--color-secondary);
+    width: 100%;
+    margin-top: 25px;
+}
+
+.select-css select + label {
+    top: 8px;
+}
+
+.select-css select option {
+    background-color: var(--color-light);
+    color: var(--color-secondary);
+}
+
+select:focus > option:hover {
+    background: #000 !important;
+}
+
+.select-css select option:checked {
+    box-shadow: 0 0 0 3px black;
+    background-color: var(--color-primary);
+    color: var(--color-light);
+}
+
+.meistertools select:disabled {
+    cursor: not-allowed;
+}
+
+
+/* ---------------------------------
+    buttons
+ --------------------------------- */
+
+.meistertools button {
+    color: var(--color-secondary);
+    background-color: var(--color-quaternary);
+    border: 1px solid var(--color-quaternary);
+    margin: 5px 0px;
+    transition-duration: 0.4s;
+    padding: 1px 10px;
+    width: auto;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.meistertools button:hover {
+    color: var(--color-secondary);
+    background-color: var(--color-light);
+}
+
+.meistertools button:active {
+    color: var(--color-primary);
+    background-color: var(--color-quaternary);
+}
+
+.meistertools button:disabled {
+    background-color: var(--color-disabled);
+    color: var(--color-disabled-background);
+    cursor: not-allowed;
+}
+
+
+/* Reset buttons */
+
+.meistertools button.reset {
+    color: var(--color-secondary);
+    background-color: var(--color-light);
+    border: 1px solid var(--color-quaternary);
+}
+
+.meistertools button.reset:active {
+    color: var(--color-primary);
+    background-color: var(--color-quaternary);
+}
+
+
+/* icons as buttons */
+.meistertools i.button {
+    margin-right: 10px;
+}
+
+.meistertools i.button.fa-minus-circle {
+    color: red
+}

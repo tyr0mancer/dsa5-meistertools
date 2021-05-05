@@ -1,0 +1,101 @@
+<section class="meistertools content">
+    <nav class="tabs">
+        <a class="item active" data-tab="lager"><i class="fas fa-film"></i> Nachtlager</a>
+        <a class="item" data-tab="wache"><i class="fas fa-user-plus"></i> Nachtwache</a>
+    </nav>
+
+    <main class="tab" data-tab="lager">
+        <section class="round-box">
+            <header>
+                <h1>Nachtlager</h1>
+            </header>
+            <main>
+                {{#each props as |prop id|}}
+                <div style="float:left; margin: 10px">
+                    <img src="{{prop.img}}" class="placed-prop"/>
+                    <h3>{{prop.token}}</h3>
+                    <p><a name="remove-prop" data-prop-id="{{id}}">entfernen</a></p>
+                </div>
+                {{/each}}
+                <!--props-->
+
+                <hr style="clear: left; margin-bottom: 20px"/>
+
+                {{#each tokens}}
+                <section class="round-box inner nachtlager">
+                    <header>
+                        <h2>{{name}}</h2>
+                    </header>
+                    <main>
+                        <img src="{{img}}" class="player"/>
+                        <a name="make-fire" data-token-id="{{_id}}" data-token-name="{{name}}"
+                           title="Feuer machen"><img class="prop" src="{{../images.fireplace}}" alt="Feuer machen"/></a>
+
+                        {{#each ../propOptions as |prop id|}}
+                        <a name="place-prop"
+                           data-token-id="{{../_id}}" data-prop-id="{{id}}"
+                           title="{{prop.name}}"><img
+                                class="prop" src="{{prop.img}}" alt="{{prop.name}}"/></a>
+                        {{/each}}
+                        <!--props-->
+                    </main>
+                </section>
+                {{/each}}
+            </main>
+        </section>
+    </main>
+
+    <main class="tab" data-tab="wache">
+        <section class="round-box">
+            <header>
+                <h1><a><i class="button fas fa-plus-circle"></i></a> Nachtwache</h1>
+            </header>
+            <main>
+                <section class="round-box inner">
+                    <header>
+                        <h2>Erste Wache</h2>
+                    </header>
+                    <main>
+                        <div class="boxed-radio">
+                            {{#each tokens}}
+                            <input id="wache1-{{_id}}" name="wache1-{{_id}}" type="checkbox"/>
+                            <label for="wache1-{{_id}}">{{name}}</label>
+                            {{/each}}
+                        </div>
+
+                    </main>
+                </section>
+                <section class="round-box inner">
+                    <header>
+                        <h2>Zweite Wache</h2>
+                    </header>
+                    <main>
+                        <div class="boxed-radio">
+                            {{#each tokens}}
+                            <input id="wache2-{{_id}}" name="wache2-{{_id}}" type="checkbox"/>
+                            <label for="wache2-{{_id}}">{{name}}</label>
+                            {{/each}}
+                        </div>
+                    </main>
+                </section>
+                <section class="round-box inner">
+                    <header>
+                        <h2>Dritte Wache</h2>
+                    </header>
+                    <main>
+                        <div class="boxed-radio">
+                            {{#each tokens}}
+                            <input id="wache3-{{_id}}" name="wache3-{{_id}}" type="checkbox"/>
+                            <label for="wache3-{{_id}}">{{name}}</label>
+                            {{/each}}
+                        </div>
+                    </main>
+                </section>
+            </main>
+        </section>
+        <div>
+            <button type="button" name="nightwatch"><i class="fas fa-save"></i> Gute Nacht</button>
+        </div>
+    </main>
+
+</section>

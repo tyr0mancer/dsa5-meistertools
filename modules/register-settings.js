@@ -2,9 +2,9 @@ import {moduleName} from "../meistertools.js";
 import {ManageScenes} from "./manage-scenes.js";
 import {CreateNSC, getRuleset} from "./create-nsc.js";
 
-export function registerSettings() {
 
-    game.settings.registerMenu(moduleName, "config-ui", {
+export async function registerSettings() {
+    await game.settings.registerMenu(moduleName, "config-ui", {
         name: "DSA5 Meistertools",
         label: "Einstellungen",
         hint: "Alle Einstellungen der DSA5 Meistertools",
@@ -12,24 +12,153 @@ export function registerSettings() {
         type: MeistertoolsConfig,
         restricted: true
     });
+    /*
+        await game.settings.registerMenu(moduleName, "reset-settings", {
+            name: "Initialize",
+            label: "Initialisieren",
+            type: InitializerForm,
+            restricted: true
+        });
+    */
 
-    game.settings.registerMenu(moduleName, "reset-settings", {
-        name: "Initialize",
-        label: "Initialisieren",
-        type: InitializerForm,
-        restricted: true
-    });
-
-    game.settings.register(moduleName, "settings", {
-        name: "Settings",
+    await game.settings.register(moduleName, "settings", {
         scope: "world",
         config: false,
-        default: MeistertoolsConfig.DEFAULT_SETTINGS(),
-        type: Object
+        type: Object,
+        default: MeistertoolsConfig.defaultSettings
     });
-
-
 }
+
+
+class MeistertoolsConfig extends FormApplication {
+    constructor() {
+        super();
+        //game.settings.sheet.close();
+        this.settings = game.settings.get(moduleName, 'settings') || {}
+
+        // todo use reducer
+        let origins = []
+        let cultures = []
+        for (let archetype of getRuleset().archetypes)
+            for (let origin of archetype.origins) {
+                origins.push({key: origin.key, name: origin.name})
+                if (origin.cultures !== undefined)
+                    cultures = cultures.concat(origin.cultures)
+            }
+
+        this.selectOptions = {
+            actors: game.packs
+                .filter(p => p.metadata.entity === 'Actor')
+                .map(p => {
+                    return {
+                        name: p.metadata.label,
+                        packname: p.collection
+                    }
+                }),
+            scenes: game.packs
+                .filter(p => p.metadata.entity === 'Scene')
+                .map(p => {
+                    return {
+                        name: p.metadata.label,
+                        packname: p.collection
+                    }
+                }),
+            playlists: game.playlists,
+            genderIcons: ["fas fa-dice", "fas fa-venus", "fas fa-mars"],
+            origins, cultures,
+        }
+
+
+    }
+
+    async setProfessionOptions() {
+        const pack = game.packs.find(p => p.collection === this.settings.nsc.professionPack)
+        await pack.getIndex()
+        this.professions = pack.index
+    }
+
+
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            classes: ['form'],
+            popOut: true,
+            width: 800,
+            resizable: true,
+            template: `modules/${moduleName}/templates/settings.html`,
+            id: 'meistertools.settings',
+            title: 'Meistertools Settings',
+            tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "scenes"}]
+        });
+    }
+
+
+    async getData() {
+        await this.setProfessionOptions()
+        this.selectOptions.professions = this.professions
+        return {
+            selectOptions: this.selectOptions,
+            settings: this.settings
+        };
+    }
+
+    activateListeners(html) {
+        super.activateListeners(html);
+        html.find("nav.help-icon").click((event) => $('.help-info.help-' + $(event.currentTarget).attr("data-help")).toggle())
+        html.find("button[name='reset-settings']").click(() => {
+            this.settings = game.settings.get(moduleName, 'settings')
+            this.render()
+        });
+
+        html.find("a[name='remove-pack']").click(() => {
+            this.settings.scenes.categories.splice($(event.currentTarget).attr("data-index"), 1);
+            this.render()
+        })
+        html.find("a[name='add-pack']").click(() => {
+            this.settings.scenes.categories.push({})
+            this.render()
+        })
+        html.find("a[name='add-gender']").click(() => {
+            this.settings.nsc.genderOptions.push({})
+            this.render()
+        })
+
+        html.find("button[name='btn_del-gender']").click((event) => {
+            this.settings.nsc.genderOptions.splice($(event.currentTarget).attr("data-gender-index"), 1);
+            this.render()
+        })
+
+        html.find("button[name='change-token-image-folder']").click(() => new FilePicker({
+            type: "image",
+            current: this.settings.nsc.tokenImageFolder,
+            callback: (imagePath) => {
+                this.settings.nsc.tokenImageFolder = imagePath
+                this.render()
+            },
+        }).browse(this.settings.nsc.tokenImageFolder, {wildcard: true}))
+
+    }
+
+
+    _updateObject(event, formData) {
+        let settings = game.settings.get(moduleName, 'settings')
+        const data = expandObjectRev2(formData)
+        mergeObject(settings, data.settings)
+
+        console.clear()
+        console.log('%c' + JSON.stringify(settings), "font-size:1.5em;background-color:lightblue")
+        game.settings.set(moduleName, 'settings', settings);
+        this.render()
+    }
+
+
+    static get defaultSettings() {
+        return {
+            scenes: ManageScenes.getDefaultSettings(),
+            nsc: CreateNSC.getDefaultSettings(),
+        }
+    }
+}
+
 
 class InitializerForm extends FormApplication {
 
@@ -105,163 +234,50 @@ class InitializerForm extends FormApplication {
     }
 }
 
-class MeistertoolsConfig extends FormApplication {
 
-    static DEFAULT_SETTINGS() {
-        return {
-            scenes: ManageScenes.getDefaultSettings(),
-            nsc: CreateNSC.getDefaultSettings(),
-        }
+// todo move to util
+function expandObjectRev2(obj) {
+    const expanded = {};
+    console.clear()
+    for (let [k, v] of Object.entries(obj)) {
+        setPropertyRev2(expanded, k, v);
     }
+    return expanded;
+}
 
-    constructor(object, options) {
-        super(object, options);
-        game.settings.sheet.close();
+function setPropertyRev2(object, key, value) {
+    let target = object;
+    let changed = false;
+    // Convert the key to an object reference if it contains dot notation
+    if (key.indexOf('.') !== -1) {
+        let parts = key.split('.');
+        key = parts.pop();
+        target = parts.reduce((obj, currentKey) => {
+            let match = currentKey.match(/^(.*)\[(.*)\]$/)
+            if (match) {
+                const property = match[1]
+                if (!obj.hasOwnProperty(property) || !Array.isArray(obj[property])) obj[property] = [];
 
-        const scenePacks = game.packs
-            .filter(p => p.metadata.entity === 'Scene')
-            .map(p => p.metadata.package + '.' + p.metadata.name)
-
-        const actorPacks = game.packs
-            .filter(p => p.metadata.entity === 'Actor')
-            .map(p => p.metadata.package + '.' + p.metadata.name)
-
-        let origins = []
-        let cultures = []
-        for (let archetype of getRuleset().archetypes)
-            for (let origin of archetype.origins) {
-                origins.push({key: origin.key, name: origin.name})
-                if (origin.cultures !== undefined)
-                    cultures = cultures.concat(origin.cultures)
-            }
-
-        this.dataObject = mergeObject({
-            scenePacks,
-            actorPacks,
-            origins,
-            cultures,
-            playlists: game.playlists
-        }, game.settings.get(moduleName, 'settings') || MeistertoolsConfig.DEFAULT_SETTINGS());
-    }
-
-    static get defaultOptions() {
-        const options = super.defaultOptions;
-        options.id = moduleName + '-config';
-        options.title = 'DSA5 Meistertools Einstellungen';
-        options.template = `modules/${moduleName}/templates/meistertools-config.html`;
-        options.tabs = [{navSelector: ".tabs", contentSelector: ".content", initial: "scenes"}]
-        options.closeOnSubmit = true;
-        options.width = 400
-        options.resizable = true
-        return options;
-    }
-
-    getData() {
-        return this.dataObject
-    }
-
-    render(force, context = {}) {
-        return super.render(force, context);
-    }
-
-
-    activateListeners(html) {
-        super.activateListeners(html);
-        html.find('.insert-element').click(event => this._insertArrayElement(event));
-        html.find('.delete-element').click(event => this._deleteArrayElement(event));
-
-        html.find('.add-scene-pack').click(ev => {
-            ev.preventDefault();
-            if (this.dataObject.scenes.categories === undefined)
-                this.dataObject.scenes.categories = []
-            this.dataObject.scenes.categories.push({})
-            this.render()
-        });
-
-        html.find("button[name='change-token-image-folder']").click(event => this._changeTokenImageFolder());
-
-
-        html.find('.delete-scene-pack').click(ev => {
-            ev.preventDefault();
-            this.dataObject.scenes.categories.splice(ev.target.value, 1);
-            this.render();
-        });
-    }
-
-    _deleteArrayElement(event) {
-        event.preventDefault();
-        console.log(event.target.name)
-        console.log(event.target.value)
-        const path = event.target.name.split('.')
-        this.dataObject[path[0]][path[1]].splice(event.target.value, 1);
-        this.render()
-    }
-
-    _insertArrayElement(event) {
-        event.preventDefault();
-        //console.log(event.target.name)
-        const path = event.target.name.split('.')
-        if (this.dataObject[path[0]][path[1]] === undefined)
-            this.dataObject[path[0]][path[1]] = []
-        this.dataObject[path[0]][path[1]].push({})
-        this.render()
-    }
-
-
-    // todo there GOTTA be a better way to do this dynamically with handlebars data-binding. maybe someday Ill learn how
-    _updateObject(event, formData) {
-        let updatedSettings = game.settings.get(moduleName, 'settings')
-        const settingMainKeys = Object.keys(updatedSettings)
-        const formDataKeys = Object.keys(formData)
-        for (let mainKey of settingMainKeys) {
-            let arrayData = {}
-            for (let formDataKey of formDataKeys) {
-                if (formDataKey.startsWith(mainKey)) {
-                    let dataKey = formDataKey.substr(mainKey.length + 1)
-                    let dataValue = formData[formDataKey]
-                    let arrayIndex = dataKey.indexOf('_')
-                    if (arrayIndex !== -1) {
-                        let arrayName = dataKey.substr(0, arrayIndex);
-                        if (arrayData[arrayName] === undefined)
-                            arrayData[arrayName] = []
-                        arrayData[arrayName].push(dataKey.substr(arrayName.length + 1))
-                        continue
-                    }
-                    updatedSettings[mainKey][dataKey] = dataValue
+                let index = parseInt(match[2])
+                if (isNaN(index) || index < 0) {
+                    index = obj[property].length
                 }
-            }
-            const arrayKeys = Object.keys(arrayData)
-            for (let arrayKey of arrayKeys) {
-                let arr = []
-                for (let arrayElem of arrayData[arrayKey]) {
-                    const elem = formData[mainKey + '.' + arrayKey + "_" + arrayElem]
-                    if (!Array.isArray(elem)) {
-                        if (arr.length === 0) arr = [{}]
-                        arr[0][arrayElem] = elem
-                    } else {
-                        if (arr.length === 0)
-                            for (let index = 0; index < elem.length; index++)
-                                arr.push({})
-                        for (let index = 0; index < elem.length; index++)
-                            arr[index][arrayElem] = elem[index]
-                    }
+
+                while (obj[property].length <= index) {
+                    obj[property].push({})
                 }
-                updatedSettings[mainKey][arrayKey] = arr
+                return obj[property][index];
+            } else {
+                if (!obj.hasOwnProperty(currentKey)) obj[currentKey] = {};
+                return obj[currentKey];
             }
-        }
-        game.settings.set(moduleName, 'settings', updatedSettings);
+        }, object);
     }
-
-    _setTokenImageFolder(path) {
-        this.dataObject.nsc.tokenImageFolder = path
-        this.render()
+    // Update the target
+    if (target[key] !== value) {
+        changed = true;
+        target[key] = value;
     }
-
-    async _changeTokenImageFolder() {
-        await new FilePicker({
-            type: "image",
-            current: this.dataObject.nsc.tokenImageFolder,
-            callback: (imagePath) => this._setTokenImageFolder(imagePath),
-        }).browse(this.dataObject.nsc.tokenImageFolder, {wildcard: true});
-    }
+    // Return changed status
+    return changed;
 }

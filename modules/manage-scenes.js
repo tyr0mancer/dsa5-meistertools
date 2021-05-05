@@ -1,7 +1,7 @@
 import {moduleName} from "../meistertools.js";
 import {MeistertoolsUtil, MyCompendia, MyFilePicker} from "../meistertools-util.js";
 
-const SHOW_ALL = 'SHOW_ALL'
+const SHOW_ALL = ''
 
 export class ManageScenes extends Application {
 
@@ -70,7 +70,7 @@ export class ManageScenes extends Application {
         super.activateListeners(html);
         html.find('a.set-category').click(event => this._setCategory(event));
         html.find('input[name=keyword]').change(event => this._changeKeyword(event));
-        html.find('button[name=set-keyword]').click(event => this._changeKeyword(event));
+        html.find('a[name=set-keyword]').click(event => this._changeKeyword(event));
 
 
         html.find('button[name=activate-scene]').click(event => this._activateScene(event));

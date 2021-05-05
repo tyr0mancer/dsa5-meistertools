@@ -1,6 +1,6 @@
-<section class="content meistertools">
+<section class="meistertools content">
 
-    <nav>
+    <nav class="tabs">
         {{#each categories}}
         <a class="set-category {{#ifeq ../activeCategory key}}active{{/ifeq}}"
            data-category-key="{{key}}">{{name}}</a>
@@ -8,72 +8,104 @@
         <!--categories-->
     </nav>
 
-    <hr/>
-    <h2>{{scenePack.name}} (gefiltert nach <i>'{{keyword}}'</i>)</h2>
-    <div>
-        <input name="keyword" value="{{keyword}}"/>
-        <button name="set-keyword" data-keyword="{{showAll}}">Alle</button>
-        {{#each keywords}}
-        <button name="set-keyword" data-keyword="{{this}}">{{this}}</button>
-        {{/each}}
+    <section class="round-box">
+        <header>
+            <h1>{{scenePack.name}}</h1>
+        </header>
+        <main>
 
-    </div>
-
-    <h1>Bereits in Ordner <i>{{scenePack.folderName}}</i>:</h1>
-    {{#each scenePack.existing}}
-    <section style="background-color: lightgreen">
-        <h2>{{name}}</h2>
-        <div style="display: grid; grid-template-columns: 320px auto">
-            <a class="show-scene"
-               data-scene-id="{{_id}}"><img src="{{img}}" style="width: 300px; height:100px; object-fit: cover"/>
-            </a>
+            <!--keywords-->
             <div>
-                <button name="activate-scene" class="activate-scene" data-scene-id="{{_id}}">aktivieren</button>
+                {{#if keyword}}
+                <h2>gefiltert nach <i>'{{keyword}}'</i></h2>
+                {{/if}}
+                <input name="keyword" value="{{keyword}}"/>
+                <a class="label" name="set-keyword" data-keyword="{{showAll}}">Alle</a>
+                {{#each keywords}}
+                <a class="label" name="set-keyword" data-keyword="{{this}}">{{this}}</a>
+                {{/each}}
             </div>
-        </div>
-    </section>
-    {{/each}}
-    <hr/>
+
+            <!--local scenes from folder-->
+            <section class="round-box inner">
+                <header>
+                    <h2>Bereits in Ordner <i><b>{{scenePack.folderName}}</b></i></h2>
+                </header>
+                {{#each scenePack.existing}}
+                <section style="background-color: lightgreen">
+                    <h2>{{name}}</h2>
+                    <div style="display: grid; grid-template-columns: 320px auto">
+                        <a class="show-scene"
+                           data-scene-id="{{_id}}"><img src="{{img}}"
+                                                        style="width: 300px; height:100px; object-fit: cover"/>
+                        </a>
+                        <div>
+                            <button name="activate-scene" class="activate-scene" data-scene-id="{{_id}}">aktivieren
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                {{/each}}
+            </section>
 
 
-    {{#if scenePack.meta.thumbFolder}}
-    <h1>Erstelle Szene</h1>
-    {{#each thumbs}}
-    <section style="background-color: lightblue">
-        <div style="display: grid; grid-template-columns: 320px auto">
-            <img src="{{this}}" style="width: 300px; height:300px; object-fit: cover"/>
-            <div>
-                <button name="create-scene" data-thumb-name="{{this}}">Szene erstellen</button>
-            </div>
-        </div>
-    </section>
-    {{/each}}
-    <!--thumbs-->
+            {{#if scenePack.meta.thumbFolder}}
+            <!--generated battlemaps (beta)-->
+            <section class="round-box inner">
+                <header>
+                    <h2>Erstelle Battlemap (beta)</h2>
+                </header>
 
-    {{else}}
-    <!--scenePack.meta.thumbFolder-->
-    <h1>Importiere aus <i>{{scenePack.packName}}</i></h1>
-    {{#each scenePack.index}}
-    <section style="background-color: lightgray">
-        <h2>{{name}}</h2>
-        <div style="display: grid; grid-template-columns: 320px auto">
-            <img src="{{img}}" style="width: 300px; height:100px; object-fit: cover"/>
-            <div>
-                <div>
-                    <button name="activate-scene" class="activate-scene" data-scene-id="{{_id}}">importieren und
-                        aktivieren
-                    </button>
-                </div>
-                <div style="margin-top: 10px">
-                    <button name="show-scene" class="show-scene" data-scene-id="{{_id}}">importieren und anzeigen
-                    </button>
-                </div>
-            </div>
-        </div>
+                {{#each thumbs}}
+                <section style="background-color: lightblue">
+                    <div style="display: grid; grid-template-columns: 320px auto">
+                        <img src="{{this}}" style="width: 300px; height:300px; object-fit: cover"/>
+                        <div>
+                            <button name="create-scene" data-thumb-name="{{this}}"><i class="fas fa-magic"></i> Battlemap erstellen</button>
+                            <ul>
+                                <li>keyword</li>
+                                <li>keyword</li>
+                                <li>keyword</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                {{/each}} <!--thumbs-->
+            </section>
+
+            {{else}} <!--scenePack.meta.thumbFolder-->
+
+            <!--scenes from compendium -->
+            <section class="round-box inner">
+                <header>
+                    <h2>Aus Kompendium <i>{{scenePack.packName}}</i></h2>
+                </header>
+                {{#each scenePack.index}}
+                <section style="background-color: lightgray">
+                    <h2>{{name}}</h2>
+                    <div style="display: grid; grid-template-columns: 320px auto">
+                        <img src="{{img}}" style="width: 300px; height:100px; object-fit: cover"/>
+                        <div>
+                            <div style="margin-top: 10px">
+                                <button name="show-scene" class="show-scene" data-scene-id="{{_id}}"><i
+                                        class="fas fa-cloud-download-alt"></i> nur anzeigen
+                                </button>
+                            </div>
+                            <div>
+                                <button name="activate-scene" class="activate-scene" data-scene-id="{{_id}}"><i
+                                        class="fas fa-cloud-download-alt"></i> auch aktivieren
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {{/each}} <!--scenePack.index-->
+
+            </section>
+            {{/if}} <!--scenePack.meta.thumbFolder-->
+
+        </main>
     </section>
-    {{/each}}
-    <!--scenePack.index-->
-    {{/if}}
-    <!--scenePack.meta.thumbFolder-->
+
 
 </section>

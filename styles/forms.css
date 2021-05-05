@@ -260,3 +260,13 @@ select:focus > option:hover {
 .meistertools i.button.fa-minus-circle {
     color: red
 }
+
+/* label buttons */
+
+.meistertools a.label {
+    vertical-align: middle;
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: var(--color-quaternary);
+}

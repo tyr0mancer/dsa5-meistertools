@@ -98,6 +98,13 @@ span.bold {
 
 
 /* - Grid --------------------- */
+.col-2 {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+}
+
+/*todo überarbeiten*/
 .round-box.col-3 main {
     display: grid;
     grid-template-columns: auto auto auto;

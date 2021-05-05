@@ -128,14 +128,7 @@
     text input
  --------------------------------- */
 
-.boxed-input {
-    position: relative;
-    display: block;
-    margin-top: 22px;
-}
-
-
-.boxed-input input[type="text"] {
+.meistertools input[type="text"] {
     text-align: left;
     cursor: text;
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
@@ -143,9 +136,14 @@
     border-radius: 5px;
 }
 
-
-.boxed-input input[type="text"]:focus {
+.meistertools input[type="text"]:focus {
     background-color: var(--color-light);
+}
+
+.boxed-input {
+    position: relative;
+    display: block;
+    margin-top: 22px;
 }
 
 
@@ -201,6 +199,10 @@ select:focus > option:hover {
     color: var(--color-light);
 }
 
+.meistertools select:disabled {
+    cursor: not-allowed;
+}
+
 
 /* ---------------------------------
     buttons
@@ -209,12 +211,12 @@ select:focus > option:hover {
 .meistertools button {
     color: var(--color-secondary);
     background-color: var(--color-quaternary);
+    border: 1px solid var(--color-quaternary);
     margin: 5px 0px;
     transition-duration: 0.4s;
     padding: 1px 10px;
     width: auto;
     font-weight: bold;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
 }
@@ -232,7 +234,7 @@ select:focus > option:hover {
 .meistertools button:disabled {
     background-color: var(--color-disabled);
     color: var(--color-disabled-background);
-    cursor: pointer;
+    cursor: not-allowed;
 }
 
 
@@ -241,10 +243,12 @@ select:focus > option:hover {
 .meistertools button.reset {
     color: var(--color-secondary);
     background-color: var(--color-light);
+    border: 1px solid var(--color-quaternary);
 }
+
 .meistertools button.reset:active {
     color: var(--color-primary);
-    background-color: var(--color-light);
+    background-color: var(--color-quaternary);
 }
 
 

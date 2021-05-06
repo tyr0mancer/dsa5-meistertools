@@ -12,23 +12,26 @@
     -->
     <section class="tab" data-tab="random-nsc">
 
-        <!-- list alle stored patterns -->
-        {{#if settings.storedPatterns}}
-        <div class="round-box">
-            <header>
-                <h2>Gespeicherte Vorlagen</h2>
-            </header>
-            <main class="flow">
-                {{#each settings.storedPatterns as |pattern n|}}
-                <div class="button-box">
-                    <button name="load-pattern" data-pattern="{{n}}" type="button">{{pattern.name}}</button>
-                    <button name="delete-pattern" data-pattern="{{n}}" type="button" class="delete"><i
-                            class="fas fa-trash-alt"></i></button>
-                </div>
-                {{/each}}
-            </main>
+        <div class="col-2" style="grid-template-columns: auto 64px">
+            <!-- list alle stored patterns -->
+            <div class="round-box">
+                <header>
+                    <h2>Gespeicherte Vorlagen</h2>
+                </header>
+                <main class="flow">
+                    {{#each settings.storedPatterns as |pattern n|}}
+                    <div class="button-box">
+                        <button name="load-pattern" data-pattern="{{n}}" type="button">{{pattern.name}}</button>
+                        <button name="delete-pattern" data-pattern="{{n}}" type="button" class="delete"><i
+                                class="fas fa-trash-alt"></i></button>
+                    </div>
+                    {{/each}}
+                </main>
+            </div>
+
+            <button name="generate-nsc" class="top-right-nsc" type="button"><i class="fas fa-user-plus"></i></button>
+
         </div>
-        {{/if}}
 
 
         <section class="round-box">
@@ -148,17 +151,16 @@
                         </div>
                     </main>
                 </section>
-
-                <button name="generate-nsc" type="button" style="grid-column: span 3">Zufalls NSC jetzt generieren</button>
-
-
             </main>
         </section>
 
 
         <section class="round-box">
             <header>
-                <h2>Vorschau</h2>
+                <h2>
+                    <button name="process-result" type="button"><i class="fas fa-dice"></i></button>
+                    Vorschau
+                </h2>
             </header>
             <main class="col-2">
 
@@ -189,6 +191,8 @@
                         {{/if}}
                     </div>
                 </div>
+                <button disabled name="generate-nsc" type="button" style="grid-column: span 2">Diese NSC jetzt erstellen</button>
+
             </main>
         </section>
 

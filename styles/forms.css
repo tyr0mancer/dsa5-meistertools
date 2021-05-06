@@ -232,8 +232,8 @@ select:focus > option:hover {
 }
 
 .meistertools button:disabled {
-    background-color: var(--color-disabled);
-    color: var(--color-disabled-background);
+    color: var(--color-disabled);
+    background-color: var(--color-disabled-background);
     cursor: not-allowed;
 }
 
@@ -285,4 +285,14 @@ select.culture {
 select.culture.checked {
     margin-top: 10px;
     color: var(--color-light);
+}
+
+/* generate-nsc button */
+
+button.top-right-nsc {
+    font-size: 2em;
+    height: 64px;
+    width: 64px;
+    margin-top: 30px;
+    text-align: center;
 }

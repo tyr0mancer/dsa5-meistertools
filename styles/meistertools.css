@@ -30,15 +30,20 @@ span.bold {
 }
 
 .meistertools nav.tabs a {
+    border-top: 2px solid var(--color-light);
+    background-image: linear-gradient(var(--color-light) 80%, var(--color-primary) 100%);
+    color: var(--color-secondary);
+    padding: 5px;
     font-size: 1.2em;
     font-weight: normal;
     text-align: center;
 }
 
 .meistertools nav.tabs a.active {
+    border-top: 2px solid var(--color-secondary);
     font-weight: bolder;
-    border-top: 1px solid black;
-    background-color: var(--color-quaternary);
+    background-image: linear-gradient(var(--color-light) 80%, var(--color-primary) 100%);
+    color: var(--color-secondary);
 }
 
 /*
@@ -227,6 +232,7 @@ img.placed-prop {
  --------------------------------- */
 
 .img-left {
+    min-height: 64px;
     background-repeat: no-repeat;
     background-position: 0px 10px;
     background-size: 48px 48px;
@@ -234,13 +240,13 @@ img.placed-prop {
 
 label.inputbox {
     background-repeat: no-repeat;
-    background-position: top left;
-    background-size: 32px 32px;
+    background-position: 2px 2px;
+    background-size: 24px 24px;
     vertical-align: middle;
 }
 
 label.inputbox span {
-    margin-left: 32px;
+    margin-left: 24px;
     text-align: left;
 }
 
@@ -255,7 +261,8 @@ label.inputbox span {
 }
 
 .meistertools .position.outside {
-    border-color: green;
+    border: 4px solid green;
+    padding: 9px;
 }
 
 .meistertools .position.center {

@@ -85,8 +85,8 @@ export class CreateNSC extends Application {
         options.resizable = true;
         options.top = 50;
         options.left = 100;
-        options.width = 600;
-        options.height = 800;
+        options.width = 700;
+        options.height = 900;
         return options;
     }
 

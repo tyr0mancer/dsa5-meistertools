@@ -92,8 +92,9 @@ Hooks.once('init', () => {
     Handlebars.registerHelper('checked_radio', function (a, b) {
         return (a === b) ? 'checked' : ''
     });
-
-
+    Handlebars.registerHelper('checked_property', function (obj, property) {
+        return (obj !== undefined && obj[property]) ? 'checked' : ''
+    });
 
 
     Handlebars.registerHelper('active', function (a, b) {

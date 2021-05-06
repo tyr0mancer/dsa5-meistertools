@@ -125,9 +125,9 @@
                         <h2>Anzahl</h2>
                     </header>
                     <main>
-                        <div class="boxed-input">
+                        <div class="boxed-input" style="width: 50px;">
                             <input id="box4" name="anzahl" type="text" value="{{data.anzahl}}"/>
-                            <label for="box4">Anzahl / Formular</label>
+                            <label for="box4">Anzahl</label>
                         </div>
                     </main>
                 </section>
@@ -136,21 +136,22 @@
                     <header>
                         <h2>Position in Szene</h2>
                     </header>
-                    <main>
-                        <div class="card {{data.tokenPosition}}">
-                            <label>
-                                <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
-                                    {{#select data.tokenPosition}}
-                                    <option value="">kein Import in Szene</option>
-                                    {{#each tokenPositionOptions}}
-                                    <option value="{{key}}">{{name}}</option>
-                                    {{/each}}
-                                    {{/select}}
-                                </select>
+                    <main class="flow-box">
+
+                        {{#each tokenPositionOptions}}
+                        <div class="boxed-radio">
+                            <input name="tokenPosition" value="{{key}}" type="radio"
+                                   id="tokenPosition-{{key}}" data-dtype="String" {{checked_radio key ../data.tokenPosition}}
+                            />
+                            <label for="tokenPosition-{{key}}" title="{{key}}">
+                                <div class="position {{key}}"> </div>
                             </label>
                         </div>
+                        {{/each}} <!--tokenPositionOptions-->
+
                     </main>
                 </section>
+
             </main>
         </section>
 
@@ -185,9 +186,11 @@
                 </div>
                 {{/each}} <!--preview-->
 
-                <button {{#unless preview}}disabled{{/unless}}
-                name="create-from-preview" type="button" style="width: 100%">
-                Alle NSC aus Vorschau Liste erstellen
+                <button
+                        {{#unless preview}}
+                        disabled {{/unless}}
+                name="create-from-preview" type="button" style="width: 100%"> Alle NSC aus Vorschau Liste
+                erstellen
                 </button>
 
             </main>

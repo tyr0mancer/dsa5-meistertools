@@ -244,3 +244,31 @@ label.inputbox span {
     text-align: left;
 }
 
+
+/* positioning select */
+.meistertools .position {
+    border-top: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    padding: 5px;
+}
+
+.meistertools .position.outside {
+    border-color: green;
+}
+
+.meistertools .position.center {
+    background-color: green;
+    border-color: lightgray;
+}
+
+.meistertools .position.top-left {
+    border-top: 8px solid green;
+    border-left: 8px solid green;
+}
+
+.meistertools .position.bottom-left {
+    border-bottom: 8px solid green;
+    border-left: 8px solid green;
+}

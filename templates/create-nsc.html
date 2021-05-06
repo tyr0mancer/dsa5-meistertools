@@ -1,184 +1,224 @@
-<section class="content meistertools">
+<section class="meistertools content">
 
     <!-- Navigation -->
-    <nav class="scene-type-tabs tabs" data-tab-container="primary">
-        <a class="item active" data-tab="random-nsc">Zufällige NSC</a>
-        <a class="item" data-tab="characters">Helden und Meisterfiguren</a>
+    <nav class="tabs">
+        <a class="item active" data-tab="random-nsc">NSC Erstellen</a>
+        <a class="item" data-tab="characters">Existierende NSC in Szene</a>
     </nav>
 
 
     <!--
-    {{stringify data}}
-    section 1 - generate random NPC
+       generate random NPC
     -->
     <section class="tab" data-tab="random-nsc">
 
         <!-- list alle stored patterns -->
-        <div class="round-box container flow">
-            {{#each settings.storedPatterns as |pattern n|}}
-            <!--
-                            {{stringify this}}
-            -->
-            <div class="button-box">
-                <button name="load-pattern" data-pattern="{{n}}" type="button">{{pattern.name}}</button>
-                <button name="delete-pattern" data-pattern="{{n}}" type="button" class="delete"><i
-                        class="fas fa-trash-alt"></i></button>
-            </div>
-            {{/each}}
+        {{#if settings.storedPatterns}}
+        <div class="round-box">
+            <header>
+                <h2>Gespeicherte Vorlagen</h2>
+            </header>
+            <main class="flow">
+                {{#each settings.storedPatterns as |pattern n|}}
+                <div class="button-box">
+                    <button name="load-pattern" data-pattern="{{n}}" type="button">{{pattern.name}}</button>
+                    <button name="delete-pattern" data-pattern="{{n}}" type="button" class="delete"><i
+                            class="fas fa-trash-alt"></i></button>
+                </div>
+                {{/each}}
+            </main>
         </div>
-        <hr/>
+        {{/if}}
 
-        <!-- Pick Origin and Potential Culture -->
-        <form class="nsc-form">
-            <!--
-                        {{data.professionName}}
-            -->
 
-            <!-- each species gets a box -->
-            {{#each archetypes}}
-            <div class="round-box container flow"
-                 style="background-image: url('{{img}}')">
-
-                {{#each origins}}
-                <div class="card {{active key ../../data.origin}}">
-                    <label class="inputbox flow radio">
-                        {{name}}
-                        <input name="origin" value="{{key}}" type="radio" data-dtype="String"/>
-                    </label>
-
-                    {{#if cultures}}
-                    <label class="inputbox select {{#ifeq ../../data.origin key}}active{{/ifeq}}">
-                        <select name="culture" style="width:100%; margin: 0 -5px;font-size: 0.7em">
-                            {{#select ../../data.culture}}
-                            <option value="">---</option>
-                            {{#each cultures}}
-                            <option value="{{key}}">{{name}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </label>
-                    {{/if}}
-                    <!--if cultures-->
-
-                </div>
-                {{/each}}
-                <!--each origins-->
-
-            </div>
-            {{/each}}
-            <!-- each archetypes -->
-
-            <!-- gender options box -->
-            <div class="round-box container flow">
-                {{#each settings.genderOptions}}
-                <div class="card {{active key ../data.gender key}}">
-                    <label class="inputbox gender radio  {{active key ../data.gender key}}">
-                        <span><i class="{{icon}}"> </i></span>
-                        <input name="gender" value="{{key}}" type="radio" data-dtype="String"/>
-                    </label>
-                </div>
-                {{/each}}
-                <!-- each settings.genderOptions -->
-            </div>
-            <hr/>
-
-            <!-- pick the profession -->
-            <div class="round-box container flow"
-                 style="background-image: url('systems/dsa5/icons/categories/Skill.webp')">
-                {{#each professions}}
-                <div class="card {{active _id ../data.profession}}">
-                    <label class="inputbox flow radio profession"
-                           style="background-image: url('{{img}}')">
-                        {{name}}
-                        <input name="profession" value="{{_id}}" type="radio" data-profession-name="{{name}}"
-                               data-dtype="String"/>
-                    </label>
-                </div>
-                {{/each}}
-                <!-- each professions -->
-            </div>
-
-            <hr/>
-
-            <!-- Main buttons -->
-            <div class="round-box container flow submit">
-                <div class="card {{nactive data.anzahl}}">
-                    <label class="inputbox text anzahl">
-                        <input name="anzahl" placeholder="Anzahl / Wurf" value="{{data.anzahl}}" type="text"
-                               data-dtype="String"/>
-                    </label>
-                </div>
-
-                <div class="card {{data.tokenPosition}}">
-                    <label>
-                        <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
-                            {{#select data.tokenPosition}}
-                            <option value="">kein Import in Szene</option>
-                            {{#each tokenPositionOptions}}
-                            <option value="{{key}}">{{name}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </label>
-                </div>
-                <div>
-                    <div class="button">
-                        <button name="generate-nsc" type="button">NSC erstellen</button>
+        <section class="round-box">
+            <header>
+                <h2>Rasse und Herkunft</h2>
+            </header>
+            <main>
+                {{#each archetypes}}
+                <div class="round-box inner no-header img-left"
+                     style="background-image: url('{{img}}');">
+                    <div class="flow" style="margin-left: 40px">
+                        {{#each origins}}
+                        <div class="boxed-radio">
+                            <input id="origin-{{key}}" type="radio" name="origin" value="{{key}}"
+                                   {{checked_radio key ../../data.origin}} />
+                            <label for="origin-{{key}}">
+                                {{name}}
+                                {{#if cultures}}
+                                <div class="select-css">
+                                    <select name="culture"
+                                            class="culture {{#ifeq ../../data.origin key}}checked{{/ifeq}}">
+                                        {{#select ../../data.culture}}
+                                        <option value="">---</option>
+                                        {{#each cultures}}
+                                        <option value="{{key}}">{{name}}</option>
+                                        {{/each}}
+                                        {{/select}}
+                                    </select>
+                                </div>
+                                {{/if}} <!--cultures-->
+                            </label>
+                        </div>
+                        {{/each}} <!--origins-->
                     </div>
                 </div>
-            </div>
+                {{/each}} <!--archetypes -->
 
-            <div class="round-box container flow">
-                <div>
-                    <button class="dice" name="generate-name" type="button">Name<br/> <i
-                            class="fas fa-dice"></i></button>
+            </main>
+        </section>
+
+        <section class="round-box img-left" style="background-image: url('systems/dsa5/icons/categories/Skill.webp')">
+            <header>
+                <h2>Profession</h2>
+            </header>
+            <main>
+                <div class="flow" style="margin-left: 53px">
+
+                    {{#each professions}}
+                    <div class="boxed-radio">
+                        <input name="profession" value="{{_id}}" type="radio" data-profession-name="{{name}}"
+                               id="profession{{_id}}" data-dtype="String" {{checked_radio _id ../data.profession}} />
+                        <label for="profession{{_id}}" class="inputbox" style="background-image: url('{{img}}')">
+                            <span>{{name}}</span>
+                        </label>
+                    </div>
+                    {{/each}}
+                    <!-- each professions -->
                 </div>
+            </main>
+        </section>
 
-                <div class="card nsc_name {{nactive data.nsc_name}}">
-                    <label class="inputbox text">
+
+        <section class="round-box no-header">
+            <main class="col-3">
+
+                <section class="round-box inner">
+                    <header>
+                        <h2>Geschlecht</h2>
+                    </header>
+                    <main>
+                        <div class="flow">
+
+                            <!-- gender options box -->
+                            {{#each settings.genderOptions}}
+                            <div class="boxed-radio">
+                                <input id="gender-{{key}}" name="gender" value="{{key}}" type="radio"
+                                       data-dtype="String"
+                                       {{checked_radio key ../data.gender}} />
+                                <label for="gender-{{key}}" style="width:32px; text-align: center"><i
+                                        class="{{icon}}"></i></label>
+                            </div>
+                            {{/each}}
+                            <!-- each settings.genderOptions -->
+                        </div>
+                    </main>
+                </section>
+
+
+                <section class="round-box inner">
+                    <header>
+                        <h2>Anzahl</h2>
+                    </header>
+                    <main>
+                        <div class="boxed-input">
+                            <input id="box4" name="anzahl" type="text" value="{{data.anzahl}}"/>
+                            <label for="box4">Anzahl / Formular</label>
+                        </div>
+                    </main>
+                </section>
+
+                <section class="round-box inner">
+                    <header>
+                        <h2>Position in Szene</h2>
+                    </header>
+                    <main>
+                        <div class="card {{data.tokenPosition}}">
+                            <label>
+                                <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
+                                    {{#select data.tokenPosition}}
+                                    <option value="">kein Import in Szene</option>
+                                    {{#each tokenPositionOptions}}
+                                    <option value="{{key}}">{{name}}</option>
+                                    {{/each}}
+                                    {{/select}}
+                                </select>
+                            </label>
+                        </div>
+                    </main>
+                </section>
+
+                <button name="generate-nsc" type="button" style="grid-column: span 3">Zufalls NSC jetzt generieren</button>
+
+
+            </main>
+        </section>
+
+
+        <section class="round-box">
+            <header>
+                <h2>Vorschau</h2>
+            </header>
+            <main class="col-2">
+
+                <div class="round-box inner">
+                    <div>
+                        <button class="dice" name="generate-name" type="button">Name<br/> <i
+                                class="fas fa-dice"></i></button>
+                    </div>
+
+                    <div class="card nsc_name {{nactive data.nsc_name}}">
+                        <label class="inputbox text">
                         <textarea name="nsc_name" placeholder="(Name wird automatisch generiert)" type="text"
                                   data-dtype="String">{{data.nsc_name}}</textarea>
-                    </label>
-                </div>
-            </div>
-
-            <div class="round-box container flow">
-                <div>
-                    <button class="dice" name="generate-image" type="button">Bild<br/> <i
-                            class="fas fa-dice"></i></button>
-                </div>
-                <div class="card nsc_name {{nactive data.nsc_img}}">
-                    {{#if data.nsc_img}}
-                    <img src="{{data.nsc_img}}" style="width: 165px; height: 165px; object-fit: cover"/>
-                    {{else}}
-                    <i>Bild wird automatisch generiert</i>
-                    {{/if}}
-                </div>
-            </div>
-            <hr/>
-
-
-            <!-- store pattern for quick access -->
-            <div class="round-box container flow">
-                <div class="card {{nactive data.patternName}}">
-                    <label class="inputbox text">
-                        <input name="patternName" placeholder="" value="{{data.patternName}}" type="text"
-                               data-dtype="String"/>
-                    </label>
+                        </label>
+                    </div>
                 </div>
 
-                <div class="button-box">
-                    {{#unless data.patternName}}
-                    <button disabled class="inactive" type="button">speichern</button>
-                    {{else}}
-                    <button name="store-pattern" type="button">speichern</button>
-                    {{/unless}}
+                <div class="round-box inner">
+                    <div>
+                        <button class="dice" name="generate-image" type="button">Bild<br/> <i
+                                class="fas fa-dice"></i></button>
+                    </div>
+                    <div class="card nsc_name {{nactive data.nsc_img}}">
+                        {{#if data.nsc_img}}
+                        <img src="{{data.nsc_img}}" style="width: 165px; height: 165px; object-fit: cover"/>
+                        {{else}}
+                        <i>Bild wird automatisch generiert</i>
+                        {{/if}}
+                    </div>
                 </div>
-            </div>
+            </main>
+        </section>
 
-            <hr/>
 
-        </form>
+        <section class="round-box">
+            <header>
+                <h2>Konfiguration speichern</h2>
+            </header>
+            <main>
+
+                <!-- store pattern for quick access -->
+                <div class="round-box container flow">
+                    <div class="card {{nactive data.patternName}}">
+                        <label class="inputbox text">
+                            <input name="patternName" placeholder="" value="{{data.patternName}}" type="text"
+                                   data-dtype="String"/>
+                        </label>
+                    </div>
+
+                    <div class="button-box">
+                        {{#unless data.patternName}}
+                        <button disabled class="inactive" type="button">speichern</button>
+                        {{else}}
+                        <button name="store-pattern" type="button">speichern</button>
+                        {{/unless}}
+                    </div>
+                </div>
+
+            </main>
+        </section>
 
     </section>
 
@@ -294,26 +334,5 @@
 
     </section>
 
-    <h2>Hilfe <i class="fas fa-info-circle help" onclick="$('.help-info.help-origin').toggle();"></i></h2>
-    <div class="help-info help-origin">
-        <!-- todo nach lang/de.json -->
-        <h3>Name</h3>
-        <p>Der Name bestimmt sich aus der <b>Herkunft</b> (gruppiert nach Spezies), der <b>Region</b>
-            <i>(optional)</i> und des <b>Geschlechts</b>. Die Region ist nur auswählbar,
-            falls zur Herkunft Regionen definiert wurden.
-        </p>
-
-        <h3>Token und Avatar</h3>
-        <p>Das Token bestimmt sich aus <b>Herkunft</b>, <b>Geschlecht</b> und <b>Beruf</b>.
-            Im Module Ordner './images/actor_archetypes' wird nun nach einem Token gesucht.
-            Dabei wird folgende Ordnerstruktur erwartet:</p>
-        <pre>[modulePath]/images/actor_archetypes/
-            [herkunft]/[geschlecht]/[beruf]</pre>
-        <p>Aus dem tiefst-möglichen Ordner wird ein Bild per Zufall als Token und Avatar ausgewählt.</p>
-
-        <h3>Character Sheet</h3>
-        <p>Verwendet wird das dem <b>Beruf</b> zugeordnete Sheet. Angepasst werden derzeit nur der Name und das
-            Token.</p>
-    </div>
 
 </section>

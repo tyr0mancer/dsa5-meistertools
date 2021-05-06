@@ -53,11 +53,9 @@ export class CreateNSC extends Application {
         /*
             current players, per default all are selected
         */
-        MeistertoolsUtil.activePlayers().map(a => playerSelection[a._id] = true)
-        this.players = game.actors.map(a => {
+        this.players = MeistertoolsUtil.playerActors().map(a => {
             return {name: a.name, _id: a._id, img: a.img}
         })
-
 
         /*
             initial formData state
@@ -87,7 +85,7 @@ export class CreateNSC extends Application {
         options.resizable = true;
         options.top = 50;
         options.left = 100;
-        options.width = 520;
+        options.width = 820;
         options.height = 1000;
         return options;
     }

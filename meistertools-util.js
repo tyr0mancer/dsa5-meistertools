@@ -83,6 +83,7 @@ export class MeistertoolsUtil {
     }
 
     static updateByPath(obj, varName, varValue) {
+        console.log(varValue, varName)
         let path = varName.split(".");
         let fieldName = path.splice(path.length - 1, 1);
         let objField = path.reduce((r, u) => r && r[u] ? r[u] : '', obj);
@@ -90,6 +91,8 @@ export class MeistertoolsUtil {
             objField[fieldName] = (objField[fieldName] === undefined || objField[fieldName] === false);
         else
             objField[fieldName] = varValue;
+
+        console.log(obj)
         return obj
     }
 

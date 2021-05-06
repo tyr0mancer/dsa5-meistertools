@@ -80,17 +80,21 @@ Hooks.once('init', () => {
                 result = result + opts.fn(list[i]);
         return result;
     });
-
     Handlebars.registerHelper('stringify', function (obj, opts) {
         return JSON.stringify(obj, null, 2)
     });
-
     Handlebars.registerHelper('ifeq', function (a, b, options) {
         if (a == b) {
             return options.fn(this);
         }
         return options.inverse(this);
     });
+    Handlebars.registerHelper('checked_radio', function (a, b) {
+        return (a === b) ? 'checked' : ''
+    });
+
+
+
 
     Handlebars.registerHelper('active', function (a, b) {
         return (a === b) ? 'active' : ''

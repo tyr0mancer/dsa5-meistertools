@@ -2,24 +2,16 @@
     color palette
  --------------------------------- */
 :root {
-    /*
-    --color-primary: #763626;
-    --color-secondary: #2A3132;
-    --color-tertiary: #336B87;
-    --color-quaternary: #90AFC5;
-    */
-
     --color-primary: #763626;
     --color-secondary: #340C01;
     --color-tertiary: #1B3B4B;
     --color-quaternary: #9C9FB8;
-
+    --color-quinary: #EEEEF2;
 
     --color-disabled: #cccccc;
     --color-disabled-background: #cccccc;
 
     --color-light: #ffffe0;
-
 }
 
 
@@ -73,6 +65,19 @@ span.bold {
     float: left;
 }
 
+
+/* Flow Layout */
+.meistertools .flow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.meistertools .flow > * {
+    float: left;
+}
+
+
 /* ---------------------------------
     boxes layout
  --------------------------------- */
@@ -89,6 +94,9 @@ span.bold {
     border: 2px dotted var(--color-primary);
 }
 
+.meistertools .round-box.no-header {
+    margin-top: 10px;
+}
 
 /*
 .meistertools .round-box header > h1,
@@ -110,7 +118,7 @@ span.bold {
 
 .meistertools .round-box header > h1 {
     font-size: 1.5em;
-    color: white;
+    color: var(--color-light);;
     background-color: var(--color-primary);
 }
 
@@ -125,6 +133,18 @@ span.bold {
 .col-2 {
     display: grid;
     grid-template-columns: auto auto;
+    grid-gap: 10px;
+}
+
+.col-3 {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+}
+
+.col-4 {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
     grid-gap: 10px;
 }
 
@@ -200,3 +220,27 @@ img.placed-prop {
     height: 100px;
     border: none
 }
+
+
+/* ---------------------------------
+    generate NSC
+ --------------------------------- */
+
+.img-left {
+    background-repeat: no-repeat;
+    background-position: 0px 10px;
+    background-size: 48px 48px;
+}
+
+label.inputbox {
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 32px 32px;
+    vertical-align: middle;
+}
+
+label.inputbox span {
+    margin-left: 32px;
+    text-align: left;
+}
+

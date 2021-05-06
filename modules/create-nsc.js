@@ -68,6 +68,7 @@ export class CreateNSC extends Application {
             gender: 'random',
             tokenPosition: TOKEN_POSITION.TOP_LEFT,
             playerTokenPosition: TOKEN_POSITION.CENTER,
+            nscTokenPosition: TOKEN_POSITION.TOP_LEFT,
             stockNscSelection,
             playerSelection,
             packNscSelection,
@@ -156,18 +157,6 @@ export class CreateNSC extends Application {
         html.find("button[name='generate-preview']").click(event => this._updatePreview(event, html));
         html.find("button[name='create-from-preview']").click(event => this._createFromPreview(event, html));
         html.find("button[name='generate-nsc']").click(event => this._createFromForm(event, html));
-
-        /*
-                html.find("button[name='generate-name']").click(async event => {
-                    await this._generateName();
-                    this.render()
-                });
-                html.find("button[name='generate-image']").click(async event => {
-                    await this._generateImage();
-                    this.render()
-                });
-        */
-
 
         html.find("button[name='import-selected-players']").click(event => this._importSelectedPlayers(event, html));
         html.find("button[name='import-selected-npc']").click(event => this._importSelectedNpc(event, html));
@@ -367,10 +356,6 @@ export class CreateNSC extends Application {
         }
     }
 
-    /*
-        todo doesnt consider actor-avatars might be different than token-icon
-       todo doenst consider size of actors
-     */
     moveActorTokenInScene(actor, position = this.observableData.tokenPosition, vision = false) {
         const tokenPosition = this._getTokenPosition(position)
         let newToken = {
@@ -439,17 +424,13 @@ export class CreateNSC extends Application {
 
 
     async _importSelectedNpc(event, html) {
-        1
         const entities = await this.myCompendia.getEntities(this.observableData.packNscSelection, 'npc')
         for (let actor of entities)
-            this.moveActorTokenInScene(actor)
+            this.moveActorTokenInScene(actor, this.observableData.nscTokenPosition)
 
         const stockEntities = await this.myCompendia.getEntities(this.observableData.stockNscSelection, 'global', 'professions')
         for (let actor of stockEntities)
-            this.moveActorTokenInScene(actor)
-
-        this.observableData.packNscSelection = {}
-        this.observableData.stockNscSelection = {}
+            this.moveActorTokenInScene(actor, this.observableData.nscTokenPosition)
 
         if (this.settings.closeAfterGeneration)
             await this.close()

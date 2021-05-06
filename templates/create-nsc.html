@@ -245,17 +245,22 @@
                     </label>
                 </div>
                 {{/each}}
-            </main>
-            <div>
-                <div class="button">
-                    {{#ifeq players.length 0}}
-                    <button disabled class="inactive" type="button">ausgewählte Helden in Szene bewegen</button>
-                    {{else}}
-                    <button name="import-selected-players" type="button">ausgewählte Helden in Szene bewegen
-                    </button>
-                    {{/ifeq}}
+
+                <hr style="clear: left" />
+                <button name="import-selected-players" type="button">Token in Szene bewegen</button>
+                {{#each tokenPositionOptions}}
+                <div class="boxed-radio">
+                    <input name="playerTokenPosition" value="{{key}}" type="radio"
+                           id="playerTokenPosition-{{key}}" data-dtype="String" {{checked_radio key ../data.playerTokenPosition}}
+                    />
+                    <label for="playerTokenPosition-{{key}}" title="{{key}}">
+                        <div class="position {{key}}"></div>
+                    </label>
                 </div>
-            </div>
+                {{/each}} <!--tokenPositionOptions-->
+
+            </main>
+
         </section>
 
         <section class="round-box img-left"
@@ -276,70 +281,24 @@
                 </div>
                 {{/each}}
                 <!--each stockNsc-->
+
+                <hr style="clear: left" />
+                <button name="import-selected-npc" type="button">Token in Szene bewegen</button>
+                {{#each tokenPositionOptions}}
+                <div class="boxed-radio">
+                    <input name="nscTokenPosition" value="{{key}}" type="radio"
+                           id="nscTokenPosition-{{key}}" data-dtype="String" {{checked_radio key ../data.nscTokenPosition}}
+                    />
+                    <label for="nscTokenPosition-{{key}}" title="{{key}}">
+                        <div class="position {{key}}"></div>
+                    </label>
+                </div>
+                {{/each}} <!--tokenPositionOptions-->
+
+            </div>
             </main>
+
         </section>
-
-
-        <form class="nsc-form">
-            <h1>Zufalls NSC</h1>
-            <div class="round-box container flow"
-                 style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
-                {{#each stockNsc}}
-                <div class="card {{ifIsProperty ../data.stockNscSelection _id 'active'}}">
-                    <label class="inputbox checkbox profession"
-                           style="background-image: url('{{img}}')">
-                        {{name}}
-                        <input name="stockNscSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
-                    </label>
-                </div>
-                {{/each}}
-                <!--each stockNsc-->
-            </div>
-            <hr/>
-            <div class="round-box container flow submit">
-                <div class="card {{data.tokenPosition}}">
-                    <select name="tokenPosition" style="width:100%; margin: 0 -5px;font-size: 0.7em">
-                        {{#select data.tokenPosition}}
-                        {{#each tokenPositionOptions}}
-                        <option value="{{key}}">{{name}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
-                </div>
-                <div>
-                    <div class="button">
-                        <button name="import-selected-npc" type="button">ausgewählte NSC in Szene bewegen</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-
-    </section>
-
-
-    <section class="tab" data-tab="characters">
-
-        <form class="nsc-form">
-            <!-- each Kompendium as a box -->
-            {{#each packNscSelection}}
-            <h1>{{name}}</h1>
-            <div class="round-box container flow"
-                 style="background-image: url('systems/dsa5/icons/categories/DSA-Auge.webp')">
-                {{#each index}}
-                <div class="card {{ifIsProperty ../../data.packNscSelection _id 'active'}}">
-                    <label class="inputbox checkbox profession"
-                           style="background-image: url('{{img}}')">
-                        {{name}}
-                        <input name="packNscSelection.{{_id}}" type="checkbox" data-dtype="Boolean"/>
-                    </label>
-                </div>
-                {{/each}}
-                <!--each index-->
-            </div>
-            {{/each}}
-            <!-- each npcList -->
-        </form>
 
     </section>
 

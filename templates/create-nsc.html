@@ -164,27 +164,30 @@
             </header>
             <main>
 
-                {{#each preview}}
+                {{#each preview as |entry id|}}
                 <div class="round-box inner">
                     <header>
                         <h2>
-                            <button name="generate-preview" type="button"><i class="fas fa-dice"></i></button>
-                            {{name}}
+                            <button name="generate-preview-entry" type="button"
+                                    data-entry-id="{{id}}"
+                            ><i class="fas fa-dice"></i></button>
+                            {{entry.name}}
                         </h2>
                     </header>
                     <main class="col-2" style="grid-template-columns: 180px auto">
-                        <img src="{{img}}" style="width: 165px; height: 165px; object-fit: cover; border: none"/>
+                        <img src="{{entry.img}}" style="width: 165px; height: 165px; object-fit: cover; border: none"/>
                         <div>
-                            <h2>{{professionName}} ({{gender}})</h2>
+                            <h2>{{entry.professionName}} ({{entry.gender}})</h2>
                             <h3>Aussehen / Hintergrund</h3>
-                            <textarea>{{professionName}} {{origin}} (...coming soon :)</textarea>
+                            <textarea>{{entry.professionName}} {{entry.origin}} (...coming soon :)</textarea>
                         </div>
                     </main>
                 </div>
                 {{/each}} <!--preview-->
 
-                <button {{#unless preview}}disabled{{/unless}} name="create-from-preview" type="button" style="width: 100%">
-                    Alle NSC aus Vorschau Liste erstellen
+                <button {{#unless preview}}disabled{{/unless}}
+                name="create-from-preview" type="button" style="width: 100%">
+                Alle NSC aus Vorschau Liste erstellen
                 </button>
 
             </main>

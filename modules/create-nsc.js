@@ -152,6 +152,7 @@ export class CreateNSC extends Application {
         });
 
 
+        html.find("button[name='generate-preview-entry']").click(event => this._updatePreviewEntry(event, html));
         html.find("button[name='generate-preview']").click(event => this._updatePreview(event, html));
         html.find("button[name='create-from-preview']").click(event => this._createFromPreview(event, html));
         html.find("button[name='generate-nsc']").click(event => this._createFromForm(event, html));
@@ -253,6 +254,26 @@ export class CreateNSC extends Application {
         this.render()
     }
 
+    async _generatePreviewEntry({gender, actor, origin, culture}) {
+        let currentGender = (gender !== 'random') ? gender : this._rollGender()
+        let img = await this._pickImage({professionName: actor.name, gender: currentGender, origin})
+        let name = await this._generateName({
+            gender: currentGender,
+            originKey: origin,
+            cultureKey: culture
+        })
+        return {
+            name,
+            img,
+            gender: currentGender,
+            professionId: actor._id,
+            professionName: actor.name,
+            origin,
+            culture
+        }
+    }
+
+
     async _generatePreview() {
         const amount = MeistertoolsUtil.rollDice(this.observableData.anzahl.toString())
         const {gender, profession, origin, culture} = this.observableData
@@ -260,22 +281,8 @@ export class CreateNSC extends Application {
         const actor = professions.index.find(e => e._id === profession)
         this.preview = []
         for (let i = 0; i < amount; i++) {
-            let currentGender = (gender !== 'random') ? gender : this._rollGender()
-            let img = await this._pickImage({professionName: actor.name, gender: currentGender, origin})
-            let name = await this._generateName({
-                gender: currentGender,
-                originKey: origin,
-                cultureKey: culture
-            })
-            this.preview.push({
-                name,
-                img,
-                gender: currentGender,
-                professionId: actor._id,
-                professionName: actor.name,
-                origin,
-                culture
-            })
+            let entry = await this._generatePreviewEntry({gender, actor, origin, culture})
+            this.preview.push(entry)
         }
     }
 
@@ -465,6 +472,15 @@ export class CreateNSC extends Application {
         }
     }
 
+    async _updatePreviewEntry(event) {
+        const entryId = $(event.currentTarget).attr("data-entry-id")
+        let {gender, professionId, professionName, origin, culture} = this.preview[entryId]
+        let actor = {
+            _id: professionId, name: professionName
+        }
+        this.preview[entryId] = await this._generatePreviewEntry({gender, actor, origin, culture})
+        this.render()
+    }
 }
 
 export function getRuleset() {

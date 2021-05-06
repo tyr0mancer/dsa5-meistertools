@@ -47,6 +47,7 @@ export class MeistertoolsUtil {
 
 
     static rollDice(pattern) {
+        pattern = pattern.toLowerCase().replace('w', 'd')
         let r = new Roll(pattern);
         r.evaluate()
         return parseInt(r.total)

@@ -107,6 +107,7 @@ export class CreateNSC extends Application {
             settings: this.settings,
             professions: professions.index,
             stockNsc: professions.existing,
+            preview: this.preview,
             packNscSelection,
             tokenPositionOptions,
             archetypes: getRuleset().archetypes,
@@ -123,7 +124,7 @@ export class CreateNSC extends Application {
     }
 
     _updateDate(varName, varValue) {
-        this.npcImageChoices = undefined
+        this.imageOptions = undefined
         this.observableData = MeistertoolsUtil.updateByPath(this.observableData, varName, varValue)
         this.render()
     }
@@ -142,22 +143,30 @@ export class CreateNSC extends Application {
         html.find("input[type='radio']").change(event => this._handleTextChange(event, html));
         html.find("select").change(event => this._handleTextChange(event, html));
 
+        html.find("button[name='store-pattern']").click(event => this._storePattern(event, html));
+        html.find("button[name='delete-pattern']").click(event => this._deletePattern(event, html));
+        html.find("button[name='load-pattern']").click(event => this._loadPattern(event, html));
+
         html.find("input[name='profession']").change(event => {
             this.observableData.professionName = $(event.currentTarget).attr("data-profession-name")
         });
 
-        html.find("button[name='store-pattern']").click(event => this._storePattern(event, html));
-        html.find("button[name='delete-pattern']").click(event => this._deletePattern(event, html));
-        html.find("button[name='load-pattern']").click(event => this._loadPattern(event, html));
-        html.find("button[name='generate-nsc']").click(event => this._generateNSC(event, html));
-        html.find("button[name='generate-name']").click(async event => {
-            await this._generateName(event, html);
-            this.render()
-        });
-        html.find("button[name='generate-image']").click(async event => {
-            await this._generateImage(event, html);
-            this.render()
-        });
+
+        html.find("button[name='generate-preview']").click(event => this._updatePreview(event, html));
+        html.find("button[name='create-from-preview']").click(event => this._createFromPreview(event, html));
+        html.find("button[name='generate-nsc']").click(event => this._createFromForm(event, html));
+
+        /*
+                html.find("button[name='generate-name']").click(async event => {
+                    await this._generateName();
+                    this.render()
+                });
+                html.find("button[name='generate-image']").click(async event => {
+                    await this._generateImage();
+                    this.render()
+                });
+        */
+
 
         html.find("button[name='import-selected-players']").click(event => this._importSelectedPlayers(event, html));
         html.find("button[name='import-selected-npc']").click(event => this._importSelectedNpc(event, html));
@@ -224,16 +233,41 @@ export class CreateNSC extends Application {
 
     }
 
-    _rollGender() {
+    // todo only covers binary atm
+    _rollGender(originKey) {
         let genderChanceM = 0.5
-        for (let species of getRuleset().archetypes) {
-            let origin = species.origins.find(o => o.key === this.observableData.origin)
-            if (origin && origin.gender) {
-                if (origin.gender) genderChanceM = origin.gender['m'] / 100
-                break
+        if (originKey)
+            for (let species of getRuleset().archetypes) {
+                let origin = species.origins.find(o => o.key === originKey)
+                if (origin && origin.gender) {
+                    if (origin.gender) genderChanceM = origin.gender['m'] / 100
+                    break
+                }
             }
+        return (Math.random() < genderChanceM) ? 'm' : 'w'
+    }
+
+
+    async _updatePreview() {
+        await this._generatePreview()
+        this.render()
+    }
+
+    async _generatePreview() {
+        const amount = MeistertoolsUtil.rollDice(this.observableData.anzahl.toString())
+        const {gender, profession, origin, culture} = this.observableData
+        const actor = await this.myCompendia.getEntities(profession, 'global', 'professions')
+        this.preview = []
+        for (let i = 0; i < amount; i++) {
+            let currentGender = (gender !== 'random') ? gender : this._rollGender()
+            let img = await this._pickImage({professionName: actor.name, gender: currentGender, origin})
+            let name = await this._generateName({
+                gender: currentGender,
+                originKey: origin,
+                cultureKey: culture
+            })
+            this.preview.push({name, img, gender: currentGender, actor, origin, culture})
         }
-        this.observableData.gender = (Math.random() < genderChanceM) ? 'm' : 'w'
     }
 
 
@@ -242,15 +276,13 @@ export class CreateNSC extends Application {
      * @return {Promise<void>}
      * @private
      */
-    async _generateName() {
-        if (this.observableData.gender === "random")
-            await this._rollGender()
+    async _generateName({professionName, gender, originKey, cultureKey}) {
         let nameKey = null
         for (let species of getRuleset().archetypes) {
-            let origin = species.origins.find(o => o.key === this.observableData.origin)
+            let origin = species.origins.find(o => o.key === originKey)
             if (origin) {
                 nameKey = origin.key
-                if (origin.cultures) nameKey = origin.cultures.find(c => c.key === this.observableData.culture).key
+                if (origin.cultures) nameKey = origin.cultures.find(c => c.key === cultureKey).key
                 break
             }
         }
@@ -261,14 +293,14 @@ export class CreateNSC extends Application {
         }
         const allTables = await game.packs.get(moduleName + ".names").getContent()
         let result;
-        let name = ruleset.rules ? ruleset.rules[this.observableData.gender] : `_vorname${this.observableData.gender} _nachname`
+        let name = ruleset.rules ? ruleset.rules[gender] : `_vorname${gender} _nachname`
         let tmpName = name
         const regex = /_([a-z]+)/g  // finds all names of tables
         while ((result = regex.exec(tmpName)) !== null) {
             const resultText = await this._drawFromMatch(result, ruleset, allTables)
             name = name.replace(/(_[a-z]+)/, resultText.trim())     // trims and also removes the '_' char in front of the found match, hence another regex
         }
-        this.observableData.nsc_name = name
+        return name
     }
 
 
@@ -342,20 +374,58 @@ export class CreateNSC extends Application {
     }
 
     async _getImagesByConfig() {
-        console.log(moduleName, '| checking for new files with MyFilePicker')
         const FP = new MyFilePicker({type: "image"})
         let professionName = this.observableData.professionName?.split(',')[0]
         const target = `${this.settings.tokenImageFolder}/${this.observableData.origin}/${this.observableData.gender}/${professionName}`
         const images = await FP.browse(target)
-        this.npcImageChoices = images.files
+        this.imageOptions = images.files
     }
 
-    async _generateImage(event, html) {
+    async _generateImage() {
         if (this.observableData.gender === "random")
             await this._rollGender()
-        if (!this.npcImageChoices || this.npcImageChoices === [])
+        if (!this.imageOptions || this.imageOptions === [])
             await this._getImagesByConfig()
-        this.observableData.nsc_img = this.npcImageChoices[Math.floor(Math.random() * this.npcImageChoices.length)]
+
+        const result = this.imageOptions[Math.floor(Math.random() * this.imageOptions.length)]
+        this.observableData.nsc_img = result
+        return result
+    }
+
+
+    async _pickImage({professionName, gender, origin}) {
+        console.log({professionName, gender, origin})
+        const FP = new MyFilePicker({type: "image"})
+        const target = `${this.settings.tokenImageFolder}/${origin}/${gender}/${professionName}`
+        const images = await FP.browse(target)
+        if (images.files)
+            return images.files[Math.floor(Math.random() * images.files.length)]
+        return undefined
+    }
+
+    async _createFromPreview(event, html) {
+        if (!this.preview)
+            return
+        for (let {name, img, actor} of this.preview) {
+            let token = duplicate(actor.data.token);
+            token['name'] = name
+            token['img'] = img
+            await actor.update({name, img, token});
+            if (this.observableData.tokenPosition && this.observableData.tokenPosition !== "")
+                await this.moveActorTokenInScene(actor)
+        }
+
+        if (this.settings.closeAfterGeneration)
+            await this.close()
+        this.render()
+    }
+
+    async _createFromForm(event, html) {
+        await this._generatePreview()
+        await this._createFromPreview()
+        if (this.settings.closeAfterGeneration)
+            await this.close()
+        this.render()
     }
 
 
@@ -371,7 +441,7 @@ export class CreateNSC extends Application {
 
             /* if no random images or names have been generated we have to do that now */
             if (!this.observableData.nsc_name || this.observableData.nsc_name === "")
-                await this._generateName(event, html)
+                await this._generateName()
             if (!this.observableData.nsc_img)
                 await this._generateImage(event, html)
 

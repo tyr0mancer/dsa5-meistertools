@@ -158,40 +158,34 @@
         <section class="round-box">
             <header>
                 <h2>
-                    <button name="process-result" type="button"><i class="fas fa-dice"></i></button>
+                    <button name="generate-preview" type="button"><i class="fas fa-dice"></i></button>
                     Vorschau
                 </h2>
             </header>
-            <main class="col-2">
+            <main>
 
+                {{#each preview}}
                 <div class="round-box inner">
-                    <div>
-                        <button class="dice" name="generate-name" type="button">Name<br/> <i
-                                class="fas fa-dice"></i></button>
-                    </div>
-
-                    <div class="card nsc_name {{nactive data.nsc_name}}">
-                        <label class="inputbox text">
-                        <textarea name="nsc_name" placeholder="(Name wird automatisch generiert)" type="text"
-                                  data-dtype="String">{{data.nsc_name}}</textarea>
-                        </label>
-                    </div>
+                    <header>
+                        <h2>
+                            <button name="generate-preview" type="button"><i class="fas fa-dice"></i></button>
+                            {{name}}
+                        </h2>
+                    </header>
+                    <main class="col-2" style="grid-template-columns: 180px auto">
+                        <img src="{{img}}" style="width: 165px; height: 165px; object-fit: cover; border: none"/>
+                        <div>
+                            <h2>{{actor.name}} ({{gender}})</h2>
+                            <h3>Aussehen / Hintergrund</h3>
+                            <textarea>{{actor.name}} {{origin}} (...coming soon :)</textarea>
+                        </div>
+                    </main>
                 </div>
+                {{/each}} <!--preview-->
 
-                <div class="round-box inner">
-                    <div>
-                        <button class="dice" name="generate-image" type="button">Bild<br/> <i
-                                class="fas fa-dice"></i></button>
-                    </div>
-                    <div class="card nsc_name {{nactive data.nsc_img}}">
-                        {{#if data.nsc_img}}
-                        <img src="{{data.nsc_img}}" style="width: 165px; height: 165px; object-fit: cover"/>
-                        {{else}}
-                        <i>Bild wird automatisch generiert</i>
-                        {{/if}}
-                    </div>
-                </div>
-                <button disabled name="generate-nsc" type="button" style="grid-column: span 2">Diese NSC jetzt erstellen</button>
+                <button {{#unless preview}}disabled{{/unless}} name="create-from-preview" type="button" style="width: 100%">
+                    Alle NSC aus Vorschau Liste erstellen
+                </button>
 
             </main>
         </section>

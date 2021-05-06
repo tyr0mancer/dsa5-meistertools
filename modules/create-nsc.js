@@ -256,7 +256,8 @@ export class CreateNSC extends Application {
     async _generatePreview() {
         const amount = MeistertoolsUtil.rollDice(this.observableData.anzahl.toString())
         const {gender, profession, origin, culture} = this.observableData
-        const actor = await this.myCompendia.getEntities(profession, 'global', 'professions')
+        const professions = await this.myCompendia.getCollectionIndex('global', 'professions')
+        const actor = professions.index.find(e => e._id === profession)
         this.preview = []
         for (let i = 0; i < amount; i++) {
             let currentGender = (gender !== 'random') ? gender : this._rollGender()
@@ -266,7 +267,15 @@ export class CreateNSC extends Application {
                 originKey: origin,
                 cultureKey: culture
             })
-            this.preview.push({name, img, gender: currentGender, actor, origin, culture})
+            this.preview.push({
+                name,
+                img,
+                gender: currentGender,
+                professionId: actor._id,
+                professionName: actor.name,
+                origin,
+                culture
+            })
         }
     }
 
@@ -373,25 +382,6 @@ export class CreateNSC extends Application {
         return canvas.scene.createEmbeddedEntity("Token", newToken)
     }
 
-    async _getImagesByConfig() {
-        const FP = new MyFilePicker({type: "image"})
-        let professionName = this.observableData.professionName?.split(',')[0]
-        const target = `${this.settings.tokenImageFolder}/${this.observableData.origin}/${this.observableData.gender}/${professionName}`
-        const images = await FP.browse(target)
-        this.imageOptions = images.files
-    }
-
-    async _generateImage() {
-        if (this.observableData.gender === "random")
-            await this._rollGender()
-        if (!this.imageOptions || this.imageOptions === [])
-            await this._getImagesByConfig()
-
-        const result = this.imageOptions[Math.floor(Math.random() * this.imageOptions.length)]
-        this.observableData.nsc_img = result
-        return result
-    }
-
 
     async _pickImage({professionName, gender, origin}) {
         console.log({professionName, gender, origin})
@@ -406,7 +396,8 @@ export class CreateNSC extends Application {
     async _createFromPreview(event, html) {
         if (!this.preview)
             return
-        for (let {name, img, actor} of this.preview) {
+        for (let {name, img, professionId} of this.preview) {
+            const actor = await this.myCompendia.getEntities(professionId, 'global', 'professions')
             let token = duplicate(actor.data.token);
             token['name'] = name
             token['img'] = img
@@ -423,57 +414,6 @@ export class CreateNSC extends Application {
     async _createFromForm(event, html) {
         await this._generatePreview()
         await this._createFromPreview()
-        if (this.settings.closeAfterGeneration)
-            await this.close()
-        this.render()
-    }
-
-
-    /**
-     * generates NPC based on this.observableData
-     * @private
-     */
-    async _generateNSC(event, html) {
-        /* import actor and find token */
-        try {
-            const randomGender = (this.observableData.gender === "random")
-            if (randomGender) this._rollGender()
-
-            /* if no random images or names have been generated we have to do that now */
-            if (!this.observableData.nsc_name || this.observableData.nsc_name === "")
-                await this._generateName()
-            if (!this.observableData.nsc_img)
-                await this._generateImage(event, html)
-
-
-            // roll how many actors shall be created
-            const amount = MeistertoolsUtil.rollDice(this.observableData.anzahl.toString())
-            for (let i = 0; i < amount; i++) {
-                const actor = await this.myCompendia.getEntities(this.observableData.profession, 'global', 'professions')
-                let img = this.observableData.nsc_img;
-                let name = this.observableData.nsc_name
-                let token = duplicate(actor.data.token);
-                token['name'] = name
-                token['img'] = img
-                await actor.update({name, img, token});
-                if (this.observableData.tokenPosition && this.observableData.tokenPosition !== "")
-                    await this.moveActorTokenInScene(actor)
-
-                // in case we generate another actor
-                if (randomGender) this._rollGender()
-                await this._generateName()
-                await this._generateImage()
-            }
-
-            // after the last one, we reset the generated names and img to null, so we dont reuse the combo
-            this.observableData.nsc_name = ""
-            this.observableData.nsc_img = null
-        } catch (e) {
-            console.log(e)
-            return ui.notifications.error(`Cant create Actor. Error Details see console`);
-        }
-
-
         if (this.settings.closeAfterGeneration)
             await this.close()
         this.render()

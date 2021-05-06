@@ -74,7 +74,7 @@
 
         <section class="round-box img-left" style="background-image: url('systems/dsa5/icons/categories/Skill.webp')">
             <header>
-                <h2>Profession</h2>
+                <h2>Profession / Basis Actor</h2>
             </header>
             <main>
                 <div class="flow" style="margin-left: 53px">
@@ -175,9 +175,9 @@
                     <main class="col-2" style="grid-template-columns: 180px auto">
                         <img src="{{img}}" style="width: 165px; height: 165px; object-fit: cover; border: none"/>
                         <div>
-                            <h2>{{actor.name}} ({{gender}})</h2>
+                            <h2>{{professionName}} ({{gender}})</h2>
                             <h3>Aussehen / Hintergrund</h3>
-                            <textarea>{{actor.name}} {{origin}} (...coming soon :)</textarea>
+                            <textarea>{{professionName}} {{origin}} (...coming soon :)</textarea>
                         </div>
                     </main>
                 </div>
@@ -193,27 +193,25 @@
 
         <section class="round-box">
             <header>
-                <h2>Konfiguration speichern</h2>
+                <h2>Konfiguration als Vorlage speichern</h2>
             </header>
-            <main>
+            <main class="col-2">
 
-                <!-- store pattern for quick access -->
-                <div class="round-box container flow">
-                    <div class="card {{nactive data.patternName}}">
-                        <label class="inputbox text">
-                            <input name="patternName" placeholder="" value="{{data.patternName}}" type="text"
-                                   data-dtype="String"/>
-                        </label>
-                    </div>
-
-                    <div class="button-box">
-                        {{#unless data.patternName}}
-                        <button disabled class="inactive" type="button">speichern</button>
-                        {{else}}
-                        <button name="store-pattern" type="button">speichern</button>
-                        {{/unless}}
-                    </div>
+                <div>
+                    <label class="inputbox text">
+                        <input name="patternName" placeholder="" value="{{data.patternName}}" type="text"
+                               data-dtype="String"/>
+                    </label>
                 </div>
+
+                <div>
+                    {{#unless data.patternName}}
+                    <button disabled class="inactive" type="button">speichern</button>
+                    {{else}}
+                    <button name="store-pattern" type="button">speichern</button>
+                    {{/unless}}
+                </div>
+
 
             </main>
         </section>
@@ -221,7 +219,9 @@
     </section>
 
 
-    <!-- add players and stored NPC into viewed scene -->
+    <!--
+    add players and stored NPC into viewed scene
+    -->
     <section class="tab" data-tab="characters">
         <form class="nsc-form">
             <h1>Heldengruppe</h1>

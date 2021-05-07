@@ -43,6 +43,7 @@ export class Dsa5Nightwatch extends Application {
     activateListeners(html) {
         super.activateListeners(html);
         html.find("nav.help-icon").click((event) => $('.help-info.help-' + $(event.currentTarget).attr("data-help")).toggle())
+        html.find("a.zoom-token").click(event => this._zoomToken(event))
         html.find("a[name=make-fire]").click(event => this._makeFire(event))
         html.find("a[name=place-prop]").click(event => this._placeProp(event))
         html.find("button[name=nightwatch]").click(event => this._nightwatch(event))
@@ -167,10 +168,11 @@ export class Dsa5Nightwatch extends Application {
     _nightwatchEvent(param) {
         if (!this.nightwatchResult)
             this.nightwatchResult = []
+    }
 
-        /*
-                console.clear()
-                console.log(JSON.stringify(param))
-        */
+    async _zoomToken(event) {
+        const tokenId = $(event.currentTarget).attr("data-token-id")
+        const token = game.scenes.active.data.tokens.find(t => t._id === tokenId)
+        canvas.pan({x: token.x, y: token.y})
     }
 }

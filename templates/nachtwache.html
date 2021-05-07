@@ -1,7 +1,10 @@
 <section class="meistertools content">
     <nav class="tabs">
-        <a class="item active" data-tab="lager"><i class="fas fa-film"></i> Nachtlager</a>
-        <a class="item" data-tab="wache"><i class="fas fa-user-plus"></i> Nachtwache</a>
+        <a class="item active" data-tab="lager"><i class="fas fa-campground"></i> Nachtlager</a>
+        <p>coming soon: Nachtwache mit Zufallsbegegnungen</p>
+        <!--
+                <a class="item" data-tab="wache"><i class="fas fa-bed"></i> Nachtwache</a> &lt;!&ndash;fas fa-binoculars&ndash;&gt;
+        -->
     </nav>
 
     <main class="tab" data-tab="lager">
@@ -10,16 +13,21 @@
                 <h1>Nachtlager</h1>
             </header>
             <main>
+
+                {{#if props}}
                 {{#each props as |prop id|}}
                 <div style="float:left; margin: 10px">
                     <img src="{{prop.img}}" class="placed-prop"/>
                     <h3>{{prop.token}}</h3>
-                    <p><a name="remove-prop" data-prop-id="{{id}}">entfernen</a></p>
+                    <p><a name="remove-prop" data-prop-id="{{id}}">wieder abbauen</a></p>
                 </div>
-                {{/each}}
-                <!--props-->
-
+                {{/each}} <!--props-->
                 <hr style="clear: left; margin-bottom: 20px"/>
+                {{/if}} <!--props-->
+
+                {{#unless tokens}}
+                <h2>Aktuell ist niemand in der aktiven Szene.</h2>
+                {{/unless}} <!--tokens-->
 
                 {{#each tokens}}
                 <section class="round-box inner nachtlager">
@@ -27,20 +35,19 @@
                         <h2>{{name}}</h2>
                     </header>
                     <main>
-                        <img src="{{img}}" class="player"/>
+                        <a class="zoom-token" data-token-id="{{_id}}" title="Sicht auf {{name}} zentrieren"><img src="{{img}}" class="player" /></a>
                         <a name="make-fire" data-token-id="{{_id}}" data-token-name="{{name}}"
-                           title="Feuer machen"><img class="prop" src="{{../images.fireplace}}" alt="Feuer machen"/></a>
+                           title="Feuer machen"><img class="prop" src="{{../images.fireplace}}" alt="Feuer machen"/> <br/><b>Feuer machen</b><br/><i>(Wildnisleben +1)</i></a>
 
                         {{#each ../propOptions as |prop id|}}
                         <a name="place-prop"
                            data-token-id="{{../_id}}" data-prop-id="{{id}}"
                            title="{{prop.name}}"><img
-                                class="prop" src="{{prop.img}}" alt="{{prop.name}}"/></a>
-                        {{/each}}
-                        <!--props-->
+                                class="prop" src="{{prop.img}}" alt="{{prop.name}}"/> <br/><b>{{prop.name}}</b><br/><i>(Keine Probe)</i></a>
+                        {{/each}} <!--props-->
                     </main>
                 </section>
-                {{/each}}
+                {{/each}} <!--tokens-->
             </main>
         </section>
     </main>

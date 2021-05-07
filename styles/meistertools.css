@@ -299,3 +299,11 @@ label.inputbox span {
     object-fit: cover;
     cursor: zoom-in;
 }
+
+/* ---------------------------------
+    Token
+ --------------------------------- */
+
+a.zoom-token {
+    cursor: crosshair;
+}

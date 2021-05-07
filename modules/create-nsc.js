@@ -376,13 +376,16 @@ export class CreateNSC extends Application {
 
 
     async _pickImage({professionName, gender, origin}) {
-        console.log({professionName, gender, origin})
+        let name = professionName.split(',')[0]
+        const baseFolder = this.settings.tokenImageFolder
+
         const FP = new MyFilePicker({type: "image"})
-        const target = `${this.settings.tokenImageFolder}/${origin}/${gender}/${professionName}`
+        const target = `${baseFolder}/${origin}/${gender}/${name}`
         const images = await FP.browse(target)
-        if (images.files)
-            return images.files[Math.floor(Math.random() * images.files.length)]
-        return undefined
+
+        return (images.files)
+            ? images.files[Math.floor(Math.random() * images.files.length)]
+            : undefined
     }
 
     async _createFromPreview(event, html) {

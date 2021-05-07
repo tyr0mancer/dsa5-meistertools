@@ -3,7 +3,7 @@
   "title": "DSA5 - MeisterTools",
   "description": "Hilfen für DSA5 Spielleiter auf Foundry VTT",
   "author": "tyr0mancer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "minimumCoreVersion": "0.7.0",
   "compatibleCoreVersion": "0.7.9",
   "languages": [
@@ -37,7 +37,7 @@
   ],
   "url": "https://github.com/tyr0mancer/dsa5-meistertools",
   "manifest": "https://raw.githubusercontent.com/tyr0mancer/dsa5-meistertools/master/module.json",
-  "download": "https://github.com/tyr0mancer/dsa5-meistertools/archive/refs/tags/0.1.0.zip",
+  "download": "https://github.com/tyr0mancer/dsa5-meistertools/archive/refs/tags/0.2.0.zip",
   "bugs": "https://github.com/tyr0mancer/dsa5-meistertools/issues",
   "allowBugReporter": true
 }

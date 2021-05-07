@@ -279,3 +279,23 @@ label.inputbox span {
     border-bottom: 8px solid green;
     border-left: 8px solid green;
 }
+
+
+/* ---------------------------------
+    manage Scenes
+ --------------------------------- */
+
+.meistertools .existing-scenes {
+    background-color: var(--color-light);
+}
+
+.meistertools .pack-scenes {
+    background-color: var(--color-quinary);
+}
+
+.meistertools img.scene-thumb {
+    width: 300px;
+    height: 100px;
+    object-fit: cover;
+    cursor: zoom-in;
+}

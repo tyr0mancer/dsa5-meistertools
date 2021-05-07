@@ -72,6 +72,8 @@ export class ManageScenes extends Application {
         html.find('input[name=keyword]').change(event => this._changeKeyword(event));
         html.find('a[name=set-keyword]').click(event => this._changeKeyword(event));
 
+        html.find('img.scene-thumb').click(event => this._showScenePreview(event));
+
 
         html.find('button[name=activate-scene]').click(event => this._activateScene(event));
         html.find('.show-scene').click(event => this._showScene(event));
@@ -168,17 +170,36 @@ export class ManageScenes extends Application {
             return
         templateScene.update({name: 'New awesome Battlemap', img})
         templateScene.view()
-        /*
-
-                templateScene.sjow()
-                console.log(JSON.stringify(templateScene), thumbName)
-        */
-
-        /*
-        replace background with large one from thumbName
-        templateScene.show()
-         */
-
         this.render()
+    }
+
+    async _showScenePreview(event) {
+        const collection = $(event.currentTarget).attr("data-collection")
+        const sceneId = $(event.currentTarget).attr("data-scene-id")
+
+        const scene = collection
+            ? this.scenePack.index.find(s => s._id === sceneId)
+            : this.scenePack.existing.find(s => s._id === sceneId)
+
+        let content = `<div style="zoom: 200%;"><h2>${scene.name}</h2><img src="${scene.img}" alt="${scene.name}" /></div>`
+        let d = new Dialog({
+            title: scene.name,
+            content,
+            buttons: {
+                view: {
+                    //icon: '<i class="fas fa-check"></i>',
+                    label: "nur anzeigen",
+                    callback: () => this._showScene(event)
+                },
+                activate: {
+                    //icon: '<i class="fas fa-check"></i>',
+                    label: "auch aktivieren",
+                    callback: () => this._activateScene(event)
+                },
+            }
+        }).render(true)
+        setTimeout(() => d.close(), 5000)
+
+
     }
 }

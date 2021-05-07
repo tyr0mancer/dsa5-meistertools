@@ -31,16 +31,20 @@
                     <h2>Bereits in Ordner <i><b>{{scenePack.folderName}}</b></i></h2>
                 </header>
                 {{#each scenePack.existing}}
-                <section style="background-color: lightgreen">
+                <section class="existing-scenes">
                     <h2>{{name}}</h2>
                     <div style="display: grid; grid-template-columns: 320px auto">
-                        <a class="show-scene"
-                           data-scene-id="{{_id}}"><img src="{{img}}"
-                                                        style="width: 300px; height:100px; object-fit: cover"/>
-                        </a>
+                        <img src="{{img}}" class="scene-thumb" data-scene-id="{{_id}}"/>
                         <div>
-                            <button name="activate-scene" class="activate-scene" data-scene-id="{{_id}}">aktivieren
-                            </button>
+                            <div style="margin-top: 10px">
+                                <button name="show-scene" class="show-scene" data-scene-id="{{_id}}"> nur anzeigen
+                                </button>
+                            </div>
+                            <div>
+                                <button name="activate-scene" class="activate-scene" data-scene-id="{{_id}}"> auch
+                                    aktivieren
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -56,11 +60,13 @@
                 </header>
 
                 {{#each thumbs}}
-                <section style="background-color: lightblue">
+                <section class="pack-scenes">
                     <div style="display: grid; grid-template-columns: 320px auto">
                         <img src="{{this}}" style="width: 300px; height:300px; object-fit: cover"/>
                         <div>
-                            <button name="create-scene" data-thumb-name="{{this}}"><i class="fas fa-magic"></i> Battlemap erstellen</button>
+                            <button name="create-scene" data-thumb-name="{{this}}"><i class="fas fa-magic"></i>
+                                Battlemap erstellen
+                            </button>
                             <ul>
                                 <li>keyword</li>
                                 <li>keyword</li>
@@ -77,13 +83,14 @@
             <!--scenes from compendium -->
             <section class="round-box inner">
                 <header>
-                    <h2>Aus Kompendium <i>{{scenePack.packName}}</i></h2>
+                    <h2>Aus Kompendium <i><b>{{scenePack.packName}}</b></i></h2>
                 </header>
                 {{#each scenePack.index}}
                 <section style="background-color: lightgray">
                     <h2>{{name}}</h2>
                     <div style="display: grid; grid-template-columns: 320px auto">
-                        <img src="{{img}}" style="width: 300px; height:100px; object-fit: cover"/>
+                        <img src="{{img}}" class="scene-thumb" data-collection="{{../scenePack.packName}}"
+                             data-scene-id="{{_id}}"/>
                         <div>
                             <div style="margin-top: 10px">
                                 <button name="show-scene" class="show-scene" data-scene-id="{{_id}}"><i

@@ -199,7 +199,7 @@ export class MyCompendia {
             // set folder and prepare in case we want to import from pack
             folder = game.folders.find(f => f.name === folderName && f.type === pack.entity)?.id;
             if (folderName && !folder) {
-                ui.notifications.info(`Your world did not have a ${entityType} folder named '${folderName}'. DSA5 Meistertools created this folder automatically.`);
+                ui.notifications.info(`Your world did not have a ${entityType} folder named '${folderName}'. MeisterTools created this folder automatically.`);
                 await Folder.create({
                     "name": folderName,
                     "type": pack.entity,

@@ -20,8 +20,8 @@ export class Dsa5Nightwatch extends Application {
                 game.scenes.active.setFlag(moduleName, 'tiles', [])
                 this.tiles = [] //game.scenes.active.getFlag(moduleName, 'tiles') || []
         */
-        this.props = game.scenes.active.getFlag(moduleName, 'props') || []
-        this.tokens = game.scenes.active.data.tokens
+        this.props = game.scenes.active?.getFlag(moduleName, 'props') || []
+        this.tokens = game.scenes.active?.data.tokens || []
     }
 
     static get defaultOptions() {

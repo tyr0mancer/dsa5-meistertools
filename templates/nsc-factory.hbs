@@ -1,0 +1,183 @@
+<form autocomplete="off" class="meistertools content">
+    <!-- -----------------------
+    Navigation
+    ----------------------- -->
+    <nav class="tabs">
+        <a class="item" data-tab="nsc-generator">NSC Fabrik</a>
+        <a class="item" data-tab="existing-actors">Akteur-Verzeichnis</a>
+    </nav>
+
+    <!-- -----------------------
+    NSC Generator
+    ----------------------- -->
+    <section class="tab" data-tab="nsc-generator">
+        <div class="nsc-factory">
+            <div class="box header">
+                <h1>Konfiguration</h1>
+                <div class="col-3" style="grid-template-columns: auto 48px 48px">
+                    <div id="nsc-selection">{{{selectionDisplay}}}</div>
+                    <div class="dropdown scene-position {{selection.position}}">
+                        <div class="dropdown-content">
+                            {{#each selectOptions.scenePositions}}
+                                <input id="position-{{key}}" {{checked_radio ../selection.position key}}
+                                       type="radio" name="position" value="{{key}}"/>
+                                <label for="position-{{key}}">
+                                    <div class="scene-position {{key}}" title="{{description}}">{{name}}</div>
+                                </label>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div>
+                        <input id="amount" class="amount" name="amount" value="{{selection.amount}}" type="text"/>
+                        <a class="change-amount increase" data-delta="1"><i class="fas fa-plus-circle"> </i></a>
+                        <a class="change-amount decrease" data-delta="-1"><i class="fas fa-minus-circle"> </i></a>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button name="create-nsc" class="create-nsc" title="NSC erstellen">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+                <button name="create-preview" class="create-preview" title="Vorschau erstellen">Vorschau</button>
+            </div>
+        </div>
+
+        <div class="inner box header">
+            <h3 class="toggle" data-target=".vorlagen">Vorlagen</h3>
+            <div class="vorlagen">
+                {{#each settings.storedPattern as |pattern id|}}
+                    <a class="handle-pattern" data-action="remove" data-pattern-id="{{id}}"><i
+                            class="fas fa-minus-circle"></i></a>
+                    <a class="load-pattern handle-pattern" data-pattern-id="{{id}}">{{pattern.patternName}}</a>
+                {{/each}}
+            </div>
+        </div>
+
+        {{#if preview}}
+            <div class="box header">
+                <h1 class="toggle" data-target=".results-preview">Vorschau</h1>
+                <div class="results-preview float">
+                    {{#each preview.results as |result id|}}
+                        {{#with result}}
+                            <div class="inner box header">
+                                <h2 class="re-roll" data-result-id="{{id}}" data-result-key="name"
+                                    title="Name neu auswürfeln">{{name}}</h2>
+                                <div class="float">
+                                    <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
+                                         data-result-id="{{id}}" data-result-key="img"/>
+<!--
+                                    <div class="col-4">
+                                        <b>Größe</b> <span>{{height}}</span>
+                                        <b>Gewicht</b>
+                                        <div>{{weight}}</div>
+                                        <b>Augenfarbe</b>
+                                        <div>{{eyes}}</div>
+                                        <b>Haarfarbe</b>
+                                        <div>{{hair}}</div>
+                                        <b>Herkunft</b>
+                                        <div>{{origin}}</div>
+                                        <b>Beruf</b>
+                                        <div>{{job}}</div>
+                                    </div>
+-->
+<!--
+                                    <div class="col-2 re-roll" data-result-id="{{id}}" data-result-key="traits"
+                                         title="Eigenschaften neu auswürfeln">
+                                        <b>Aussehen</b>
+                                        <div>{{physicalTrait}}</div>
+                                        <b>Zitat</b>
+                                        <div>"{{catchphrase}}"</div>
+                                    </div>
+-->
+                                </div>
+                            </div>
+                        {{/with}}
+                    {{/each}}
+                </div>
+            </div>
+        {{/if}}
+
+
+        <!-- NSC Archetypes -->
+        <div class="box header">
+            <h2 class="toggle" data-target=".archetypes.box">Spezies und Kultur</h2>
+
+            {{#each settings.species}}
+                <div class="archetypes inner box float">
+
+                    {{#each_when ../settings.archetypes 'species' key}}
+                        <div>
+                            <input {{checked_radio ../../selection.archetype key}}
+                                    id="archetype-{{key}}" type="radio" value="{{key}}" name="archetype"/>
+                            <label for="archetype-{{key}}" style="width: 100px">
+                                <!--
+                                {{display_probability probability 'current'}}
+                                -->
+                                {{name}}
+
+                                {{#if variations}}
+                                    <select name="variation">
+                                        {{#select ../../selection.variation}}
+                                            <option></option>
+                                            {{#each variations}}
+                                                <option value="{{key}}">{{name}}</option>
+                                            {{/each}}
+                                        {{/select}}
+                                    </select>
+                                {{/if}} <!-- variations -->
+
+                            </label>
+                        </div>
+                    {{/each_when}} <!--archetypes-->
+
+                </div>
+            {{/each}} <!--species-->
+        </div>
+
+        <div class="box header">
+            <h2 class="toggle" data-target=".profession.float">Profession</h2>
+            <div class="inner box profession float">
+                {{#each selectOptions.professionCompendium}}
+                    <div>
+                        <input {{checked_radio ../selection.profession _id}}
+                                id="profession-{{_id}}" type="radio" value="{{_id}}" name="profession"/>
+                        <label for="profession-{{_id}}" style="width: 100px">
+                            {{display_probability probability 'current'}} {{name}}
+                        </label>
+                    </div>
+                {{/each}} <!-- professionCompendium -->
+            </div>
+        </div>
+
+        <div class="box header">
+            <h2 class="toggle" data-target=".gender-selection">Geschlecht</h2>
+            <div class="inner box gender-selection float">
+                {{#each settings.gender}}
+                    <div>
+                        <input {{checked_radio ../selection.gender key}}
+                                id="gender-{{key}}" type="radio" value="{{key}}" name="gender"/>
+                        <label for="gender-{{key}}" style="width: 100px">
+                            {{display_probability probability 'current'}} {{name}}
+                        </label>
+                    </div>
+                {{/each}} <!-- settings.gender -->
+            </div>
+        </div>
+
+        <div class="inner box header">
+            <h3>Als Vorlage speichern</h3>
+            <div class="col-2" style="grid-template-columns: auto 40px">
+                <div>
+                    <input id="patternName" name="patternName" type="text" class="labeled"/>
+                    <label for="patternName">Name der Vorlage</label>
+                </div>
+                <div>
+                    <button class="store-pattern handle-pattern" type="button" data-action="store" title="speichern"><i
+                            class="fas fa-save"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</form>

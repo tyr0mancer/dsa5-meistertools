@@ -1,0 +1,91 @@
+<div class="meistertools">
+    <div class="box header">
+        <h1>Regionen</h1>
+        {{#each regionCategories}}
+            <div class="inner box header">
+                <h2 class="toggle {{#if hidden}}show{{/if}}" data-target=".{{key}}.regions">{{name}}</h2>
+                <div class="{{key}} regions {{#if hidden}}hidden{{/if}}">
+
+                    {{#if regions}}
+                        <table class="regions">
+                            <tr>
+                                <th>id</th>
+                                <th>Name</th>
+                                <th>Zeichnungen</th>
+                                <th></th>
+                            </tr>
+                            {{#each regions}}
+                                <tr>
+                                    <td>
+                                        <button class="remove-region" data-category="{{category}}" data-key="{{key}}"
+                                                style="background-color: red; color: white">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                    <td><h3>{{name}}</h3><i>{{key}}</i></td>
+                                    <td>
+                                        {{#each inScene}}
+                                            <div>
+                                                <button class="remove-drawing" data-drawing-id="{{drawing._id}}">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                                <button class="show-drawing" data-drawing-id="{{drawing._id}}"
+                                                        data-visibility="gm-only">
+                                                    <i class="far fa-eye"></i>
+                                                </button>
+                                                <!--
+                                                <button class="show-drawing" data-drawing-id="{{drawing._id}}"
+                                                        data-visibility="all">show players
+                                                </button>
+                                                -->
+                                                <button class="show-drawing" data-drawing-id="{{drawing._id}}"
+                                                        data-visibility="hidden"><i class="far fa-eye-slash"></i>
+                                                </button>
+                                            </div>
+                                        {{/each}}
+                                    </td>
+                                    <td>
+                                        <button class="add-drawing" data-label="{{category}}.{{key}}"><i
+                                                class="fas fa-pencil-alt"></i></button>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </table>
+                    {{else}}
+                        <div>Keine Einträge</div>
+                    {{/if}}
+                    <form>
+                        <div class="inner box float">
+                            <div>
+                                <button class="add-region" data-category="{{key}}"><i class="fas fa-plus"></i></button>
+                            </div>
+                            <div><input id="{{key}}-new-region-name" name="{{key}}-new-region-name"
+                                        type="text" placeholder="Name der Region"/></div>
+                            <div><input id="{{key}}-new-region-key" name="{{key}}-new-region-key"
+                                        type="text"/></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+
+    <div class="box header">
+        <h1>Zeichnungen in Scene</h1>
+        <h2>
+            <button class="parse-scene"><i class="fas fa-drafting-compass"
+                                           title="Zeichnungen in Scene als Karteneinträge interpretieren"></i>
+            </button> {{scene.name}}</h2>
+
+        <div class="inner box header">
+            <h2 class="toggle show" data-target=".danger-zone">Danger-Zone!</h2>
+            <div class="danger-zone hidden">
+                <button class="purge-drawings">Alle Zeichnungen in dieser Szene löschen</button>
+                <button class="purge-scene" style="background-color: red">Alle Einträge in dieser Szene löschen</button>
+                {{stringify scene.data.flags.dsa5-meistertools}}
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,47 @@
+<div class="meistertools">
+    <div class="float">
+        <div>
+            {{#if locatorScene}}
+                <button class="locate-token">Locate</button>
+            {{/if}}
+        </div>
+        <div>
+            {{#if locatorScene}}
+                <p>Karte: {{locatorScene.name}}</p>
+            {{else}}
+                <p>Keine Szene als Karte gewählt</p>
+            {{/if}}
+            {{#if locatorToken}}
+                <p>Token: {{locatorToken.name}}</p>
+            {{else}}
+                <p>Kein Token gewählt</p>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="biome box" style="background: url({{currentLocation.currentBiome.img}})">
+        <select name="biome">
+            {{#select currentLocation.currentBiome.key}}
+                <option></option>
+                {{#each biomes}}
+                    <option value="{{key}}">{{name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+
+        <div class="float">
+            <div>
+                <button class="pick-region">Pick Region</button>
+            </div>
+            <div style="margin:15px; background-color: white; opacity: 0.6; border: 1px solid black">
+                {{stringify currentLocation.currentRegions}}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <button class="set-scene">set scene</button>
+        <button class="set-token">set token</button>
+    </div>
+
+</div>

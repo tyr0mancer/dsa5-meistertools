@@ -1,31 +1,36 @@
 {
   "name": "dsa5-meistertools",
   "title": "DSA5 - MeisterTools",
-  "description": "Hilfen für DSA5 Spielleiter auf Foundry VTT",
+  "description": "Viele kleine Helferlein, die dem DSA5 Spielleiter auf Foundry VTT das Leben leichter machen sollen.",
   "author": "tyr0mancer",
-  "version": "0.2.0",
-  "minimumCoreVersion": "0.7.0",
+  "version": "0.3.0",
+  "minimumCoreVersion": "0.7.9",
   "compatibleCoreVersion": "0.7.9",
   "languages": [
     {
       "lang": "de",
       "name": "Deutsch",
       "path": "lang/de.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
     }
   ],
   "styles": [
-    "/styles/meistertools_deprecated.css",
     "/styles/meistertools.css",
     "/styles/forms.css"
   ],
   "esmodules": [
-    "/meistertools.js"
+    "/meistertools.js",
+    "/dsa5-probability.js"
   ],
   "packs": [
     {
-      "name": "names",
+      "name": "rolltable-names",
       "label": "Namensliste",
-      "path": "packs/rolltables-names.db",
+      "path": "packs/rolltable-names.db",
       "entity": "RollTable"
     }
   ],

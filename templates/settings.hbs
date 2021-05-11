@@ -1,0 +1,240 @@
+<form autocomplete="off" class="content">
+    <nav class="tabs">
+        <a class="item" data-tab="nsc"><i class="fas fa-user-plus"></i> {{localize 'meistertools.settings.nsc'}}</a>
+        <!--
+        <a class="item" data-tab="scenes"><i class="fas fa-film"></i>  {{localize 'meistertools.settings.scenes'}}</a>
+        <a class="item" data-tab="music"><i class="fas fa-music"></i> {{localize 'meistertools.settings.music'}}</a>
+        -->
+        <a class="item" data-tab="locations"><i class="fas fa-music"></i>
+            {{localize 'meistertools.settings.locations'}}</a>
+        <a class="item" data-tab="rarity"><i class="fas fa-music"></i> {{localize 'meistertools.settings.rarity'}}</a>
+    </nav>
+
+    <!-- -----------------------
+    NSC Generator
+    ----------------------- -->
+    <section class="tab" data-tab="nsc">
+        {{#with nsc-factory}}
+            <div class="box header">
+                <h1>Akteur Verzeichnisse</h1>
+
+                {{#each collections as |this n|}}
+                    <div class="inner box float entry">
+                        <div>
+                            <button class="remove-entry" type="button"
+                                    data-path="nsc-factory.collections" data-index="{{n}}">-
+                            </button>
+                        </div>
+                        <div class="borderless box" style="max-width: 200px">
+                            <select id="actorCollection-{{n}}" name="nsc-factory.collections[{{n}}].collection"
+                                    class="labeled">
+                                {{#select collection}}
+                                    <option></option>
+                                    {{#each ../../selectOptions.actorPacks}}
+                                        <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                            <label for="actorCollection-{{n}}">Collection</label>
+                        </div>
+                        <div class="borderless box">
+                            <input id="actorName-{{n}}" name="nsc-factory.collections[{{n}}].name"
+                                   value="{{name}}"
+                                   type="text" class="labeled"/>
+                            <label for="actorName-{{n}}">Name</label>
+                        </div>
+                        <div class="borderless box">
+                            <input id="actorFolder-{{n}}" name="nsc-factory.collections[{{n}}].folder"
+                                   value="{{folder}}"
+                                   type="text" class="labeled"/>
+                            <label for="actorFolder-{{n}}">Ordner</label>
+                        </div>
+                    </div>
+                {{/each}}
+                <button type="button" class="insert-entry" data-path="nsc-factory.collections">+</button>
+
+            </div>
+
+            <div class="box header">
+                <h1>NSC Fabrik</h1>
+                <div class="float col-even">
+                    <div class="inner box">
+                        <select id="baseActorCollection" name="nsc-factory.settings.baseActorCollection"
+                                class="labeled">
+                            {{#select settings.baseActorCollection}}
+                                <option></option>
+                                {{#each ../selectOptions.actorPacks}}
+                                    <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                                {{/each}}
+                            {{/select}}
+                        </select>
+                        <label for="baseActorCollection">Professionen Collection</label>
+                    </div>
+                    <div class="inner box">
+                        <input id="folderName" name="nsc-factory.settings.folderName" value="{{settings.folderName}}"
+                               type="text" class="labeled"/>
+                        <label for="folderName">Ordner für generierte NSC</label>
+                    </div>
+                    <div class="inner box">
+                        <input {{checked settings.closeAfterGeneration}}
+                                id="closeAfterGeneration" name="nsc-factory.settings.closeAfterGeneration"
+                                type="checkbox"/>
+                        <label for="closeAfterGeneration">nach Generation App schließen</label>
+                    </div>
+                </div>
+
+                <h1>Archetypen (JSON Format)</h1>
+                <div class="inner box header">
+                    <h2 class="toggle show" data-target=".stringify.lastSelection">Letzte Auswahl</h2>
+                    <div class="stringify lastSelection hidden">
+                        <textarea name="nsc-factory.lastSelection" class="json">{{stringify lastSelection}}</textarea>
+                    </div>
+                </div>
+
+                <div class="inner box header">
+                    <h2 class="toggle show" data-target=".stringify.archetypes">NSC Archetypen</h2>
+                    <div class="stringify archetypes hidden">
+                        <textarea name="nsc-factory.archetypes" class="json">{{stringify archetypes}}</textarea>
+                    </div>
+                </div>
+                <div class="inner box header">
+                    <h2 class="toggle show" data-target=".stringify.species">Spezies</h2>
+                    <div class="stringify species hidden">
+                        <textarea name="nsc-factory.species" class="json">{{stringify species}}</textarea>
+                    </div>
+                </div>
+                <div class="inner box header">
+                    <h2 class="toggle show" data-target=".stringify.gender">Gender Optionen</h2>
+                    <div class="stringify gender hidden">
+                        <textarea name="nsc-factory.gender" class="json">{{stringify gender}}</textarea>
+                    </div>
+                </div>
+                <div class="inner box header">
+                    <h2 class="toggle show" data-target=".stringify.fallbackData">Default Werte für
+                        Zufalls-Generator</h2>
+                    <div class="stringify fallbackData hidden">
+                        <textarea name="nsc-factory.fallbackData" class="json">{{stringify fallbackData}}</textarea>
+                    </div>
+                </div>
+            </div>
+        {{/with}}
+        <footer>
+            <button type="submit"><i class="fas fa-save"></i> {{localize 'meistertools.save-settings'}}</button>
+            <button type="reset" name="reset-settings" class="reset" data-category="nsc-factory">
+                <i class="fas fa-undo"></i> {{localize 'meistertools.reset-settings'}}</button>
+            <button type="button" name="restore-settings" class="reset" data-category="nsc-factory">
+                <i class="fas fa-undo"></i> {{localize 'meistertools.restore-settings'}}</button>
+        </footer>
+    </section>
+
+
+    <!-- -----------------------
+    Regions and Biomes
+    ----------------------- -->
+    <section class="tab" data-tab="locations">
+        {{#with locations}}
+            <button class="open-app" name="scene-parser">Regionen und Karten verwalten</button>
+            <div class="box header">
+                <h2>Regionale Kategorien</h2>
+                {{#each regionCategories as |this n|}}
+                    <div class="inner box float">
+                        <div>
+                            <button class="remove-entry" type="button"
+                                    data-path="locations.regionCategories" data-index="{{n}}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <div class="borderless box">
+                            <input id="region-categories-name-{{n}}" name="locations.regionCategories[{{n}}].name"
+                                   value="{{name}}" type="text" class="labeled"/>
+                            <label for="region-categories-name-{{n}}">Name</label>
+                        </div>
+                        <div class="borderless box">
+                            <input id="region-categories-key-{{n}}" name="locations.regionCategories[{{n}}].key"
+                                   value="{{key}}" type="text" class="labeled"/>
+                            <label for="region-categories-key-{{n}}">id</label>
+                        </div>
+                        <div class="borderless box">
+                            <b>Zeichnungen Stil</b>
+                            <textarea name="locations.regionCategories[{{n}}].style">{{stringify style}}</textarea>
+                        </div>
+                    </div>
+                {{/each}}
+                <button type="button" class="insert-entry" data-path="locations.regionCategories">neue Kategorie
+                </button>
+
+            </div>
+            <div class="box header">
+                <h2 class="toggle" data-target=".biome-settings">Landschafts-Typen</h2>
+                <div class="biome-settings">
+                    {{#each biomes as |this n|}}
+                        <div class="inner box float">
+                            <div>
+                                <button class="remove-entry" type="button"
+                                        data-path="locations.biomes" data-index="{{n}}">-
+                                </button>
+                            </div>
+                            <div>
+                                <div class="borderless box">
+                                    <input id="biomes-name-{{n}}" name="locations.biomes[{{n}}].name"
+                                           value="{{name}}" type="text" class="labeled"/>
+                                    <label for="biomes-name-{{n}}">Name</label>
+                                </div>
+                                <div class="borderless box">
+                                    <input id="biomes-key-{{n}}" name="locations.biomes[{{n}}].key"
+                                           value="{{key}}" type="text" class="labeled"/>
+                                    <label for="biomes-key-{{n}}">id</label>
+                                </div>
+                            </div>
+                            <div class="borderless box">
+                                <input id="biomes-img-{{n}}" name="locations.biomes[{{n}}].img"
+                                       value="{{img}}" type="text" class="labeled pick-path"
+                                       style="background-image: url({{img}})"/>
+                                <label for="biomes-img-{{n}}">Bild</label>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+                <button type="button" class="insert-entry" data-path="locations.biomes">+</button>
+            </div>
+
+        {{/with}}
+        <footer>
+            <button type="submit"><i class="fas fa-save"></i> {{localize 'meistertools.save-settings'}}</button>
+            <button type="reset" name="reset-settings" class="reset" data-category="locations">
+                <i class="fas fa-undo"></i> {{localize 'meistertools.reset-settings'}}</button>
+            <button type="button" name="restore-settings" class="reset" data-category="locations">
+                <i class="fas fa-undo"></i> {{localize 'meistertools.restore-settings'}}</button>
+        </footer>
+    </section>
+
+
+    <!-- -----------------------
+    Rarity
+    ----------------------- -->
+    <section class="tab" data-tab="rarity">
+        <button class="open-app" name="entity-tagger">Entity Tagger</button>
+        {{#with rarity}}
+            {{stringify this}}
+        {{/with}}
+    </section>
+
+
+    <!-- -----------------------
+    Scene Manager
+    ----------------------- -->
+    <section class="tab" data-tab="scenes">
+    </section>
+
+
+    <!-- -----------------------
+    Jukebox and Playlist
+    ----------------------- -->
+    <section class="tab" data-tab="music">
+    </section>
+
+
+    <!-- -----------------------
+    Footer
+    ----------------------- -->
+</form>

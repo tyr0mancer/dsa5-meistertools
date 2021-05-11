@@ -1,99 +1,15 @@
 /* ---------------------------------
-    label
- --------------------------------- */
-.select-css select + label,
-.boxed-input * + label {
-    position: absolute;
-    top: -16px;
-    left: 0;
-    color: black;
-    /*background-color: var(--color-quaternary);*/
-    font-size: 1em;
-    font-weight: bold;
-    padding: 0 5px;
-    border-radius: 5px 5px 0 0;
-    margin: 0;
-}
-
-.select-css select:focus + label,
-.boxed-input *:focus + label {
-    background-color: var(--color-primary);
-    color: white;
-}
-
-
-/* ---------------------------------
-    switch-style checkbox
-    source: https://boolie.org/css-checkbox-styling
- --------------------------------- */
-.switch-checkbox input[type="checkbox"] {
-    position: relative;
-    left: 30px;
-    top: 0;
-    z-index: 0;
-    -webkit-appearance: none;
-}
-
-.switch-checkbox input[type="checkbox"] + label {
-    position: relative;
-    display: block;
-    cursor: pointer;
-    font-family: sans-serif;
-    font-size: 1.2em;
-    line-height: 1.1;
-    padding-left: 40px;
-    margin-top: -20px;
-}
-
-.switch-checkbox input[type="checkbox"] + label:before {
-    width: 30px;
-    height: 15px;
-    border-radius: 15px;
-    border: 2px solid #ddd;
-    background-color: #EEE;
-    content: "";
-    margin-right: 15px;
-    transition: background-color 0.5s linear;
-    z-index: 5;
-    position: absolute;
-    left: 0;
-}
-
-.switch-checkbox input[type="checkbox"] + label:after {
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
-    background-color: #fff;
-    content: "";
-    transition: margin 0.1s linear;
-    box-shadow: 0 0 5px #aaa;
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    z-index: 10;
-}
-
-.switch-checkbox input[type="checkbox"]:checked + label:before {
-    background-color: #2b8718;
-}
-
-.switch-checkbox input[type="checkbox"]:checked + label:after {
-    margin: 0 0 0 15px;
-}
-
-
-/* ---------------------------------
     boxed-style radio button / checkbox button
  --------------------------------- */
 
-.boxed-radio input[type="radio"],
-.boxed-radio input[type="checkbox"] {
+.box input[type="radio"],
+.box input[type="checkbox"] {
     position: absolute;
     opacity: 0;
 }
 
-.boxed-radio input[type="radio"] + label,
-.boxed-radio input[type="checkbox"] + label {
+.box input[type="radio"] + label,
+.box input[type="checkbox"] + label {
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     color: var(--color-primary);
@@ -106,28 +22,28 @@
     display: inline-block;
 }
 
-.boxed-radio input[type="radio"] + label:hover,
-.boxed-radio input[type="checkbox"] + label:hover {
+.box input[type="radio"] + label:hover,
+.box input[type="checkbox"] + label:hover {
     color: var(--color-secondary);
     border: 2px solid var(--color-secondary);
 }
 
-.boxed-radio input[type="radio"]:checked + label,
-.boxed-radio input[type="checkbox"]:checked + label {
+.box input:checked + label {
     color: var(--color-light);
     background-color: var(--color-tertiary);
     border-color: var(--color-secondary);
-
-    /*
-    border: 2px solid var(--color-secondary);
-    */
 }
 
+.box input:checked + label > * {
+    color: var(--color-light);
+
+}
 
 /* ---------------------------------
     text input
  --------------------------------- */
 
+/* default input */
 .meistertools input[type="text"] {
     text-align: left;
     cursor: text;
@@ -140,10 +56,28 @@
     background-color: var(--color-light);
 }
 
-.boxed-input {
-    position: relative;
-    display: block;
-    margin-top: 22px;
+
+/* labeled input show the label above the input field */
+.meistertools input[type="text"].labeled {
+    margin-top: 16px;
+}
+
+.meistertools input[type="text"].labeled + label {
+    color: var(--color-secondary);
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin: 0;
+    line-height: 1em
+}
+
+.meistertools input[type="text"].labeled:focus + label {
+    background-color: var(--color-primary);
+    color: white;
 }
 
 
@@ -165,40 +99,49 @@
 
 
 /* ---------------------------------
-    select / drop downs
+    select
  --------------------------------- */
 
-.select-css {
-    position: relative;
-}
-
-.select-css select {
+.meistertools select {
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
+    border-radius: 7px;
     border-color: var(--color-secondary);
     width: 100%;
-    margin-top: 25px;
-}
-.select-css.no-label select {
-    margin-top: 0;
-}
-.select-css select + label {
-    top: 8px;
+    margin-top: 5px;
 }
 
-.select-css select option {
+.meistertools select.labeled {
+    margin-top: 15px
+}
+
+
+.meistertools select + label {
+    color: var(--color-secondary);
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 5px;
+    margin: 0;
+    line-height: 1em
+}
+
+.meistertools select:focus + label {
+    background-color: var(--color-primary);
+    color: var(--color-light);
+}
+
+.meistertools select option {
     background-color: var(--color-light);
     color: var(--color-secondary);
 }
 
-select:focus > option:hover {
-    background: #000 !important;
-}
-
-.select-css select option:checked {
-    box-shadow: 0 0 0 3px black;
-    background-color: var(--color-primary);
+.meistertools select option:checked {
     color: var(--color-light);
+    background-color: var(--color-primary);
+    box-shadow: 0 0 0 3px black;
 }
 
 .meistertools select:disabled {
@@ -284,6 +227,7 @@ select.culture {
     margin-top: 10px;
     color: var(--color-primary);
 }
+
 select.culture.checked {
     margin-top: 10px;
     color: var(--color-light);
@@ -298,3 +242,66 @@ button.top-right-nsc {
     margin-top: 30px;
     text-align: center;
 }
+
+
+/*
+    based on
+    @see https://www.w3schools.com/howto/howto_css_dropdown.asp
+*/
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    transition: 5s;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* ---------------------------------
+    Filepicker
+ --------------------------------- */
+
+.meistertools input.pick-path {
+    text-align: center;
+    width: 200px;
+    height: 100px;
+    display: block;
+    background-size: cover;
+
+}
+
+

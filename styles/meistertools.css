@@ -7,17 +7,9 @@
     --color-tertiary: #1B3B4B;
     --color-quaternary: #9C9FB8;
     --color-quinary: #EEEEF2;
-
     --color-disabled: #9C9FB8;
     --color-disabled-background: #cccccc;
-
     --color-light: #ffffe0;
-}
-
-
-span.bold {
-    color: var(--color-primary);
-    font-weight: bold;
 }
 
 
@@ -40,270 +32,421 @@ span.bold {
 }
 
 .meistertools nav.tabs a.active {
-    border-top: 2px solid var(--color-secondary);
+    border-top: 2px solid var(--color-tertiary);
     font-weight: bolder;
     background-image: linear-gradient(var(--color-light) 80%, var(--color-primary) 100%);
     color: var(--color-secondary);
 }
 
-/*
-.meistertools a.set-category {
-    margin-right: 10px;
-}
-
-.meistertools a.set-category.active {
-    font-size: 1.1em;
-    font-weight: bold;
-    border-top: 1px solid black;
-}
-*/
-
 
 /* ---------------------------------
-    flow-boxes
+    Layout Boxes
  --------------------------------- */
-.meistertools .flow-box {
-    overflow: hidden;
-}
 
-.meistertools .flow-box > * {
-    float: left;
-}
-
-
-/* Flow Layout */
-.meistertools .flow:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.meistertools .flow > * {
-    float: left;
-}
-
-
-/* ---------------------------------
-    boxes layout
- --------------------------------- */
-.meistertools .round-box {
+.meistertools .box {
+    position: relative;
     border: 2px solid var(--color-primary);
     border-radius: 5px;
-    padding: 10px;
-    margin-top: 25px;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     box-shadow: 0 0 5px #aaa;
 }
 
-.meistertools .round-box.inner {
-    border: 2px dotted var(--color-primary);
+.meistertools .box.borderless {
+    border: none;
+    box-shadow: none;
 }
 
-.meistertools .round-box.no-header {
-    margin-top: 10px;
+.meistertools .box.header {
+    border-top: 20px solid var(--color-primary);
+    margin: 20px 0;
 }
 
-/*
-.meistertools .round-box header > h1,
-.meistertools .round-box header > h2 {
-*/
+.meistertools .box.inner {
+    border: 2px dotted var(--color-tertiary);
+    margin: 10px 5px;
+}
 
-.meistertools .round-box header > h1,
-.meistertools .round-box header > h2 {
-    position: relative;
-    height: fit-content;
-    width: fit-content;
-    top: -30px;
-    box-shadow: 0 0 5px #aaa;
+.meistertools .box.inner.header {
+    border-top: 10px solid var(--color-tertiary);
+    margin-top: 15px;
+}
+
+
+/* header within top border */
+.meistertools .box.header > h1:first-child,
+.meistertools .box.header > h2:first-child,
+.meistertools .box.header > h3:first-child {
+    color: var(--color-secondary);
+    background-color: var(--color-light);
     border: 2px solid var(--color-secondary);
-    border-radius: 10px;
-    padding: 0 10px;
-    margin-bottom: -20px;
+    line-height: 1em;
+    border-radius: 5px;
+    position: absolute;
+    box-shadow: 0 0 2px #aaa;
+    padding: 2px 10px;
+    transform: translateY(-100%);
 }
 
-.meistertools .round-box header > h1 {
-    font-size: 1.5em;
-    color: var(--color-light);;
+.meistertools .box.header > h1:first-child {
+    font-weight: bold;
+    font-size: 1.8em;
+    color: var(--color-light);
     background-color: var(--color-primary);
 }
 
-.meistertools .round-box header > h2 {
-    font-size: 1.2em;
-    color: var(--color-secondary);
+.meistertools .box.header > h3:first-child {
+    top: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.meistertools .box.image > img:first-child {
+    position: absolute;
+    top: -25px;
+    right: 10px;
+    height: 58px;
+    padding: 5px;
+    border: 2px solid var(--color-primary);
+    border-radius: 5px;
     background-color: var(--color-light);
 }
 
 
-/* - Grid --------------------- */
-.col-2 {
+/* ---------------------------------
+    Flex Layouts
+ --------------------------------- */
+.meistertools .col-flex {
+    display: flex;
+}
+
+.meistertools .col-even {
+    display: flex;
+}
+
+.meistertools .col-even > * {
+    width: 100%;
+    margin-right: 5em;
+}
+
+.meistertools .col-even:first-child {
+    margin-left: 10em;
+}
+
+/* ---------------------------------
+    Grid Layouts
+ --------------------------------- */
+
+.meistertools .col-2 {
     display: grid;
     grid-template-columns: auto auto;
     grid-gap: 10px;
 }
 
-.col-3 {
+.meistertools .col-3 {
     display: grid;
     grid-template-columns: auto auto auto;
     grid-gap: 10px;
 }
 
-.col-4 {
+.meistertools .col-4 {
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 10px;
 }
 
-/*todo überarbeiten*/
-.round-box.col-3 main {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-gap: 10px;
+
+/* ---------------------------------
+    Float Layouts
+ --------------------------------- */
+.meistertools .float > * {
+    float: left;
 }
 
-.round-box.col-4 main {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-gap: 10px;
-
+.meistertools .float:after {
+    content: "";
+    clear: left;
+    display: table;
 }
 
 
-/* - help boxes --------------------- */
+/* ---------------------------------
+    Toggle
+ --------------------------------- */
 
-.meistertools .with-help.round-box > header {
-    display: grid;
-    grid-template-columns: auto 24px
+.meistertools .toggle:hover {
+    color: var(--color-secondary) !important;
+    background-color: var(--color-quinary) !important;
 }
 
-.meistertools .help-icon {
-    font-size: 2em;
-    position: relative;
-    cursor: help;
-    margin-bottom: -15px;
+.meistertools .toggle {
+    cursor: pointer;
 }
 
-.meistertools .help-info {
-    color: #7a7971;
-    margin: 6px 6px 6px 12px;
-    padding: 0 12px;
-    border-left: 2px solid #7a7971;
+.meistertools .toggle::before {
+    content: '- ';
+}
+
+.meistertools .toggle.show {
+    cursor: s-resize;
+}
+
+.meistertools .toggle.show::before {
+    content: '+ ';
+}
+
+.meistertools .hidden {
     display: none;
 }
 
 
 /* ---------------------------------
-    nachtlager
+    Background Images
  --------------------------------- */
-
-.nachtlager > main {
-    display: grid;
-    grid-template-columns: 80px auto auto auto auto auto;
-    grid-gap: 10px;
+.meistertools .img-top-left {
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 64px;
+    background-image: url("modules/dsa5-core/icons/culture/Mittelreich.webp");
+    position: relative;
 }
 
-.nachtlager img.prop {
-    width: 48px;
-    border: none;
-}
-
-.nachtlager img.prop:hover {
-    box-shadow: 0 0 5px #aaa;
-}
-
-.nachtlager img.prop:active {
-    box-shadow: 0 0 10px #aaa;
-}
-
-.nachtlager img.player {
-    width: 64px;
-    border: none;
-}
-
-
-img.placed-prop {
-    width: 100px;
-    height: 100px;
-    border: none
+.meistertools .img-top-left:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    opacity: 0.6;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 64px;
+    background-image: url("modules/dsa5-core/icons/culture/Mittelreich.webp");
 }
 
 
 /* ---------------------------------
-    generate NSC
+    Probability
  --------------------------------- */
 
-.img-left {
-    min-height: 64px;
-    background-repeat: no-repeat;
-    background-position: 0px 10px;
-    background-size: 48px 48px;
+.meistertools .probability:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
 }
 
-label.inputbox {
-    background-repeat: no-repeat;
-    background-position: 2px 2px;
-    background-size: 24px 24px;
-    vertical-align: middle;
+.meistertools .probability.star0:before {
+    content: "\f057";
+    color: red;
 }
 
-label.inputbox span {
-    margin-left: 24px;
-    text-align: left;
+.meistertools .probability.star1:before {
+    content: "\f005";
+    color: var(--color-quaternary);
+    font-weight: 200;
+}
+
+.meistertools .probability.star2:before {
+    content: "\f005";
+    color: blue;
+    font-weight: 200;
+}
+
+.meistertools .probability.star3:before {
+    content: "\f5c0";
+    color: blue;
+}
+
+.meistertools .probability.star4:before {
+    content: "\f005";
+    color: blue;
+}
+
+.meistertools .probability.star5:before {
+    content: "\f005";
+    color: goldenrod;
 }
 
 
-/* positioning select */
-.meistertools .position {
+/* ---------------------------------
+    NSC Generator
+ --------------------------------- */
+
+.meistertools div#nsc-selection {
+    margin-top: 5px;
+
+}
+
+.meistertools div#nsc-selection:after {
+    content: "";
+    clear: right;
+    display: table;
+}
+
+.meistertools div#nsc-selection > * {
+    float: left;
+    margin-left: 5px;
+    border: 1px solid black;
+    height: 40px;
+    padding: 5px;
+}
+
+.meistertools div#nsc-selection img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border: none;
+}
+
+.meistertools div#nsc-selection .gender i {
+    font-size: 2em;
+}
+
+.meistertools div#nsc-selection label {
+    display: block;
+    max-width: 90px;
+    float: right;
+}
+
+.meistertools button.create-nsc {
+    width: 64px;
+    height: 64px;
+    font-size: 2em;
+    padding: 0;
+}
+
+.meistertools button.create-preview {
+    width: 64px;
+    height: 24px;
+    font-size: 0.8em;
+    font-weight: normal;
+    padding: 0;
+}
+
+.meistertools .nsc-factory {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto 64px;
+}
+
+a.load-pattern {
+    border: 1px solid var(--color-tertiary);
+    border-radius: 5px;
+    background-color: var(--color-quaternary);
+    color: var(--color-secondary);
+    padding: 2px 5px;
+    margin: 0 3px;
+}
+
+.meistertools button.store-pattern {
+    margin-top: 15px;
+}
+
+.meistertools input.amount {
+    font-size: 1.2em;
+    text-align: center !important;
+}
+
+.meistertools a.decrease.change-amount {
+    float: left;
+    padding: 5px;
+}
+
+.meistertools a.increase.change-amount {
+    float: right;
+    padding: 5px;
+}
+
+.picker {
+    cursor: pointer;
+}
+
+.meistertools .scene-position {
     border-top: 8px solid transparent;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     border-bottom: 8px solid transparent;
-    padding: 5px;
+    height: 48px;
+    width: 48px;
 }
 
-.meistertools .position.outside {
+.meistertools .scene-position.outside {
     border: 4px solid green;
     padding: 9px;
 }
 
-.meistertools .position.center {
+.meistertools .scene-position.center {
     background-color: green;
     border-color: lightgray;
 }
 
-.meistertools .position.top-left {
+.meistertools .scene-position.top-left {
     border-top: 8px solid green;
     border-left: 8px solid green;
 }
 
-.meistertools .position.bottom-left {
+.meistertools .scene-position.bottom-left {
     border-bottom: 8px solid green;
     border-left: 8px solid green;
 }
 
-
 /* ---------------------------------
-    manage Scenes
+    NSC Generator Vorschau
  --------------------------------- */
 
-.meistertools .existing-scenes {
+
+.meistertools .re-roll {
+    cursor: url(http://www.zingerbugimages.com/cursors/dice.cur), url(http://www.zingerbug.com/cursors/cursors/dice.gif), progress !important;
+    /*
+    cursor: url(http://www.zingerbugimages.com/cursors/dice.cur), url(http://www.zingerbug.com/cursors/cursors/dice.gif), progress !important;
+    cursor: url('modules/dsa5-meistertools/assets/cursors/dice.gif'), pointer !important;
+    */
+    /*    cursor: url("data:image/png;base64,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"), auto;*/
+}
+
+
+.meistertools .results-preview {
+    margin-top: 10px
+}
+
+.meistertools .results-preview > * {
+    margin: 10px;
+}
+
+.meistertools .results-preview h2 {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.meistertools .results-preview img.avatar {
+    width: 100px;
+    border: none;
+}
+
+
+/* ---------------------------------
+    Scene Parser
+ --------------------------------- */
+
+.meistertools table.regions th {
+    text-align: left;
+}
+
+.meistertools table.regions td,
+.meistertools table.regions th {
+    vertical-align: top;
+}
+
+.meistertools table.regions tr:hover {
     background-color: var(--color-light);
 }
 
-.meistertools .pack-scenes {
-    background-color: var(--color-quinary);
-}
-
-.meistertools img.scene-thumb {
-    width: 300px;
-    height: 100px;
-    object-fit: cover;
-    cursor: zoom-in;
-}
 
 /* ---------------------------------
-    Token
+    Locator
  --------------------------------- */
 
-a.zoom-token {
-    cursor: crosshair;
+
+.biome.box {
+    width: 300px;
+    height: 200px;
 }

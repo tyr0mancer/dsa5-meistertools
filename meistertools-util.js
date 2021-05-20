@@ -108,8 +108,8 @@ export class MeistertoolsUtil {
      */
     static addDefaultListeners(html, callback = {}) {
         html.find("div.dropdown.scene-position").find("input").change(event => {
-            $(event.target).parent().parent().removeClass()
-            $(event.target).parent().parent().addClass('dropdown scene-position ' + event.currentTarget.value)
+            $(event.target).parent().parent().parent().parent().removeClass()
+            $(event.target).parent().parent().parent().parent().addClass('dropdown scene-position ' + event.currentTarget.value)
         })
         html.find("input.pick-path").dblclick((event) => {
             new FilePicker({
@@ -243,7 +243,7 @@ export class MeistertoolsUtil {
     }
 
 
-    static activePlayers() {
+    static get activePlayers() {
         const activeUserIds = game.users
             .filter(u => u.active && u.role !== 4)
             .map(u => u._id)
@@ -258,19 +258,26 @@ export class MeistertoolsUtil {
             })
     }
 
-    static playerActors() {
-        const activeUserIds = game.users
-            .filter(u => u.role !== 4)
-            .map(u => u._id)
+    static get playerActors() {
+        const userIds = game.users.filter(u => u.role !== 4).map(u => {
+            return {_id: u._id, active: u.active}
+        })
 
         return game.actors
-            .filter(u => {
-                for (let userId of activeUserIds) {
-                    if (u.data.permission[userId] === 3)
+            .filter(a => {
+                for (let userId of userIds)
+                    if (a.data.permission[userId._id] === 3)
                         return true
-                }
                 return false
             })
+            .map(a => {
+                    let active = false
+                    for (let userId of userIds)
+                        if (a.data.permission[userId._id] === 3)
+                            active = userId.active
+                    return {actor: a, active}
+                }
+            )
     }
 
 

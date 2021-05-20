@@ -16,23 +16,7 @@
                 <h1>Aktuelle Konfiguration</h1>
                 <div class="col-3" style="grid-template-columns: auto 48px 48px">
                     <div id="nsc-selection">{{{selectionDisplay}}}</div>
-
-
-                    <div class="dropdown scene-position {{selection.position}}">
-                        <div class="box dropdown-content header">
-                            <h2>Wo sollen die Token platziert werden?</h2>
-                            {{#each selectOptions.scenePositions}}
-                                <input id="position-{{key}}" {{checked_radio ../selection.position key}}
-                                       type="radio" name="position" value="{{key}}"/>
-                                <label for="position-{{key}}">
-                                    <b>{{name}}</b>
-                                    <div class="scene-position {{key}}" title="{{description}}"></div>
-                                </label>
-                            {{/each}}
-                        </div>
-                    </div>
-
-
+                    {{pick_scene-position "position" selection.position selectOptions.scenePositions}}
                     <div>
                         <input id="amount" class="amount" name="amount" value="{{selection.amount}}" type="text"/>
                         <a class="change-amount increase" data-delta="1"><i class="fas fa-plus-circle"> </i></a>
@@ -41,12 +25,12 @@
                 </div>
             </div>
             <div>
-                <button name="create-nsc" class="create-nsc"
+                <button name="create-nsc" class="create-nsc" type="button"
                         title="NSC auf Basis der Vorschau erstellen und ggfls. in Szene einfügen. Falls keine Vorschau
                         existiert, werden NSC auf Basis der aktuellen Konfiguration neu ausgewürfelt">
                     <i class="fas fa-user-plus"></i>
                 </button>
-                <button name="create-preview" class="create-preview"
+                <button name="create-preview" class="create-preview" type="button"
                         title="Vorschau auf Basis der aktuellen Konfiguration auswürfeln">
                     <i class="fas fa-dice"></i>
                 </button>
@@ -192,7 +176,7 @@
                     <label for="patternName">Name der Vorlage</label>
                 </div>
                 <div>
-                    <button class="store-pattern handle-pattern" type="button" data-action="store" title="speichern"><i
+                    <button class="store-pattern handle-pattern" data-action="store" title="speichern"><i
                             class="fas fa-save"></i></button>
                 </div>
             </div>
@@ -200,21 +184,46 @@
     </section>
 
     <section class="tab" data-tab="existing-actors">
-        <h1>existing-actors</h1>
 
-        <div class="dropdown scene-position {{players.position}}">
-            <div class="box dropdown-content header">
-                <h2>Wo sollen die Token platziert werden?</h2>
-                {{#each selectOptions.scenePositions}}
-                    <input id="position-players-{{key}}" {{checked_radio ../players.position key}}
-                           type="radio" name="players.position" value="{{key}}"/>
-                    <label for="position-players-{{key}}">
-                        <b>{{name}}</b>
-                        <div class="scene-position {{key}}" title="{{description}}"></div>
-                    </label>
+        <div class="box header left-padding players">
+            <h1>Spieler</h1>
+            <div class="inner box float">
+                {{#each selectOptions.playerActors}}
+                    <div>
+                        <input {{checked active}} id="player-{{actor._id}}" name="players.selection.{{actor._id}}"
+                                                  type="checkbox"/>
+                        <label for="player-{{actor._id}}">{{actor.name}}</label>
+                    </div>
                 {{/each}}
             </div>
+            <div class="inner box col-2">
+
+
+                {{pick_scene-position "players.position" selection.players.position selectOptions.scenePositions}}
+<!--
+
+                <div class="dropdown scene-position {{selection.players.position}}">
+                    <div class="box dropdown-content header">
+                        <h2>Wo sollen die Token platziert werden?</h2>
+                        {{#each selectOptions.scenePositions}}
+                            <input id="position-players-{{key}}" {{checked_radio ../selection.players.position key}}
+                                   type="radio" name="players.position" value="{{key}}"/>
+                            <label for="position-players-{{key}}">
+                                <b>{{name}}</b>
+                                <div class="scene-position {{key}}" title="{{description}}"></div>
+                            </label>
+                        {{/each}}
+                    </div>
+                </div>-->
+                <div style="text-align: right">
+                    <button type="button" name="insert-player"><i class="fas fa-user-plus"></i></button>
+                </div>
+            </div>
         </div>
+
+
+        <h1>existing-actors</h1>
+
 
     </section>
 

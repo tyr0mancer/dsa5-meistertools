@@ -366,6 +366,10 @@ a.load-pattern {
     border-left: 8px solid green;
 }
 
+.meistertools .scene-position.none {
+    background-color: red;
+}
+
 /* ---------------------------------
     NSC Generator Vorschau
  --------------------------------- */
@@ -421,4 +425,26 @@ a.load-pattern {
 .biome.box {
     width: 300px;
     height: 200px;
+}
+
+/* ---------------------------------
+    Akteuer Verzeichnis
+ --------------------------------- */
+
+.meistertools .left-padding {
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    background-position: 0 10px;
+}
+
+.meistertools .left-padding > div.box {
+    margin-left: 100px;
+}
+
+.meistertools .left-padding.players {
+    background-image: url('/systems/dsa5/icons/categories/ability_fate_points.webp');
+}
+
+.meistertools .left-padding.npc {
+    background-image: url('/systems/dsa5/icons/categories/DSA-Auge.webp');
 }

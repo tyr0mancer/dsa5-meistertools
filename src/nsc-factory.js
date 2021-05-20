@@ -29,7 +29,7 @@ export class NscFactory extends FormApplication {
             template: `modules/${moduleName}/templates/nsc-factory.hbs`,
             title: game.i18n.localize('meistertools.nsc-factory'),
             id: `${moduleName}.nsc-factory`,
-            tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "nsc-generator"}],
+            tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "nsc-generator"}], //nsc-generator  existing-actors
             resizable: true, popOut: true,
             ...position,
             closeOnSubmit: false,
@@ -40,13 +40,11 @@ export class NscFactory extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
         MeistertoolsUtil.addDefaultListeners(html, {onChange: e => this._handleDataChange(e)});
-
         html.find(".handle-pattern").click((event) => this._handlePattern(event))
         html.find(".change-amount").click((event) => this._changeAmount(event))
         html.find(".create-preview").click(() => this._createPreview())
         html.find(".create-nsc").click(() => this._createNsc())
         html.find(".re-roll").click((event) => this._reRoll(event))
-
     }
 
     async getData() {
@@ -60,6 +58,8 @@ export class NscFactory extends FormApplication {
             preview: this.preview,
             selectionDisplay: this.selectionDisplay,
             selectOptions: {
+                playerActors: MeistertoolsUtil.playerActors,
+                generatedNsc: [],
                 scenePositions: SCENE_POSITIONS,
                 professionCompendium: this.professionCompendium?.index || [],
             }
@@ -68,6 +68,9 @@ export class NscFactory extends FormApplication {
 
     async _updateObject(event, formData) {
         const lastSelection = MeistertoolsUtil.expandObjectAndArray(formData)
+        console.clear()
+        console.log(this.settings)
+        console.log(lastSelection)
         this.settings = this._updateSettings({
             lastSelection: {...lastSelection, position: this.selection.position},
             position: this.position

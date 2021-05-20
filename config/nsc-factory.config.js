@@ -45,7 +45,7 @@ export default {
             eyes: "${eyes}",
             physicalTrait: "${physicalTrait}",
             catchphrase: "${catchphrase}",
-            job: "${jobs}"
+            career: "${jobs}"
         },
     },
 

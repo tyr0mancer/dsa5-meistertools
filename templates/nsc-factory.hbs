@@ -19,12 +19,14 @@
 
 
                     <div class="dropdown scene-position {{selection.position}}">
-                        <div class="dropdown-content">
+                        <div class="box dropdown-content header">
+                            <h2>Wo sollen die Token platziert werden?</h2>
                             {{#each selectOptions.scenePositions}}
                                 <input id="position-{{key}}" {{checked_radio ../selection.position key}}
                                        type="radio" name="position" value="{{key}}"/>
                                 <label for="position-{{key}}">
-                                    <div class="scene-position {{key}}" title="{{description}}">{{name}}</div>
+                                    <b>{{name}}</b>
+                                    <div class="scene-position {{key}}" title="{{description}}"></div>
                                 </label>
                             {{/each}}
                         </div>
@@ -193,6 +195,24 @@
                     <button class="store-pattern handle-pattern" type="button" data-action="store" title="speichern"><i
                             class="fas fa-save"></i></button>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tab" data-tab="existing-actors">
+        <h1>existing-actors</h1>
+
+        <div class="dropdown scene-position {{players.position}}">
+            <div class="box dropdown-content header">
+                <h2>Wo sollen die Token platziert werden?</h2>
+                {{#each selectOptions.scenePositions}}
+                    <input id="position-players-{{key}}" {{checked_radio ../players.position key}}
+                           type="radio" name="players.position" value="{{key}}"/>
+                    <label for="position-players-{{key}}">
+                        <b>{{name}}</b>
+                        <div class="scene-position {{key}}" title="{{description}}"></div>
+                    </label>
+                {{/each}}
             </div>
         </div>
 

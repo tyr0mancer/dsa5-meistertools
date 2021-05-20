@@ -204,7 +204,6 @@ export class NscFactory extends FormApplication {
                     y: posCenterY + Math.floor(index / tokenPerRow) * tokenSize
                 }
             case "top-left":
-                console.log("TOP LEFT!!!!")
                 return {
                     x: posLeft + (index % tokenPerRow) * tokenSize,
                     y: posTop + Math.floor(index / tokenPerRow) * tokenSize
@@ -475,19 +474,14 @@ export class NscFactory extends FormApplication {
 
 const SCENE_POSITIONS = [
     {
-        key: 'none',
-        name: 'gar nicht',
-        description: 'Token nicht in Szene platzieren',
+        key: 'top-left',
+        name: 'oben links',
+        description: 'Innerhalb der sichtbaren Szene am oberen linken Rand',
     },
     {
         key: 'outside',
         name: 'außen',
         description: 'Außerhalb des sichtbaren Bereichs der Szene',
-    },
-    {
-        key: 'top-left',
-        name: 'oben links',
-        description: 'Innerhalb der sichtbaren Szene am oberen linken Rand',
     },
     {
         key: 'bottom-left',
@@ -499,4 +493,10 @@ const SCENE_POSITIONS = [
         name: 'mitte',
         description: 'In der Mitte der Szene',
     },
+    {
+        key: 'none',
+        name: 'gar nicht',
+        description: 'Token nicht in Szene platzieren',
+    },
+
 ]

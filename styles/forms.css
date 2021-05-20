@@ -262,11 +262,12 @@ button.top-right-nsc {
 .dropdown {
     position: relative;
     display: inline-block;
-    transition: 5s;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
+    width: 180px;
+    background-color: var(--color-light);
     display: none;
     position: absolute;
     z-index: 1;

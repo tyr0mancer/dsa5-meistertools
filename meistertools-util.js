@@ -107,6 +107,10 @@ export class MeistertoolsUtil {
      * @param callback
      */
     static addDefaultListeners(html, callback = {}) {
+        html.find("div.dropdown.scene-position").find("input").change(event => {
+            $(event.target).parent().parent().removeClass()
+            $(event.target).parent().parent().addClass('dropdown scene-position ' + event.currentTarget.value)
+        })
         html.find("input.pick-path").dblclick((event) => {
             new FilePicker({
                 type: "image",
@@ -239,7 +243,6 @@ export class MeistertoolsUtil {
     }
 
 
-
     static activePlayers() {
         const activeUserIds = game.users
             .filter(u => u.active && u.role !== 4)
@@ -269,7 +272,6 @@ export class MeistertoolsUtil {
                 return false
             })
     }
-
 
 
 }

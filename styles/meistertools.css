@@ -284,8 +284,9 @@
 }
 
 .meistertools button.create-nsc {
+    margin-top: 20px;
     width: 64px;
-    height: 64px;
+    height: 48px;
     font-size: 2em;
     padding: 0;
 }

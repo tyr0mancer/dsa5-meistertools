@@ -13,7 +13,7 @@
     <section class="tab" data-tab="nsc-generator">
         <div class="nsc-factory">
             <div class="box header">
-                <h1>Konfiguration</h1>
+                <h1>Aktuelle Konfiguration</h1>
                 <div class="col-3" style="grid-template-columns: auto 48px 48px">
                     <div id="nsc-selection">{{{selectionDisplay}}}</div>
                     <div class="dropdown scene-position {{selection.position}}">
@@ -35,15 +35,20 @@
                 </div>
             </div>
             <div>
-                <button name="create-nsc" class="create-nsc" title="NSC erstellen">
-                    <i class="fas fa-plus-square"></i>
+                <button name="create-nsc" class="create-nsc"
+                        title="NSC auf Basis der Vorschau erstellen. Falls keine Vorschau existiert, werden NSC
+                        auf Basis der aktuellen Konfiguration neu ausgewürfelt">
+                    <i class="fas fa-user-plus"></i>
                 </button>
-                <button name="create-preview" class="create-preview" title="Vorschau erstellen">Vorschau</button>
+                <button name="create-preview" class="create-preview"
+                        title="Vorschau auf Basis der aktuellen Konfiguration auswürfeln">
+                    <i class="fas fa-dice"></i>
+                </button>
             </div>
         </div>
 
         <div class="inner box header">
-            <h3 class="toggle" data-target=".vorlagen">Vorlagen</h3>
+            <h3 class="toggle" data-target=".vorlagen">Konfiguration-Vorlagen</h3>
             <div class="vorlagen">
                 {{#each settings.storedPattern as |pattern id|}}
                     <a class="handle-pattern" data-action="remove" data-pattern-id="{{id}}"><i
@@ -56,6 +61,14 @@
         {{#if preview}}
             <div class="box header">
                 <h1 class="toggle" data-target=".results-preview">Vorschau</h1>
+                <div class="inner box header">
+                    <h2>Konfiguration</h2>
+                    {{preview.professionActor.name}} -
+                    {{preview.archetypeActor.name}} -
+                    {{preview.selection.amount}} -
+                    {{preview.selection.gender}} -
+                    {{preview.selection.position}}
+                </div>
                 <div class="results-preview float">
                     {{#each preview.results as |result id|}}
                         {{#with result}}
@@ -65,7 +78,8 @@
                                 <div class="float">
                                     <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
                                          data-result-id="{{id}}" data-result-key="img"/>
-<!--
+                                    <!--coming soon :)-->
+                                    <!--
                                     <div class="col-4">
                                         <b>Größe</b> <span>{{height}}</span>
                                         <b>Gewicht</b>
@@ -79,8 +93,6 @@
                                         <b>Beruf</b>
                                         <div>{{job}}</div>
                                     </div>
--->
-<!--
                                     <div class="col-2 re-roll" data-result-id="{{id}}" data-result-key="traits"
                                          title="Eigenschaften neu auswürfeln">
                                         <b>Aussehen</b>
@@ -88,7 +100,7 @@
                                         <b>Zitat</b>
                                         <div>"{{catchphrase}}"</div>
                                     </div>
--->
+                                    -->
                                 </div>
                             </div>
                         {{/with}}
@@ -165,7 +177,7 @@
         </div>
 
         <div class="inner box header">
-            <h3>Als Vorlage speichern</h3>
+            <h3>Als Konfiguration-Vorlage speichern</h3>
             <div class="col-2" style="grid-template-columns: auto 40px">
                 <div>
                     <input id="patternName" name="patternName" type="text" class="labeled"/>

@@ -16,6 +16,8 @@
                 <h1>Aktuelle Konfiguration</h1>
                 <div class="col-3" style="grid-template-columns: auto 48px 48px">
                     <div id="nsc-selection">{{{selectionDisplay}}}</div>
+
+
                     <div class="dropdown scene-position {{selection.position}}">
                         <div class="dropdown-content">
                             {{#each selectOptions.scenePositions}}
@@ -27,6 +29,8 @@
                             {{/each}}
                         </div>
                     </div>
+
+
                     <div>
                         <input id="amount" class="amount" name="amount" value="{{selection.amount}}" type="text"/>
                         <a class="change-amount increase" data-delta="1"><i class="fas fa-plus-circle"> </i></a>
@@ -61,25 +65,26 @@
         {{#if preview}}
             <div class="box header">
                 <h1 class="toggle" data-target=".results-preview">Vorschau</h1>
-                <div class="inner box header">
-                    <h2>Konfiguration</h2>
-                    {{preview.professionActor.name}} -
-                    {{preview.archetypeActor.name}} -
-                    {{preview.selection.amount}} -
-                    {{preview.selection.gender}} -
-                    {{preview.selection.position}}
-                </div>
-                <div class="results-preview float">
-                    {{#each preview.results as |result id|}}
-                        {{#with result}}
-                            <div class="inner box header">
-                                <h2 class="re-roll" data-result-id="{{id}}" data-result-key="name"
-                                    title="Name neu auswürfeln">{{name}}</h2>
-                                <div class="float">
-                                    <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
-                                         data-result-id="{{id}}" data-result-key="img"/>
-                                    <!--coming soon :)-->
-                                    <!--
+                <div class="results-preview ">
+                    <div class="inner box header">
+                        <h2>Konfiguration</h2>
+                        {{preview.professionActor.name}} -
+                        {{preview.archetypeActor.name}} -
+                        {{preview.selection.amount}} -
+                        {{preview.selection.gender}} -
+                        {{preview.selection.position}}
+                    </div>
+                    <div class="float">
+                        {{#each preview.results as |result id|}}
+                            {{#with result}}
+                                <div class="inner box header">
+                                    <h2 class="re-roll" data-result-id="{{id}}" data-result-key="name"
+                                        title="Name neu auswürfeln">{{name}}</h2>
+                                    <div class="float">
+                                        <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
+                                             data-result-id="{{id}}" data-result-key="img"/>
+                                        <!--coming soon :)-->
+                                        <!--
                                     <div class="col-4">
                                         <b>Größe</b> <span>{{height}}</span>
                                         <b>Gewicht</b>
@@ -101,10 +106,11 @@
                                         <div>"{{catchphrase}}"</div>
                                     </div>
                                     -->
+                                    </div>
                                 </div>
-                            </div>
-                        {{/with}}
-                    {{/each}}
+                            {{/with}}
+                        {{/each}}
+                    </div>
                 </div>
             </div>
         {{/if}}

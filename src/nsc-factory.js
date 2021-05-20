@@ -9,7 +9,6 @@ const JOBLESS_PROFESSIONS = ["Bürger"]
 export class NscFactory extends FormApplication {
     constructor() {
         super();
-        this.preview = []
         this.settings = game.settings.get(moduleName, 'nsc-factory') || NscFactory.defaultSettings || {}
         this.selection = this.settings.lastSelection || {}
         this.professionCompendium = game.packs.get(this.settings.settings?.baseActorCollection)
@@ -91,14 +90,9 @@ export class NscFactory extends FormApplication {
         if (variation?.data)
             mergeObject(archetypeData, variation.data)
 
-        const professionActor = await this.professionCompendium.getEntry(this.selection.profession)
-        const archetypeActor = await game.packs.get(archetypeData.actor.collection).getEntry(archetypeData.actor._id)
-
-        /*
-                console.log(professionActor)
-                console.log(archetypeActor)
-        */
-        // todo merge actors ?
+        const professionActor = this.professionCompendium.index.find(e => e._id === this.selection?.profession)
+        professionActor.collection = this.professionCompendium.collection
+        const archetypeActor = await game.packs.get(archetypeData.actor.collection)?.getEntry(archetypeData.actor._id)
 
         this.preview = {
             professionActor,
@@ -114,9 +108,118 @@ export class NscFactory extends FormApplication {
         this.render()
     }
 
+
+    // todo merge this.preview.archetypeActor into this
+    async _mergeActor(actorA, actorB) {
+        return actorA
+    }
+
     async _createNsc() {
-        await this._createPreview()
-        return undefined;
+        if (!this.preview)
+            await this._createPreview()
+
+        let folderId = game.folders.find(f => f.name === this.settings.settings?.folderName && f.type === this.professionCompendium.entity)?.id;
+        if (!folderId) {
+            const folder = await Folder.create({
+                "name": this.settings.settings?.folderName,
+                "type": this.professionCompendium.entity,
+                "sort": 300000,
+                "parent": null,
+                "sorting": "m",
+                "color": "#373d6d"
+            });
+            ui.notifications.info(`Your world did not have a ${this.professionCompendium.entity} folder named '${this.settings.settings?.folderName}'. MeisterTools created this folder automatically.`);
+            folderId = folder.id
+        }
+
+        for (let newActor of this.preview.results) {
+            const actor = await game.actors.importFromCollection(this.preview.professionActor.collection, this.preview.professionActor._id, folderId ? {folder: folderId} : null)
+            await this._mergeActor(actor, this.preview.archetypeActor)
+            await actor.update({
+                "name": newActor.name,
+                "img": newActor.img,
+                "data.details.eyecolor.value": newActor.eyes,
+                "data.details.haircolor.value": newActor.hair,
+                "data.details.Home.value": newActor.origin,
+                "data.details.gender.value": newActor.gender,
+                "data.details.career.value": newActor.career,
+                "data.details.height.value": newActor.height,
+                "data.details.weight.value": newActor.weight,
+                "data.details.biography.value": `<p><i>"${newActor.catchphrase}"</i></p><p>${newActor.physicalTrait}</p>`,
+                "data.details.age.value": "(todo)", // todo
+                "data.details.distinguishingmark.value": "(todo)", // todo
+            })
+            this._createActorTokenInCanvas(actor, this.preview.selection.position)
+        }
+
+    }
+
+
+    _createActorTokenInCanvas(actor, position, options = {actorLink: true, hidden: false}) {
+        if (position === "none") return
+        if (typeof position === "string")
+            position = this._getTokenPosition(position)
+        let newToken = {
+            ...actor.token,
+            ...position,
+            ...options,
+            name: actor.name,
+            img: actor.img,
+            actorId: actor.id,
+            width: 1,
+            height: 1,
+            vision: false,
+            actorData: {},
+        }
+        return canvas.scene.createEmbeddedEntity("Token", newToken)
+    }
+
+    /**
+     * calculates the next position for a token and increases this.lastTokenIndex
+     * @param positionType
+     * @return {{x: number, y: number}}
+     * @private
+     */
+    _getTokenPosition(positionType = 'top-left') {
+        let tokenSize = parseInt(canvas.scene.data.grid)
+        let paddingTop = canvas.scene.data.padding * canvas.scene.data.height
+        let paddingLeft = canvas.scene.data.padding * canvas.scene.data.width
+        let posLeft = (Math.ceil(paddingLeft / parseInt(canvas.scene.data.grid))) * tokenSize
+
+        let posCenterX = (Math.ceil((paddingLeft + canvas.scene.data.width / 2) / parseInt(canvas.scene.data.grid))) * tokenSize
+        let posCenterY = (Math.ceil((paddingTop + canvas.scene.data.height / 2) / parseInt(canvas.scene.data.grid))) * tokenSize
+
+        let posTop = (Math.ceil(paddingTop / parseInt(canvas.scene.data.grid))) * tokenSize
+        let posBottom = (Math.floor((paddingTop + canvas.scene.data.height) / parseInt(canvas.scene.data.grid))) * tokenSize
+        let tokenPerRow = Math.floor(canvas.scene.data.width / tokenSize)
+        let index = this.lastTokenIndex++
+        if (!index) {
+            index = 0
+            this.lastTokenIndex = 1
+        }
+        switch (positionType) {
+            case "center":
+                return {
+                    x: posCenterX + (index % tokenPerRow) * tokenSize,
+                    y: posCenterY + Math.floor(index / tokenPerRow) * tokenSize
+                }
+            case "top-left":
+                console.log("TOP LEFT!!!!")
+                return {
+                    x: posLeft + (index % tokenPerRow) * tokenSize,
+                    y: posTop + Math.floor(index / tokenPerRow) * tokenSize
+                }
+            case "bottom-left":
+                return {
+                    x: posLeft + (index % tokenPerRow) * tokenSize,
+                    y: posBottom
+                }
+            default:
+                return {
+                    x: (index % tokenPerRow) * tokenSize,
+                    y: Math.floor(index / tokenPerRow) * tokenSize
+                }
+        }
     }
 
 
@@ -147,7 +250,7 @@ export class NscFactory extends FormApplication {
         const action = event.action || $(event.currentTarget).attr("data-action") || "load"
         if (action === 'load') {
             this.selection = duplicate(this.settings.storedPattern[id])
-            return this.render()
+            return this._createPreview()
         }
         let storedPattern = this.settings.storedPattern || []
         if (action === 'remove')
@@ -249,10 +352,7 @@ export class NscFactory extends FormApplication {
         const physicalTrait = await this._followPattern(archetypeData.pattern.physicalTrait, archetypeData.rollTables, gender)
         const catchphrase = await this._followPattern(archetypeData.pattern.catchphrase, archetypeData.rollTables, gender)
         const origin = await this._followPattern(archetypeData.pattern.origin, archetypeData.rollTables, gender)
-        const job = (JOBLESS_PROFESSIONS.includes(professionName))
-            ? await this._followPattern(archetypeData.pattern.job, archetypeData.rollTables, gender)
-            : professionName
-        return {physicalTrait, catchphrase, origin, job}
+        return {physicalTrait, catchphrase, origin}
     }
 
     /**
@@ -339,13 +439,16 @@ export class NscFactory extends FormApplication {
      */
     async _rollActorMeta(archetypeData, professionActor, archetypeActor) {
         const gender = duplicate(this.selection.gender)
-        const result = {gender, name: 'Alrik'}
+        const result = {gender, name: 'Alrik', career: professionActor.name}
         if (result.gender === 'random')
             result.gender = this._rollGender(archetypeData.pattern.genderRatio)
+        if (JOBLESS_PROFESSIONS.includes(result.career))
+            result.career = await this._followPattern(archetypeData.pattern.career, archetypeData.rollTables, gender)
+
         result.name = await this._rollName(archetypeData, result.gender)
-        const image = await this._rollImage(archetypeData, result.gender, professionActor?.name)
+        const image = await this._rollImage(archetypeData, result.gender, result.career)
         mergeObject(result, {...image})
-        const traits = await this._rollTraits(archetypeData, result.gender, professionActor?.name)
+        const traits = await this._rollTraits(archetypeData, result.gender, result.career)
         mergeObject(result, {...traits})
         return result;
     }
@@ -359,17 +462,16 @@ export class NscFactory extends FormApplication {
             mergeObject(this.preview.results[id], {name})
         }
         if (key === 'img') {
-            const image = await this._rollImage(this.preview.archetypeData, this.preview.results[id].gender, this.preview.professionActor?.name)
+            const image = await this._rollImage(this.preview.archetypeData, this.preview.results[id].gender, this.preview.results[id].career)
             mergeObject(this.preview.results[id], {...image})
         }
         if (key === 'traits') {
-            const traits = await this._rollTraits(this.preview.archetypeData, this.preview.results[id].gender, this.preview.professionActor?.name)
+            const traits = await this._rollTraits(this.preview.archetypeData, this.preview.results[id].gender, this.preview.results[id].career)
             mergeObject(this.preview.results[id], {...traits})
         }
         this.render()
     }
 }
-
 
 const SCENE_POSITIONS = [
     {

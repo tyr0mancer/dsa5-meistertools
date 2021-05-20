@@ -94,7 +94,7 @@ export class SceneParser extends Application {
      */
     async _parseScene(scene = game.scenes.viewed) {
         const {regions, regionCategories} = game.settings.get(moduleName, "locations")
-        const sceneRegionFlags = duplicate(scene.getFlag(moduleName, "regions") || [])
+        const newRegions = []
         const drawings = scene.getEmbeddedCollection('Drawing')
             .map(drawing => {
                 // drawing is assigned to a region already
@@ -107,25 +107,26 @@ export class SceneParser extends Application {
                 // name does not refer to a known region, so no changes apply
                 if (!region) return drawing
 
-                // otherwise adjust style of drawing
+                // otherwise adjust style of drawing...
                 const style = duplicate(regionCategories.find(c => c.key === region.category).style || {})
                 style.locked = true
                 style.hidden = true
                 if (style.fillColor === 'random')
                     style.fillColor = MeistertoolsUtil.niceColor(regions.map(r => r.key).indexOf(region.key))
-
-                const result = mergeObject(drawing, {
+                const newDrawing = mergeObject(drawing, {
                     text: region.name,
                     flags: {[moduleName]: {region}},
                     ...style
                 })
 
-                // and add the region to scene flags
-                sceneRegionFlags.push({region, drawing: result})
-                return {...result}
+                // ...and add it with the region to scenes flags
+                newRegions.push({region, drawing: newDrawing})
+                return {...newDrawing}
             })
         await scene.update({drawings})
-        await scene.setFlag(moduleName, "regions", sceneRegionFlags)
+        ui.notifications.info(`${newRegions.length} neue Region(en) gefunden`);
+        const newFlags = newRegions.concat(scene.getFlag(moduleName, "regions") || [])
+        await scene.setFlag(moduleName, "regions", newFlags)
         this.render()
     }
 
@@ -277,13 +278,3 @@ export class SceneParser extends Application {
     }
 
 }
-
-
-function showRegionScenes(scene, show = true) {
-    return []
-}
-
-function storeRegions(scene, regions) {
-    return undefined
-}
-

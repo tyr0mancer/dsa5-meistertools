@@ -72,6 +72,7 @@ export class SceneParser extends Application {
 
         html.find("button.parse-scene").click(() => this._parseScene())
         html.find("button.purge-scene").click(() => this._purgeScene())
+        html.find("button.purge-drawings").click(() => canvas.drawings.deleteAll())
 
 
         html.find("button.add-region").click(event => this._addRegion(event))

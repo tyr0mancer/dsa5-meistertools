@@ -1,18 +1,19 @@
 <div class="meistertools">
-    <div class="float">
+    <div class="col-2">
         <div>
             {{#if locatorScene}}
-                <button class="locate-token">Locate</button>
+                <button class="locate-token large" title="Sicht auf Locator Token in Karten-Szene zentrieren"><i
+                        class="far fa-compass"></i></button>
             {{/if}}
         </div>
         <div>
             {{#if locatorScene}}
-                <p>Karte: {{locatorScene.name}}</p>
+                <h3><b>Karte:</b> {{locatorScene.name}}</h3>
             {{else}}
                 <p>Keine Szene als Karte gewählt</p>
             {{/if}}
             {{#if locatorToken}}
-                <p>Token: {{locatorToken.name}}</p>
+                <p><b>Token:</b> {{locatorToken.name}}</p>
             {{else}}
                 <p>Kein Token gewählt</p>
             {{/if}}
@@ -20,7 +21,7 @@
     </div>
 
     <div class="biome box" style="background: url({{currentLocation.currentBiome.img}})">
-        <select name="biome">
+        <select name="biome" class="biome">
             {{#select currentLocation.currentBiome.key}}
                 <option></option>
                 {{#each biomes}}
@@ -29,20 +30,29 @@
             {{/select}}
         </select>
 
-        <div class="float">
+        <div class="col-2">
             <div>
-                <button class="pick-region">Pick Region</button>
+                <button class="pick-region large" title="Regionen manuell auswählen"><i class="fas fa-edit"></i>
+                </button>
             </div>
-            <div style="margin:15px; background-color: white; opacity: 0.6; border: 1px solid black">
-                {{stringify currentLocation.currentRegions}}
+            <div class="region box">
+                {{#each expandedRegions}}
+                    <h2>{{name}}</h2>
+                    {{#each regions}}
+                        <span>{{name}}</span>
+                    {{/each}}
+                {{/each}}
             </div>
         </div>
     </div>
 
-    <div>
-        <button class="set-scene">set scene</button>
-        <button class="set-token">set token</button>
-        <button class="open-parser">open parser</button>
+    <div class="col-2">
+        <button class="open-parser wide" title="Regionen und Kartenzeichnungen"><i class="fas fa-cogs"></i></button>
+        <div style="text-align: right">
+            <button class="set-token wide" title="Das ausgewählte Token als Locator Token verwenden">
+                <i class="fas fa-user-tag"></i></button>
+            <!-- <button class="set-scene">set scene</button> -->
+        </div>
     </div>
 
 </div>

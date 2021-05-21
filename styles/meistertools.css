@@ -421,8 +421,36 @@ a.load-pattern {
     Locator
  --------------------------------- */
 
+.meistertools .region.box {
+    width: 200px;
+    margin: 15px;
+    background-color: white;
+    color: black;
+    opacity: 0.6;
+    border: 1px solid black
+}
 
-.biome.box {
+.meistertools .region.box h2 {
+    margin-top: 10px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.meistertools .region.box h2:first-child {
+    margin-top: 0;
+}
+
+.meistertools .region.box span {
+    display: inline;
+    font-size: 0.8em;
+    padding: 2px;
+    border: 1px solid black;
+    background-color: var(--color-secondary);
+    color: var(--color-light);
+    margin: 5px
+}
+
+.meistertools .biome.box {
     width: 300px;
     height: 200px;
 }

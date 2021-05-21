@@ -15,8 +15,16 @@ export default {
         {key: "city", name: "kleine und mittlere Städte", img: "modules/dsa5-meistertools/assets/images/biomes/city.webp"},
         //https://www.pexels.com/de-de/foto/foto-des-hauses-nahe-am-fluss-61381/
         {key: "metropolis", name: "Große Städten und Metropolen", img: "modules/dsa5-meistertools/assets/images/biomes/metropolis.webp"},
-
+        //https://www.pexels.com/de-de/foto/panorama-fotografie-des-grunen-feldes-440731/
+        {key: "plains", name: "weite Ebenen", img: "modules/dsa5-meistertools/assets/images/biomes/plains.webp"},
+        //https://www.pexels.com/de-de/foto/grune-kiefern-1563604/
         {key: "forest", name: "gemäßigte Wälder", img: "modules/dsa5-meistertools/assets/images/biomes/forest.webp"},
+        //https://www.pexels.com/de-de/foto/landschaftsfotografie-des-berges-414122/
+        {key: "hills", name: "Hügel", img: "modules/dsa5-meistertools/assets/images/biomes/hills.webp"},
+        //https://www.pexels.com/de-de/foto/schneebedeckter-berg-1755243/
+        {key: "mountains", name: "Gebirge", img: "modules/dsa5-meistertools/assets/images/biomes/mountains.webp"},
+        //https://www.pexels.com/de-de/foto/foto-der-bergkette-bedeckt-mit-schnee-unter-mond-908644/
+        {key: "arctic", name: "Ewiges Eis", img: "modules/dsa5-meistertools/assets/images/biomes/arctic.webp"},
         //https://www.pexels.com/de-de/foto/holz-licht-dammerung-landschaft-4239623/
         {key: "rainforest", name: "Regenwald", img: "modules/dsa5-meistertools/assets/images/biomes/rainforest.webp"},
         //https://www.pexels.com/de-de/foto/grune-busche-in-der-wuste-998653/

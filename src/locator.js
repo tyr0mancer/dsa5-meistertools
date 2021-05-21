@@ -30,6 +30,7 @@ export class MeistertoolsLocator extends Application {
         this.locatorToken = this.locatorScene?.data?.tokens?.find(t => t._id === this.settings.currentLocation.locatorToken)
         return {
             ...this.settings,
+            expandedRegions: MeistertoolsLocator.expandRegions(this.settings.currentLocation.currentRegions),
             locatorScene: this.locatorScene,
             locatorToken: this.locatorToken
         }
@@ -42,7 +43,7 @@ export class MeistertoolsLocator extends Application {
         html.find("button.set-scene").click(() => this._updateSettings({"currentLocation.locatorScene": game.scenes.viewed._id}))
         html.find("button.set-token").click(() => this._updateSettings({
             "currentLocation.locatorScene": game.scenes.viewed._id,
-            "currentLocation.locatorToken": canvas.tokens.controlled[0].id,
+            "currentLocation.locatorToken": canvas.tokens.controlled[0]?.id,
         }))
         html.find("select[name=biome]").change(event => this._updateSettings({"currentLocation.currentBiome": this.settings.biomes.find(b => b.key === event.currentTarget.value)}))
         html.find("button.pick-region").click(() => new RegionPicker((regions) => {
@@ -80,13 +81,15 @@ export class MeistertoolsLocator extends Application {
     }
 
     static expandRegions(regions = MeistertoolsLocator.regions, regionCategories = MeistertoolsLocator.regionCategories) {
-        return regionCategories.map(c => {
-            return {
-                name: c.name,
-                key: c.key,
-                regions: regions.filter(r => r.category === c.key)
-            }
-        })
+        return regionCategories
+            .map(c => {
+                return {
+                    name: c.name,
+                    key: c.key,
+                    regions: regions.filter(r => r.category === c.key)
+                }
+            })
+            .filter(c => c.regions.length !== 0)
     }
 
     /**

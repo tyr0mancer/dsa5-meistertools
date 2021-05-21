@@ -114,6 +114,12 @@
     margin-top: 15px
 }
 
+.meistertools select.biome {
+    color: var(--color-secondary);
+    background-color: var(--color-light);
+    opacity: 0.4;
+}
+
 
 .meistertools select + label {
     color: var(--color-secondary);
@@ -180,6 +186,18 @@
     color: var(--color-disabled);
     background-color: var(--color-disabled-background);
     cursor: not-allowed;
+}
+
+.meistertools button.large {
+    font-size: 2em;
+    height: 48px;
+    width: 48px;
+}
+
+.meistertools button.wide {
+    font-size: 1.5em;
+    height: 32px;
+    width: 48px;
 }
 
 

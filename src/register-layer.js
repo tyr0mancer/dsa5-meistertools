@@ -1,6 +1,7 @@
 import {NscFactory} from "./nsc-factory.js";
 import {MeistertoolsSettings} from "./register-settings.js";
 import {MeistertoolsLocator} from "./locator.js";
+import {MeistertoolsRarity} from "./rarity.js";
 
 export function registerControlButtons(controls) {
     let tools = []
@@ -15,20 +16,29 @@ export function registerControlButtons(controls) {
             },
 
             {
-                name: "settings",
-                title: 'Settings',
-                icon: "fas fa-cog",
-                button: true,
-                onClick: () => new MeistertoolsSettings('locations').render(true)
-            },
-
-            {
                 name: "locator",
                 title: 'Locator',
                 icon: "fas fa-street-view",
                 button: true,
                 onClick: () => new MeistertoolsLocator().render(true)
             },
+
+            {
+                name: "entity-tagger",
+                title: 'Entity Tagger',
+                icon: "fas fa-tags",
+                button: true,
+                onClick: () => new MeistertoolsRarity().render(true)
+            },
+
+            {
+                name: "settings",
+                title: 'Settings',
+                icon: "fas fa-cog",
+                button: true,
+                onClick: () => new MeistertoolsSettings().render(true)
+            },
+
 
             /*
             {
@@ -38,14 +48,6 @@ export function registerControlButtons(controls) {
                 visible: true,
                 button: true,
                 onClick: () => new ManageScenes().render(true)
-            },
-            {
-                name: "NSCGenerator",
-                title: 'NSC Generator',
-                icon: "fas fa-user-plus",
-                visible: true,
-                button: true,
-                onClick: () => createNSC(true)
             },
             {
                 name: "jukebox",

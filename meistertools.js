@@ -29,7 +29,7 @@ if (game.user?.isGM && game.settings.get(moduleName, 'scenes')?.updatePlaylist)
 Hooks.on("preUpdateToken", async (scene, token, delta) => {
     if (!game.user.isGM || (!delta.x && !delta.y)) return
     if (MeistertoolsLocator.locatorToken === token._id)
-        MeistertoolsLocator.updateLocation(scene, {x: delta.x || token.x, y: delta.y || token.y})
+        MeistertoolsLocator.updateLocation(scene, mergeObject(token, delta))
 });
 
 

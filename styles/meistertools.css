@@ -476,3 +476,12 @@ a.load-pattern {
 .meistertools .left-padding.existing-nsc {
     background-image: url('/systems/dsa5/icons/categories/DSA-Auge.webp');
 }
+
+
+/* ---------------------------------
+    Item Tagger
+ --------------------------------- */
+
+.meistertools .apply-tag {
+    cursor: url('../assets/cursors/apply-format.gif'), pointer !important;
+}

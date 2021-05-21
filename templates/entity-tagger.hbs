@@ -1,1 +1,83 @@
-<h1>entity-tagger</h1>
+<div class="col-3" style="grid-template-columns: 300px auto 310px">
+    <div class="box header">
+        <h2>Datenquelle</h2>
+        <div class="col-2">
+            <select name="datenquelle.compendium" data-source="collection">
+                {{#select dataSourceSelection}}
+                    <option></option>
+                    {{#each options.unlockedCollections}}
+                        <option value="{{collection}}">{{metadata.label}} {{collection}}</option>
+                    {{/each}}
+                    {{#each options.lockedCollections}}
+                        <option value="{{collection}}">(read-only) {{metadata.label}} {{collection}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+            <button class="pick-compendium"><i class="fas fa-atlas"></i></button>
+            <select name="datenquelle.items" data-source="folder">
+                {{#select dataSourceSelection}}
+                    <option></option>
+                    {{#each options.itemFolders}}
+                        <option value="{{_id}}">{{name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+            <button class="pick-folder"><i class="fas fa-suitcase"></i></button>
+        </div>
+    </div>
+
+    <div class="box header">
+        <h2>Seltenheit</h2>
+        <button>aktuellen Ort übernehmen</button>
+        <button class="update-current-rarity">aktuelle Seltenheit für Entities berechnen</button>
+    </div>
+
+    <div class="box header biome"
+         style="background: url({{currentLocation.currentBiome.img}})">
+        <h2>Aktueller Ort</h2>
+        <div class="region box">
+            <b>{{currentLocation.currentBiome.name}}</b>
+        </div>
+        <div class="region box">
+            {{#each currentLocation.currentRegions}}
+                <h2>{{name}}</h2>
+                {{#each regions}}
+                    <span>{{name}}</span>
+                {{/each}}
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<div class="box header">
+    <h1>Entities</h1>
+    <table>
+        <tr>
+            <th>Bild</th>
+            <th>Name</th>
+            <th><a title="Beschreibung einblenden">...</a></th>
+            <th>Verfügbarkeit</th>
+            <th>Seltenheit</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th><input type="text" class="filter" name="filter.name" value="{{filter.name}}"/></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        {{#each entities}}
+            <tr>
+                <td><img src="{{img}}" style="max-width:48px;max-height:48px;border:none"/></td>
+                <td class="apply-tag" data-id="{{_id}}" title="Linksklick: Seltenheit dieser Entity überschreiben
+Rechtsklick: Seltenheit dieser Entity auslesen">{{name}}</td>
+                <td></td>
+                <td>{{stringify availability}}</td>
+                <td>{{stringify rarity}}</td>
+            </tr>
+        {{/each}}
+
+    </table>
+
+</div>

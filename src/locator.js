@@ -51,7 +51,7 @@ export class MeistertoolsLocator extends Application {
         }).render(true))
     }
 
-    async _updateSettings(update) {
+    async _updateSettings(update, trigger = false) {
         if (!this.settings) this.settings = game.settings.get(moduleName, 'locations')
         if (update)
             await mergeObject(this.settings, update)
@@ -64,6 +64,14 @@ export class MeistertoolsLocator extends Application {
         const {currentLocation} = game.settings.get(moduleName, 'locations')
         return {
             currentRegions: currentLocation.currentRegions,
+            currentBiome: currentLocation.currentBiome,
+        }
+    }
+
+    static get currentLocationExpanded() {
+        const {currentLocation} = game.settings.get(moduleName, 'locations')
+        return {
+            currentRegions: this.expandRegions(currentLocation.currentRegions),
             currentBiome: currentLocation.currentBiome,
         }
     }

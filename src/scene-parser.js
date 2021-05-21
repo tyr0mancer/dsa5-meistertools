@@ -239,7 +239,6 @@ export class SceneParser extends Application {
     _handleInput(event) {
         const {name, value} = event.currentTarget
         this.formData[name] = value
-        console.log(this.formData)
         if (name.endsWith("-name")) {
             const category = name.split('-')[0]
             const target = $('input[name=' + category + '-new-region-key]')

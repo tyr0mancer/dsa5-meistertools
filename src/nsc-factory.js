@@ -228,7 +228,6 @@ export class NscFactory extends FormApplication {
             vision: false,
             //actorData: {},
         }
-        console.log(newToken)
         return await game.scenes.viewed.createEmbeddedEntity("Token", newToken)
     }
 

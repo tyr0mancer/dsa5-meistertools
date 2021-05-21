@@ -41,6 +41,7 @@ export class NscFactory extends FormApplication {
         super.activateListeners(html);
         MeistertoolsUtil.addDefaultListeners(html, {onChange: e => this._handleDataChange(e)});
         html.find("BUTTON[NAME=insert-player]").click((event) => this._insertPlayer(event))
+        html.find("BUTTON[NAME=insert-existing-nsc]").click((event) => this._insertExistingNsc(event))
         html.find(".handle-pattern").click((event) => this._handlePattern(event))
         html.find(".change-amount").click((event) => this._changeAmount(event))
         html.find(".create-preview").click(() => this._createPreview())
@@ -59,11 +60,12 @@ export class NscFactory extends FormApplication {
             selectionDisplay: await this._displaySelection(),
             selectOptions: {
                 playerActors: MeistertoolsUtil.playerActors,
-                generatedNsc: [],
+                generatedNsc: game.folders.find(f => f.name === this.settings.settings?.folderName && f.type === this.professionCompendium.entity)?.entities,
                 scenePositions: SCENE_POSITIONS,
                 professionCompendium: this.professionCompendium?.index || [],
             }
-        };
+        }
+
     }
 
     async _updateObject(event, formData) {
@@ -182,6 +184,21 @@ export class NscFactory extends FormApplication {
     async _insertPlayer() {
         for (const {actor} of MeistertoolsUtil.playerActors.filter(e => this.selection.players.selection[e.actor._id]))
             await this._createActorTokenInCanvas(actor, this.selection.players.position)
+        if (this.settings.settings.closeAfterGeneration)
+            return this.close()
+    }
+
+    /**
+     *
+     * @param event
+     * @return {Promise<*>}
+     * @private
+     */
+    async _insertExistingNsc(event) {
+        for (const actor of game.folders
+            .find(f => f.name === this.settings.settings?.folderName && f.type === this.professionCompendium.entity)?.entities
+            .filter(e => this.selection["existing-nsc"].selection[e._id]))
+            await this._createActorTokenInCanvas(actor, this.selection["existing-nsc"].position)
         if (this.settings.settings.closeAfterGeneration)
             return this.close()
     }

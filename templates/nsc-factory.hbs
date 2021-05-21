@@ -186,8 +186,8 @@
     <section class="tab" data-tab="existing-actors">
 
         <div class="box header left-padding players">
-            <h1>Spieler</h1>
-            <div class="inner box float">
+            <h1 class="toggle" data-target=".player-actors">Spieler</h1>
+            <div class="inner box float player-actors">
                 {{#each selectOptions.playerActors}}
                     <div>
                         <input {{checked active}} id="player-{{actor._id}}" name="players.selection.{{actor._id}}"
@@ -196,7 +196,7 @@
                     </div>
                 {{/each}}
             </div>
-            <div class="inner box col-2">
+            <div class="inner box col-2 player-actors">
                 {{pick_scene-position "players.position" selection.players.position selectOptions.scenePositions}}
                 <div style="text-align: right">
                     <button title="Markierte Spieler in betrachtete Szene einfügen"
@@ -205,7 +205,24 @@
             </div>
         </div>
 
-
+        <div class="box header left-padding players">
+            <h1>Bisher Generierte NSC</h1>
+            <div class="inner box float">
+                {{#each selectOptions.generatedNsc}}
+                    <div>
+                        <input id="existing-nsc-{{_id}}" name="existing-nsc.selection.{{_id}}" type="checkbox"/>
+                        <label for="existing-nsc-{{_id}}">{{name}}</label>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="inner box col-2">
+                {{pick_scene-position "existing-nsc.position" selection.existing-nsc.position selectOptions.scenePositions}}
+                <div style="text-align: right">
+                    <button title="Markierte NSC in betrachtete Szene einfügen"
+                            type="button" name="insert-existing-nsc"><i class="fas fa-user-plus"></i></button>
+                </div>
+            </div>
+        </div>
 
     </section>
 

@@ -197,32 +197,14 @@
                 {{/each}}
             </div>
             <div class="inner box col-2">
-
-
                 {{pick_scene-position "players.position" selection.players.position selectOptions.scenePositions}}
-<!--
-
-                <div class="dropdown scene-position {{selection.players.position}}">
-                    <div class="box dropdown-content header">
-                        <h2>Wo sollen die Token platziert werden?</h2>
-                        {{#each selectOptions.scenePositions}}
-                            <input id="position-players-{{key}}" {{checked_radio ../selection.players.position key}}
-                                   type="radio" name="players.position" value="{{key}}"/>
-                            <label for="position-players-{{key}}">
-                                <b>{{name}}</b>
-                                <div class="scene-position {{key}}" title="{{description}}"></div>
-                            </label>
-                        {{/each}}
-                    </div>
-                </div>-->
                 <div style="text-align: right">
-                    <button type="button" name="insert-player"><i class="fas fa-user-plus"></i></button>
+                    <button title="Markierte Spieler in betrachtete Szene einfügen"
+                            type="button" name="insert-player"><i class="fas fa-user-plus"></i></button>
                 </div>
             </div>
         </div>
 
-
-        <h1>existing-actors</h1>
 
 
     </section>

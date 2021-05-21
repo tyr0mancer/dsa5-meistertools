@@ -42,6 +42,7 @@ export class MeistertoolsUtil {
      * @return {{}}
      */
     static expandObjectAndArray(obj) {
+        if (obj === undefined) return undefined
         const expanded = {};
         for (let [k, v] of Object.entries(obj)) {
             let parsedVal = v

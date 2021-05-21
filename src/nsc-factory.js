@@ -22,7 +22,7 @@ export class NscFactory extends FormApplication {
     }
 
     static get defaultOptions() {
-        const position = game.settings.get(moduleName, 'nsc-factory').position || {
+        const lastPosition = game.settings.get(moduleName, 'nsc-factory').lastPosition || {
             top: 80, left: 100, width: 530, height: 800,
         }
         return mergeObject(super.defaultOptions, {
@@ -31,7 +31,7 @@ export class NscFactory extends FormApplication {
             id: `${moduleName}.nsc-factory`,
             tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "nsc-generator"}], //nsc-generator  existing-actors
             resizable: true, popOut: true,
-            ...position,
+            ...lastPosition,
             closeOnSubmit: false,
             submitOnClose: true,
         });
@@ -40,6 +40,7 @@ export class NscFactory extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
         MeistertoolsUtil.addDefaultListeners(html, {onChange: e => this._handleDataChange(e)});
+        html.find("BUTTON[NAME=insert-player]").click((event) => this._insertPlayer(event))
         html.find(".handle-pattern").click((event) => this._handlePattern(event))
         html.find(".change-amount").click((event) => this._changeAmount(event))
         html.find(".create-preview").click(() => this._createPreview())
@@ -51,12 +52,11 @@ export class NscFactory extends FormApplication {
         if (!this.professionCompendium?.index?.length) {
             await this.professionCompendium?.getIndex()
         }
-        this.selectionDisplay = await this._displaySelection()
         return {
             settings: this.settings,
             selection: this.selection,
             preview: this.preview,
-            selectionDisplay: this.selectionDisplay,
+            selectionDisplay: await this._displaySelection(),
             selectOptions: {
                 playerActors: MeistertoolsUtil.playerActors,
                 generatedNsc: [],
@@ -68,14 +68,13 @@ export class NscFactory extends FormApplication {
 
     async _updateObject(event, formData) {
         const lastSelection = MeistertoolsUtil.expandObjectAndArray(formData)
-        console.clear()
-        console.log(this.settings)
-        console.log(lastSelection)
+        delete lastSelection.players
         this.settings = this._updateSettings({
-            lastSelection: {...lastSelection, position: this.selection.position},
-            position: this.position
+            lastSelection: {...lastSelection},
+            lastPosition: this.position
         })
     }
+
 
     /**
      * creates an array of nsc settings upon which to create the actors and updates this.preview
@@ -112,11 +111,24 @@ export class NscFactory extends FormApplication {
     }
 
 
-    // todo merge this.preview.archetypeActor into this
+    /**
+     *
+     * @param actorA
+     * @param actorB
+     * @return {Promise<*>}
+     * @private
+     */
     async _mergeActor(actorA, actorB) {
+        // todo merge actorB (=archetypeActor) into actorA
         return actorA
     }
 
+
+    /**
+     *
+     * @return {Promise<*>}
+     * @private
+     */
     async _createNsc() {
         if (!this.preview)
             await this._createPreview()
@@ -141,28 +153,53 @@ export class NscFactory extends FormApplication {
             await actor.update({
                 "name": newActor.name,
                 "img": newActor.img,
-                "data.details.eyecolor.value": newActor.eyes,
-                "data.details.haircolor.value": newActor.hair,
+                "data.details.eyecolor.value": newActor.eyecolor,
+                "data.details.haircolor.value": newActor.haircolor,
                 "data.details.Home.value": newActor.origin,
                 "data.details.gender.value": newActor.gender,
                 "data.details.career.value": newActor.career,
                 "data.details.height.value": newActor.height,
                 "data.details.weight.value": newActor.weight,
+                "data.details.age.value": newActor.age,
                 "data.details.biography.value": `<p><i>"${newActor.catchphrase}"</i></p><p>${newActor.physicalTrait}</p>`,
-                "data.details.age.value": "(todo)", // todo
-                "data.details.distinguishingmark.value": "(todo)", // todo
+                "data.details.distinguishingmark.value": newActor.distinguishingmark,
             })
-            this._createActorTokenInCanvas(actor, this.preview.selection.position)
+            await this._createActorTokenInCanvas(actor, this.preview.selection.position)
         }
 
+        if (this.settings.settings.closeAfterGeneration)
+            return this.close()
+        this.preview = false
+        return this.render()
     }
 
 
-    _createActorTokenInCanvas(actor, position, options = {actorLink: true, hidden: false}) {
+    /**
+     *
+     * @return {Promise<*>}
+     * @private
+     */
+    async _insertPlayer() {
+        for (const {actor} of MeistertoolsUtil.playerActors.filter(e => this.selection.players.selection[e.actor._id]))
+            await this._createActorTokenInCanvas(actor, this.selection.players.position)
+        if (this.settings.settings.closeAfterGeneration)
+            return this.close()
+    }
+
+
+    /**
+     *
+     * @param actor
+     * @param position
+     * @param options
+     * @return {*}
+     * @private
+     */
+    async _createActorTokenInCanvas(actor, position, options = {actorLink: true, hidden: false}) {
         if (position === "none") return
         if (typeof position === "string")
             position = this._getTokenPosition(position)
-        let newToken = {
+        const newToken = {
             ...actor.token,
             ...position,
             ...options,
@@ -172,9 +209,10 @@ export class NscFactory extends FormApplication {
             width: 1,
             height: 1,
             vision: false,
-            actorData: {},
+            //actorData: {},
         }
-        return canvas.scene.createEmbeddedEntity("Token", newToken)
+        console.log(newToken)
+        return await game.scenes.viewed.createEmbeddedEntity("Token", newToken)
     }
 
     /**
@@ -277,7 +315,7 @@ export class NscFactory extends FormApplication {
      */
     async _handleDataChange(event) {
         let obj = {}
-        obj[event.currentTarget.name] = event.currentTarget.value
+        obj[event.currentTarget.name] = (event.currentTarget.type === "checkbox") ? event.currentTarget.checked : event.currentTarget.value
         await mergeObject(this.selection, MeistertoolsUtil.expandObjectAndArray(obj))
         $('#nsc-selection').html(this._displaySelection())
     }
@@ -329,14 +367,6 @@ export class NscFactory extends FormApplication {
     }
 
     /**
-     * default settings from config/nsc-factory.config.js
-     * @return {{settings:{}, archetypes:{}}}
-     */
-    static get defaultSettings() {
-        return defaultSettings
-    }
-
-    /**
      * @param genderRatio [[genderKey:string, weight:number]]
      * @return genderKey>string
      */
@@ -357,14 +387,16 @@ export class NscFactory extends FormApplication {
         return {physicalTrait, catchphrase, origin}
     }
 
+
     /**
      * selects a random image from deepest possible directory based on selection
      * @param archetypeData
      * @param gender
      * @param professionName
-     * @return image:string
+     * @return {Promise<{img: (Error|*|string), weight: *, eyecolor: string, haircolor: string, age: *, height: *}>}
+     * @private
      */
-    async _rollImage(archetypeData, gender, professionName) {
+    async _rollAppearance(archetypeData, gender, professionName) {
         let folderName = archetypeData.images
         if (gender)
             folderName += '/' + gender
@@ -378,11 +410,12 @@ export class NscFactory extends FormApplication {
         const age = await MeistertoolsUtil.rollDice(archetypeData.pattern.age)
         const height = await MeistertoolsUtil.rollDice(archetypeData.pattern.height)
         const weight = await MeistertoolsUtil.rollDice(archetypeData.pattern.weight)
-        const eyes = await this._followPattern(archetypeData.pattern.eyes, archetypeData.rollTables, gender)
-        const hair = await this._followPattern(archetypeData.pattern.hair, archetypeData.rollTables, gender)
+        const eyecolor = await this._followPattern(archetypeData.pattern.eyes, archetypeData.rollTables, gender)
+        const haircolor = await this._followPattern(archetypeData.pattern.hair, archetypeData.rollTables, gender)
 
-        return {img, height, weight, eyes, hair, age}
+        return {img, height, weight, eyecolor, haircolor, age}
     }
+
 
     /**
      *
@@ -406,6 +439,7 @@ export class NscFactory extends FormApplication {
         return MeistertoolsUtil.drawFromArray(table.results)?.text
     }
 
+
     /**
      *
      * @param pattern
@@ -419,6 +453,7 @@ export class NscFactory extends FormApplication {
         const genderedPattern = pattern.replace(/gender/g, gender)
         return MeistertoolsUtil.asyncStringReplace(genderedPattern, /\${([a-zA-Z_-]+)}/g, (originalString, match) => this._getFromDataSource(rollTables, match))
     }
+
 
     /**
      *
@@ -448,13 +483,20 @@ export class NscFactory extends FormApplication {
             result.career = await this._followPattern(archetypeData.pattern.career, archetypeData.rollTables, gender)
 
         result.name = await this._rollName(archetypeData, result.gender)
-        const image = await this._rollImage(archetypeData, result.gender, result.career)
+        const image = await this._rollAppearance(archetypeData, result.gender, result.career)
         mergeObject(result, {...image})
         const traits = await this._rollTraits(archetypeData, result.gender, result.career)
         mergeObject(result, {...traits})
         return result;
     }
 
+
+    /**
+     *
+     * @param event
+     * @return {Promise<void>}
+     * @private
+     */
     async _reRoll(event) {
         const id = $(event.currentTarget).attr("data-result-id")
         const key = $(event.currentTarget).attr("data-result-key")
@@ -464,7 +506,7 @@ export class NscFactory extends FormApplication {
             mergeObject(this.preview.results[id], {name})
         }
         if (key === 'img') {
-            const image = await this._rollImage(this.preview.archetypeData, this.preview.results[id].gender, this.preview.results[id].career)
+            const image = await this._rollAppearance(this.preview.archetypeData, this.preview.results[id].gender, this.preview.results[id].career)
             mergeObject(this.preview.results[id], {...image})
         }
         if (key === 'traits') {
@@ -473,6 +515,17 @@ export class NscFactory extends FormApplication {
         }
         this.render()
     }
+
+
+    /**
+     * default settings from config/nsc-factory.config.js
+     * @return {{settings:{}, archetypes:{}}}
+     */
+    static get defaultSettings() {
+        return defaultSettings
+    }
+
+
 }
 
 const SCENE_POSITIONS = [

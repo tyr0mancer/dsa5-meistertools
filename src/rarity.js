@@ -70,6 +70,21 @@ export class MeistertoolsRarity extends Application {
         html.find("select[data-source]").change(event => this._setDataSource(event))
         html.find("button.pick-region").click(() => this._pickRegion())
 
+        html.find("a.pick-current-location").click(() => {
+                this.currentTag = {
+                    general: 3,
+                    regions: MeistertoolsLocator.currentLocation.currentRegions.map(r => {
+                        return {...r, value: MeistertoolsRarity.defaultRarity}
+                    }),
+                    biomes: [{
+                        ...MeistertoolsLocator.currentLocation.currentBiome,
+                        value: MeistertoolsRarity.defaultRarity
+                    }]
+                }
+                this.render()
+            }
+        )
+
 
         html.find("button.update-current-rarity").click(() => {
             this.entities.filter(this.filter).forEach(async entity => {
@@ -155,7 +170,7 @@ export class MeistertoolsRarity extends Application {
 
 
     _readTag(entity) {
-        this.currentTag = duplicate(entity.data.data[this.tagPropertyName])
+        mergeObject(this.currentTag, entity.data.data[this.tagPropertyName])
         this.render()
     }
 
@@ -196,15 +211,18 @@ export class MeistertoolsRarity extends Application {
     }
 
 
-    static get maxRarity() {
+    static
+    get maxRarity() {
         return 5
     }
 
-    static get defaultRarity() {
+    static
+    get defaultRarity() {
         return 3
     }
 
-    static get rarityOptions() {
+    static
+    get rarityOptions() {
         return [
             {key: 0, short: "nie", name: 'nie'},
             {key: 1, short: "1/5", name: 'fast nie'},

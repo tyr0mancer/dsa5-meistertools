@@ -47,15 +47,14 @@
 
         </div>
 
-
-        <button>aktuellen Ort übernehmen</button>
         <button class="update-current-rarity">aktuelle Verfügbarkeit für Entities berechnen</button>
     </div>
 
 
     <div class="box header biome"
          style="background: url({{currentLocation.currentBiome.img}})">
-        <h2>Aktueller Ort</h2>
+        <h2>Aktueller Ort <a class="pick-current-location" title="Aktuellen Ort als Verfügbarkeit auswählen">
+            <i class="fas fa-check-double"></i></a></h2>
         <div class="region box">
             <b>{{currentLocation.currentBiome.name}}</b>
         </div>

@@ -15,14 +15,13 @@ export class MeistertoolsRarity extends Application {
         this.filter = () => true
         this.sorter = (a, b) => 0
         this.mapper = (e) => {
-            const result = {
+            return {
                 _id: e._id,
                 name: e.name,
                 img: e.img,
-                description: e.data.data.description.value
+                description: e.data.data.description.value,
+                rarity: MeistertoolsRarity.cleanRarity(e.data?.data?.rarity)
             }
-            result[this.tagPropertyName] = e.data.data[this.tagPropertyName]
-            return result
         }
         this.entityType = "Item"
         this.currentLocation = MeistertoolsLocator.currentLocationExpanded
@@ -84,6 +83,10 @@ export class MeistertoolsRarity extends Application {
             }
         )
 
+        html.find("a.calculate-current-rarity").click(() => {
+
+        })
+
 
         html.find(".entity-tag").mousedown((event) => {
             const entityId = $(event.currentTarget).attr("data-id")
@@ -107,7 +110,6 @@ export class MeistertoolsRarity extends Application {
 
             function updateValue(value, delta) {
                 let result = parseInt(value) + delta
-                if (result < 0) result = 0
                 if (result > MeistertoolsRarity.maxRarity) result = MeistertoolsRarity.maxRarity
                 return result
             }
@@ -115,15 +117,19 @@ export class MeistertoolsRarity extends Application {
             if (regionKey) {
                 const region = this.currentTag.regions.find(r => r.key === regionKey)
                 region.value = updateValue(region.value, delta)
+                if (region.value < 0)
+                    this.currentTag.regions = this.currentTag.regions.filter(r => r.key !== regionKey)
             }
-
             if (biomeKey) {
                 const biome = this.currentTag.biomes.find(b => b.key === biomeKey)
                 biome.value = updateValue(biome.value, delta)
+                if (biome.value < 0)
+                    this.currentTag.biomes = this.currentTag.biomes.filter(b => b.key !== biomeKey)
             }
-
-            if (!biomeKey && !regionKey)
+            if (!biomeKey && !regionKey) {
                 this.currentTag.general = updateValue(this.currentTag.general, delta)
+                if (this.currentTag.general < 0) this.currentTag.general = 0
+            }
             return this.render()
         })
 
@@ -140,8 +146,7 @@ export class MeistertoolsRarity extends Application {
 
 
     _readTag(entity) {
-        mergeObject(this.currentTag, entity.data.data[this.tagPropertyName])
-        if (this.currentTag.general === undefined || this.currentTag.general === "") this.currentTag.general = MeistertoolsRarity.defaultRarity
+        mergeObject(this.currentTag, MeistertoolsRarity.cleanRarity(entity.data.data.rarity))
         this.render()
     }
 
@@ -213,5 +218,21 @@ export class MeistertoolsRarity extends Application {
         return this.rarityOptions.find(e => e.key === rarity).name
     }
 
+    static cleanRarity(rarity) {
+        if (!rarity) return {general: this.defaultRarity}
+        return {
+            general: (rarity.general !== undefined) ? parseInt(rarity.general) : this.defaultRarity,
+            regions: (!Array.isArray(rarity.regions)) ? [] : rarity.regions
+                .map(r => {
+                    return {value: this.defaultRarity, ...r}
+                })
+                .filter(r => r.key !== undefined),
+            biomes: (!Array.isArray(rarity.biomes)) ? [] : rarity.biomes
+                .map(b => {
+                    return {value: this.defaultRarity, ...b}
+                })
+                .filter(b => b.key !== undefined),
+        }
+    }
 
 }

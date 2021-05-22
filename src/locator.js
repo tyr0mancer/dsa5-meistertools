@@ -205,13 +205,14 @@ export class LocationPicker extends Dialog {
                     icon: "<i class='fas fa-check'></i>",
                     label: "übernehmen",
                     callback: (html) => {
+                        const selectedBiome = html.find("input[name='singleBiomeKey']:checked").val()
                         const selection = {regions: [], biomes: []}
                         html.find("input.region:checked[type='checkbox']").each((i, e) => selection.regions.push(e.id))
                         html.find("input.biome:checked[type='checkbox']").each((i, e) => selection.biomes.push(e.id))
-                        const selectedBiome = html.find("input[name='singleBiomeKey']").val()
+                        const biomeSelection = multipleBiomes ? biomeOptions.filter(r => selection.biomes.includes(r.key)) : biomeOptions.filter(b => b.key === selectedBiome)
                         callback(
                             regionOptions.filter(r => selection.regions.includes(r.key)),
-                            multipleBiomes ? biomeOptions.filter(r => selection.biomes.includes(r.key)) : biomeOptions.filter(b => b.key === selectedBiome)
+                            biomeSelection
                         )
                     }
                 }

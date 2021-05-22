@@ -501,3 +501,8 @@ a.load-pattern {
 .meistertools a.tag.general {
     font-size: 3em;
 }
+
+
+.meistertools table.tag-entities th {
+    text-align: left;
+}

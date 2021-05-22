@@ -68,6 +68,13 @@ export class MeistertoolsRarity extends Application {
         html.find("select[data-source]").change(event => this._setDataSource(event))
         html.find("a.pick-location").click(() => this._pickLocation())
 
+        html.find("button.clear-filter").click(() => {
+            this.currentFilter = {}
+            this._setFilter()
+            this.render()
+        })
+
+
         html.find("a.pick-current-location").click(() => {
                 this.currentTag = {
                     general: 3,
@@ -84,7 +91,8 @@ export class MeistertoolsRarity extends Application {
         )
 
         html.find("a.calculate-current-rarity").click(() => {
-
+            this.entities.forEach(async entity => await MeistertoolsRarity.getCurrentRarity(entity, this.currentTag))
+            this.render()
         })
 
 
@@ -135,10 +143,8 @@ export class MeistertoolsRarity extends Application {
 
 
         html.find("input.filter").change(event => {
-            const filterName = event.currentTarget.name
-            const filterValue = (event.currentTarget.type === "checkbox") ? event.currentTarget.checked : event.currentTarget.value
-            this.currentFilter[filterName] = filterValue
-            this.filter = (e) => e[filterName].toLowerCase().includes(filterValue.toLowerCase())
+            this.currentFilter[event.currentTarget.name] = (event.currentTarget.type === "checkbox") ? event.currentTarget.checked : event.currentTarget.value
+            this._setFilter()
             this.render()
         })
 
@@ -147,6 +153,7 @@ export class MeistertoolsRarity extends Application {
 
     _readTag(entity) {
         mergeObject(this.currentTag, MeistertoolsRarity.cleanRarity(entity.data.data.rarity))
+        delete this.currentTag.current
         this.render()
     }
 
@@ -220,7 +227,10 @@ export class MeistertoolsRarity extends Application {
 
     static cleanRarity(rarity) {
         if (!rarity) return {general: this.defaultRarity}
+        let current = parseInt(rarity.current)
+        if (isNaN(current)) current = this.defaultRarity
         return {
+            current,
             general: (rarity.general !== undefined) ? parseInt(rarity.general) : this.defaultRarity,
             regions: (!Array.isArray(rarity.regions)) ? [] : rarity.regions
                 .map(r => {
@@ -235,4 +245,44 @@ export class MeistertoolsRarity extends Application {
         }
     }
 
+    static async getCurrentRarity(item, currentLocation = MeistertoolsLocator.currentLocation) {
+        const rarity = item.data.data.rarity
+        if (!rarity) return this.defaultRarity
+        let current
+        const currentRegionArray = currentLocation.regions || currentLocation.currentRegions || []
+        const currentRegionKeys = currentRegionArray.map(r => r.key)
+        const regionRarityArray = rarity.regions?.filter(r => currentRegionKeys.includes(r.key)).map(r => r.value)
+        if (regionRarityArray.length)
+            current = Math.max(...regionRarityArray)
+        const currentBiomeKeys = currentLocation.currentBiome ? [currentLocation.currentBiome.key] : currentLocation.biomes?.map(r => r.key) || []
+        const biomeRarityArray = rarity.biomes?.filter(b => currentBiomeKeys.includes(b.key)).map(b => b.value)
+        if (biomeRarityArray.length) {
+            const biomeMin = Math.max(...biomeRarityArray)
+            if (current === undefined || biomeMin < current)
+                current = biomeMin
+        }
+        if (current === undefined) current = rarity.general
+        rarity.current = current
+        await item.update({"data.rarity": duplicate(rarity)})
+        return rarity.current
+    }
+
+    _setFilter() {
+        this.filter = (e) => {
+            // check all filter entries
+            for (const [key, value] of Object.entries(this.currentFilter)) {
+                switch (key) {
+                    case 'current_min':
+                        if (e.rarity?.current < value) return false;
+                        break;
+                    case 'current_max':
+                        if (e.rarity?.current > value) return false
+                        break;
+                    default:
+                        if (!e[key].toLowerCase().includes(value.toLowerCase())) return false
+                }
+            }
+            return true
+        }
+    }
 }

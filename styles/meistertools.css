@@ -486,6 +486,10 @@ a.load-pattern {
     cursor: url('../assets/cursors/tag_s.png'), pointer !important;
 }
 
+.meistertools .calculate-current {
+    cursor: url('../assets/cursors/dice.gif'), pointer !important;
+}
+
 
 .meistertools tr.entity-list img {
     max-width: 48px;

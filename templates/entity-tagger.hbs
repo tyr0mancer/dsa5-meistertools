@@ -88,11 +88,16 @@
                     <th><a class="toggle-description" title="Beschreibung einblenden">...</a></th>
                 {{/if}}
                 <th>Verfügbarkeit</th>
+                <th>allg.</th>
                 <th>nach Region</th>
                 <th>nach Landschaftstyp</th>
             </tr>
             <tr>
-                <th></th>
+                <th>
+                    <button class="clear-filter" title="Alle Filter löschen">
+                        <i class="fas fa-backspace"></i>
+                    </button>
+                </th>
                 <th><input type="text" class="filter" name="name" value="{{filter.name}}"/></th>
                 {{#if showDescription}}
                     <th><input type="text" class="filter" name="description" value="{{filter.description}}"/></th>
@@ -102,11 +107,11 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
 
             {{#each entities}}
-                <tr class="entity-list"
-                    title="Linksklick: Verfügbarkeit dieser Entity überschreiben&#10;Rechtsklick: Verfügbarkeit dieser Entity auslesen">
+                <tr class="entity-list">
                     <td><img src="{{img}}"/></td>
                     <td>{{name}}</td>
 
@@ -116,6 +121,7 @@
                         <td></td>
                     {{/if}}
 
+                    <td class="calculate-current" data-id="{{_id}}">{{display_rarity rarity.current}}</td>
                     <td class="entity-tag" data-id="{{_id}}">{{display_rarity rarity.general}}</td>
                     <td class="entity-tag" data-id="{{_id}}">
                         {{#each rarity.regions}}

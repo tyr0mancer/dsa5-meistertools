@@ -30,25 +30,28 @@
 
         <div class="box header">
             <h2>Verfügbarkeit</h2>
-            <div class="col-2">
+            <div class="col-2" style="grid-template-columns: 70px auto;">
                 <div class="inner box header">
-                    <h3>allg.</h3>
-                    <a class="tag general"><span class="rarity star{{currentTag.general}}"> </span></a>
+                    <h3>allg</h3>
+                    <a class="tag general">{{display_rarity currentTag.general "&#10;Linksklick: +&#10;Rechtsklick: -"}}</a>
                 </div>
                 <div class="inner box header">
-                    <h3>nach Ort</h3>
-                    <button class="pick-region" title="Regionen manuell auswählen"><i class="fas fa-edit"></i></button>
+                    <h3><a class="pick-location" title="Regionen und Biome manuell auswählen">nach Ort <i class="fab fa-wpforms"></i></a></h3>
                     {{#each currentTag.regions}}
-                        <a class="tag" data-region-key="{{key}}"><span class="rarity star{{value}}"> </span> {{name}}
+                        <a class="tag" data-region-key="{{key}}">
+                            {{display_rarity value "&#10;Linksklick: +&#10;Rechtsklick: -"}}
+                            {{name}}
                         </a>
                     {{/each}}
+                    <hr/>
                     {{#each currentTag.biomes}}
-                        <a class="tag" data-biome-key="{{key}}"><span class="rarity star{{value}}"> </span> {{name}}</a>
+                        <a class="tag" data-biome-key="{{key}}">
+                            {{display_rarity value "&#10;Linksklick: +&#10;Rechtsklick: -"}}
+                            {{name}}
+                        </a>
                     {{/each}}
                 </div>
-
             </div>
-
             <button class="update-current-rarity">aktuelle Verfügbarkeit für Entities berechnen</button>
         </div>
 
@@ -111,15 +114,15 @@
                         <td></td>
                     {{/if}}
 
-                    <td class="entity-tag" data-id="{{_id}}"><span class="rarity star{{rarity.general}}"> </span></td>
+                    <td class="entity-tag" data-id="{{_id}}">{{display_rarity rarity.general}}</td>
                     <td class="entity-tag" data-id="{{_id}}">
                         {{#each rarity.regions}}
-                            <span class="rarity star{{value}}"> </span> {{name}}
+                            {{display_rarity value}} {{name}}
                         {{/each}}
                     </td>
                     <td class="entity-tag" data-id="{{_id}}">
                         {{#each rarity.biomes}}
-                            <span class="rarity star{{value}}"> </span> {{name}}
+                            {{display_rarity value}} {{name}}
                         {{/each}}
                     </td>
                 </tr>

@@ -49,8 +49,11 @@ export class MeistertoolsLocator extends Application {
             await this._updateSettings({"currentLocation.currentBiome": this.settings.biomes.find(b => b.key === event.currentTarget.value)})
             Hooks.call(moduleName + ".update-location", this.settings.currentLocation)
         })
-        html.find("button.pick-region").click(() => new RegionPicker(async (regions) => {
-            await this._updateSettings({"currentLocation.currentRegions": regions})
+        html.find("button.pick-region").click(() => new LocationPicker(async (regions, biomes) => {
+            await this._updateSettings({
+                "currentLocation.currentRegions": regions,
+                "currentLocation.currentBiome": biomes[0]
+            })
             Hooks.call(moduleName + ".update-location", this.settings.currentLocation)
         }).render(true))
     }
@@ -86,6 +89,10 @@ export class MeistertoolsLocator extends Application {
 
     static get regions() {
         return game.settings.get(moduleName, 'locations').regions
+    }
+
+    static get biomes() {
+        return game.settings.get(moduleName, 'locations').biomes
     }
 
     static get regionCategories() {
@@ -155,24 +162,37 @@ export class MeistertoolsLocator extends Application {
 }
 
 
-export class RegionPicker extends Dialog {
+export class LocationPicker extends Dialog {
 
-    constructor(callback, {currentRegions} = MeistertoolsLocator.currentLocation, allRegions = MeistertoolsLocator.regions,) {
+    constructor(callback, {selectedRegions, selectedBiomes, regionOptions, biomeOptions} = {
+        selectedRegions: MeistertoolsLocator.currentLocation.currentRegions,
+        selectedBiomes: [MeistertoolsLocator.currentLocation.currentBiome]
+    }, multipleBiomes = false) {
         let content = `<div class="meistertools">`
+        if (!regionOptions) regionOptions = MeistertoolsLocator.regions
+        if (!biomeOptions) biomeOptions = MeistertoolsLocator.biomes
 
-        const regionKeys = currentRegions?.map(r => r.key) || []
-
+        const selectedRegionKeys = selectedRegions?.map(r => r.key) || []
+        const selectedBiomeKeys = selectedBiomes?.map(r => r.key) || []
         for (let category of MeistertoolsLocator.regionCategories) {
-            const entriesInCategory = allRegions.filter(r => r.category === category.key)
+            const entriesInCategory = regionOptions.filter(r => r.category === category.key)
             if (!entriesInCategory?.length) continue
             content += `<div class="box header"><h1>${category.name}</h1><div class="inner box float">`
             for (let region of entriesInCategory)
-                content += `<div><input id="${region.key}" name="${region.key}" ${(regionKeys.includes(region.key) ? "checked" : "")} type="checkbox"/><label for="${region.key}">${region.name}</label></div>`
+                content += `<div><input class="region" id="${region.key}" name="${region.key}" ${(selectedRegionKeys.includes(region.key) ? "checked" : "")} type="checkbox"/><label for="${region.key}">${region.name}</label></div>`
             content += `</div></div>`
         }
+
+        content += `<div class="box header"><h1>Landschafts-Typen</h1><div class="inner box float">`
+        for (let biome of biomeOptions)
+            if (multipleBiomes)
+                content += `<div><input class="biome" id="${biome.key}" name="${biome.key}" ${(selectedBiomeKeys.includes(biome.key) ? "checked" : "")} type="checkbox"/><label for="${biome.key}">${biome.name}</label></div>`
+            else
+                content += `<div><input class="biome" id="${biome.key}" name="singleBiomeKey" value="${biome.key}" ${(selectedBiomeKeys.includes(biome.key) ? "checked" : "")} type="radio"/><label for="${biome.key}">${biome.name}</label></div>`
+        content += `</div></div>`
         content += `</div>`
 
-        // regions might have been changed. hence close the RegionPicker
+        // regions might have been changed. hence close the Dialog
         Hooks.on(moduleName + ".update-settings", () => {
             this.close()
         });
@@ -181,17 +201,22 @@ export class RegionPicker extends Dialog {
             title: "Region auswählen",
             content,
             buttons: {
-                ok: {
+                apply: {
                     icon: "<i class='fas fa-check'></i>",
                     label: "übernehmen",
                     callback: (html) => {
-                        const selection = []
-                        html.find("input:checked[type='checkbox']").each((i, e) => selection.push(e.id))
-                        callback(allRegions.filter(r => selection.includes(r.key)))
+                        const selection = {regions: [], biomes: []}
+                        html.find("input.region:checked[type='checkbox']").each((i, e) => selection.regions.push(e.id))
+                        html.find("input.biome:checked[type='checkbox']").each((i, e) => selection.biomes.push(e.id))
+                        const selectedBiome = html.find("input[name='singleBiomeKey']").val()
+                        callback(
+                            regionOptions.filter(r => selection.regions.includes(r.key)),
+                            multipleBiomes ? biomeOptions.filter(r => selection.biomes.includes(r.key)) : biomeOptions.filter(b => b.key === selectedBiome)
+                        )
                     }
                 }
             },
-            default: "ok"
+            default: "apply"
         });
     }
 }

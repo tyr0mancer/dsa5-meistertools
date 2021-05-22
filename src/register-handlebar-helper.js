@@ -1,3 +1,4 @@
+import {MeistertoolsRarity} from "./rarity.js";
 
 export function registerHandlebarHelper() {
     /**
@@ -13,29 +14,9 @@ export function registerHandlebarHelper() {
     /**
      * returns html formatted display of a rarity object
      */
-    Handlebars.registerHelper('display_rarity', function (rarity, view) {
-        if (!rarity) return ``
-        let result = ``
-
-        if (view === 'current') {
-            if (rarity.current === undefined || rarity.current === null) return ''
-            result = `<span class="rarity star${rarity.current}"> </span>`
-            return new Handlebars.SafeString(result);
-        }
-
-        if (view === 'stringify') {
-            result = `<p>allg: ${rarity.general}, nach Region: ${JSON.stringify(rarity.regions)}, nach Landschafts-Typ: ${JSON.stringify(rarity.biomes)}</p>`
-            return new Handlebars.SafeString(result);
-        }
-
-        result = `<span>`
-        if (rarity.general !== undefined)
-            result += `<span class="rarity star${rarity.general}"></span>`
-        for (let region of rarity?.regions)
-            result += `<span class="rarity star${region[1]}"> ${region[0]}</span>`
-        for (let biome of rarity?.biomes)
-            result += `<span class="rarity star${biome[1]}"> ${biome[0]}</span>`
-        result += `</span>`
+    Handlebars.registerHelper('display_rarity', function (rarity, title) {
+        if (rarity === undefined) return ``
+        const result = `<span class="rarity star${rarity}" title="${MeistertoolsRarity.rarityDescription(rarity)} ${title}"> </span>`
         return new Handlebars.SafeString(result);
     });
 

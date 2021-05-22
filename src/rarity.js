@@ -19,6 +19,7 @@ export class MeistertoolsRarity extends Application {
                 _id: e._id,
                 name: e.name,
                 img: e.img,
+                description: e.data.data.description.value
             }
             result[this.tagPropertyName] = e.data.data[this.tagPropertyName]
             return result
@@ -111,18 +112,22 @@ export class MeistertoolsRarity extends Application {
         })
 
 
-        function updateValue(value, delta) {
-            let result = parseInt(value) + delta
-            if (result < 0) result = 0
-            if (result > MeistertoolsRarity.maxRarity) result = MeistertoolsRarity.maxRarity
-            return result
-        }
+        html.find("a.toggle-description").click(() => {
+            this.showDescription = !this.showDescription
+            this.render()
+        })
 
         html.find("a.tag").mousedown((event) => {
             const regionKey = $(event.currentTarget).attr("data-region-key")
             const biomeKey = $(event.currentTarget).attr("data-biome-key")
             const delta = (event.which === 3) ? -1 : 1
 
+            function updateValue(value, delta) {
+                let result = parseInt(value) + delta
+                if (result < 0) result = 0
+                if (result > MeistertoolsRarity.maxRarity) result = MeistertoolsRarity.maxRarity
+                return result
+            }
 
             if (regionKey) {
                 const region = this.currentTag.regions.find(r => r.key === regionKey)

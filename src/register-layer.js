@@ -1,7 +1,7 @@
 import {NscFactory} from "./nsc-factory.js";
 import {MeistertoolsSettings} from "./register-settings.js";
 import {MeistertoolsLocator} from "./locator.js";
-import {MeistertoolsRarity} from "./rarity.js";
+import {PlayersView} from "./players-view.js";
 
 export function registerControlButtons(controls) {
     let tools = []
@@ -24,14 +24,6 @@ export function registerControlButtons(controls) {
             },
 
             {
-                name: "entity-tagger",
-                title: 'Entity Tagger',
-                icon: "fas fa-tags",
-                button: true,
-                onClick: () => new MeistertoolsRarity().render(true)
-            },
-
-            {
                 name: "settings",
                 title: 'Settings',
                 icon: "fas fa-cog",
@@ -41,6 +33,14 @@ export function registerControlButtons(controls) {
 
 
             /*
+            {
+                name: "entity-tagger",
+                title: 'Entity Tagger',
+                icon: "fas fa-tags",
+                button: true,
+                onClick: () => new MeistertoolsRarity().render(true)
+            },
+
             {
                 name: "manage-scenes",
                 title: 'Szenen verwalten',
@@ -69,12 +69,12 @@ export function registerControlButtons(controls) {
         ]
 
     tools.push({
-        name: "whisper",
-        title: 'Flüstern',
+        name: "players-view",
+        title: 'MeisterTools',
         icon: "fas fa-user-secret",
         visible: true,
         button: true,
-        onClick: () => alert() //playerWhisper()
+        onClick: () => new PlayersView().render(true)
     })
 
 

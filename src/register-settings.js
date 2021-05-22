@@ -2,6 +2,7 @@ import {moduleName} from "../meistertools.js";
 import {MeistertoolsUtil} from "../meistertools-util.js";
 import {NscFactory} from "./nsc-factory.js";
 import {SceneParser} from "./scene-parser.js";
+import {MeistertoolsRarity} from "./rarity.js";
 
 
 export function registerSettings() {
@@ -93,7 +94,7 @@ export class MeistertoolsSettings extends FormApplication {
                 this.close()
             }
             if (appName === 'entity-tagger') {
-                new EntityTagger().render(true)
+                new MeistertoolsRarity().render(true)
                 this.close()
             }
         });

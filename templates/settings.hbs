@@ -1,13 +1,13 @@
 <form autocomplete="off" class="content">
     <nav class="tabs">
         <a class="item" data-tab="nsc"><i class="fas fa-user-plus"></i> {{localize 'meistertools.settings.nsc'}}</a>
+        <a class="item" data-tab="locations"><i class="fas fa-map-signs"></i> {{localize
+                'meistertools.settings.locations'}}</a>
+
         <!--
         <a class="item" data-tab="scenes"><i class="fas fa-film"></i>  {{localize 'meistertools.settings.scenes'}}</a>
         <a class="item" data-tab="music"><i class="fas fa-music"></i> {{localize 'meistertools.settings.music'}}</a>
         -->
-        <a class="item" data-tab="locations"><i class="fas fa-music"></i>
-            {{localize 'meistertools.settings.locations'}}</a>
-        <a class="item" data-tab="rarity"><i class="fas fa-music"></i> {{localize 'meistertools.settings.rarity'}}</a>
     </nav>
 
     <!-- -----------------------
@@ -134,6 +134,8 @@
     <section class="tab" data-tab="locations">
         {{#with locations}}
             <button class="open-app" name="scene-parser">Regionen und Karten verwalten</button>
+            <button class="open-app" name="entity-tagger">Verfügbarkeit von Items verwalten</button>
+
             <div class="box header">
                 <h2>Regionale Kategorien</h2>
                 {{#each regionCategories as |this n|}}
@@ -166,9 +168,9 @@
             </div>
             <div class="box header">
                 <h2 class="toggle" data-target=".biome-settings">Landschafts-Typen</h2>
-                <div class="biome-settings">
+                <div class="biome-settings float">
                     {{#each biomes as |this n|}}
-                        <div class="inner box float">
+                        <div class="inner box">
                             <div>
                                 <button class="remove-entry" type="button"
                                         data-path="locations.biomes" data-index="{{n}}">-
@@ -185,12 +187,12 @@
                                            value="{{key}}" type="text" class="labeled"/>
                                     <label for="biomes-key-{{n}}">id</label>
                                 </div>
-                            </div>
-                            <div class="borderless box">
-                                <input id="biomes-img-{{n}}" name="locations.biomes[{{n}}].img"
-                                       value="{{img}}" type="text" class="labeled pick-path"
-                                       style="background-image: url({{img}})"/>
-                                <label for="biomes-img-{{n}}">Bild</label>
+                                <div class="borderless box">
+                                    <input id="biomes-img-{{n}}" name="locations.biomes[{{n}}].img"
+                                           value="{{img}}" type="text" class="labeled pick-path"
+                                           style="background-image: url({{img}})"/>
+                                    <label for="biomes-img-{{n}}">Bild</label>
+                                </div>
                             </div>
                         </div>
                     {{/each}}
@@ -206,17 +208,6 @@
             <button type="button" name="restore-settings" class="reset" data-category="locations">
                 <i class="fas fa-undo"></i> {{localize 'meistertools.restore-settings'}}</button>
         </footer>
-    </section>
-
-
-    <!-- -----------------------
-    Rarity
-    ----------------------- -->
-    <section class="tab" data-tab="rarity">
-        <button class="open-app" name="entity-tagger">Entity Tagger</button>
-        {{#with rarity}}
-            {{stringify this}}
-        {{/with}}
     </section>
 
 

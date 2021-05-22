@@ -117,7 +117,7 @@ export class MeistertoolsRarity extends Application {
         })
 
 
-        html.find("tr.entity-list").mousedown((event) => {
+        html.find(".entity-tag").mousedown((event) => {
             const entityId = $(event.currentTarget).attr("data-id")
             const entity = this.entities.find(e => e._id === entityId)
             if (!entity) return
@@ -171,6 +171,7 @@ export class MeistertoolsRarity extends Application {
 
     _readTag(entity) {
         mergeObject(this.currentTag, entity.data.data[this.tagPropertyName])
+        if (this.currentTag.general === undefined || this.currentTag.general == "") this.currentTag.general = MeistertoolsRarity.defaultRarity
         this.render()
     }
 

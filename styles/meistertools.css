@@ -482,7 +482,7 @@ a.load-pattern {
     Item Tagger
  --------------------------------- */
 
-.meistertools tr.entity-list {
+.meistertools .entity-tag {
     cursor: url('../assets/cursors/tag_s.png'), pointer !important;
 }
 

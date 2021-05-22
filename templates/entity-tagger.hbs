@@ -1,128 +1,131 @@
-<div class="col-3" style="grid-template-columns: 300px auto 310px">
-    <div class="box header">
-        <h2>Datenquelle</h2>
-        <div class="col-2">
-            <div style="padding-top: 8px"><i style="font-size:1.5em" class="fas fa-atlas"></i></div>
-            <select name="datenquelle.compendium" data-source="collection">
-                {{#select dataSourceSelection}}
-                    <option></option>
-                    {{#each options.unlockedCollections}}
-                        <option value="{{collection}}">{{metadata.label}} {{collection}}</option>
-                    {{/each}}
-                    {{#each options.lockedCollections}}
-                        <option value="{{collection}}">(read-only) {{metadata.label}} {{collection}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-            <div style="padding-top: 8px"><i style="font-size:1.5em" class="fas fa-suitcase"></i></div>
-            <select name="datenquelle.items" data-source="folder">
-                {{#select dataSourceSelection}}
-                    <option></option>
-                    {{#each options.itemFolders}}
-                        <option value="{{_id}}">{{name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-        </div>
-    </div>
-
-
-    <div class="box header">
-        <h2>Verfügbarkeit</h2>
-        <div class="col-2">
-            <div class="inner box header">
-                <h3>allg.</h3>
-                <a class="tag general"><span class="rarity star{{currentTag.general}}"> </span></a>
+<div>
+    <div class="col-3" style="grid-template-columns: 300px auto 310px">
+        <div class="box header">
+            <h2>Datenquelle</h2>
+            <div class="col-2">
+                <div style="padding-top: 8px"><i style="font-size:1.5em" class="fas fa-atlas"></i></div>
+                <select name="datenquelle.compendium" data-source="collection">
+                    {{#select dataSourceSelection}}
+                        <option></option>
+                        {{#each options.unlockedCollections}}
+                            <option value="{{collection}}">{{metadata.label}} {{collection}}</option>
+                        {{/each}}
+                        {{#each options.lockedCollections}}
+                            <option value="{{collection}}">(read-only) {{metadata.label}} {{collection}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <div style="padding-top: 8px"><i style="font-size:1.5em" class="fas fa-suitcase"></i></div>
+                <select name="datenquelle.items" data-source="folder">
+                    {{#select dataSourceSelection}}
+                        <option></option>
+                        {{#each options.itemFolders}}
+                            <option value="{{_id}}">{{name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
             </div>
-            <div class="inner box header">
-                <h3>nach Ort</h3>
-                <button class="pick-region" title="Regionen manuell auswählen"><i class="fas fa-edit"></i></button>
-                {{#each currentTag.regions}}
-                    <a class="tag" data-region-key="{{key}}"><span class="rarity star{{value}}"> </span> {{name}}</a>
-                {{/each}}
-                {{#each currentTag.biomes}}
-                    <a class="tag" data-biome-key="{{key}}"><span class="rarity star{{value}}"> </span> {{name}}</a>
-                {{/each}}
+        </div>
+
+
+        <div class="box header">
+            <h2>Verfügbarkeit</h2>
+            <div class="col-2">
+                <div class="inner box header">
+                    <h3>allg.</h3>
+                    <a class="tag general"><span class="rarity star{{currentTag.general}}"> </span></a>
+                </div>
+                <div class="inner box header">
+                    <h3>nach Ort</h3>
+                    <button class="pick-region" title="Regionen manuell auswählen"><i class="fas fa-edit"></i></button>
+                    {{#each currentTag.regions}}
+                        <a class="tag" data-region-key="{{key}}"><span class="rarity star{{value}}"> </span> {{name}}
+                        </a>
+                    {{/each}}
+                    {{#each currentTag.biomes}}
+                        <a class="tag" data-biome-key="{{key}}"><span class="rarity star{{value}}"> </span> {{name}}</a>
+                    {{/each}}
+                </div>
+
             </div>
 
+            <button class="update-current-rarity">aktuelle Verfügbarkeit für Entities berechnen</button>
         </div>
 
-        <button class="update-current-rarity">aktuelle Verfügbarkeit für Entities berechnen</button>
-    </div>
 
-
-    <div class="box header biome"
-         style="background: url({{currentLocation.currentBiome.img}})">
-        <h2>Aktueller Ort <a class="pick-current-location" title="Aktuellen Ort als Verfügbarkeit auswählen">
-            <i class="fas fa-check-double"></i></a></h2>
-        <div class="region box">
-            <b>{{currentLocation.currentBiome.name}}</b>
-        </div>
-        <div class="region box">
-            {{#each currentLocation.currentRegions}}
-                <h2>{{name}}</h2>
-                {{#each regions}}
-                    <span>{{name}}</span>
+        <div class="box header biome"
+             style="background: url({{currentLocation.currentBiome.img}})">
+            <h2>Aktueller Ort <a class="pick-current-location" title="Aktuellen Ort als Verfügbarkeit auswählen">
+                <i class="fas fa-check-double"></i></a></h2>
+            <div class="region box">
+                <b>{{currentLocation.currentBiome.name}}</b>
+            </div>
+            <div class="region box">
+                {{#each currentLocation.currentRegions}}
+                    <h2>{{name}}</h2>
+                    {{#each regions}}
+                        <span>{{name}}</span>
+                    {{/each}}
                 {{/each}}
-            {{/each}}
+            </div>
         </div>
     </div>
-</div>
 
-<div class="box header">
-    <h1>Entities</h1>
-    <table>
-        <tr>
-            <th>Bild</th>
-            <th>Name</th>
-            {{#if showDescription}}
-                <th><a class="toggle-description" title="Beschreibung ausblenden">Beschreibung</a></th>
-            {{else}}
-                <th><a class="toggle-description" title="Beschreibung einblenden">...</a></th>
-            {{/if}}
-            <th>Verfügbarkeit</th>
-            <th>nach Region</th>
-            <th>nach Landschaftstyp</th>
-        </tr>
-        <tr>
-            <th></th>
-            <th><input type="text" class="filter" name="name" value="{{filter.name}}"/></th>
-            {{#if showDescription}}
-                <th><input type="text" class="filter" name="description" value="{{filter.description}}"/></th>
-            {{else}}
-                <th></th>
-            {{/if}}
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-
-        {{#each entities}}
-            <tr class="entity-list" data-id="{{_id}}"
-                title="Linksklick: Verfügbarkeit dieser Entity überschreiben&#10;Rechtsklick: Verfügbarkeit dieser Entity auslesen">
-                <td><img src="{{img}}"/></td>
-                <td>{{name}}</td>
-
-                {{#if ../showDescription}}
-                    <td>{{{description}}}</td>
+    <div class="box header">
+        <h1>Entities</h1>
+        <table>
+            <tr>
+                <th>Bild</th>
+                <th>Name</th>
+                {{#if showDescription}}
+                    <th><a class="toggle-description" title="Beschreibung ausblenden">Beschreibung</a></th>
                 {{else}}
-                    <td></td>
+                    <th><a class="toggle-description" title="Beschreibung einblenden">...</a></th>
                 {{/if}}
-
-                <td><span class="rarity star{{rarity.general}}"> </span></td>
-                <td>
-                    {{#each rarity.regions}}
-                        <span class="rarity star{{value}}"> </span> {{name}}
-                    {{/each}}
-                </td>
-                <td>
-                    {{#each rarity.biomes}}
-                        <span class="rarity star{{value}}"> </span> {{name}}
-                    {{/each}}
-                </td>
+                <th>Verfügbarkeit</th>
+                <th>nach Region</th>
+                <th>nach Landschaftstyp</th>
             </tr>
-        {{/each}}
+            <tr>
+                <th></th>
+                <th><input type="text" class="filter" name="name" value="{{filter.name}}"/></th>
+                {{#if showDescription}}
+                    <th><input type="text" class="filter" name="description" value="{{filter.description}}"/></th>
+                {{else}}
+                    <th></th>
+                {{/if}}
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
 
-    </table>
+            {{#each entities}}
+                <tr class="entity-list"
+                    title="Linksklick: Verfügbarkeit dieser Entity überschreiben&#10;Rechtsklick: Verfügbarkeit dieser Entity auslesen">
+                    <td><img src="{{img}}"/></td>
+                    <td>{{name}}</td>
 
+                    {{#if ../showDescription}}
+                        <td>{{{description}}}</td>
+                    {{else}}
+                        <td></td>
+                    {{/if}}
+
+                    <td class="entity-tag" data-id="{{_id}}"><span class="rarity star{{rarity.general}}"> </span></td>
+                    <td class="entity-tag" data-id="{{_id}}">
+                        {{#each rarity.regions}}
+                            <span class="rarity star{{value}}"> </span> {{name}}
+                        {{/each}}
+                    </td>
+                    <td class="entity-tag" data-id="{{_id}}">
+                        {{#each rarity.biomes}}
+                            <span class="rarity star{{value}}"> </span> {{name}}
+                        {{/each}}
+                    </td>
+                </tr>
+            {{/each}}
+
+        </table>
+
+    </div>
 </div>

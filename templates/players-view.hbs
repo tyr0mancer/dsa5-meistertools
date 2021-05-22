@@ -1,14 +1,93 @@
 <div>
-    <div class="col-3">
+    <div class="col-2" style="grid-template-columns: auto 300px">
         <div class="inner box header">
-            <h2>Biome und Uhrzeit</h2>
+            <button name="roll-initiative"><i class="fas fa-fist-raised"></i> Initiative!</button>
+            <button name="open-library"><i class="fas fa-book"></i>Bibliothek</button>
+            <button name="find-token"><i class="fas fa-street-view"></i> Wo ist meine Figur?</button>
+
+            <div class="float">
+                {{#each players}}
+                    <div class="inner box" style="width: 64px">
+                        <a class="message-user" data-recipient="{{name}}" title="Geheime Nachricht versenden.">
+                            {{#if isGM}}
+                                <img src="/systems/dsa5/icons/categories/ability_fate_points.webp"
+                                     style="border: none"/>
+                            {{/if}}
+                            <img src="{{character.img}}" style="border: none"/>
+                            {{name}}</a>
+                    </div>
+                {{/each}}
+            </div>
+
         </div>
-        <div class="inner box header">
-            <h2>Hunger</h2>
-        </div>
-        <div class="inner box header">
-            <h2>Status</h2>
+        <div class="box header biome"
+             style="background: url({{currentLocation.currentBiome.img}})">
+            <h2>16. Rahja 1040BF - 12:50</h2>
+            <div class="region box">
+                <h2>Coming soon:</h2>
+                <ul>
+                    <li>Uhrzeit und Kalender</li>
+                    <li>Aktuelles Wetter und Mondphase</li>
+                    <li>Hunger, Durst, Schlaf</li>
+                    <li>LeP, AsP, KaP</li>
+                </ul>
+
+            </div>
         </div>
     </div>
-    <div class="box header"><h1>What now?</h1></div>
+
+    {{#if isGM}}
+        <div class="inner box header">
+            <b>Spieler-Sicht wählen:</b>
+            {{#each players}}
+                <a class="select-user" data-user-id="{{_id}}" style="border:1px solid black;padding: 2px">{{name}}</a>
+            {{/each}}
+            <i>(aktuell: {{user.name}})</i>
+        </div>
+    {{/if}}
+
+    {{#if user.character}}
+        <div class="box header"><h1>{{user.character.name}}</h1>
+            <div class="col-2" style="grid-template-columns: 150px auto ">
+
+                <div class="inner box">
+                    <img src="{{user.character.img}}" style="border: none; width: 128px"/>
+                    <!--
+                                        <button>Waffen</button>
+                                        <button>Proviant</button>
+                                        <button>Ausrüstung</button>
+                                        <button>Talente</button>
+                                        <button>Zauber</button>
+                    -->
+                </div>
+
+                <div class="inner box header">
+
+                    <h2>Ausrüstung</h2>
+                    {{#each equipmentItems}}
+                        <!--
+                        <h2>{{localize ch}}</h2>
+-->
+
+                        <!--
+                        {{#each_when items 'type' "equipment"}}
+                            {{#ifeq data.data.equipmentType.value ../char}}
+                            <b>{{name}}</b>
+                            {{/ifeq}}
+&lt;!&ndash;
+                            <textarea>{{stringify data.data.equipmentType.value}}</textarea>
+&ndash;&gt;
+                        {{/each_when}}
+-->
+
+                    {{/each}}
+
+
+                </div>
+
+            </div>
+
+        </div>
+    {{/if}}
+
 </div>

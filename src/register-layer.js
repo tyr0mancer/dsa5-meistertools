@@ -70,9 +70,8 @@ export function registerControlButtons(controls) {
 
     tools.push({
         name: "players-view",
-        title: 'MeisterTools',
-        icon: "fas fa-user-secret",
-        visible: true,
+        title: 'Tafelrunde',
+        icon: "fab fa-fort-awesome-alt",
         button: true,
         onClick: () => new PlayersView().render(true)
     })

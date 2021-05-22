@@ -52,6 +52,19 @@ export function registerHandlebarHelper() {
     });
 
 
+    /**
+     *
+     */
+    Handlebars.registerHelper('each_when', function (list, k, v, opts) {
+        let i, result = '';
+        for (i = 0; i < list?.length; ++i)
+            if (list[i][k]?.includes(v))
+                result = result + opts.fn(list[i]);
+        return result;
+    });
+
+
+
     // todo already defined?
     Handlebars.registerHelper('ifeq', function (a, b, options) {
         if (a === b) {
@@ -60,13 +73,5 @@ export function registerHandlebarHelper() {
         return options.inverse(this);
     });
 
-    // todo deprecated? not used any more
-    Handlebars.registerHelper('each_when', function (list, k, v, opts) {
-        let i, result = '';
-        for (i = 0; i < list?.length; ++i)
-            if (list[i][k]?.includes(v))
-                result = result + opts.fn(list[i]);
-        return result;
-    });
 
 }

@@ -497,3 +497,7 @@ a.load-pattern {
 .meistertools tr.entity-list:hover {
     background: var(--color-light);
 }
+
+.meistertools a.tag.general {
+    font-size: 3em;
+}

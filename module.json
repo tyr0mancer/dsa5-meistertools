@@ -23,8 +23,7 @@
     "/styles/forms.css"
   ],
   "esmodules": [
-    "/meistertools.js",
-    "/dsa5-probability.js"
+    "/meistertools.js"
   ],
   "packs": [
     {

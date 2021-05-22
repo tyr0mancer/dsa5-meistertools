@@ -1,4 +1,3 @@
-import {Dsa5Probability} from "../dsa5-probability.js";
 
 export function registerHandlebarHelper() {
     /**
@@ -12,30 +11,30 @@ export function registerHandlebarHelper() {
     });
 
     /**
-     * returns html formatted display of a probability object
+     * returns html formatted display of a rarity object
      */
-    Handlebars.registerHelper('display_probability', function (probability, view) {
-        if (!probability) return ``
+    Handlebars.registerHelper('display_rarity', function (rarity, view) {
+        if (!rarity) return ``
         let result = ``
 
         if (view === 'current') {
-            if (probability.current === undefined || probability.current === null) return ''
-            result = `<span class="probability star${probability.current}"> </span>`
+            if (rarity.current === undefined || rarity.current === null) return ''
+            result = `<span class="rarity star${rarity.current}"> </span>`
             return new Handlebars.SafeString(result);
         }
 
-        if (view === 'string') {
-            result = `<p>allg: ${probability.general}, nach Region: ${JSON.stringify(probability.regions)}, nach Landschafts-Typ: ${JSON.stringify(probability.biomes)}</p>`
+        if (view === 'stringify') {
+            result = `<p>allg: ${rarity.general}, nach Region: ${JSON.stringify(rarity.regions)}, nach Landschafts-Typ: ${JSON.stringify(rarity.biomes)}</p>`
             return new Handlebars.SafeString(result);
         }
 
         result = `<span>`
-        if (probability.general !== undefined)
-            result += `<span class="probability star${probability.general}"></span>`
-        for (let region of probability?.regions)
-            result += `<span class="probability star${region[1]}"> ${region[0]}</span>`
-        for (let biome of probability?.biomes)
-            result += `<span class="probability star${biome[1]}"> ${biome[0]}</span>`
+        if (rarity.general !== undefined)
+            result += `<span class="rarity star${rarity.general}"></span>`
+        for (let region of rarity?.regions)
+            result += `<span class="rarity star${region[1]}"> ${region[0]}</span>`
+        for (let biome of rarity?.biomes)
+            result += `<span class="rarity star${biome[1]}"> ${biome[0]}</span>`
         result += `</span>`
         return new Handlebars.SafeString(result);
     });

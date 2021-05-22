@@ -114,11 +114,7 @@
                             <input {{checked_radio ../../selection.archetype key}}
                                     id="archetype-{{key}}" type="radio" value="{{key}}" name="archetype"/>
                             <label for="archetype-{{key}}" style="width: 100px">
-                                <!--
-                                {{display_probability probability 'current'}}
-                                -->
                                 {{name}}
-
                                 {{#if variations}}
                                     <select name="variation">
                                         {{#select ../../selection.variation}}
@@ -146,7 +142,7 @@
                         <input {{checked_radio ../selection.profession _id}}
                                 id="profession-{{_id}}" type="radio" value="{{_id}}" name="profession"/>
                         <label for="profession-{{_id}}" style="width: 100px">
-                            {{display_probability probability 'current'}} {{name}}
+                            {{name}}
                         </label>
                     </div>
                 {{/each}} <!-- professionCompendium -->
@@ -161,7 +157,7 @@
                         <input {{checked_radio ../selection.gender key}}
                                 id="gender-{{key}}" type="radio" value="{{key}}" name="gender"/>
                         <label for="gender-{{key}}" style="width: 100px">
-                            {{display_probability probability 'current'}} {{name}}
+                            {{name}}
                         </label>
                     </div>
                 {{/each}} <!-- settings.gender -->
@@ -216,7 +212,8 @@
                 {{/each}}
             </div>
             <div class="inner box col-2">
-                {{pick_scene-position "existing-nsc.position" selection.existing-nsc.position selectOptions.scenePositions}}
+                {{pick_scene-position "existing-nsc.position" selection.existing-nsc.position
+                                      selectOptions.scenePositions}}
                 <div style="text-align: right">
                     <button title="Markierte NSC in betrachtete Szene einfügen"
                             type="button" name="insert-existing-nsc"><i class="fas fa-user-plus"></i></button>

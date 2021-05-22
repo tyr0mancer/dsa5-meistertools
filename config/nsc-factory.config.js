@@ -73,7 +73,7 @@ export default {
                     key: "albernisch",
                     name: "Albernia",
                     data: {
-                        probability: {
+                        rarity: {
                             current: 5, general: 1, regions: [['albernia', 5], ["mittelreich", 2]]
                         },
                         rollTables: {
@@ -129,7 +129,7 @@ export default {
                     "nachname": "horasisch_nachname",
                     "origin": "horasreich_orte"
                 },
-                probability: {
+                rarity: {
                     current: 2, general: 1, regions: [["horasreich", 5], ['mittelreich', 3]]
                 },
             }
@@ -193,7 +193,7 @@ export default {
                     name: "${vorname-gender} ${zusatz-gender} ${vorname-gender}",
                 }
             },
-            probability: {
+            rarity: {
                 current: 1, general: 1, regions: [['khom', 5], ["tulamiden", 3]]
             },
         },
@@ -225,7 +225,7 @@ export default {
                 pattern: {
                     name: "${vorname-gender}"
                 },
-                probability: {
+                rarity: {
                     current: 0, general: 0
                 }
             },

@@ -202,42 +202,42 @@
 
 
 /* ---------------------------------
-    Probability
+    rarity
  --------------------------------- */
 
-.meistertools .probability:before {
+.meistertools .rarity:before {
     font-family: "Font Awesome 5 Free", serif;
     font-weight: 900;
 }
 
-.meistertools .probability.star0:before {
+.meistertools .rarity.star0:before {
     content: "\f057";
     color: red;
 }
 
-.meistertools .probability.star1:before {
+.meistertools .rarity.star1:before {
     content: "\f005";
     color: var(--color-quaternary);
     font-weight: 200;
 }
 
-.meistertools .probability.star2:before {
+.meistertools .rarity.star2:before {
     content: "\f005";
     color: blue;
     font-weight: 200;
 }
 
-.meistertools .probability.star3:before {
+.meistertools .rarity.star3:before {
     content: "\f5c0";
     color: blue;
 }
 
-.meistertools .probability.star4:before {
+.meistertools .rarity.star4:before {
     content: "\f005";
     color: blue;
 }
 
-.meistertools .probability.star5:before {
+.meistertools .rarity.star5:before {
     content: "\f005";
     color: goldenrod;
 }

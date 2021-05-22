@@ -53,7 +53,7 @@ export class MeistertoolsRarity extends Application {
         return {
             currentLocation: this.currentLocation,
             dataSourceSelection: this.dataSourceSelection,
-            entities: this.entities.filter(this.filter).sort(this.sorter).map(this.mapper),
+            entities: this.entities.map(this.mapper).filter(this.filter).sort(this.sorter),
             filter: this.currentFilter,
             showDescription: this.showDescription,
             currentTag: this.currentTag,
@@ -146,6 +146,7 @@ export class MeistertoolsRarity extends Application {
             const filterName = event.currentTarget.name
             const filterValue = (event.currentTarget.type === "checkbox") ? event.currentTarget.checked : event.currentTarget.value
             this.currentFilter[filterName] = filterValue
+            console.log(filterName, filterValue)
             this.filter = (e) => e[filterName].toLowerCase().includes(filterValue.toLowerCase())
             this.render()
         })

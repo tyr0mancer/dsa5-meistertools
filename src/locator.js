@@ -45,9 +45,13 @@ export class MeistertoolsLocator extends Application {
             "currentLocation.locatorScene": game.scenes.viewed._id,
             "currentLocation.locatorToken": canvas.tokens.controlled[0]?.id,
         }))
-        html.find("select[name=biome]").change(event => this._updateSettings({"currentLocation.currentBiome": this.settings.biomes.find(b => b.key === event.currentTarget.value)}))
-        html.find("button.pick-region").click(() => new RegionPicker((regions) => {
-            this._updateSettings({"currentLocation.currentRegions": regions})
+        html.find("select[name=biome]").change(async event => {
+            await this._updateSettings({"currentLocation.currentBiome": this.settings.biomes.find(b => b.key === event.currentTarget.value)})
+            Hooks.call(moduleName + ".update-location", this.settings.currentLocation)
+        })
+        html.find("button.pick-region").click(() => new RegionPicker(async (regions) => {
+            await this._updateSettings({"currentLocation.currentRegions": regions})
+            Hooks.call(moduleName + ".update-location", this.settings.currentLocation)
         }).render(true))
     }
 
@@ -153,16 +157,16 @@ export class MeistertoolsLocator extends Application {
 
 export class RegionPicker extends Dialog {
 
-    constructor(callback, regions = MeistertoolsLocator.regions, {currentRegions} = MeistertoolsLocator.updateLocation()) {
+    constructor(callback, {currentRegions} = MeistertoolsLocator.currentLocation, allRegions = MeistertoolsLocator.regions,) {
         let content = `<div class="meistertools">`
 
         const regionKeys = currentRegions?.map(r => r.key) || []
 
         for (let category of MeistertoolsLocator.regionCategories) {
-            let reggies = regions.filter(r => r.category === category.key)
-            if (!reggies?.length) continue
+            const entriesInCategory = allRegions.filter(r => r.category === category.key)
+            if (!entriesInCategory?.length) continue
             content += `<div class="box header"><h1>${category.name}</h1><div class="inner box float">`
-            for (let region of reggies)
+            for (let region of entriesInCategory)
                 content += `<div><input id="${region.key}" name="${region.key}" ${(regionKeys.includes(region.key) ? "checked" : "")} type="checkbox"/><label for="${region.key}">${region.name}</label></div>`
             content += `</div></div>`
         }
@@ -183,7 +187,7 @@ export class RegionPicker extends Dialog {
                     callback: (html) => {
                         const selection = []
                         html.find("input:checked[type='checkbox']").each((i, e) => selection.push(e.id))
-                        callback(regions.filter(r => selection.includes(r.key)))
+                        callback(allRegions.filter(r => selection.includes(r.key)))
                     }
                 }
             },

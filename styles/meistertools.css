@@ -482,6 +482,18 @@ a.load-pattern {
     Item Tagger
  --------------------------------- */
 
-.meistertools .apply-tag {
+.meistertools tr.entity-list {
     cursor: url('../assets/cursors/apply-format.gif'), pointer !important;
+}
+
+
+.meistertools tr.entity-list img {
+    max-width: 48px;
+    max-height: 48px;
+    border: none
+}
+
+
+.meistertools tr.entity-list:hover {
+    background: var(--color-light);
 }

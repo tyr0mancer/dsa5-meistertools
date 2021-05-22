@@ -1,24 +1,32 @@
 import {moduleName} from "../meistertools.js";
-import {MeistertoolsLocator} from "./locator.js";
+import {MeistertoolsLocator, RegionPicker} from "./locator.js";
 
 export class MeistertoolsRarity extends Application {
-    constructor() {
+    constructor(tagPropertyName = 'rarity', tagPropertyPath = 'data.rarity') {
         super();
+        this.tagPropertyName = tagPropertyName
+        this.tagPropertyPath = tagPropertyPath
+
+        this.settings = {locations: game.settings.get(moduleName, 'locations')}
         this.entities = []
+        this.showDescription = false
+        this.currentFilter = {}
+        this.currentTag = {}
         this.filter = () => true
         this.sorter = (a, b) => 0
         this.mapper = (e) => {
-            return {
+            const result = {
                 _id: e._id,
                 name: e.name,
                 img: e.img,
-                availability: e.data.data.availability,
-                rarity: e.data.data.rarity
             }
+            result[this.tagPropertyName] = e.data.data[this.tagPropertyName]
+            return result
         }
         this.entityType = "Item"
         this.currentLocation = MeistertoolsLocator.currentLocationExpanded
         Hooks.on(moduleName + ".update-location", (newLocation) => {
+            console.log(newLocation)
             this.currentLocation.currentBiome = newLocation.currentBiome
             this.currentLocation.currentRegions = MeistertoolsLocator.expandRegions(newLocation.currentRegions)
             this.render()
@@ -45,6 +53,9 @@ export class MeistertoolsRarity extends Application {
             currentLocation: this.currentLocation,
             dataSourceSelection: this.dataSourceSelection,
             entities: this.entities.filter(this.filter).sort(this.sorter).map(this.mapper),
+            filter: this.currentFilter,
+            showDescription: this.showDescription,
+            currentTag: this.currentTag,
             options: {
                 lockedCollections: game.packs.filter(p => p.entity === this.entityType && p.locked),
                 unlockedCollections: game.packs.filter(p => p.entity === this.entityType && !p.locked),
@@ -56,25 +67,82 @@ export class MeistertoolsRarity extends Application {
     activateListeners(html) {
         super.activateListeners(html);
         html.find("select[data-source]").change(event => this._setDataSource(event))
+        html.find("button.pick-region").click(() => this._pickRegion())
+
 
         html.find("button.update-current-rarity").click(() => {
-
+            this.entities.filter(this.filter).forEach(async entity => {
+                const {availability} = entity.data.data
+                if (!availability) return
+                const rarity = {
+                    current: undefined,
+                    general: availability.general,
+                    biomes: availability.biomes?.map(([key, value]) => {
+                        return {
+                            key: key,
+                            ...this.settings.locations.biomes.find(b => b.key === key),
+                            rarity: value
+                        }
+                    }),
+                    regions: availability.regions?.map(([key, value]) => {
+                        return {
+                            ...this.settings.locations.regions.find(r => r.key === key),
+                            rarity: value
+                        }
+                    })
+                }
+                const newVal = duplicate(rarity)
+                await entity.update({"data.availability": null, "data.rarity": newVal})
+                this.render()
+            })
         })
 
 
-        html.find("td.apply-tag").click(async event => {
+        html.find("tr.entity-list").mousedown((event) => {
             const entityId = $(event.currentTarget).attr("data-id")
-            /*
-                const entity = this.entities.find(e => e._id === entityId)
-                await entity.update({"data.availability": {current: 17}})
-            */
-
-            this.entities.find(e => e._id === entityId)?.update({"data.availability": {current: 29}})
-            this.render(true)
+            const entity = this.entities.find(e => e._id === entityId)
+            if (!entity) return
+            if (event.which === 3) // right click
+                return this._readTag(entity)
+            return this._applyTag(entity)
         })
+
+
+        html.find("input.filter").change(event => {
+            const filterName = event.currentTarget.name
+            const filterValue = (event.currentTarget.type === "checkbox") ? event.currentTarget.checked : event.currentTarget.value
+            this.currentFilter[filterName] = filterValue
+            this.filter = (e) => e[filterName].toLowerCase().includes(filterValue.toLowerCase())
+            this.render()
+        })
+
     }
 
 
+    _readTag(entity) {
+        this.currentTag = entity.data.data.rarity
+        this.render()
+    }
+
+    async _applyTag(entity) {
+        await entity.update({"data.rarity": duplicate(this.currentTag)})
+        this.render()
+    }
+
+    _pickRegion() {
+        new RegionPicker((regions) => {
+            this.currentTag.regions = regions
+            this.render()
+        }, {currentRegions: this.currentTag.regions}).render(true)
+    }
+
+
+    /**
+     *
+     * @param event
+     * @return {Promise<void>}
+     * @private
+     */
     async _setDataSource(event) {
         this.dataSourceSelection = event.currentTarget.value
         const dataSource = $(event.currentTarget).attr("data-source")
@@ -86,9 +154,6 @@ export class MeistertoolsRarity extends Application {
             const pack = game.packs.get(event.currentTarget.value)
             this.entities = await pack.getContent()
         }
-        /*
-                console.clear()
-        */
         this.render()
     }
 
@@ -107,6 +172,8 @@ export class MeistertoolsRarity extends Application {
             {key: 5, short: "5/5", name: 'sehr oft'}
         ]
     }
+
+
 }
 
 

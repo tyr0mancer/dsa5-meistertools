@@ -26,11 +26,32 @@
         </div>
     </div>
 
+
     <div class="box header">
         <h2>Seltenheit</h2>
+        <div class="col-3">
+            <div class="inner box header">
+                <h3>General</h3>
+                {{stringify currentTag.general}}
+            </div>
+            <div class="inner box header">
+                <h3>Regions</h3>
+                {{stringify currentTag.regions}}
+                <button class="pick-region" title="Regionen manuell auswählen"><i class="fas fa-edit"></i></button>
+
+            </div>
+            <div class="inner box header">
+                <h3>Biomes</h3>
+                {{stringify currentTag.biomes}}
+            </div>
+
+        </div>
+
+
         <button>aktuellen Ort übernehmen</button>
         <button class="update-current-rarity">aktuelle Seltenheit für Entities berechnen</button>
     </div>
+
 
     <div class="box header biome"
          style="background: url({{currentLocation.currentBiome.img}})">
@@ -56,24 +77,21 @@
             <th>Bild</th>
             <th>Name</th>
             <th><a title="Beschreibung einblenden">...</a></th>
-            <th>Verfügbarkeit</th>
             <th>Seltenheit</th>
         </tr>
         <tr>
             <th></th>
-            <th><input type="text" class="filter" name="filter.name" value="{{filter.name}}"/></th>
-            <th></th>
+            <th><input type="text" class="filter" name="name" value="{{filter.name}}"/></th>
             <th></th>
             <th></th>
         </tr>
 
         {{#each entities}}
-            <tr>
-                <td><img src="{{img}}" style="max-width:48px;max-height:48px;border:none"/></td>
-                <td class="apply-tag" data-id="{{_id}}" title="Linksklick: Seltenheit dieser Entity überschreiben
-Rechtsklick: Seltenheit dieser Entity auslesen">{{name}}</td>
+            <tr class="entity-list" data-id="{{_id}}"
+                title="Linksklick: Seltenheit dieser Entity überschreiben&#10;Rechtsklick: Seltenheit dieser Entity auslesen">
+                <td><img src="{{img}}"/></td>
+                <td>{{name}}</td>
                 <td></td>
-                <td>{{stringify availability}}</td>
                 <td>{{stringify rarity}}</td>
             </tr>
         {{/each}}

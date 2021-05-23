@@ -82,12 +82,19 @@
             <tr>
                 <th>Bild</th>
                 <th>Name</th>
+
                 {{#if showDescription}}
                     <th><a class="toggle-description" title="Beschreibung ausblenden">Beschreibung</a></th>
                 {{else}}
-                    <th><a class="toggle-description" title="Beschreibung einblenden">...</a></th>
+                    <th><a class="toggle-description" title="Beschreibung anzeigen"><i class="fas fa-quote-right"></i></a></th>
                 {{/if}}
-                <th>Verfügbarkeit</th>
+
+                {{#if showCurrentRarity}}
+                    <th><a class="toggle-current-rarity" title="Aktuelle Verfügbarkeit ausblenden">Verfügbarkeit</a></th>
+                {{else}}
+                    <th><a class="calculate-current-rarity" title="Aktuelle Verfügbarkeit anzeigen"><i class="fas fa-calculator"></i></a></th>
+                {{/if}}
+
                 <th>allg.</th>
                 <th>nach Region</th>
                 <th>nach Landschaftstyp</th>
@@ -99,12 +106,19 @@
                     </button>
                 </th>
                 <th><input type="text" class="filter" name="name" value="{{filter.name}}"/></th>
+
                 {{#if showDescription}}
                     <th><input type="text" class="filter" name="description" value="{{filter.description}}"/></th>
                 {{else}}
                     <th></th>
                 {{/if}}
-                <th></th>
+
+                {{#if showCurrentRarity}}
+                    <th>Filter</th>
+                {{else}}
+                    <th></th>
+                {{/if}}
+
                 <th></th>
                 <th></th>
                 <th></th>

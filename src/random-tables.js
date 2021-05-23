@@ -1,6 +1,6 @@
 import {moduleName} from "../meistertools.js";
 
-export class Jukebox extends Application {
+export class RandomTables extends Application {
     constructor() {
         super();
     }
@@ -13,9 +13,9 @@ export class Jukebox extends Application {
             width: 800,
             height: 650,
             resizable: true,
-            template: `modules/${moduleName}/templates/jukebox.hbs`,
-            id: 'meistertools.jukebox',
-            title: 'Musik',
+            template: `modules/${moduleName}/templates/random-tables.hbs`,
+            id: 'meistertools.random-tables',
+            title: 'Zufallstabellen',
         });
     }
 

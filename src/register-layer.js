@@ -3,8 +3,8 @@ import {MeistertoolsSettings} from "./register-settings.js";
 import {MeistertoolsLocator} from "./locator.js";
 import {PlayersView} from "./players-view.js";
 import {Scenes} from "./scenes.js";
-import {Jukebox} from "./jukebox.js";
 import {Nightwatch} from "./nightwatch.js";
+import {RandomTables} from "./random-tables.js";
 
 export function registerControlButtons(controls) {
     const tools = [
@@ -40,11 +40,11 @@ export function registerControlButtons(controls) {
             onClick: () => new Nightwatch().render(true)
         },
         {
-            name: "jukebox",
-            title: "Musik",
-            icon: "fas fa-volume-up",
+            name: "random",
+            title: "Zufallstabellen",
+            icon: "fas fa-dice-d20",
             button: true,
-            onClick: () => new Jukebox().render(true)
+            onClick: () => new RandomTables().render(true)
         },
         {
             name: "settings",

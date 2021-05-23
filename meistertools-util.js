@@ -49,6 +49,7 @@ export class MeistertoolsUtil {
             // todo this is way to expensive
             try {
                 parsedVal = JSON.parse(v);
+                console.log(parsedVal)
             } catch (e) {
                 parsedVal = v
             }

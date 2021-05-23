@@ -88,7 +88,7 @@ export class PlayersView extends Application {
                 canvas.tokens.activate()
                 this.close()
             } else {
-                ui.notifications.warn(`Es wurde kein Token, das deinem Charakter zugewiesen ist in dieser Szene gefunden.`);
+                ui.notifications.warn(`In dieser Szene ist keine Figur, die ${this.user?.name} kontrollieren kann.`);
             }
         })
 

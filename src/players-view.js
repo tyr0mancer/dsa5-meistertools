@@ -91,14 +91,15 @@ export class PlayersView extends Application {
         })
 
 
-        html.find("button[name=open-sheet]]").click(event => {
-            console.clear()
-            console.log(game)
-        })
-
 
         html.find("button.open-app").click(event => {
             const myApp = game[event.currentTarget.name].apps[0]
+            myApp.renderPopout(true)
+        })
+
+
+        html.find("button[name=roll-initiative]").click(ev => {
+            const myApp = game.combats.apps[0]
             myApp.renderPopout(true)
         })
 

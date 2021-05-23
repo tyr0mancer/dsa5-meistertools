@@ -28,9 +28,13 @@ export class PlayersView extends Application {
     }
 
     async getData() {
+        const dateTime = game.settings.get('calendar-weather', 'dateTime')
+        console.log(dateTime)
+
         return {
             equipment: this.user.character?.items?.filter(i => i.type === "equipment"),
             user: this.user,
+            dateString: `${dateTime.currentWeekday}, ${dateTime.day + 1}. ${dateTime.months[dateTime.currentMonth].name} - ${dateTime.timeDisp.substr(0, 5)}`,
             isGM: game.user.isGM,
             currentLocation: MeistertoolsLocator.currentLocation,
             players: game.users.entities

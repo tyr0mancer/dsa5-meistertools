@@ -1,5 +1,80 @@
-<h1>Scenes</h1>
-<ul>
-    <li>Jukebox</li>
-    <li>Scenes</li>
-</ul>
+<div>
+    <nav class="tabs">
+        {{#each selectOptions.sceneCollections}}
+            <a class="set-category {{#ifeq ../activeCollection.collection collection}}active{{/ifeq}}"
+               data-collection="{{collection}}">{{name}}</a>
+        {{/each}}
+    </nav>
+
+    <div class="box header float">
+        <h1>Filter</h1>
+        <div class="borderless box">
+            <button name="clear-filter" title="Filter zurücksetzen"><i class="far fa-times-circle"></i></button>
+        </div>
+        <div class="inner box">
+            <input id="keyword" name="keyword" value="{{filter.keyword}}" type="text" class="labeled"/>
+            <label for="keyword">Suchbegriff</label>
+        </div>
+        <div class="inner box">
+            <select id="playlistFilter" name="playlist" class="labeled">
+                {{#select filter.playlist}}
+                    <option></option>
+                    {{#each selectOptions.playlists}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+            <label for="playlistFilter">Playlist</label>
+        </div>
+        <div class="borderless box">
+            {{#each selectOptions.keywords}}
+                <a class="set-keyword" data-keyword="{{this}}">{{this}}</a>
+            {{/each}}
+        </div>
+    </div>
+
+    {{#each scenes}}
+        <div class="box header">
+            <h2>{{name}}</h2>
+            <div class="float">
+                {{#each scenes}}
+                    {{#with data}}
+                        <div class="inner box header">
+                            <h3>{{name}}</h3>
+                            <figure><img class="scene-thumb" data-scene-id="{{_id}}"
+                                         data-scene-source="{{../../source}}"
+                                         src="{{thumb}}" title="Szene '{{name}}' ansehen"/></figure>
+                            {{#with flags.dsa5-meistertools}}
+                                {{#if playlistName}}
+                                    <hr/>
+                                    <h3><i class="fas fa-music"></i> "{{playlistName}}"</h3>
+                                {{/if}}
+                                {{#if regions}}
+                                    <div class="inner box">
+                                        {{#each regions}}
+                                            <h3><i class="fas fa-globe-europe"></i> "{{region.name}}"</h3>
+                                        {{/each}}
+                                    </div>
+                                {{/if}}
+                                {{#if props}}
+                                    <div class="inner box">
+                                        {{#each props}}
+                                            <h3><i class="fas fa-globe-europe"></i></h3> <pre>{{stringify this}}</pre>
+                                        {{/each}}
+                                    </div>
+                                {{/if}}
+
+                            {{/with}}
+                            <div>
+                                {{#each flags.dsa5-meistertools.props}}
+
+                                {{/each}}
+                            </div>
+                        </div>
+                    {{/with}}
+                {{/each}}
+            </div>
+        </div>
+    {{/each}}
+
+</div>

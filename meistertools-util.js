@@ -49,7 +49,6 @@ export class MeistertoolsUtil {
             // todo this is way to expensive
             try {
                 parsedVal = JSON.parse(v);
-                console.log(parsedVal)
             } catch (e) {
                 parsedVal = v
             }
@@ -191,6 +190,30 @@ export class MeistertoolsUtil {
             r.evaluate()
             return prev + parseInt(r.total)
         }, 0)
+    }
+
+
+    /**
+     * looks for folder with given name amd type or creates a new one
+     * returns the folder object
+     * @param folderName
+     * @param entityType
+     */
+    static async getFolder(folderName, entityType) {
+        if (!folderName || ! entityType) return {}
+        let result = game.folders.find(f => f.name === folderName && f.type === entityType)
+        if (!result) {
+            result = await Folder.create({
+                "name": folderName,
+                "type": entityType,
+                "sort": 300000,
+                "parent": null,
+                "sorting": "m",
+                "color": "#763626"
+            });
+            ui.notifications.info(`Ein Ordner vom Typ ${entityType} mit dem Namen '${folderName}' wurde nicht gefunden. MeisterTools hat den Ordner erstellt.`);
+        }
+        return result;
     }
 
 

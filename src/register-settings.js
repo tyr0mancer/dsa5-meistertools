@@ -3,6 +3,7 @@ import {MeistertoolsUtil} from "../meistertools-util.js";
 import {NscFactory} from "./nsc-factory.js";
 import {SceneParser} from "./scene-parser.js";
 import {MeistertoolsRarity} from "./rarity.js";
+import {Scenes} from "./scenes.js";
 
 
 export function registerSettings() {
@@ -20,11 +21,11 @@ export function registerSettings() {
         type: Object,
         default: NscFactory.defaultSettings
     });
-    game.settings.register(moduleName, "rarity", {
+    game.settings.register(moduleName, "scenes", {
         scope: "world",
         config: false,
         type: Object,
-        default: {}
+        default: Scenes.defaultSettings
     });
     game.settings.register(moduleName, "locations", {
         scope: "world",
@@ -38,7 +39,7 @@ export function registerSettings() {
 export class MeistertoolsSettings extends FormApplication {
     constructor(initialTab = 'nsc') {
         super();
-        this.settingsCategories = ["nsc-factory", "rarity", "locations"]
+        this.settingsCategories = ["nsc-factory", "locations", "scenes"]
         this.initialTab = initialTab
         this.settings = {}
         for (let category of this.settingsCategories)
@@ -47,8 +48,11 @@ export class MeistertoolsSettings extends FormApplication {
             actorPacks: game.packs.filter(p => p.metadata.entity === 'Actor'),
             scenePacks: game.packs.filter(p => p.metadata.entity === 'Scene'),
             baseActors: [],
-            playlists: game.playlists,
+            playlists: game.playlists.entities.map(p => p.name),
         }
+
+        console.clear()
+        console.log(game.playlists)
 
     }
 
@@ -134,7 +138,6 @@ export class MeistertoolsSettings extends FormApplication {
         formData = MeistertoolsUtil.expandObjectAndArray(formData)
         for (let category of this.settingsCategories) {
             if (!formData[category]) continue
-            //this.settings[category] = game.settings.get(moduleName, category)
             mergeObject(this.settings[category], formData[category])
             game.settings.set(moduleName, category, this.settings[category]);
         }

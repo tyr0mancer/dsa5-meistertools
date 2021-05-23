@@ -135,19 +135,7 @@ export class NscFactory extends FormApplication {
         if (!this.preview)
             await this._createPreview()
 
-        let folderId = game.folders.find(f => f.name === this.settings.settings?.folderName && f.type === this.professionCompendium.entity)?.id;
-        if (!folderId) {
-            const folder = await Folder.create({
-                "name": this.settings.settings?.folderName,
-                "type": this.professionCompendium.entity,
-                "sort": 300000,
-                "parent": null,
-                "sorting": "m",
-                "color": "#373d6d"
-            });
-            ui.notifications.info(`Your world did not have a ${this.professionCompendium.entity} folder named '${this.settings.settings?.folderName}'. MeisterTools created this folder automatically.`);
-            folderId = folder.id
-        }
+        const {id: folderId} = await MeistertoolsUtil.getFolder(this.settings.settings?.folderName, this.professionCompendium.entity)
 
         for (let newActor of this.preview.results) {
             const actor = await game.actors.importFromCollection(this.preview.professionActor.collection, this.preview.professionActor._id, folderId ? {folder: folderId} : null)

@@ -1,11 +1,11 @@
 <form autocomplete="off" class="content">
     <nav class="tabs">
         <a class="item" data-tab="nsc"><i class="fas fa-user-plus"></i> {{localize 'meistertools.settings.nsc'}}</a>
+        <a class="item" data-tab="scenes"><i class="fas fa-film"></i>  {{localize 'meistertools.settings.scenes'}}</a>
         <a class="item" data-tab="locations"><i class="fas fa-map-signs"></i> {{localize
                 'meistertools.settings.locations'}}</a>
 
         <!--
-        <a class="item" data-tab="scenes"><i class="fas fa-film"></i>  {{localize 'meistertools.settings.scenes'}}</a>
         <a class="item" data-tab="music"><i class="fas fa-music"></i> {{localize 'meistertools.settings.music'}}</a>
         -->
     </nav>
@@ -215,6 +215,85 @@
     Scene Manager
     ----------------------- -->
     <section class="tab" data-tab="scenes">
+        {{#with scenes}}
+
+            <div class="box header">
+                <h2>Playlisten</h2>
+                <div class="float">
+                    <div class="borderless  box">
+                        <input {{checked updatePlaylist}}
+                                id="updatePlaylist" name="scenes.updatePlaylist" type="checkbox"/>
+                        <label for="updatePlaylist">Playlist automatisch anpassen</label>
+                    </div>
+
+                    <div class="borderless box" style="width: 250px">
+                        <select id="defaultPlaylist" name="scenes.defaultPlaylist"
+                                class="labeled">
+                            {{#select defaultPlaylist}}
+                                <option></option>
+                                {{#each ../selectOptions.playlists}}
+                                    <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            {{/select}}
+                        </select>
+                        <label for="defaultPlaylist">Default Playlist</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box header">
+                <h2>Szenen Collections</h2>
+                {{#each sceneCollections as |this n|}}
+                    <div class="inner box float">
+                        <div>
+                            <button class="remove-entry" type="button"
+                                    data-path="scenes.sceneCollections" data-index="{{n}}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <div class="borderless box">
+                            <input id="scene-collection-name-{{n}}" name="scenes.sceneCollections[{{n}}].name"
+                                   value="{{name}}" type="text" class="labeled"/>
+                            <label for="scene-collection-name-{{n}}">Name</label>
+                        </div>
+                        <div class="borderless box">
+                            <input id="scene-collection-keywords-{{n}}" name="scenes.sceneCollections[{{n}}].keywords"
+                                   value="{{keywords}}" type="text" class="labeled"/>
+                            <label for="scene-collection-keywords-{{n}}">Keywords</label>
+                        </div>
+                        <div class="borderless box">
+                            <input id="scene-collection-folder-{{n}}" name="scenes.sceneCollections[{{n}}].folder"
+                                   value="{{name}}" type="text" class="labeled"/>
+                            <label for="scene-collection-folder-{{n}}">Ordner</label>
+                        </div>
+                        <div class="borderless box" style="width: 250px">
+                            <select id="scene-collection-{{n}}" name="scenes.sceneCollections[{{n}}].collection"
+                                    class="labeled">
+                                {{#select collection}}
+                                    <option></option>
+                                    {{#each ../../selectOptions.scenePacks}}
+                                        <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                            <label for="scene-collection-{{n}}">Collection</label>
+                        </div>
+                    </div>
+                {{/each}}
+                <button type="button" class="insert-entry" data-path="scenes.sceneCollections">Collection hinzufügen
+                </button>
+            </div>
+        {{/with}}
+
+        <footer>
+            <button type="submit"><i class="fas fa-save"></i> {{localize 'meistertools.save-settings'}}</button>
+            <button type="reset" name="reset-settings" class="reset" data-category="scenes">
+                <i class="fas fa-undo"></i> {{localize 'meistertools.reset-settings'}}</button>
+            <button type="button" name="restore-settings" class="reset" data-category="scenes">
+                <i class="fas fa-undo"></i> {{localize 'meistertools.restore-settings'}}</button>
+        </footer>
+
     </section>
 
 

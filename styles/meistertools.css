@@ -399,7 +399,6 @@ a.load-pattern {
 }
 
 
-
 /* ---------------------------------
     Scene Parser
  --------------------------------- */
@@ -487,7 +486,6 @@ a.load-pattern {
 }
 
 
-
 .meistertools tr.entity-list img {
     max-width: 48px;
     max-height: 48px;
@@ -518,4 +516,46 @@ a.load-pattern {
 
 .meistertools a.message-user {
     cursor: url('../assets/cursors/speechbubble.png'), pointer !important;
+}
+
+/* ---------------------------------
+    Scene Manager
+ --------------------------------- */
+
+.meistertools img.scene-thumb {
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    cursor: pointer;
+}
+
+.meistertools img.scene-thumb:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.meistertools figure {
+    width: 200px;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+}
+
+.meistertools a.set-keyword {
+    padding: 3px;
+    border-radius: 5px;
+    margin-right: 5px;
+    background-color: var(--color-light);
+    border: 1px solid var(--color-primary);
+}
+
+.meistertools a.set-keyword:hover {
+    color: var(--color-light);
+    background-color: var(--color-secondary);
 }

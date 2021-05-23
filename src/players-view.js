@@ -72,6 +72,8 @@ export class PlayersView extends Application {
         html.find("a.select-user").click(event => {
             const userId = $(event.currentTarget).attr("data-user-id")
             this.user = game.users.entities.find(e => e._id === userId)
+            console.log(this.user)
+
             this.render()
         })
 
@@ -83,6 +85,7 @@ export class PlayersView extends Application {
             const token = game.scenes.viewed.data.tokens.find(t => t.actorId === this.user?.character?._id)
             if (token) {
                 canvas.pan(token)
+                canvas.tokens.activate()
                 this.close()
             } else {
                 ui.notifications.warn(`Es wurde kein Token, das deinem Charakter zugewiesen ist in dieser Szene gefunden.`);
@@ -93,7 +96,6 @@ export class PlayersView extends Application {
         html.find("button[name=roll-initiative]").click(ev => {
             const myApp = game.combats.apps[0]
             myApp.renderPopout(true)
-            console.log(myApp)
         })
 
 

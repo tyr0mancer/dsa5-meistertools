@@ -399,6 +399,7 @@ a.load-pattern {
 }
 
 
+
 /* ---------------------------------
     Scene Parser
  --------------------------------- */
@@ -477,7 +478,6 @@ a.load-pattern {
     background-image: url('/systems/dsa5/icons/categories/DSA-Auge.webp');
 }
 
-
 /* ---------------------------------
     Item Tagger
  --------------------------------- */
@@ -486,9 +486,6 @@ a.load-pattern {
     cursor: url('../assets/cursors/tag_s.png'), pointer !important;
 }
 
-.meistertools .calculate-current {
-    cursor: url('../assets/cursors/dice.gif'), pointer !important;
-}
 
 
 .meistertools tr.entity-list img {
@@ -509,4 +506,16 @@ a.load-pattern {
 
 .meistertools table.tag-entities th {
     text-align: left;
+}
+
+.meistertools .calculate-current {
+    cursor: url('../assets/cursors/dice.gif'), pointer !important;
+}
+
+/* ---------------------------------
+    Tafelrunde
+ --------------------------------- */
+
+.meistertools a.message-user {
+    cursor: url('../assets/cursors/speechbubble.png'), pointer !important;
 }

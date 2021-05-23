@@ -7,7 +7,7 @@
 
             <div class="float">
                 {{#each players}}
-                    <div class="inner box" style="width: 64px">
+                    <div class="inner box" style="width: 64px; {{#if active}}background-color:lightgreen{{/if}}">
                         <a class="message-user" data-recipient="{{name}}" title="Geheime Nachricht versenden.">
                             {{#if isGM}}
                                 <img src="/systems/dsa5/icons/categories/ability_fate_points.webp"

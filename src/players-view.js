@@ -22,7 +22,7 @@ export class PlayersView extends Application {
             resizable: true,
             template: `modules/${moduleName}/templates/players-view.hbs`,
             id: 'meistertools.players-view',
-            title: 'Tafelrunde',
+            title: 'DSA MeisterTools',
             //tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "initial"}]
         });
     }

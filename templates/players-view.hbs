@@ -38,11 +38,11 @@
 
     {{#if isGM}}
         <div class="inner box header">
-            <b>Spieler-Sicht wählen:</b>
+            <h3>Spieler-Sicht wählen:</h3>
             {{#each players}}
                 <a class="select-user" data-user-id="{{_id}}" style="border:1px solid black;padding: 2px">{{name}}</a>
             {{/each}}
-            <i>(aktuell: {{user.name}})</i>
+            <b>(aktuell: {{user.name}})</b>
         </div>
     {{/if}}
 

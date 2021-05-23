@@ -1,24 +1,32 @@
 <div>
     <div class="col-2" style="grid-template-columns: auto 300px">
-        <div class="inner box header">
-            <button name="roll-initiative"><i class="fas fa-fist-raised"></i> Initiative!</button>
-            <button name="open-library"><i class="fas fa-book"></i>Bibliothek</button>
-            <button name="find-token"><i class="fas fa-street-view"></i> Wo ist meine Figur?</button>
-
-            <div class="float">
-                {{#each players}}
-                    <div class="inner box" style="width: 64px; {{#if active}}background-color:lightgreen{{/if}}">
-                        <a class="message-user" data-recipient="{{name}}" title="Geheime Nachricht versenden.">
-                            {{#if isGM}}
-                                <img src="/systems/dsa5/icons/categories/ability_fate_points.webp"
-                                     style="border: none"/>
-                            {{/if}}
-                            <img src="{{character.img}}" style="border: none"/>
-                            {{name}}</a>
-                    </div>
-                {{/each}}
+        <div>
+            <div class="inner box">
+                <button name="open-library"><i class="fas fa-book"></i>Bibliothek</button>
+                <button name="find-token"><i class="fas fa-street-view"></i> Wo bin ich?</button>
+                <button class="open-app" name="combats"><i class="fas fa-fist-raised"></i> Initiative!</button>
+                <button name="open-sheet"><i class="fas fa-user"></i> Heldenbogen</button>
+                <button class="open-app" name="items"><i class="fas fa-suitcase"></i> Items</button>
+                <button class="open-app" name="actors"><i class="fas fa-users"></i> Akteure</button>
+                <button class="open-app" name="journal"><i class="fas fa-book-open"></i> Notizen</button>
+                <button class="open-app" name="playlists"><i class="fas fa-music"></i> Musik</button>
             </div>
-
+            <div class="inner box header">
+                <h3>Mitspieler anflüstern</h3>
+                <div class="float">
+                    {{#each players}}
+                        <div class="inner box" style="width: 64px; {{#if active}}background-color:lightgreen{{/if}}">
+                            <a class="message-user" data-recipient="{{name}}" title="Geheime Nachricht versenden.">
+                                {{#if isGM}}
+                                    <img src="/systems/dsa5/icons/categories/ability_fate_points.webp"
+                                         style="border: none"/>
+                                {{/if}}
+                                <img src="{{character.img}}" style="border: none"/>
+                                {{name}}</a>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
         </div>
         <div class="box header biome"
              style="background: url({{currentLocation.currentBiome.img}})">

@@ -15,7 +15,6 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new NscFactory().render(true)
         },
-
         {
             name: "scenes",
             title: 'Szenenwechsel',
@@ -23,8 +22,6 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new Scenes().render(true)
         },
-
-
         {
             name: "locator",
             title: 'Aktuellen Ort festlegen',
@@ -85,6 +82,7 @@ export function registerControlButtons(controls) {
         button: true,
         onClick: () => new PlayersView().render(true)
     })
+
 
 
 }

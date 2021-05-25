@@ -5,6 +5,12 @@ import {SceneParser} from "./scene-parser.js";
 import {MeistertoolsRarity} from "./rarity.js";
 import {Scenes} from "./scenes.js";
 
+const settingsCategories = [
+    {key: "nsc-factory", default: NscFactory.defaultSettings},
+    {key: "scenes", default: Scenes.defaultSettings},
+    {key: "locations", default: SceneParser.defaultSettings},
+    {key: "general", default: {showSettings: true}},
+]
 
 export function registerSettings() {
     game.settings.registerMenu(moduleName, "config-ui", {
@@ -15,35 +21,24 @@ export function registerSettings() {
         type: MeistertoolsSettings,
         restricted: true
     });
-    game.settings.register(moduleName, "nsc-factory", {
-        scope: "world",
-        config: false,
-        type: Object,
-        default: NscFactory.defaultSettings
-    });
-    game.settings.register(moduleName, "scenes", {
-        scope: "world",
-        config: false,
-        type: Object,
-        default: Scenes.defaultSettings
-    });
-    game.settings.register(moduleName, "locations", {
-        scope: "world",
-        config: false,
-        type: Object,
-        default: SceneParser.defaultSettings
-    });
+    for (const category of settingsCategories)
+        game.settings.register(moduleName, category.key, {
+            default: category.default,
+            scope: "world", config: false, type: Object
+        });
 }
 
 
 export class MeistertoolsSettings extends FormApplication {
     constructor(initialTab = 'nsc') {
         super();
-        this.settingsCategories = ["nsc-factory", "locations", "scenes"]
         this.initialTab = initialTab
         this.settings = {}
-        for (let category of this.settingsCategories)
-            this.settings[category] = game.settings.get(moduleName, category)
+        for (let {key} of settingsCategories) {
+            console.log(key)
+            this.settings[key] = game.settings.get(moduleName, key)
+        }
+
         this.selectOptions = {
             actorPacks: game.packs.filter(p => p.metadata.entity === 'Actor'),
             scenePacks: game.packs.filter(p => p.metadata.entity === 'Scene'),
@@ -64,12 +59,13 @@ export class MeistertoolsSettings extends FormApplication {
         return mergeObject(super.defaultOptions, {
             classes: ['meistertools'],
             popOut: true,
-            width: 800,
+            width: 1000,
+            height: 800,
             resizable: true,
             template: `modules/${moduleName}/templates/settings.hbs`,
             id: 'meistertools.settings',
             title: 'MeisterTools Settings',
-            tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "locations"}]
+            tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "general"}]
         });
     }
 
@@ -132,7 +128,7 @@ export class MeistertoolsSettings extends FormApplication {
 
     _updateObject(event, formData) {
         formData = MeistertoolsUtil.expandObjectAndArray(formData)
-        for (let category of this.settingsCategories) {
+        for (let {key: category} of settingsCategories) {
             if (!formData[category]) continue
             mergeObject(this.settings[category], formData[category])
             game.settings.set(moduleName, category, this.settings[category]);

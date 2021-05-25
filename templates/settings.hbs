@@ -1,14 +1,40 @@
 <form autocomplete="off" class="content">
     <nav class="tabs">
-        <a class="item" data-tab="nsc"><i class="fas fa-user-plus"></i> {{localize 'meistertools.settings.nsc'}}</a>
-        <a class="item" data-tab="scenes"><i class="fas fa-film"></i>  {{localize 'meistertools.settings.scenes'}}</a>
-        <a class="item" data-tab="locations"><i class="fas fa-map-signs"></i> {{localize
-                'meistertools.settings.locations'}}</a>
-
-        <!--
-        <a class="item" data-tab="music"><i class="fas fa-music"></i> {{localize 'meistertools.settings.music'}}</a>
-        -->
+        <a class="item" data-tab="general"><i class="fas fa-cogs"></i> {{localize 'general-settings'}}</a>
+        <a class="item" data-tab="nsc"><i class="fas fa-user-friends"></i> {{localize 'nsc-settings'}}</a>
+        <a class="item" data-tab="scenes"><i class="fas fa-map"></i>  {{localize 'scenes-settings'}}</a>
+        <a class="item" data-tab="locations"><i class="fas fa-map-signs"></i> {{localize 'locations-settings'}}</a>
     </nav>
+
+
+    <!-- -----------------------
+    General
+    ----------------------- -->
+    <section class="tab" data-tab="general">
+        {{#with general}}
+            <div class="inner box">
+                <input {{checked showSettings}}
+                        id="showSettings" name="general.showSettings" type="checkbox"/>
+                <label for="showSettings">Settings in MeisterTools Menü</label>
+                <input {{checked topMenu}}
+                        id="topMenu" name="general.topMenu" type="checkbox"/>
+                <label for="topMenu">MeisterTools im Hauptmenü oben anzeigen</label>
+                <!--
+                <input {{checked adjustControlsCss}}
+                        type="checkbox" id="adjustControlsCss" name="general.adjustControlsCss"/>
+                <label for="adjustControlsCss">Farben im Menü anpassen</label>
+                -->
+            </div>
+        {{/with}}
+        <footer>
+            <button type="submit"><i class="fas fa-save"></i> {{localize 'meistertools.save-settings'}}</button>
+            <button type="reset" name="reset-settings" class="reset" data-category="general">
+                <i class="fas fa-undo"></i> {{localize 'meistertools.reset-settings'}}</button>
+            <button type="button" name="restore-settings" class="reset" data-category="general">
+                <i class="fas fa-undo"></i> {{localize 'meistertools.restore-settings'}}</button>
+        </footer>
+    </section>
+
 
     <!-- -----------------------
     NSC Generator

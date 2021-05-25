@@ -1,12 +1,10 @@
 {
+  "general-settings": "Allgemeine Einstellungen",
+  "nsc-settings": "NSC Fabrik",
+  "scenes-settings": "Szenen Verwaltung",
+  "locations-settings": "Regionen und Landschafts-Typen",
+
   "meistertools": {
-    "settings": {
-      "nsc": "NSC Generator",
-      "scenes": "Szenen Verwaltung",
-      "music": "Musik / Jukebox",
-      "rarity": "Seltenheit / Verfügbarkeit",
-      "locations": "Regionen und Landschafts-Typen"
-    },
     "save-settings": "Settings speichern",
     "reset-settings": "Änderungen rückgängig",
     "restore-settings": "Settings zurück setzen",

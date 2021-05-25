@@ -8,6 +8,7 @@ import {RandomTables} from "./random-tables.js";
 import {ManageProps} from "./props.js";
 import {FightSimulator} from "./fight-simulator.js";
 import {Jukebox} from "./jukebox.js";
+import {moduleName} from "../meistertools.js";
 
 export function registerControlButtons(controls) {
     const tools = [
@@ -67,24 +68,30 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new Jukebox().render(true)
         },
-        {
+    ]
+
+    const {showSettings, topMenu} = game.settings.get(moduleName, 'general')
+    if (showSettings)
+        tools.push({
             name: "settings",
             title: 'Settings',
             icon: "fas fa-cog",
             button: true,
             onClick: () => new MeistertoolsSettings().render(true)
-        },
-    ]
-
-
-    if (game.user.isGM)
-        controls.unshift({
+        })
+    if (game.user.isGM) {
+        const meistertoolsControls = {
             name: "meistertools",
             title: "MeisterTools",
             icon: "fas fa-dungeon",
             layer: "MeistertoolsLayer",
             tools
-        });
+        }
+        if (topMenu)
+            controls.unshift(meistertoolsControls);
+        else
+            controls.push(meistertoolsControls);
+    }
 
 
     controls.find(c => (c.name === "token"))?.tools?.push({

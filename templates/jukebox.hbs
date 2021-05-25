@@ -1,1 +1,31 @@
-<h1>jukebox</h1>
+<div>
+    {{#each playlists}}
+        {{#if playing}}
+            <div>
+                <h2><a class="stop-music"><i class="far fa-stop-circle"></i></a> {{name}} ({{sounds.length}}) </h2>
+            </div>
+            {{#each sounds}}
+                {{#if playing}}
+                    <b><a class="skip-sound" data-playlist-id="{{_id}}"><i class="fas fa-step-forward"></i></a> {{name}}</b>
+                {{/if}}
+            {{/each}}
+
+            <div class="inner box header">
+                <h2 class="toggle" data-target=".playlist">Playlist</h2>
+                <ul class="playlist">
+                    {{#each sounds}}
+                        {{#unless playing}}
+                            <li>{{name}}</li>
+                        {{/unless}}
+                    {{/each}}
+                </ul>
+
+            </div>
+
+        {{else}}
+            <button name="start-playlist" data-playlist-id="{{_id}}" style="width: 100%">{{name}} ({{sounds.length}})
+            </button>
+        {{/if}}
+
+    {{/each}}
+</div>

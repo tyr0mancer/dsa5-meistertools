@@ -29,12 +29,16 @@ export class PlayersView extends Application {
 
     async getData() {
         const dateTime = game.settings.get('calendar-weather', 'dateTime')
-        console.log(dateTime)
+        const dateString = `${dateTime.currentWeekday}, ${dateTime.day + 1}. ${dateTime.months[dateTime.currentMonth].name} - ${dateTime.timeDisp.substr(0, 5)}`
+
+        const entry = game.journal.entries.find(e => e.name === "Nachtwache")
+        const test = entry.data.content
+
 
         return {
             equipment: this.user.character?.items?.filter(i => i.type === "equipment"),
             user: this.user,
-            dateString: `${dateTime.currentWeekday}, ${dateTime.day + 1}. ${dateTime.months[dateTime.currentMonth].name} - ${dateTime.timeDisp.substr(0, 5)}`,
+            dateString, test,
             isGM: game.user.isGM,
             currentLocation: MeistertoolsLocator.currentLocation,
             players: game.users.entities
@@ -71,13 +75,19 @@ export class PlayersView extends Application {
         })
 
 
+        html.find("a.select-user").dblclick(event => {
+            alert(this.user)
+        })
+
         html.find("a.select-user").click(event => {
             const userId = $(event.currentTarget).attr("data-user-id")
             this.user = game.users.entities.find(e => e._id === userId)
-            console.log(this.user)
-
             this.render()
         })
+
+
+
+
 
         html.find("button[name=open-library]").click(ev => {
             game.dsa5.itemLibrary.render(true)

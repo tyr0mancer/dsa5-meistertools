@@ -57,42 +57,16 @@
     {{#if user.character}}
         <div class="box header"><h1>{{user.character.name}}</h1>
             <div class="col-2" style="grid-template-columns: 150px auto ">
-
                 <div class="inner box">
                     <img src="{{user.character.img}}" style="border: none; width: 128px"/>
+                </div>
+                <div class="inner box header">
+                    <h2>Ausrüstung</h2>
                     <!--
-                                        <button>Waffen</button>
-                                        <button>Proviant</button>
-                                        <button>Ausrüstung</button>
-                                        <button>Talente</button>
-                                        <button>Zauber</button>
+                    {{editor content="@Item[ETnccRp0DnazlW6J]{Honig}" target="content" button=false editable=false
+                             owner=owner}}
                     -->
                 </div>
-
-                <div class="inner box header">
-
-                    <h2>Ausrüstung</h2>
-                    {{#each equipmentItems}}
-                        <!--
-                        <h2>{{localize ch}}</h2>
--->
-
-                        <!--
-                        {{#each_when items 'type' "equipment"}}
-                            {{#ifeq data.data.equipmentType.value ../char}}
-                            <b>{{name}}</b>
-                            {{/ifeq}}
-&lt;!&ndash;
-                            <textarea>{{stringify data.data.equipmentType.value}}</textarea>
-&ndash;&gt;
-                        {{/each_when}}
--->
-
-                    {{/each}}
-
-
-                </div>
-
             </div>
 
         </div>

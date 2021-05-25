@@ -12,6 +12,30 @@
     --color-light: #ffffe0;
 }
 
+/* ---------------------------------
+    Controls
+ --------------------------------- */
+
+#controls .scene-control {
+    background-color: rgba(118, 54, 38, 0.4);
+    color: var(--color-light);
+    opacity: 0.7;
+}
+#controls .scene-control.active,
+#controls .control-tool.active,
+#controls .scene-control:hover,
+#controls .control-tool:hover {
+    background-color: rgba(255, 255, 224, 0.8);
+    color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+}
+
+.fas.meistertools {
+    color: goldenrod;
+    content: "\f057";
+}
+
+
 
 /* ---------------------------------
     navigation

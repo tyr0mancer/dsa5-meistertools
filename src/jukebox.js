@@ -1,6 +1,6 @@
 import {moduleName} from "../meistertools.js";
 
-export class Nightwatch extends Application {
+export class Jukebox extends Application {
     constructor() {
         super();
     }
@@ -13,9 +13,9 @@ export class Nightwatch extends Application {
             width: 800,
             height: 650,
             resizable: true,
-            template: `modules/${moduleName}/templates/nightwatch.hbs`,
-            id: 'meistertools.nightwatch',
-            title: 'Nachtlager',
+            template: `modules/${moduleName}/templates/jukebox.hbs`,
+            id: 'meistertools.jukebox',
+            title: 'Jukebox',
         });
     }
 

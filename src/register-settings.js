@@ -50,10 +50,6 @@ export class MeistertoolsSettings extends FormApplication {
             baseActors: [],
             playlists: game.playlists.entities.map(p => p.name),
         }
-
-        console.clear()
-        console.log(game.playlists)
-
     }
 
     async _setSelectOptions() {

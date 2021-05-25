@@ -1,1 +1,22 @@
-<h1>Fokus Regeln</h1>
+<div class="col-2" style="grid-template-columns: 250px auto">
+    <div>
+        {{#each options.ruleCategories}}
+            <div class="inner box header">
+                <h2>{{name}}</h2>
+                <ul>
+                    {{#each_when ../options.rules 'category' key}}
+                        <li><a class="set-rule" data-rule-key="{{key}}">{{name}}</a></li>
+                    {{/each_when}}
+                </ul>
+            </div>
+        {{/each}}
+    </div>
+    <div class="box header">
+        {{#with rule}}
+            <h1>{{name}}</h1>
+
+        {{/with}}
+        <hr/>
+        {{stringify rule}}
+    </div>
+</div>

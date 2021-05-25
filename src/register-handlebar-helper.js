@@ -36,17 +36,16 @@ export function registerHandlebarHelper() {
     /**
      * position picker
      */
-    Handlebars.registerHelper('pick_scene-position', function (name, value, options) {
+    Handlebars.registerHelper('pick_scene-position', function (name, value, options, position = "left") {
         let result = `<div class="dropdown scene-position ${value}">
-                        <div class="box dropdown-content header">
-                            <h3>Wo sollen Token platziert werden?</h3><div class="col-2">`
+                        <div class="box dropdown-content ${position} header">
+                            <h3>Token Position</h3><div class="col-3">`
         for (let option of options)
             result += `<div><input id="${name}-${option.key}" ${(option.key === value) ? "checked" : ""}
                                        type="radio" name="${name}" value="${option.key}"/>
                                 <label for="${name}-${option.key}">
-                                    <div class="scene-position ${option.key}" title="${option.description}">${option.name}</div>
+                                    <div class="scene-position ${option.key} s" title="${option.description}"> </div>
                                 </label></div>`
-
         result += `</div></div></div>`
         return new Handlebars.SafeString(result);
     });
@@ -62,7 +61,6 @@ export function registerHandlebarHelper() {
                 result = result + opts.fn(list[i]);
         return result;
     });
-
 
 
     // todo already defined?

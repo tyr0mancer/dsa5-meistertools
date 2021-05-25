@@ -275,14 +275,20 @@ button.top-right-nsc {
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-    width: 160px;
+    width: 200px;
     background-color: var(--color-light);
     display: none;
     position: absolute;
-    top: 0px;
-    left: -76px;
-    z-index: 100;
+    top: -140px;
+    left: -20px;
+    z-index: 1;
 }
+
+.dropdown-content.left {
+    top: -30px;
+    left: -160px;
+}
+
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {

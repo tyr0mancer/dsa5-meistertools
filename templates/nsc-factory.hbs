@@ -16,7 +16,7 @@
                 <h1>Aktuelle Konfiguration</h1>
                 <div class="col-3" style="grid-template-columns: auto 48px 48px">
                     <div id="nsc-selection">{{{selectionDisplay}}}</div>
-                    {{pick_scene-position "position" selection.position selectOptions.scenePositions}}
+                    {{pick_scene-position "position" selection.position selectOptions.scenePositions "left" }}
                     <div>
                         <input id="amount" class="amount" name="amount" value="{{selection.amount}}" type="text"/>
                         <a class="change-amount increase" data-delta="1"><i class="fas fa-plus-circle"> </i></a>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="inner box header">
-            <h3 class="toggle" data-target=".vorlagen">Konfiguration-Vorlagen</h3>
+            <h3 class="toggle" data-target=".vorlagen">gespeicherte Konfigurationen</h3>
             <div class="vorlagen">
                 {{#each settings.storedPattern as |pattern id|}}
                     <a class="handle-pattern" data-action="remove" data-pattern-id="{{id}}"><i
@@ -52,6 +52,7 @@
             <div class="box header">
                 <h1 class="toggle" data-target=".results-preview">Vorschau</h1>
                 <div class="results-preview ">
+                    <!--
                     <div class="inner box header">
                         <h2>Konfiguration</h2>
                         {{preview.professionActor.name}} -
@@ -60,6 +61,7 @@
                         {{preview.selection.gender}} -
                         {{preview.selection.position}}
                     </div>
+                    -->
                     <div class="float">
                         {{#each preview.results as |result id|}}
                             {{#with result}}

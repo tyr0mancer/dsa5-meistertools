@@ -347,6 +347,11 @@ a.load-pattern {
     width: 48px;
 }
 
+.meistertools .scene-position.s {
+    height: 32px;
+    width: 32px;
+}
+
 .meistertools .scene-position.outside {
     border: 4px solid green;
     padding: 9px;
@@ -368,7 +373,13 @@ a.load-pattern {
 }
 
 .meistertools .scene-position.none {
+    text-align: center;
     background-color: red;
+    color: white;
+}
+
+.meistertools .scene-position.none:after {
+    content: "X";
 }
 
 /* ---------------------------------

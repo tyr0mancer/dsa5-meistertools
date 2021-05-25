@@ -23,7 +23,7 @@ export class NscFactory extends FormApplication {
 
     static get defaultOptions() {
         const lastPosition = game.settings.get(moduleName, 'nsc-factory').lastPosition || {
-            top: 80, left: 100, width: 530, height: 800,
+            top: 70, left: 120, width: 530, height: 800,
         }
         return mergeObject(super.defaultOptions, {
             template: `modules/${moduleName}/templates/nsc-factory.hbs`,
@@ -70,7 +70,6 @@ export class NscFactory extends FormApplication {
 
     async _updateObject(event, formData) {
         const lastSelection = MeistertoolsUtil.expandObjectAndArray(formData)
-        delete lastSelection.players
         this.settings = this._updateSettings({
             lastSelection: {...lastSelection},
             lastPosition: this.position

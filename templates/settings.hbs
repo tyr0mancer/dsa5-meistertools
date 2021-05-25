@@ -267,9 +267,8 @@
                 </div>
             </div>
 
-
             <div class="box header">
-                <h2>Szenen Collections</h2>
+                <h2>Szenen Sammlungen</h2>
                 {{#each sceneCollections as |this n|}}
                     <div class="inner box float">
                         <div>
@@ -277,6 +276,32 @@
                                     data-path="scenes.sceneCollections" data-index="{{n}}">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
+                        </div>
+
+                        <div class="borderless box" style="width: 150px">
+                            <select id="scene-collection-{{n}}" name="scenes.sceneCollections[{{n}}].collection"
+                                    class="labeled collection">
+                                {{#select collection}}
+                                    <option></option>
+                                    {{#each ../../selectOptions.scenePacks}}
+                                        <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                            <label for="scene-collection-{{n}}">Kompendium</label>
+                        </div>
+
+                        <div class="borderless box" style="width: 150px">
+                            <select id="scene-folder-{{n}}" name="scenes.sceneCollections[{{n}}].folder"
+                                    class="labeled folder">
+                                {{#select folder}}
+                                    <option></option>
+                                    {{#each ../../selectOptions.sceneFolders}}
+                                        <option value="{{_id}}">{{name}}</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                            <label for="scene-folder-{{n}}">Ordner</label>
                         </div>
                         <div class="borderless box">
                             <input id="scene-collection-name-{{n}}" name="scenes.sceneCollections[{{n}}].name"
@@ -289,21 +314,9 @@
                             <label for="scene-collection-keywords-{{n}}">Keywords</label>
                         </div>
                         <div class="borderless box">
-                            <input id="scene-collection-folder-{{n}}" name="scenes.sceneCollections[{{n}}].folder"
-                                   value="{{name}}" type="text" class="labeled"/>
-                            <label for="scene-collection-folder-{{n}}">Ordner</label>
-                        </div>
-                        <div class="borderless box" style="width: 250px">
-                            <select id="scene-collection-{{n}}" name="scenes.sceneCollections[{{n}}].collection"
-                                    class="labeled">
-                                {{#select collection}}
-                                    <option></option>
-                                    {{#each ../../selectOptions.scenePacks}}
-                                        <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
-                                    {{/each}}
-                                {{/select}}
-                            </select>
-                            <label for="scene-collection-{{n}}">Collection</label>
+                            <input id="scene-collection-folderName-{{n}}" name="scenes.sceneCollections[{{n}}].folderName"
+                                   value="{{folderName}}" type="text" class="labeled"/>
+                            <label for="scene-collection-folder-{{n}}">Neuer Ordner</label>
                         </div>
                     </div>
                 {{/each}}

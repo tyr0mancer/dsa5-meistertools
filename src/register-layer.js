@@ -26,6 +26,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new NscFactory().render(true)
         },
+        /*
         {
             name: "beasts",
             title: 'Kampfsimulator',
@@ -33,6 +34,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new FightSimulator().render(true)
         },
+        */
         {
             name: "request-roll",
             title: 'Fokus-Regeln',
@@ -47,6 +49,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new RandomTables().render(true)
         },
+        /*
         {
             name: "props",
             title: "Camp",
@@ -54,6 +57,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new ManageProps().render(true)
         },
+        */
         {
             name: "locator",
             title: 'Aktuellen Ort festlegen',

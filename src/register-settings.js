@@ -42,6 +42,7 @@ export class MeistertoolsSettings extends FormApplication {
         this.selectOptions = {
             actorPacks: game.packs.filter(p => p.metadata.entity === 'Actor'),
             scenePacks: game.packs.filter(p => p.metadata.entity === 'Scene'),
+            sceneFolders: game.folders.entities.filter(f => f.type === "Scene"),
             baseActors: [],
             playlists: game.playlists.entities.map(p => p.name),
         }
@@ -82,7 +83,6 @@ export class MeistertoolsSettings extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
         MeistertoolsUtil.addDefaultListeners(html);
-
         html.find("button.open-app").click((event) => {
             const appName = $(event.currentTarget).attr("name")
             if (appName === 'scene-parser') {

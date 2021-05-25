@@ -1,6 +1,6 @@
 import {moduleName} from "../meistertools.js";
 import defaultSettings from "../config/scenes.config.js";
-import {MeistertoolsUtil} from "../meistertools-util.js";
+import {FileBrowser, MeistertoolsUtil} from "../meistertools-util.js";
 
 export class Scenes extends Application {
     constructor() {
@@ -27,17 +27,13 @@ export class Scenes extends Application {
     async getData() {
         if (!this.activeCollection)
             await this._pickCollection(this.settings.sceneCollections[0]?.collection)
-
         const filter = (s) => {
             if (this.filter.keyword && !s.name.toLowerCase().includes(this.filter.keyword.toLowerCase()))
                 return false
-
             if (this.filter.playlist)
                 return this.filter.playlist === s.data.flags[moduleName]?.playlistName
-
             return true
         }
-
         return {
             filter: this.filter,
             scenes: [
@@ -95,7 +91,10 @@ export class Scenes extends Application {
     async _pickCollection(collection) {
         this.activeCollection = this.settings.sceneCollections.find(c => c.collection === collection)
 
-        this.folder = await MeistertoolsUtil.getFolder(this.activeCollection.folder, "Scene")
+        if (this.activeCollection.folder)
+            this.folder = game.folders.find(f => f._id === this.activeCollection.folder)
+        else
+            this.folder = await MeistertoolsUtil.getFolder(this.activeCollection.folderName, "Scene")
         this.scenes.folder = this.folder.content
 
         this.pack = game.packs.get(collection)

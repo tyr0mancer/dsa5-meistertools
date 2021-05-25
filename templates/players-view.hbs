@@ -30,7 +30,7 @@
         </div>
         <div class="box header biome"
              style="background: url({{currentLocation.currentBiome.img}})">
-            <h2>{{dateString}}</h2>
+            <h2>{{currentLocation.currentBiome.name}}</h2>
             <div class="region box">
                 <h2>Coming soon:</h2>
                 <ul>
@@ -39,21 +39,11 @@
                     <li>Hunger, Durst, Schlaf</li>
                     <li>LeP, AsP, KaP</li>
                 </ul>
-
             </div>
         </div>
     </div>
 
-    {{#if isGM}}
-        <div class="inner box header">
-            <h3>Spieler-Sicht wählen:</h3>
-            {{#each players}}
-                <a class="select-user" data-user-id="{{_id}}" style="border:1px solid black;padding: 2px">{{name}}</a>
-            {{/each}}
-            <b>(aktuell: {{user.name}})</b>
-        </div>
-    {{/if}}
-
+    <!--
     {{#if user.character}}
         <div class="box header"><h1>{{user.character.name}}</h1>
             <div class="col-2" style="grid-template-columns: 150px auto ">
@@ -62,13 +52,24 @@
                 </div>
                 <div class="inner box header">
                     <h2>Ausrüstung</h2>
-                    <!--
+                    &lt;!&ndash;
                     {{editor content="@Item[ETnccRp0DnazlW6J]{Honig}" target="content" button=false editable=false
                              owner=owner}}
-                    -->
+                    &ndash;&gt;
                 </div>
             </div>
 
+        </div>
+    {{/if}}
+    -->
+
+    {{#if isGM}}
+        <div class="inner box header">
+            <h3>Spieler-Sicht wählen:</h3>
+            {{#each players}}
+                <a class="select-user" data-user-id="{{_id}}" style="border:1px solid black;padding: 2px">{{name}}</a>
+            {{/each}}
+            <b>(aktuell: {{user.name}})</b>
         </div>
     {{/if}}
 

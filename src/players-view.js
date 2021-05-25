@@ -15,10 +15,10 @@ export class PlayersView extends Application {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             classes: ['meistertools'],
-            top: 50,
-            left: 100,
+            top: 70,
+            left: 120,
             width: 800,
-            height: 650,
+            height: 380,
             resizable: true,
             template: `modules/${moduleName}/templates/players-view.hbs`,
             id: 'meistertools.players-view',

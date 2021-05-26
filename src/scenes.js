@@ -30,6 +30,10 @@ export class Scenes extends Application {
         const filter = (s) => {
             if (this.filter.keyword && !s.name.toLowerCase().includes(this.filter.keyword.toLowerCase()))
                 return false
+
+            if (this.filter.biome && this.filter.biome !== s.data.flags[moduleName]?.biome?.key)
+                return false
+
             if (this.filter.playlist)
                 return this.filter.playlist === s.data.flags[moduleName]?.playlistName
             return true
@@ -43,6 +47,7 @@ export class Scenes extends Application {
             activeCollection: this.activeCollection,
             selectOptions: {
                 sceneCollections: this.settings.sceneCollections,
+                biomes: game.settings.get(moduleName, "locations").biomes,
                 keywords: this.activeCollection.keywords ? this.activeCollection.keywords.split(",") : [],
                 playlists: game.playlists.entities.map(p => p.name),
             }
@@ -69,6 +74,11 @@ export class Scenes extends Application {
 
         html.find("select[name=playlist]").change(event => {
             this.filter.playlist = event.currentTarget.value
+            this.render()
+        })
+
+        html.find("select[name=biome]").change(event => {
+            this.filter.biome = event.currentTarget.value
             this.render()
         })
 

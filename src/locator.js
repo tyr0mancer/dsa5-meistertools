@@ -75,6 +75,13 @@ export class MeistertoolsLocator extends Application {
         }
     }
 
+    static set currentLocation(currentLocation) {
+        const locations = game.settings.get(moduleName, 'locations')
+        mergeObject(locations, {currentLocation})
+        game.settings.set(moduleName, 'locations', locations)
+        Hooks.call(moduleName + ".update-location", locations.currentLocation)
+    }
+
     static get currentLocationExpanded() {
         const {currentLocation} = game.settings.get(moduleName, 'locations')
         return {

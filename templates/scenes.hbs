@@ -15,6 +15,11 @@
             <input id="keyword" name="keyword" value="{{filter.keyword}}" type="text" class="labeled"/>
             <label for="keyword">Suchbegriff</label>
         </div>
+        <div class="borderless box">
+            {{#each selectOptions.keywords}}
+                <a class="set-keyword" data-keyword="{{this}}">{{this}}</a>
+            {{/each}}
+        </div>
         <div class="inner box">
             <select id="playlistFilter" name="playlist" class="labeled">
                 {{#select filter.playlist}}
@@ -26,10 +31,16 @@
             </select>
             <label for="playlistFilter">Playlist</label>
         </div>
-        <div class="borderless box">
-            {{#each selectOptions.keywords}}
-                <a class="set-keyword" data-keyword="{{this}}">{{this}}</a>
-            {{/each}}
+        <div class="inner box">
+            <select id="biomeFilter" name="biome" class="labeled">
+                {{#select filter.biome}}
+                    <option></option>
+                    {{#each selectOptions.biomes}}
+                        <option value="{{key}}">{{name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+            <label for="biomeFilter">Landschafts-Typ</label>
         </div>
     </div>
 
@@ -56,10 +67,14 @@
                                         {{/each}}
                                     </div>
                                 {{/if}}
+                                {{#if biome}}
+                                    <h3><i class="fas fa-tree"></i> {{biome.name}}</h3>
+                                {{/if}}
                                 {{#if props}}
                                     <div class="inner box">
                                         {{#each props}}
-                                            <h3><i class="fas fa-globe-europe"></i></h3> <pre>{{stringify this}}</pre>
+                                            <h3><i class="fas fa-globe-europe"></i></h3>
+                                            <pre>{{stringify this}}</pre>
                                         {{/each}}
                                     </div>
                                 {{/if}}

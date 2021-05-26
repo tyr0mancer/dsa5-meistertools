@@ -1,12 +1,15 @@
 import {moduleName} from "../meistertools.js";
 
+/**
+ * remembers playlist Name in flags and assigns new playlist in case the old playlist was removed
+ * and replaced with a playlist with the same name
+ */
 export function updatePlaylist(scene, data) {
     if (!game.user.isGM)
         return;
 
     const {updatePlaylist, defaultPlaylist} = game.settings.get(moduleName, 'scenes')
-    if (!updatePlaylist)
-        return
+    if (!updatePlaylist) return
 
     if (hasProperty(data, 'active')) {
         if (!scene.playlist) {

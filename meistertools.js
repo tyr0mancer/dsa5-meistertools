@@ -15,13 +15,6 @@ export const moduleName = "dsa5-meistertools";  // just in case I need to change
  *  Hooks
  */
 
-/**
- * remembers playlist Name in flags and assigns new playlist in case the old playlist was removed
- * and replaced with a playlist with the same name
- */
-if (game.user?.isGM && game.settings.get(moduleName, 'scenes')?.updatePlaylist)
-    Hooks.on('updateScene', (scene, data) => updatePlaylist(scene, data))
-
 
 /**
  * when the locator token is moved, check for the new regions that apply
@@ -47,4 +40,13 @@ Hooks.once('init', () => {
     registerLayer()
     registerHandlebarHelper()
 });
+
+
+Hooks.on('updateScene', (scene, data) => {
+    if (!game.user?.isGM) return
+    updatePlaylist(scene, data)
+    const currentBiome = scene.getFlag(moduleName, 'biome')
+    if (currentBiome)
+        MeistertoolsLocator.currentLocation = {currentBiome}
+})
 

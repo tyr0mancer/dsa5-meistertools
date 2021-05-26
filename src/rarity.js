@@ -49,8 +49,7 @@ export class MeistertoolsRarity extends Application {
 
     async getData() {
         const tables = game.tables.entities
-        console.log(tables.filter(t => t.name === "encounter").map(t => t.data.results))
-
+        //console.log(tables.filter(t => t.name === "encounter").map(t => t.data.results))
 
         return {
             currentLocation: this.currentLocation,

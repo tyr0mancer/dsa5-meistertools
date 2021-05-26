@@ -11,12 +11,17 @@
             </div>
         {{/each}}
     </div>
-    <div class="box header">
+    <div class="box header float">
         {{#with rule}}
             <h1>{{name}}</h1>
-
+            {{#each input}}
+                <div class="inner box">
+                    {{stringify this}}
+                </div>
+            {{/each}}
+            <button class="request-roll">Wurf anfordern</button>
         {{/with}}
-        <hr/>
-        {{stringify rule}}
     </div>
+    <hr/>
+    {{stringify rule}}
 </div>

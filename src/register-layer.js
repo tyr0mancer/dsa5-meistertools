@@ -4,10 +4,14 @@ import {MeistertoolsLocator} from "./locator.js";
 import {PlayersView} from "./players-view.js";
 import {Scenes} from "./scenes.js";
 import {RequestRoll} from "./request-roll.js";
-import {RandomTables} from "./random-tables.js";
+import {Jukebox} from "./jukebox.js";
+
+/*
 import {ManageProps} from "./props.js";
 import {FightSimulator} from "./fight-simulator.js";
-import {Jukebox} from "./jukebox.js";
+import {RandomTables} from "./random-tables.js";
+*/
+
 import {moduleName} from "../meistertools.js";
 
 export function registerControlButtons(controls) {
@@ -42,6 +46,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new RequestRoll().render(true)
         },
+        /*
         {
             name: "random",
             title: "Zufallstabellen",
@@ -49,6 +54,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => new RandomTables().render(true)
         },
+        */
         /*
         {
             name: "props",

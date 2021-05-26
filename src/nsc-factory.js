@@ -80,11 +80,11 @@ export class NscFactory extends FormApplication {
     /**
      * creates an array of nsc settings upon which to create the actors and updates this.preview
      * this.preview is an array whose elements are objects of type {img: string, gender: string, origin: string, name: string, eyes: string, height: string}
+     * @return {Promise<void>}
      * @private
      */
     async _createPreview() {
         const amount = MeistertoolsUtil.rollDice(this.selection.amount.toString())
-
         const archetypeData = duplicate(this.settings.fallbackData)
         const archetype = this.settings.archetypes.find(a => a.key === this.selection.archetype)
         if (archetype?.data)
@@ -412,9 +412,9 @@ export class NscFactory extends FormApplication {
         // todo auf basis von img name einschränken oder anpassen
         const age = await MeistertoolsUtil.rollDice(archetypeData.pattern.age)
         const height = await MeistertoolsUtil.rollDice(archetypeData.pattern.height)
-        const weight = await MeistertoolsUtil.rollDice(archetypeData.pattern.weight)
-        const eyecolor = await this._followPattern(archetypeData.pattern.eyes, archetypeData.rollTables, gender)
-        const haircolor = await this._followPattern(archetypeData.pattern.hair, archetypeData.rollTables, gender)
+        const weight = height - await MeistertoolsUtil.rollDice(archetypeData.pattern.weightSubtrahend)
+        const eyecolor = await this._followPattern(archetypeData.pattern.eyecolor, archetypeData.rollTables, gender)
+        const haircolor = await this._followPattern(archetypeData.pattern.haircolor, archetypeData.rollTables, gender)
 
         return {img, height, weight, eyecolor, haircolor, age}
     }

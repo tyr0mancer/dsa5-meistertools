@@ -8,10 +8,23 @@ export default {
         folderName: "MeisterTools NSC",
         closeAfterGeneration: true
     },
+
+    /*
+        lastSelection: {
+            amount: "1",
+            gender: "random"
+        },
+    */
+
     lastSelection: {
-        amount: "1",
-        gender: "random"
+        "amount": 1,
+        "gender": "random",
+        "position": null,
+        "archetype": "mittelreich",
+        "variation": "albernisch",
+        "profession": "AENj6jLndvawKiHG",
     },
+
     collections: [{}],
 
     /**
@@ -30,19 +43,19 @@ export default {
             "origin": ["Gareth", "Havena", "Gashok", "Lowangen"],
             "physicalTrait": "physical_trait",
             "catchphrase": "catchphrases",
-            "hair": ["blond", "schwarz", "braun", "rot"],
-            "eyes": ["blau", "braun", "grün", "grau"],
+            "haircolor": "Mittelländer Haarfarbe",
+            "eyecolor": "Mittelländer Augenfarbe",
             "jobs": "buerger_berufe"
         },
         pattern: {
             genderRatio: [["w", 50], ["m", 50]],
             name: "${vorname-gender} ${nachname}",
             origin: "${origin}",
-            height: "160 + 4W10",
-            weight: "60 + 4W10",
-            age: "20 + 4W10",
-            hair: "${hair}",
-            eyes: "${eyes}",
+            height: "160 + 2W20",
+            weightSubtrahend: "93 + 4W6",
+            age: "5 + 7W6",
+            haircolor: "${haircolor}",
+            eyecolor: "${eyecolor}",
             physicalTrait: "${physicalTrait}",
             catchphrase: "${catchphrase}",
             career: "${jobs}"
@@ -157,7 +170,9 @@ export default {
                     "vorname-w": "thorwaler_vorname_w",
                     "zusatz-m": ['son'],
                     "zusatz-w": ['dotter', 'dottir'],
-                    "origin": "thorwal_orte"
+                    "origin": "thorwal_orte",
+                    "haircolor": "Thorwaler Haarfarbe",
+                    "eyecolor": "Thorwaler Augenfarbe",
                 },
                 pattern: {
                     name: "${vorname-gender} ${vorname-gender}${zusatz-gender}",
@@ -173,7 +188,9 @@ export default {
                     "vorname-m": "norbarden_vorname_m",
                     "vorname-w": "norbarden_vorname_w",
                     "nachname": "norbarden_nachname",
-                    "origin": "norbarden_orte"
+                    "origin": "norbarden_orte",
+                    "haircolor": "Norbarde Haarfarbe",
+                    "eyecolor": "Norbarde Augenfarbe",
                 }
             }
         },
@@ -187,7 +204,9 @@ export default {
                     "vorname-w": "tulamiden_vorname_w",
                     "zusatz-m": ["ibn", "ben"],
                     "zusatz-w": ["saba", "suni", "sunya"],
-                    "origin": "novadis_orte"
+                    "origin": "novadis_orte",
+                    "haircolor": "Tulamide Haarfarbe",
+                    "eyecolor": "Tulamide Augenfarbe",
                 },
                 pattern: {
                     name: "${vorname-gender} ${zusatz-gender} ${vorname-gender}",
@@ -205,7 +224,9 @@ export default {
                 rollTables: {
                     "vorname-m": "nivesen_vorname_m",
                     "vorname-w": "nivesen_vorname_w",
-                    "origin": "nivesen_orte"
+                    "origin": "nivesen_orte",
+                    "haircolor": "Nivese Haarfarbe",
+                    "eyecolor": "Nivese Augenfarbe",
                 },
                 pattern: {
                     name: "${vorname-gender}",
@@ -220,7 +241,9 @@ export default {
                 rollTables: {
                     "vorname-m": "moha_name_m",
                     "vorname-w": "moha_name_w",
-                    "origin": "mohas_orte"
+                    "origin": "mohas_orte",
+                    "haircolor": "Waldmensch Haarfarbe",
+                    "eyecolor": "Waldmensch Augenfarbe",
                 },
                 pattern: {
                     name: "${vorname-gender}"
@@ -263,10 +286,14 @@ export default {
                     "zusatz-w": [", Tochter der"],
                     "zusatz-m": [", Sohn des"],
                     "origin": "ambosszwerge_orte",
+                    "haircolor": "Zwerg Haarfarbe",
+                    "eyecolor": "Zwerg Augenfarbe",
                 },
                 pattern: {
                     name: "${vorname-gender}${zusatz-gender} ${vorname-gender}",
-                    genderRatio: [["w", 25], ["m", 75]]
+                    genderRatio: [["w", 25], ["m", 75]],
+                    height: "128 + 2W6",
+                    weightSubtrahend: "80 + 1W6"
                 }
             }
         },
@@ -281,10 +308,14 @@ export default {
                     "zusatz-w": [", Tochter der"],
                     "zusatz-m": [", Sohn des"],
                     "origin": "brillantzwerge_orte",
+                    "haircolor": "Zwerg Haarfarbe",
+                    "eyecolor": "Zwerg Augenfarbe",
                 },
                 pattern: {
                     name: "${vorname-gender}${zusatz-gender} ${vorname-gender}",
-                    genderRatio: [["w", 25], ["m", 75]]
+                    genderRatio: [["w", 25], ["m", 75]],
+                    height: "128 + 2W6",
+                    weightSubtrahend: "80 + 1W6"
                 }
             }
         },
@@ -299,10 +330,14 @@ export default {
                     "zusatz-w": [", Tochter der"],
                     "zusatz-m": [", Sohn des"],
                     "origin": "erzzwerge_orte",
+                    "haircolor": "Zwerg Haarfarbe",
+                    "eyecolor": "Zwerg Augenfarbe",
                 },
                 pattern: {
                     name: "${vorname-gender}${zusatz-gender} ${vorname-gender}",
-                    genderRatio: [["w", 25], ["m", 75]]
+                    genderRatio: [["w", 25], ["m", 75]],
+                    height: "128 + 2W6",
+                    weightSubtrahend: "80 + 1W6"
                 }
             }
         },
@@ -316,6 +351,13 @@ export default {
                     "vorname-w": "huegelzwerge_vorname_w",
                     "nachname": "huegelzwerge_nachname",
                     "origin": "huegelzwerge_orte",
+                    "haircolor": "Zwerg Haarfarbe",
+                    "eyecolor": "Zwerg Augenfarbe",
+                },
+                pattern: {
+                    genderRatio: [["w", 25], ["m", 75]],
+                    height: "128 + 2W6",
+                    weightSubtrahend: "80 + 1W6"
                 }
             }
         },
@@ -333,6 +375,12 @@ export default {
                     "vorname-w": "elfen_vorname_w",
                     "nachname": "elfen_nachname",
                     "origin": "auelfen_orte",
+                    "haircolor": "Auelf Haarfarbe",
+                    "eyecolor": "Auelf Augenfarbe",
+                },
+                pattern: {
+                    height: "168 + 2W20",
+                    weightSubtrahend: "110 + 2W6",
                 }
             }
         },
@@ -346,6 +394,12 @@ export default {
                     "vorname-w": "elfen_vorname_w",
                     "nachname": "elfen_nachname",
                     "origin": "firnelfen_orte",
+                    "haircolor": "Firnelf Haarfarbe",
+                    "eyecolor": "Firnelf Augenfarbe",
+                },
+                pattern: {
+                    height: "168 + 2W20",
+                    weightSubtrahend: "110 + 2W6",
                 }
             }
         },
@@ -359,6 +413,12 @@ export default {
                     "vorname-w": "elfen_vorname_w",
                     "nachname": "elfen_nachname",
                     "origin": "waldelfen_orte",
+                    "haircolor": "Waldelf Haarfarbe",
+                    "eyecolor": "Waldelf Augenfarbe",
+                },
+                pattern: {
+                    height: "168 + 2W20",
+                    weightSubtrahend: "110 + 2W6",
                 }
             }
         },

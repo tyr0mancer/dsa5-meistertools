@@ -293,6 +293,7 @@ export default {
                     name: "${vorname-gender}${zusatz-gender} ${vorname-gender}",
                     genderRatio: [["w", 25], ["m", 75]],
                     height: "128 + 2W6",
+                    age: "20 + 20W6",
                     weightSubtrahend: "80 + 1W6"
                 }
             }
@@ -314,6 +315,7 @@ export default {
                 pattern: {
                     name: "${vorname-gender}${zusatz-gender} ${vorname-gender}",
                     genderRatio: [["w", 25], ["m", 75]],
+                    age: "20 + 20W6",
                     height: "128 + 2W6",
                     weightSubtrahend: "80 + 1W6"
                 }
@@ -336,6 +338,7 @@ export default {
                 pattern: {
                     name: "${vorname-gender}${zusatz-gender} ${vorname-gender}",
                     genderRatio: [["w", 25], ["m", 75]],
+                    age: "20 + 20W6",
                     height: "128 + 2W6",
                     weightSubtrahend: "80 + 1W6"
                 }
@@ -356,6 +359,7 @@ export default {
                 },
                 pattern: {
                     genderRatio: [["w", 25], ["m", 75]],
+                    age: "20 + 20W6",
                     height: "128 + 2W6",
                     weightSubtrahend: "80 + 1W6"
                 }
@@ -432,7 +436,7 @@ export default {
         {key: "human", name: "Menschen", img: "systems/dsa5/icons/species/Mensch.webp"},
         {key: "elven", name: "Elfen", img: "systems/dsa5/icons/species/Elf.webp"},
         {key: "dwarf", name: "Zwerge", img: "systems/dsa5/icons/species/Zwerg.webp"},
-        //{key: "orcs", name: "Orks", img: "systems/dsa5/icons/species/Ork.webp"},
+        //{key: "orcs", name: "Orks", img: "systems/dsa5/icons/species/Ork.webp"}, // age: 10 + 4W6
     ],
 
 

@@ -17,6 +17,7 @@ export class SceneParser extends Application {
     async _initRegions() {
         const sceneRegions = game.scenes.viewed.getFlag(moduleName, "regions") || []
         const settings = game.settings.get(moduleName, "locations")
+        this.biomes = settings.biomes
         this.regionCategories = settings.regionCategories.map(c => {
             if (this.hiddenBoxes[`.${c.key}.regions`] === undefined)
                 this.hiddenBoxes[`.${c.key}.regions`] = true // all hidden by default
@@ -55,7 +56,11 @@ export class SceneParser extends Application {
             scene: game.scenes.viewed,
             hiddenBoxes: this.hiddenBoxes,
             regionCategories: this.regionCategories,
-            sceneRegions: game.scenes.viewed.getFlag(moduleName, "regions") || []
+            /*
+                        sceneRegions: game.scenes.viewed.getFlag(moduleName, "regions") || [],
+            */
+            biomes: this.biomes,
+            sceneBiome: game.scenes.viewed.getFlag(moduleName, "biome") || {}
         }
     }
 
@@ -76,6 +81,11 @@ export class SceneParser extends Application {
 
         html.find("button.add-region").click(event => this._addRegion(event))
         html.find("button.remove-region").click(event => this._removeRegion(event))
+
+        html.find("select#biome").change(async event => {
+            const biomeInScene = this.biomes.find(b => b.key === event.currentTarget.value)
+            await game.scenes.viewed.setFlag(moduleName, "biome", biomeInScene)
+        })
     }
 
     /**

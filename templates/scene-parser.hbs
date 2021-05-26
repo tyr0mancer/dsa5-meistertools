@@ -71,12 +71,27 @@
     </div>
 
     <div class="box header">
-        <h1>Zeichnungen in Scene</h1>
-        <h2>
-            <button class="parse-scene">
-                <i class="fas fa-drafting-compass"
-                                           title="Zeichnungen in Scene als Karteneinträge interpretieren"></i>
-            </button> {{scene.name}}</h2>
+        <h1>{{scene.name}}</h1>
+        <div class="inner box col-2">
+            <div>
+                <button class="parse-scene"
+                        title="Zeichnungen in Scene als Karteneinträge interpretieren">
+                    <i class="fas fa-drafting-compass"></i>
+                    Zeichnungen parsen
+                </button>
+            </div>
+            <div class="borderless box">
+                <select id="biome" name="biome" class="labeled">
+                    {{#select sceneBiome.key}}
+                        <option></option>
+                        {{#each biomes}}
+                            <option value="{{key}}">{{name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <label for="biome">Landschaftstyp</label>
+            </div>
+        </div>
 
         <div class="inner box header">
             <h2 class="toggle show" data-target=".danger-zone">Danger-Zone!</h2>

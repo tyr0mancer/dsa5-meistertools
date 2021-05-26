@@ -443,7 +443,7 @@ a.load-pattern {
 .meistertools .archetypes input[type="radio"] + label,
 .meistertools .profession input[type="radio"] + label,
 .meistertools .gender-selection input[type="radio"] + label {
-    width: 100px
+    width: 105px
 }
 
 .meistertools .gender-selection input[type="radio"] + label i {

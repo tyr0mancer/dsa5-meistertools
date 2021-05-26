@@ -29,7 +29,7 @@
                     {{/each}}
                 {{/select}}
             </select>
-            <label for="playlistFilter">Playlist</label>
+            <label for="playlistFilter"><i class="fas fa-music"></i> Playlist</label>
         </div>
         <div class="inner box">
             <select id="biomeFilter" name="biome" class="labeled">
@@ -40,7 +40,7 @@
                     {{/each}}
                 {{/select}}
             </select>
-            <label for="biomeFilter">Landschafts-Typ</label>
+            <label for="biomeFilter"><i class="fas fa-globe"></i> Landschafts-Typ</label>
         </div>
     </div>
 
@@ -56,9 +56,9 @@
                                          data-scene-source="{{../../source}}"
                                          src="{{thumb}}" title="Szene '{{name}}' ansehen"/></figure>
                             {{#with flags.dsa5-meistertools}}
-                                {{#if playlistName}}
-                                    <hr/>
-                                    <h3><i class="fas fa-music"></i> "{{playlistName}}"</h3>
+                                <hr/>
+                                {{#if biome}}
+                                    <h3><i class="fas fa-globe"></i> {{biome.name}}</h3>
                                 {{/if}}
                                 {{#if regions}}
                                     <div class="inner box">
@@ -67,8 +67,8 @@
                                         {{/each}}
                                     </div>
                                 {{/if}}
-                                {{#if biome}}
-                                    <h3><i class="fas fa-tree"></i> {{biome.name}}</h3>
+                                {{#if playlistName}}
+                                    <h3><i class="fas fa-music"></i> "{{playlistName}}"</h3>
                                 {{/if}}
                                 {{#if props}}
                                     <div class="inner box">
@@ -82,7 +82,8 @@
                             {{/with}}
                             <div>
                                 {{#each flags.dsa5-meistertools.props}}
-
+                                    <h3><i class="fas fa-globe-europe"></i></h3>
+                                    <pre>{{stringify this}}</pre>
                                 {{/each}}
                             </div>
                         </div>

@@ -5,7 +5,7 @@
                 <h2>{{name}}</h2>
                 <ul>
                     {{#each_when ../options.rules 'category' key}}
-                        <li><a class="set-rule" data-rule-key="{{key}}">{{name}}</a></li>
+                        <li><a class="set-rule" data-rule-key="{{key}}"><i class="{{icon}}"></i> {{name}}</a></li>
                     {{/each_when}}
                 </ul>
             </div>

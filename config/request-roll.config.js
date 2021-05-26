@@ -43,7 +43,7 @@ export const RULES = [
         url: "https://www.ulisses-regelwiki.de/Fokus_Jagd.html"
     },
     {
-        key: "krautersuche", category: "natur", name: "Krautersuche",
+        key: "krautersuche", category: "natur", name: "Kräutersuche", icon: "fab fa-pagelines",
         url: "https://www.ulisses-regelwiki.de/fokus_Krautersuche.html"
     },
     {

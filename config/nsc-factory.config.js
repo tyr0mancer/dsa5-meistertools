@@ -9,20 +9,20 @@ export default {
         closeAfterGeneration: true
     },
 
-    /*
-        lastSelection: {
-            amount: "1",
-            gender: "random"
-        },
-    */
-
     lastSelection: {
         "amount": 1,
         "gender": "random",
-        "position": null,
+        "position": "top-left",
         "archetype": "mittelreich",
         "variation": "albernisch",
         "profession": "AENj6jLndvawKiHG",
+        "patternName": "",
+        "players": {
+            "position": "center",
+        },
+        "existing-nsc": {
+            "position": "top-left",
+        }
     },
 
     collections: [{}],

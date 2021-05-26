@@ -13,7 +13,6 @@
 }
 
 
-
 /* ---------------------------------
     navigation
  --------------------------------- */
@@ -408,6 +407,47 @@ a.load-pattern {
 .meistertools .results-preview img.avatar {
     width: 100px;
     border: none;
+}
+
+.meistertools .results-preview td:first-child {
+    font-weight: bold;
+    font-size: 0.8em;
+    padding-right: 5px;
+}
+
+.meistertools .results-preview table {
+    width: 100px;
+}
+
+.meistertools .results-preview .inner.box {
+    width: 225px
+}
+
+.meistertools .profession input[type="radio"] + label,
+.meistertools .archetypes input[type="radio"] + label {
+    background-size: 32px 32px;
+    background-repeat: no-repeat;
+    background-position: top right;
+    min-height: 40px;
+    transition: 0.3s;
+}
+
+.meistertools .profession input[type="radio"] + label:hover,
+.meistertools .archetypes input[type="radio"] + label:hover {
+    font-weight: bold;
+    background-size: 48px 48px;
+    background-position: top right -10px;
+}
+
+
+.meistertools .archetypes input[type="radio"] + label,
+.meistertools .profession input[type="radio"] + label,
+.meistertools .gender-selection input[type="radio"] + label {
+    width: 100px
+}
+
+.meistertools .gender-selection input[type="radio"] + label i {
+    float: right;
 }
 
 

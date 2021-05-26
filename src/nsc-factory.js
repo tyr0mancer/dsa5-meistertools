@@ -23,8 +23,9 @@ export class NscFactory extends FormApplication {
 
     static get defaultOptions() {
         const lastPosition = game.settings.get(moduleName, 'nsc-factory').lastPosition || {
-            top: 70, left: 120, width: 530, height: 800,
+            top: 70, left: 120, width: 560, height: 800,
         }
+        console.log(lastPosition)
         return mergeObject(super.defaultOptions, {
             template: `modules/${moduleName}/templates/nsc-factory.hbs`,
             title: game.i18n.localize('meistertools.nsc-factory'),
@@ -488,8 +489,10 @@ export class NscFactory extends FormApplication {
         result.name = await this._rollName(archetypeData, result.gender)
         const image = await this._rollAppearance(archetypeData, result.gender, result.career)
         mergeObject(result, {...image})
+/*
         const traits = await this._rollTraits(archetypeData, result.gender, result.career)
         mergeObject(result, {...traits})
+*/
         return result;
     }
 

@@ -52,49 +52,58 @@
             <div class="box header">
                 <h1 class="toggle" data-target=".results-preview">Vorschau</h1>
                 <div class="results-preview ">
-                    <!--
-                    <div class="inner box header">
-                        <h2>Konfiguration</h2>
-                        {{preview.professionActor.name}} -
-                        {{preview.archetypeActor.name}} -
-                        {{preview.selection.amount}} -
-                        {{preview.selection.gender}} -
-                        {{preview.selection.position}}
-                    </div>
-                    -->
                     <div class="float">
                         {{#each preview.results as |result id|}}
                             {{#with result}}
                                 <div class="inner box header">
                                     <h2 class="re-roll" data-result-id="{{id}}" data-result-key="name"
                                         title="Name neu auswürfeln">{{name}}</h2>
-                                    <div class="float">
-                                        <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
-                                             data-result-id="{{id}}" data-result-key="img"/>
-                                        <div class="col-4">
-                                            <b>Größe</b> <span>{{height}}</span>
-                                            <b>Gewicht</b>
-                                            <div>{{weight}}</div>
-                                            <b>Augenfarbe</b>
-                                            <div>{{eyecolor}}</div>
-                                            <b>Haarfarbe</b>
-                                            <div>{{haircolor}}</div>
-                                            <b>Alter</b>
-                                            <div>{{age}}</div>
-                                            <b>Herkunft</b>
-                                            <div>{{origin}}</div>
-                                            <b>Beruf</b>
-                                            <div>{{career}}</div>
+                                    <div class="col-2">
+                                        <div>
+                                            <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
+                                                 data-result-id="{{id}}" data-result-key="img"/>
+                                            <button class="re-roll" data-result-id="{{id}}" data-result-key="traits"
+                                                    title="Weitere Charakteristiken auswürfeln"><i
+                                                    class="fas fa-portrait"></i></button>
                                         </div>
-<!--
-                                        <div class="col-2 re-roll" data-result-id="{{id}}" data-result-key="traits"
-                                             title="Eigenschaften neu auswürfeln">
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td><i class="fas fa-arrows-alt-v" title="Alter"></i></td>
+                                                    <td>{{age}} Jahre</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="fas fa-arrows-alt-v" title="Größe"></i></td>
+                                                    <td>{{height}} cm</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="fas fa-weight-hanging" title="Gewicht"></i></td>
+                                                    <td>{{weight}} Stein</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="fas fa-hat-cowboy" title="Haarfarbe"></i></td>
+                                                    <td>{{haircolor}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="far fa-eye" title="Augenfarbe"></i></td>
+                                                    <td>{{eyecolor}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="fas fa-city" title="Herkunft"></i></td>
+                                                    <td>{{origin}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {{#if physicalTrait}}
                                             <b>Aussehen</b>
                                             <div>{{physicalTrait}}</div>
+                                        {{/if}}
+                                        {{#if catchphrase}}
                                             <b>Zitat</b>
                                             <div>"{{catchphrase}}"</div>
-                                        </div>
--->
+                                        {{/if}}
                                     </div>
                                 </div>
                             {{/with}}
@@ -116,7 +125,7 @@
                         <div>
                             <input {{checked_radio ../../selection.archetype key}}
                                     id="archetype-{{key}}" type="radio" value="{{key}}" name="archetype"/>
-                            <label for="archetype-{{key}}" style="width: 100px">
+                            <label for="archetype-{{key}}" style="background-image: url({{img}});">
                                 {{name}}
                                 {{#if variations}}
                                     <select name="variation">
@@ -144,11 +153,11 @@
                     <div>
                         <input {{checked_radio ../selection.profession _id}}
                                 id="profession-{{_id}}" type="radio" value="{{_id}}" name="profession"/>
-                        <label for="profession-{{_id}}" style="width: 100px">
-                            {{name}}
-                        </label>
+                        <label for="profession-{{_id}}"
+                               style="background-image: url({{img}});"
+                        >{{name}}</label>
                     </div>
-                {{/each}} <!-- professionCompendium -->
+                {{/each}}
             </div>
         </div>
 
@@ -159,11 +168,9 @@
                     <div>
                         <input {{checked_radio ../selection.gender key}}
                                 id="gender-{{key}}" type="radio" value="{{key}}" name="gender"/>
-                        <label for="gender-{{key}}" style="width: 100px">
-                            {{name}}
-                        </label>
+                        <label for="gender-{{key}}">{{name}} <i class="{{icon}}"></i></label>
                     </div>
-                {{/each}} <!-- settings.gender -->
+                {{/each}}
             </div>
         </div>
 

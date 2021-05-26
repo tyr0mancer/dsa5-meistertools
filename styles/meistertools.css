@@ -428,8 +428,9 @@ a.load-pattern {
     background-size: 32px 32px;
     background-repeat: no-repeat;
     background-position: top right;
-    min-height: 40px;
+    min-height: 45px;
     transition: 0.3s;
+    padding-right: 32px;
 }
 
 .meistertools .profession input[type="radio"] + label:hover,
@@ -448,6 +449,10 @@ a.load-pattern {
 
 .meistertools .gender-selection input[type="radio"] + label i {
     float: right;
+}
+
+.meistertools .archetypes select {
+    width: 90px
 }
 
 

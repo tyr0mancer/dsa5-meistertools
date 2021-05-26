@@ -277,7 +277,7 @@ export default {
          ****************** */
         {
             species: "dwarf",
-            key: 'ambosszwerge', name: 'Ambosszwerge', img: "modules/dsa5-core/icons/culture/Ambosszwerge.webp",
+            key: 'ambosszwerge', name: 'Amboss-Zwerge', img: "modules/dsa5-core/icons/culture/Ambosszwerge.webp",
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/zwerge",
                 rollTables: {
@@ -300,7 +300,7 @@ export default {
         },
         {
             species: "dwarf",
-            key: 'brillantzwerge', name: 'Brillantzwerge', img: "modules/dsa5-core/icons/culture/Brillantzwerge.webp",
+            key: 'brillantzwerge', name: 'Brillant-Zwerge', img: "modules/dsa5-core/icons/culture/Brillantzwerge.webp",
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/zwerge",
                 rollTables: {
@@ -323,7 +323,7 @@ export default {
         },
         {
             species: "dwarf",
-            key: 'erzzwerge', name: 'Erzzwerge', img: "modules/dsa5-core/icons/culture/Erzzwerge.webp",
+            key: 'erzzwerge', name: 'Erz-Zwerge', img: "modules/dsa5-core/icons/culture/Erzzwerge.webp",
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/zwerge",
                 rollTables: {
@@ -346,7 +346,7 @@ export default {
         },
         {
             species: "dwarf",
-            key: 'huegelzwerge', name: 'Huegelzwerge', img: "modules/dsa5-core/icons/culture/Huegelzwerge.webp",
+            key: 'huegelzwerge', name: 'Hügel-Zwerge', img: "modules/dsa5-core/icons/culture/Huegelzwerge.webp",
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/huegelzwerge",
                 rollTables: {

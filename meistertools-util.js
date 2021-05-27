@@ -200,7 +200,7 @@ export class MeistertoolsUtil {
      * @param entityType
      */
     static async getFolder(folderName, entityType) {
-        if (!folderName || ! entityType) return {}
+        if (!folderName || !entityType) return {}
         let result = game.folders.find(f => f.name === folderName && f.type === entityType)
         if (!result) {
             result = await Folder.create({
@@ -372,7 +372,18 @@ export class FileBrowser extends FilePicker {
 
 }
 
+class Rule {
+    constructor(delta, q0="start", F=["stop"]) {
+        this.deltaFunction = delta
+        this.initialState = q0
+        this.finalStates = F
+    }
+}
 
 
+export class RuleMachine {
+    constructor(Q, S, delta, q0, F) {
+    }
+}
 
 

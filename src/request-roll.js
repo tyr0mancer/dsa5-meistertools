@@ -8,6 +8,7 @@ export class RequestRoll extends Application {
         this.rules = RULES
         this.ruleCategories = RULE_CATEGORIES
         this.content = ""
+        getTemplate(`modules/${moduleName}/templates/roll_nightwatch.hbs`);
     }
 
     static get defaultOptions() {
@@ -15,7 +16,7 @@ export class RequestRoll extends Application {
             classes: ['meistertools'],
             top: 50,
             left: 100,
-            width: 800,
+            width: 900,
             height: 650,
             resizable: true,
             template: `modules/${moduleName}/templates/request-roll.hbs`,
@@ -27,9 +28,12 @@ export class RequestRoll extends Application {
     async getData() {
         return {
             options: {
+                players: game.users.entities.filter(u => !u.isGM),
                 rules: this.rules,
                 ruleCategories: this.ruleCategories,
             },
+            formData: {},
+            content: this.content,
             rule: this.rule,
         }
     }
@@ -39,14 +43,21 @@ export class RequestRoll extends Application {
         html.find("a.set-rule").click(event => {
             const ruleKey = $(event.currentTarget).attr("data-rule-key")
             this.rule = RULES.find(r => r.key === ruleKey)
+            this.content = ``
             this.render()
         })
 
         html.find("button.request-roll").click(event => {
-
+            const input = {}
+            html.find("input").each((i, e) => input[e.name] = e.value)
         })
-
 
     }
 
+}
+
+function nextStep(input, rule) {
+    console.log(input)
+
+    return `<pre>${JSON.stringify(rule)}</pre>`
 }

@@ -12,16 +12,38 @@
         {{/each}}
     </div>
     <div class="box header float">
-        {{#with rule}}
-            <h1>{{name}}</h1>
-            {{#each input}}
-                <div class="inner box">
-                    {{stringify this}}
+        <h1>{{rule.name}}</h1>
+
+        {{#each rule.rollRequests as |request n|}}
+            {{#with request}}
+                <div class="inner box header">
+                    <h2>{{comment}}</h2>
+                    <div class="col-2">
+                        <div class="float">
+                            {{#ifeq target "Player"}}
+                                {{#each ../options.players}}
+                                    <div>
+                                        <input id="actor-{{n}}-{{_id}}" type="radio" value="{{_id}}"
+                                               name="target-{{n}}"/>
+                                        <label for="actor-{{n}}-{{_id}}" style="background-image: url({{img}});"
+                                        >{{name}}</label>
+                                    </div>
+                                {{/each}}
+                            {{else}}
+                                <b>Todo: Pick Actor</b>
+                            {{/ifeq}}
+                        </div>
+                        <div>
+                            <b>Modifier {{modifier}}</b> <button disabled>change</button>
+                            <button class="request-roll">{{talent}}</button>
+                        </div>
+
+                    </div>
+                    <p>{{{description}}}</p>
                 </div>
-            {{/each}}
-            <button class="request-roll">Wurf anfordern</button>
-        {{/with}}
+            {{/with}}
+        {{/each}}
     </div>
     <hr/>
-    {{stringify rule}}
+    <textarea>{{stringify rule}}</textarea>
 </div>

@@ -1,58 +1,75 @@
 export const RULE_CATEGORIES = [
-    {key: "stadt", name: "In der Stadt"},
-    {key: "natur", name: "Natur und Heilung"},
-    {key: "sonst", name: "Sonstige"}
+    {key: "city", name: "In der Stadt"},
+    {key: "nature", name: "Natur und Heilung"},
+    {key: "misc", name: "Sonstige"}
 ]
 
 export const RULES = [
     {
-        key: "nachtwache", category: "natur", name: "Nachtwache",
+        key: "build-camp", category: "nature", name: "Feuer machen", icon: "fas fa-fire",
+        rollRequests: [
+            {
+                target: "Player", talent: "Wildnissleben", modifier: 1, comment: "Holz sammeln",
+                description: "zunächst muss ausreichend Holz gesammelt werden.<p>Zusätzliche Modifikatoren:</p><ul><li>Biome +1/-1</li></ul>"
+            },
+            {target: "Player", talent: "Wildnissleben", modifier: 3, comment: "Feuer machen"},
+        ]
+    },
+    {
+        key: "nachtwache", category: "nature", name: "Nachtwache", icon: "fas fa-cloud-moon",
         input: [
             {type: "Player", _id: "wache1", name: "1. Wache"},
             {type: "Player", _id: "wache2", name: "2. Wache"},
             {type: "Player", _id: "wache3", name: "3. Wache"}
+        ],
+        rolls: [
+            {actor: "wache1", talent: "Wildnissleben", modifier: 1},
+            {actor: "wache2", talent: "Wildnissleben", modifier: 3},
+            {actor: "wache3", talent: "Wildnissleben", modifier: 5},
         ]
     },
+
     {
-        key: "zechen", category: "stadt", name: "Zechen",
+        key: "zechen", category: "city", name: "Zechen",
         url: "https://www.ulisses-regelwiki.de/Alkohol_Regeln.html"
     },
     {
-        key: "kneipenspiele", category: "stadt", name: "Kneipenspiele",
+        key: "kneipenspiele", category: "city", name: "Kneipenspiele",
         url: "https://www.ulisses-regelwiki.de/Fokus_Kneipenspiele.html"
     },
     {
-        key: "recherche", category: "stadt", name: "Recherche",
+        key: "recherche", category: "city", name: "Recherche",
         url: "https://www.ulisses-regelwiki.de/Recherche.html"
     },
 
     {
-        key: "flucht", category: "sonst", name: "Flucht",
+        key: "flucht", category: "misc", name: "Flucht",
         url: "https://www.ulisses-regelwiki.de/Fokus_Flucht.html"
     },
     {
-        key: "buecher", category: "sonst", name: "Inhaltsqualität von Büchern",
+        key: "buecher", category: "misc", name: "Inhaltsqualität von Büchern",
         url: "https://www.ulisses-regelwiki.de/Fokus_Inhaltsqualitaet_von_Buechern.html"
     },
     {
-        key: "verbergen", category: "sonst", name: "Gegenstände verbergen",
-        url: "https://www.ulisses-regelwiki.de/Gegenst%C3%A4nde_und_Waffen_verbergen.html"
+        key: "alltagsarzneien", category: "misc", name: "Alltagsarzneien",
+        url: "https://www.ulisses-regelwiki.de/fokus_Alltagsarzneien.html"
     },
     {
-        key: "hunt", category: "natur", name: "Jagd",
+        key: "verbergen", category: "misc", name: "Gegenstände verbergen",
+        url: "https://www.ulisses-regelwiki.de/Gegenst%C3%A4nde_und_Waffen_verbergen.html"
+    },
+
+    {
+        key: "hunt", category: "nature", name: "Jagd", icon: "fas fa-paw",
         url: "https://www.ulisses-regelwiki.de/Fokus_Jagd.html"
     },
     {
-        key: "krautersuche", category: "natur", name: "Kräutersuche", icon: "fab fa-pagelines",
+        key: "krautersuche", category: "nature", name: "Kräutersuche", icon: "fab fa-pagelines",
         url: "https://www.ulisses-regelwiki.de/fokus_Krautersuche.html"
     },
     {
-        key: "nahrungssuche", category: "natur", name: "Nahrungssuche",
+        key: "nahrungssuche", category: "nature", name: "Nahrungssuche", icon: "fas fa-carrot",
         url: "https://www.ulisses-regelwiki.de/Nahrungssuche.html"
     },
-    {
-        key: "alltagsarzneien", category: "natur", name: "Alltagsarzneien",
-        url: "https://www.ulisses-regelwiki.de/fokus_Alltagsarzneien.html"
-    }
 
 ]

@@ -25,7 +25,6 @@ export class NscFactory extends FormApplication {
         const lastPosition = game.settings.get(moduleName, 'nsc-factory').lastPosition || {
             top: 70, left: 120, width: 560, height: 800,
         }
-        console.log(lastPosition)
         return mergeObject(super.defaultOptions, {
             template: `modules/${moduleName}/templates/nsc-factory.hbs`,
             title: game.i18n.localize('meistertools.nsc-factory'),
@@ -90,6 +89,7 @@ export class NscFactory extends FormApplication {
         const archetype = this.settings.archetypes.find(a => a.key === this.selection.archetype)
         if (archetype?.data)
             mergeObject(archetypeData, archetype.data)
+        archetypeData.species = this.settings.species.find(s => s.key === archetype?.species)
         const variation = archetype?.variations?.find(v => v.key === this.selection.variation)
         if (variation?.data)
             mergeObject(archetypeData, variation.data)
@@ -143,6 +143,7 @@ export class NscFactory extends FormApplication {
             await actor.update({
                 "name": newActor.name,
                 "img": newActor.img,
+                "data.details.species.value": this.preview.archetypeData.species?.name,
                 "data.details.eyecolor.value": newActor.eyecolor,
                 "data.details.haircolor.value": newActor.haircolor,
                 "data.details.Home.value": newActor.origin,
@@ -154,6 +155,7 @@ export class NscFactory extends FormApplication {
                 "data.details.biography.value": `<p><i>"${newActor.catchphrase}"</i></p><p>${newActor.physicalTrait}</p>`,
                 "data.details.distinguishingmark.value": newActor.distinguishingmark,
             })
+            console.log(actor)
             await this._createActorTokenInCanvas(actor, this.preview.selection.position)
         }
 
@@ -489,10 +491,10 @@ export class NscFactory extends FormApplication {
         result.name = await this._rollName(archetypeData, result.gender)
         const image = await this._rollAppearance(archetypeData, result.gender, result.career)
         mergeObject(result, {...image})
-/*
-        const traits = await this._rollTraits(archetypeData, result.gender, result.career)
-        mergeObject(result, {...traits})
-*/
+        /*
+                const traits = await this._rollTraits(archetypeData, result.gender, result.career)
+                mergeObject(result, {...traits})
+        */
         return result;
     }
 

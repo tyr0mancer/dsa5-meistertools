@@ -25,6 +25,7 @@ export default {
         }
     },
 
+
     collections: [{}],
 
     /**
@@ -34,7 +35,7 @@ export default {
     fallbackData: {
         actor: {
             collection: "dsa5-homebrew.actor-archetypen",
-            _id: "tRjcwua68W6A0vge",
+            _id: "",
         },
         rollTables: {
             "vorname-m": "gareth_vorname_m",
@@ -433,9 +434,9 @@ export default {
      * Species
      */
     species: [
-        {key: "human", name: "Menschen", img: "systems/dsa5/icons/species/Mensch.webp"},
-        {key: "elven", name: "Elfen", img: "systems/dsa5/icons/species/Elf.webp"},
-        {key: "dwarf", name: "Zwerge", img: "systems/dsa5/icons/species/Zwerg.webp"},
+        {key: "human", name: "Mensch", img: "systems/dsa5/icons/species/Mensch.webp"},
+        {key: "elven", name: "Elf", img: "systems/dsa5/icons/species/Elf.webp"},
+        {key: "dwarf", name: "Zwerg", img: "systems/dsa5/icons/species/Zwerg.webp"},
         //{key: "orcs", name: "Orks", img: "systems/dsa5/icons/species/Ork.webp"}, // age: 10 + 4W6
     ],
 

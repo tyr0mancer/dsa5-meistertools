@@ -32,8 +32,6 @@ export class RequestRoll extends Application {
                 rules: this.rules,
                 ruleCategories: this.ruleCategories,
             },
-            formData: {},
-            content: this.content,
             rule: this.rule,
         }
     }
@@ -48,8 +46,14 @@ export class RequestRoll extends Application {
         })
 
         html.find("button.request-roll").click(event => {
-            const input = {}
-            html.find("input").each((i, e) => input[e.name] = e.value)
+            const n = $(event.currentTarget).attr("data-request")
+            const request = this.rule.rollRequests[n]
+            const userId = html.find(`input[name=target-${n}]:checked`).val()
+            const whisper = [game.users.entities.find(u => u._id === userId)]
+            const {talent, modifier} = request
+            const mod = modifier < 0 ? ` ${modifier}` : (modifier > 0 ? ` +${modifier}` : "")
+            let msg = `<a class="roll-button request-roll" data-type="skill" data-modifier="${modifier}" data-name="${talent}"><i class="fas fa-dice"></i> ${talent}${mod}</a>`
+            ChatMessage.create({content: msg, whisper});
         })
 
     }

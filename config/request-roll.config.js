@@ -9,23 +9,24 @@ export const RULES = [
         key: "build-camp", category: "nature", name: "Feuer machen", icon: "fas fa-fire",
         rollRequests: [
             {
-                target: "Player", talent: "Wildnissleben", modifier: 1, comment: "Holz sammeln",
-                description: "zunächst muss ausreichend Holz gesammelt werden.<p>Zusätzliche Modifikatoren:</p><ul><li>Biome +1/-1</li></ul>"
+                target: "Player", talent: "Wildnisleben", modifier: 3, comment: "Holz sammeln",
+                description: "Zunächst muss ausreichend Holz gesammelt werden. Dies dauert eine Stunde.<h3>Zusätzliche Modifikatoren:</h3><ul><li>Biome +/- 1</li><li>Wetter +/- 1</li></ul>"
             },
-            {target: "Player", talent: "Wildnissleben", modifier: 3, comment: "Feuer machen"},
+            {
+                target: "Player", talent: "Wildnisleben", modifier: 1, comment: "Feuer machen",
+                description: "<h3>Zusätzliche Modifikatoren:</h3><ul><li>Wetter +/- 1</li></ul>"
+            },
         ]
     },
     {
         key: "nachtwache", category: "nature", name: "Nachtwache", icon: "fas fa-cloud-moon",
-        input: [
-            {type: "Player", _id: "wache1", name: "1. Wache"},
-            {type: "Player", _id: "wache2", name: "2. Wache"},
-            {type: "Player", _id: "wache3", name: "3. Wache"}
-        ],
-        rolls: [
-            {actor: "wache1", talent: "Wildnissleben", modifier: 1},
-            {actor: "wache2", talent: "Wildnissleben", modifier: 3},
-            {actor: "wache3", talent: "Wildnissleben", modifier: 5},
+        rollRequests: [
+            {target: "Player", talent: "Körperbeherrschung", modifier: 3, comment: "1. Wache - Wach bleiben"},
+            {target: "Player", talent: "Sinnesschärfe", modifier: 0, comment: "1. Wache - Aufmerksam bleiben"},
+            {target: "Player", talent: "Körperbeherrschung", modifier: -1, comment: "Mittlere Wache - Wach bleiben"},
+            {target: "Player", talent: "Sinnesschärfe", modifier: 0, comment: "Mittlere Wache - Aufmerksam bleiben"},
+            {target: "Player", talent: "Körperbeherrschung", modifier: 1, comment: "Letzte Wache - Wach bleiben"},
+            {target: "Player", talent: "Sinnesschärfe", modifier: 0, comment: "Letzte Wache - Aufmerksam bleiben"},
         ]
     },
 

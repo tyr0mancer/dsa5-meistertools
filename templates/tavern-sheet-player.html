@@ -1,0 +1,43 @@
+<form class="dsa5-merchants-taverns">
+
+    <h3 style="font-size: 1.2em; font-weight: bold">{{establishment}}</h3>
+    {{#if isTavern}}
+    <h1>Menükarte</h1>
+    {{/if}}
+    <section class="categories">
+
+        {{#each tradeOfferPlayer}}
+        <h2 style="margin-top: 10px">{{name}}</h2>
+        {{#each index}}
+        {{#if show}}
+        <div class="entry">
+            <div>{{name}}</div>
+            <div>{{{money price}}}</div>
+        </div>
+        {{/if}}
+        <!--show-->
+        {{/each}}
+        <!--index-->
+        {{/each}}
+        <!--tradeOfferPlayer-->
+    </section>
+
+    {{#if finalTotalPrice}}
+    <section class="bill">
+        <h1>Rechnung</h1>
+        {{#each finalBill}}
+        <div>
+            {{#each this}}
+            <div style="display: grid; grid-template-columns: auto 100px;">
+                <p>{{name}}</p>
+                <p>{{{money price}}}</p>
+            </div>
+            {{/each}}
+        </div>
+        <hr/>
+        {{/each}}
+        <h2>Macht zusammen {{{money finalTotalPrice}}}</h2>
+    </section>
+    {{/if}}
+
+</form>

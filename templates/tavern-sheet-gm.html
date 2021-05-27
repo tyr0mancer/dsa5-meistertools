@@ -1,0 +1,265 @@
+<form class="dsa5-merchants-taverns">
+    <div style="display: grid; grid-template-columns: 250px auto {{#if isTavern}}250px{{/if}};">
+
+        <div>
+            <h1>Vorlage:
+                <select name="template" style="background-color: lightblue; float: right">
+                    {{#select currentTemplateId}}
+                    <option>-- Template wählen</option>
+                    {{#each templates as |template id|}}
+                    <option value="{{id}}">{{template.name}}</option>
+                    {{/each}}
+                    {{/select}}
+
+                </select>
+
+            </h1>
+
+
+            <button name="add-category">Kategorie hinzufügen</button>
+
+            <div>
+                <label>Taverne: <input name="is-tavern" {{#if isTavern}}checked="checked" {{/if}} type="checkbox"/>
+                </label>
+            </div>
+
+
+            {{#each roleTables as |category id|}}
+            <hr/>
+            <div>
+                <div style="display: grid; grid-template-columns: auto 180px">
+                    <h3>Name:</h3>
+                    <input name="category-name" value="{{category.name}}" data-category-id="{{id}}"/>
+
+                    <h3>Quelle</h3>
+                    <div>
+                        <select name="category-rolltable" data-category-id="{{id}}" style="width: 175px">
+                            {{#select table}}
+                            <option>-- Rolltable oder Bibliothek wählen --</option>
+                            {{#each ../libraryOptions}}
+                            <option value="libraryItems:{{this}}">DSA5 Bibliothek: {{localize this}}</option>
+                            {{/each}}
+                            {{#each ../rolltableOptions}}
+                            <option value="{{packName}}:{{_id}}">{{name}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                        <div>
+                            <label>Nach Ort filtern: <input name="filter-location" {{#if
+                                                            category.filterLocation}}checked="checked" {{/if}}
+                                data-category-id="{{id}}" type="checkbox"/> </label>
+                        </div>
+                        <div>
+                            <input name="library-keyword" placeholder="Nach Name filtern"
+                                   data-category-id="{{id}}" value="{{category.libraryKeyword}}"/>
+                        </div>
+
+
+                    </div>
+
+                    <h3>Anzahl</h3>
+                    <table>
+                        <tr>
+                            {{#each ../qualityOptions}}
+                            <td><input name="category-roll"
+                                       data-category-id="{{id}}"
+                                       data-quality-key="{{key}}"
+                                       value="{{lookup category.roll key}}"
+                                       placeholder="Wurf" style="width: 36px"/></td>
+                            {{/each}}
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">Q1</td>
+                            <td style="text-align: center">Q2</td>
+                            <td style="text-align: center">Q3</td>
+                            <td style="text-align: center">Q4</td>
+                            <td style="text-align: center">Q5</td>
+                        </tr>
+                    </table>
+
+                    <div></div>
+                    <button name="delete-category" data-category-id="{{id}}">Kategorie löschen</button>
+                </div>
+
+            </div>
+            {{/each}}
+        </div>
+
+
+        <div style="padding: 0px 20px">
+            <div style="display: grid; grid-template-columns: auto 50px 50px;">
+                <h1>
+                    <button name="update-inventory" style="background-color: darkblue; color: white; width: 48px">
+                        <i class="fas fa-dice"></i>
+                    </button>
+                    Warenangebot
+                </h1>
+                <h1><a name="toggle-show-entry" data-entry-id="all" data-show="true"><i class="far fa-eye"></i></a></h1>
+                <h1><a name="toggle-show-entry" data-entry-id="all" data-show="false"><i
+                        class="far fa-eye-slash"></i></a></h1>
+            </div>
+
+            <div style="display: grid; grid-template-columns: auto  100px 100px;">
+
+                {{#if isTavern}}
+                <div>
+                    <label>
+                        <button style="background-color: darkblue; color: white; width: 48px"
+                                name="refresh-name"><i class="fas fa-dice"></i></button>
+                        <input style="font-size: 1.5em; width: 300px"
+                               name="establishment" value="{{establishment}}"/>
+                    </label>
+                </div>
+                {{else}}
+                <div></div>
+                {{/if}}
+                <!--isTavern-->
+
+
+                <div>
+                    <select name="quality" style="width: 95px">
+                        {{#select qualityOption}}
+                        <option>-- Qualität auswählen</option>
+                        {{#each qualityOptions}}
+                        <option value="{{key}}">{{name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                    <select name="quality" style="width: 95px">
+                        {{#select qualityOption}}
+                        <option>-- Preis auswählen</option>
+                        {{#each priceOptions}}
+                        <option value="{{key}}">{{name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+
+                <div>
+                    {{#if locked}}
+                    <div style="background-color: red; text-align: left">
+                        <button style="width: 48px" name="unlock-innkeeper"><i class="fas fa-lock"></i></i></button>
+                    </div>
+                    {{else}}
+                    <div style="background-color: green; text-align: right">
+                        <button style="width: 48px" name="lock-innkeeper"><i class="fas fa-lock-open"></i></i></button>
+                    </div>
+                    {{/if}}
+                </div>
+
+
+            </div>
+
+
+            <section class="categories">
+                {{#each tradeOffer}}
+                <h2>
+                    <button name="update-inventory" data-category-id=""
+                            style="background-color: darkblue; color: white; width: 48px">
+                        <i class="fas fa-dice"></i>
+                    </button>
+                    {{name}}
+                </h2>
+                {{#each index}}
+                <div class="entry" style="display: grid; grid-template-columns: auto 100px 100px;"
+                     onclick="$('div.description.{{_id}}').toggle();">
+                    <div>
+                        {{#if show}}
+                        <h3>
+                            {{name}}
+                            {{#if description}}
+                            <i class="fas fa-info-circle" style="float: right; margin-right: 15px"></i>
+                            {{/if}}
+                        </h3>
+                        <div class="description {{_id}}">{{{description}}}</div>
+                        {{else}}
+                        <h3 style="background-color: lightgray">
+                            <a name="toggle-show-entry" data-entry-id="{{_id}}" data-show="true"><i
+                                    class="fas fa-eye"></i></a>
+                            {{name}}
+                            {{#if description}}
+                            <i class="fas fa-info-circle" style="float: right; margin-right: 10px"></i>
+                            {{/if}}
+                        </h3>
+                        <div class="description {{_id}}">{{{description}}}</div>
+                        {{/if}}
+                    </div>
+                    <div style="text-align: right; padding-right: 10px">{{{money price}}}</div>
+                    <div>
+                        <button name="take-order" data-entry-id="{{_id}}"><i class="fas fa-cart-plus"></i></button>
+                    </div>
+                </div>
+                {{/each}}
+                <!--index / item-->
+                <hr/>
+                {{/each}}
+                <!--tradeOffer / category-->
+            </section>
+
+            <section class="bill">
+                <h2>Aktuelle Bestellung <a name="clear-order">(<i class="fas fa-trash-alt"></i> zurücksetzen)</a></h2>
+                {{#each currentOrder}}
+                <p>{{name}}</p>
+                {{/each}}
+                <!--currentOrder-->
+                <hr/>
+
+                <h3><b>Zwischensumme: {{{money subTotal}}}</b></h3>
+
+                <div style="width: 200px; align-content: center; float: right">
+                    <button name="show-order"><i class="fas fa-eye"></i> Nur zeigen</button>
+
+                    {{#if isTavern}}
+                    <button name="serve-order"><i class="fas fa-concierge-bell"></i> Servieren und auf Deckel</button>
+                    <button name="charge-order"><i class="fas fa-file-signature"></i> Auf Deckel</button>
+                    {{/if}}
+                    <!--isTavern-->
+
+                    <button name="sell-order"><i class="fas fa-coins"></i> Jetzt verkaufen</button>
+                </div>
+
+            </section>
+
+        </div>
+
+        {{#if isTavern}}
+        <div>
+            <h1>Aktueller Deckel <a name="clear-orders"><i class="fas fa-trash-alt"></i></a></h1>
+            {{#if orderTotal}}
+            {{#each bill}}
+            <div>
+                {{#each this}}
+                <div style="display: grid; grid-template-columns: auto 100px;">
+                    <p>{{name}}</p>
+                    <p>{{{money price}}}</p>
+                </div>
+                {{/each}}
+            </div>
+            <hr/>
+            {{/each}}
+            <div style="display: grid; grid-template-columns: auto 100px;">
+                <h3>insgesamt</h3>
+                <p>{{{money orderTotal}}}</p>
+            </div>
+            <hr/>
+
+            <button name="checkout" data-payment="zusammen"><i class="fas fa-coins"></i> zusammen berechnen</button>
+            <div style="display: grid; grid-template-columns: auto auto">
+                <select name="buyers">
+                    {{#select buyersCount}}
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    {{/select}}
+                </select>
+                <button name="checkout" data-payment="dutch"><i class="fas fa-coins"></i> getrennt berechnen</button>
+            </div>
+
+            <button name="checkout" data-payment="per-round" disabled>Runden einzeln berechnen</button>
+            {{/if}}
+        </div>
+        {{/if}}
+        <!--isTavern-->
+
+</form>

@@ -105,12 +105,11 @@
                 <div class="col-2" style="grid-template-columns: 250px auto">
 
                     <div class="box header">
-                        <h1>Händler Settings</h1>
-                        <div class="col-4">
-                            <button><i class="fas fa-dice"></i></button>
-                            <button><i class="far fa-eye"></i></button>
-                            <button><i class="far fa-eye-slash"></i></button>
-                            <button><i class="fas fa-lock"></i></button>
+                        <h1><a class="re-roll" data-roll-type="current"><i class="fas fa-dice"></i></a></h1>
+                        <div class="top-bar">
+                            <a><i class="far fa-eye"></i></a>
+                            <a><i class="far fa-eye-slash"></i></a>
+                            <a><i class="fas fa-lock"></i></a>
                         </div>
 
                         <div class="col-3">
@@ -197,64 +196,107 @@
                         {{#each supply as |category n|}}
                             {{#with category}}
                                 <div class="inner box header">
-                                    <h2><a class="re-roll" data-roll-type="items-{{n}}"><i class="fas fa-dice"></i></a>
-                                        {{categoryName}}</h2>
-                                    <div class="top-bar"><a class="show-settings"><i class="fas fa-cogs"></i></a></div>
+                                    <h2>
+                                        {{#if ../general.edit-settings}}
+                                            <input type="text" name="categoryName" data-category-id="{{n}}"
+                                                   value="{{categoryName}}"/>
+                                        {{else}}
+                                            <a class="re-roll" data-roll-type="items-{{n}}"><i class="fas fa-dice"></i></a>
+                                            {{categoryName}}
+                                        {{/if}}
+                                    </h2>
+                                    <div class="top-bar">
+                                        <a class="show-category" data-category-id="{{n}}"><i class="far fa-eye"></i></a>
+                                        <a class="show-settings"><i class="fas fa-cogs"></i></a>
+                                    </div>
 
                                     <div class="edit-settings {{#unless ../general.edit-settings}}hidden{{/unless}}">
                                         <div class="col-2" style="grid-template-columns: 20px auto">
                                             <div><a class="delete-category" data-category-id="{{n}}"><i
                                                     class="fas fa-trash-alt"></i></a></div>
                                             <div class="inner box">
-                                                <input type="text" name="categoryName" data-category-id="{{n}}"
-                                                       value="{{categoryName}}"/>
-
                                                 <div class="col-3">
 
                                                     <div class="borderless box">
-                                                        <select id="library-{{n}}" name="library" class="labeled"
-                                                                data-category-id="{{n}}">
-                                                            {{#select library}}
+                                                        <select id="library-{{n}}" name="source-id"
+                                                                class="labeled library" data-category-id="{{n}}">
+                                                            {{#select source-id}}
                                                                 <option></option>
                                                                 {{#each ../options.LIBRARY_ITEM_TYPES}}
                                                                     <option value="{{this}}">{{this}}</option>
                                                                 {{/each}}
                                                             {{/select}}
                                                         </select>
-                                                        <label for="library-{{n}}">DSA Bibliothek</label>
+                                                        <label for="library-{{n}}">Bibliothek</label>
                                                     </div>
 
                                                     <div class="borderless box">
-                                                        <select id="library-{{n}}" name="library" class="labeled"
-                                                                data-category-id="{{n}}">
-                                                            {{#select library}}
+                                                        <select id="library-{{n}}" name="source-id"
+                                                                class="labeled rolltable" data-category-id="{{n}}">
+                                                            {{#select source-id}}
                                                                 <option></option>
-                                                                {{#each ../options.LIBRARY_ITEM_TYPES}}
-                                                                    <option value="{{this}}">{{this}}</option>
+                                                                {{#each ../options.ROLLTABLES}}
+                                                                    <option value="{{_id}}">{{name}}</option>
                                                                 {{/each}}
                                                             {{/select}}
                                                         </select>
-                                                        <label for="library-{{n}}">DSA Bibliothek</label>
+                                                        <label for="library-{{n}}">Tabelle</label>
                                                     </div>
 
                                                     <div class="borderless box">
-                                                        <select id="library-{{n}}" name="library" class="labeled"
-                                                                data-category-id="{{n}}">
-                                                            {{#select library}}
+                                                        <select id="library-{{n}}" name="source-id"
+                                                                class="labeled rolltable" data-category-id="{{n}}">
+                                                            {{#select source-id}}
                                                                 <option></option>
-                                                                {{#each ../options.LIBRARY_ITEM_TYPES}}
-                                                                    <option value="{{this}}">{{this}}</option>
+                                                                {{#each ../options.PACKS}}
+                                                                    <option value="{{key}}">{{name}}</option>
                                                                 {{/each}}
                                                             {{/select}}
                                                         </select>
-                                                        <label for="library-{{n}}">DSA Bibliothek</label>
+                                                        <label for="library-{{n}}">Item Paket</label>
                                                     </div>
-
-
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="borderless box">
+                                                        <input class="labeled" type="text" name="filter-text"
+                                                               data-category-id="{{n}}" value="{{filter-text}}"/>
+                                                        <label>Text Filter</label>
+                                                    </div>
+                                                    <div>
+                                                        <input id="filter-rarity-{{n}}" name="filter-rarity"
+                                                               data-category-id="{{n}}"
+                                                            {{checked filter-rarity}} type="checkbox"/>
+                                                        <label for="filter-rarity-{{n}}">Verfügbarkeit prüfen</label>
+                                                    </div>
+                                                </div>
+                                                <div class="inner box float amount-rule">
+                                                    <div class="borderless box">
+                                                        <input class="labeled" type="text" name="amount-q0"
+                                                               data-category-id="{{n}}" value="{{amount-q0}}"/>
+                                                        <label>Q1</label>
+                                                    </div>
+                                                    <div class="borderless box">
+                                                        <input class="labeled" type="text" name="amount-q1"
+                                                               data-category-id="{{n}}" value="{{amount-q1}}"/>
+                                                        <label>Q2</label>
+                                                    </div>
+                                                    <div class="borderless box">
+                                                        <input class="labeled" type="text" name="amount-q2"
+                                                               data-category-id="{{n}}" value="{{amount-q2}}"/>
+                                                        <label>Q3</label>
+                                                    </div>
+                                                    <div class="borderless box">
+                                                        <input class="labeled" type="text" name="amount-q3"
+                                                               data-category-id="{{n}}" value="{{amount-q3}}"/>
+                                                        <label>Q4</label>
+                                                    </div>
+                                                    <div class="borderless box">
+                                                        <input class="labeled" type="text" name="amount-q4"
+                                                               data-category-id="{{n}}" value="{{amount-q4}}"/>
+                                                        <label>Q5</label>
+                                                    </div>
                                                 </div>
 
-                                                {{stringify filter}}
-                                                {{stringify source}}
                                             </div>
                                         </div>
                                     </div>
@@ -283,7 +325,7 @@
                             {{/with}}
                         {{/each}}
 
-                        <button class="add-category">Add Kategorie</button>
+                        <button class="add-category">Kategorie hinzufügen</button>
                     </div>
 
                     <!-- thats it with own code. everything else is (c) Ulisses and taken from the dsa5 core system -->

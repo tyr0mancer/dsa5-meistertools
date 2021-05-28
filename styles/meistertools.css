@@ -90,6 +90,7 @@
 }
 
 .meistertools .box.header > .top-bar {
+    font-size: 1.5em;
     color: var(--color-secondary);
     background-color: var(--color-light);
     border: 2px solid var(--color-secondary);
@@ -98,9 +99,17 @@
     position: absolute;
     right: 5px;
     box-shadow: 0 0 2px #aaa;
-    padding: 2px 10px;
+    padding: 2px 0;
     transform: translateY(-100%);
 }
+.meistertools .box.inner.header > .top-bar {
+    font-size: 1.2em;
+}
+
+.meistertools .box.header > .top-bar > * {
+    margin: 0 5px;
+}
+
 
 .meistertools .box.header > h1:first-child {
     font-weight: bold;
@@ -628,4 +637,12 @@ a.load-pattern {
 .meistertools a.set-keyword:hover {
     color: var(--color-light);
     background-color: var(--color-secondary);
+}
+
+/* ---------------------------------
+    Merchant Sheet
+ --------------------------------- */
+
+.meistertools .amount-rule input {
+    width: 60px;
 }

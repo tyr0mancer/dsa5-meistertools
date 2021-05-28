@@ -4,6 +4,31 @@ import {moduleName} from "../meistertools.js";
 import {MERCHANT_TYPE, PRICE, QUALITY, LIBRARY_ITEM_TYPES} from "../config/merchants.config.js";
 
 export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
+    constructor(...args) {
+        super(...args);
+        this.rolltableOptions = []
+        this.packOptions = []
+        this.setOptions().then(() => this.render(true))
+    }
+
+    async setOptions() {
+        for (let pack of game.packs) {
+
+            if (pack.metadata.entity === 'RollTable') {
+                const packName = pack.collection
+                const content = await pack.getContent()
+                this.rolltableOptions.push({_id: null, packName: null, name: "----------------- " + packName})
+                for (let tableOption of content)
+                    this.rolltableOptions.push({_id: tableOption._id, packName, name: tableOption.data.name})
+            }
+
+            if (pack.metadata.entity === 'Item') {
+                this.packOptions.push({key: pack.collection, name: pack.metadata.label})
+            }
+
+        }
+    }
+
 
     static get defaultOptions() {
         const options = super.defaultOptions;
@@ -26,7 +51,14 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
     async getData() {
         const data = super.getData();
         this.merchantFlags = this.actor.getFlag(moduleName, 'merchant')
-        mergeObject(data, {options: {QUALITY, PRICE, MERCHANT_TYPE, LIBRARY_ITEM_TYPES}, ...this.merchantFlags})
+        mergeObject(data, {
+            options: {
+                QUALITY, PRICE, MERCHANT_TYPE, LIBRARY_ITEM_TYPES,
+                ROLLTABLES: this.rolltableOptions,
+                PACKS: this.packOptions
+            },
+            ...this.merchantFlags
+        })
         return data;
     }
 
@@ -40,7 +72,11 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
 
         html.find(".show-settings").click(() => {
             $(".edit-settings").toggle(100)
-            this.actor.setFlag(moduleName, "merchant.general.edit-settings", !this.merchantFlags?.general?.["edit-settings"] || true)
+            this.actor.setFlag(moduleName, "merchant.general.edit-settings",
+                (this.merchantFlags?.general?.["edit-settings"] === undefined)
+                    ? true
+                    : !this.merchantFlags.general["edit-settings"]
+            )
         })
 
         html.find(".add-category").click(() => {

@@ -89,6 +89,19 @@
     transform: translateY(-100%);
 }
 
+.meistertools .box.header > .top-bar {
+    color: var(--color-secondary);
+    background-color: var(--color-light);
+    border: 2px solid var(--color-secondary);
+    line-height: 1em;
+    border-radius: 5px;
+    position: absolute;
+    right: 5px;
+    box-shadow: 0 0 2px #aaa;
+    padding: 2px 10px;
+    transform: translateY(-100%);
+}
+
 .meistertools .box.header > h1:first-child {
     font-weight: bold;
     font-size: 1.8em;

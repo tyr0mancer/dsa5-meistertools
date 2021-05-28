@@ -69,7 +69,7 @@
                 <a class="item" data-tab="religion">{{localize "Religion"}}</a> {{/if}}
                 <a class="item" data-tab="main">{{localize "attributes"}}</a>
             {{/when}}
-            <a class="item active" data-tab="inventory">Angebot</a>
+            <a class="item active" data-tab="inventory">Waren</a>
             {{#when merchantType 'noteq' 'loot'}}
                 <a class="item" data-tab="status">{{localize "status"}}</a>
                 <a class="item" data-tab="notes">{{localize "Notes"}}</a>
@@ -106,62 +106,201 @@
 
                     <div class="box header">
                         <h1>Händler Settings</h1>
-                        <ul>
-                            <li>Quality</li>
-                            <li>Price</li>
-                            <li>Name of Establ</li>
-                            <li>Reroll Angebot</li>
-                            <li>Show Hide all</li>
-                            <li>Limit View to all players (select)</li>
-                            <li>Is Tavern?</li>
-                            <li>Kauft Sachen von bis welcher Rarity und zu welchem Preis?</li>
-                        </ul>
-                    </div>
-                    <div>
-
-                        <div class="inner box header">
-                            <h2><a class="re-roll"><i class="fas fa-dice"></i></a> Kategorie</h2>
-                            <div class="top-bar"><a class="settings"><i class="fas fa-cogs"></i></a></div>
-                            <div class="inner box">
-                                Settings etc.
-                            </div>
-                            <table>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Show Description</th>
-                                    <th>Price</th>
-                                    <th>Action</th>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <img style="height: 32px"
-                                             src="modules/dsa5-homebrew/images/items/food/milch-becher.webp"/>
-                                    </td>
-                                    <td>
-                                        5 G
-                                    </td>
-                                    <td>
-                                        <button>+</button>
-                                    </td>
-                                </tr>
-                            </table>
-
+                        <div class="col-4">
+                            <button><i class="fas fa-dice"></i></button>
+                            <button><i class="far fa-eye"></i></button>
+                            <button><i class="far fa-eye-slash"></i></button>
+                            <button><i class="fas fa-lock"></i></button>
                         </div>
-                        <button>Add Kategorie</button>
+
+                        <div class="col-3">
+                            <div class="borderless box">
+                                <select id="general.merchantType" name="general.merchantType" class="labeled">
+                                    {{#select general.merchantType}}
+                                        {{#each options.MERCHANT_TYPE}}
+                                            <option value="{{key}}">{{name}}</option>
+                                        {{/each}}
+                                    {{/select}}
+                                </select>
+                                <label for="general.merchantType">Typ</label>
+                            </div>
+                            <div class="borderless box">
+                                <select id="general.quality" name="general.quality" class="labeled">
+                                    {{#select general.quality}}
+                                        {{#each options.QUALITY}}
+                                            <option value="{{key}}">{{name}}</option>
+                                        {{/each}}
+                                    {{/select}}
+                                </select>
+                                <label for="general.quality">Q</label>
+                            </div>
+                            <div class="borderless box">
+                                <select id="general.price" name="general.price" class="labeled">
+                                    {{#select general.price}}
+                                        {{#each options.PRICE}}
+                                            <option value="{{key}}">{{name}}</option>
+                                        {{/each}}
+                                    {{/select}}
+                                </select>
+                                <label for="general.price">P</label>
+                            </div>
+                        </div>
+                        {{#ifeq general.merchantType 'tavern'}}
+                            <div class="inner box">
+                                <input class="labeled" type="text" name="general.name" value="{{general.name}}"/>
+                                <label>Name der Taverne <a class="re-roll" data-roll-type="name"><i
+                                        class="fas fa-dice"></i></a></label>
+                            </div>
+                        {{/ifeq}}
+
+                        {{#ifeq general.merchantType 'merchant'}}
+                            <div class="inner box header">
+                                <h2>Ankauf</h2>
+                                <div class="col-2">
+                                    <b>Bietet</b>
+                                    <div>
+                                        <select id="general.buys.price" name="general.buys.price">
+                                            {{#select general.buys.price}}
+                                                <option value="0">-kauft nichts</option>
+                                                {{#each options.PRICE}}
+                                                    <option value="{{key}}">{{name}}</option>
+                                                {{/each}}
+                                            {{/select}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input id="general.buys.rarity-0" name="general.buys.rarity-0"
+                                        {{checked general.buys.rarity-0}} type="checkbox"/>
+                                    <label for="general.buys.rarity-0">{{display_rarity 0}}</label>
+                                    <input id="general.buys.rarity-1" name="general.buys.rarity-1"
+                                        {{checked general.buys.rarity-1}} type="checkbox"/>
+                                    <label for="general.buys.rarity-1">{{display_rarity 1}}</label>
+                                    <input id="general.buys.rarity-2" name="general.buys.rarity-2"
+                                        {{checked general.buys.rarity-2}} type="checkbox"/>
+                                    <label for="general.buys.rarity-2">{{display_rarity 2}}</label>
+                                    <input id="general.buys.rarity-3" name="general.buys.rarity-3"
+                                        {{checked general.buys.rarity-3}} type="checkbox"/>
+                                    <label for="general.buys.rarity-3">{{display_rarity 3}}</label>
+                                    <input id="general.buys.rarity-4" name="general.buys.rarity-4"
+                                        {{checked general.buys.rarity-4}} type="checkbox"/>
+                                    <label for="general.buys.rarity-4">{{display_rarity 4}}</label>
+                                    <input id="general.buys.rarity-5" name="general.buys.rarity-5"
+                                        {{checked general.buys.rarity-5}} type="checkbox"/>
+                                    <label for="general.buys.rarity-5">{{display_rarity 5}}</label>
+                                </div>
+                            </div>
+                        {{/ifeq}}
                     </div>
 
+                    <div>
+                        {{#each supply as |category n|}}
+                            {{#with category}}
+                                <div class="inner box header">
+                                    <h2><a class="re-roll" data-roll-type="items-{{n}}"><i class="fas fa-dice"></i></a>
+                                        {{categoryName}}</h2>
+                                    <div class="top-bar"><a class="show-settings"><i class="fas fa-cogs"></i></a></div>
 
-                    <!-- thats it with own code. everything else is (c) Ulisses -->
+                                    <div class="edit-settings {{#unless ../general.edit-settings}}hidden{{/unless}}">
+                                        <div class="col-2" style="grid-template-columns: 20px auto">
+                                            <div><a class="delete-category" data-category-id="{{n}}"><i
+                                                    class="fas fa-trash-alt"></i></a></div>
+                                            <div class="inner box">
+                                                <input type="text" name="categoryName" data-category-id="{{n}}"
+                                                       value="{{categoryName}}"/>
+
+                                                <div class="col-3">
+
+                                                    <div class="borderless box">
+                                                        <select id="library-{{n}}" name="library" class="labeled"
+                                                                data-category-id="{{n}}">
+                                                            {{#select library}}
+                                                                <option></option>
+                                                                {{#each ../options.LIBRARY_ITEM_TYPES}}
+                                                                    <option value="{{this}}">{{this}}</option>
+                                                                {{/each}}
+                                                            {{/select}}
+                                                        </select>
+                                                        <label for="library-{{n}}">DSA Bibliothek</label>
+                                                    </div>
+
+                                                    <div class="borderless box">
+                                                        <select id="library-{{n}}" name="library" class="labeled"
+                                                                data-category-id="{{n}}">
+                                                            {{#select library}}
+                                                                <option></option>
+                                                                {{#each ../options.LIBRARY_ITEM_TYPES}}
+                                                                    <option value="{{this}}">{{this}}</option>
+                                                                {{/each}}
+                                                            {{/select}}
+                                                        </select>
+                                                        <label for="library-{{n}}">DSA Bibliothek</label>
+                                                    </div>
+
+                                                    <div class="borderless box">
+                                                        <select id="library-{{n}}" name="library" class="labeled"
+                                                                data-category-id="{{n}}">
+                                                            {{#select library}}
+                                                                <option></option>
+                                                                {{#each ../options.LIBRARY_ITEM_TYPES}}
+                                                                    <option value="{{this}}">{{this}}</option>
+                                                                {{/each}}
+                                                            {{/select}}
+                                                        </select>
+                                                        <label for="library-{{n}}">DSA Bibliothek</label>
+                                                    </div>
+
+
+                                                </div>
+
+                                                {{stringify filter}}
+                                                {{stringify source}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <table>
+                                        <tr>
+                                            <th>Bild</th>
+                                            <th>Name</th>
+                                            <th>Preis</th>
+                                            <th></th>
+                                        </tr>
+                                        {{#each current}}
+                                            <tr>
+                                                <td>
+                                                    <img style="height: 32px" src="{{img}}"/>
+                                                </td>
+                                                <td>{{name}}</td>
+                                                <td>{{price}}</td>
+                                                <td>
+                                                    <button>+</button>
+                                                </td>
+                                            </tr>
+                                        {{/each}}
+                                    </table>
+                                </div>
+                            {{/with}}
+                        {{/each}}
+
+                        <button class="add-category">Add Kategorie</button>
+                    </div>
+
+                    <!-- thats it with own code. everything else is (c) Ulisses and taken from the dsa5 core system -->
 
                 </div>
-                {{#when merchantType 'noteq' 'loot'}}
-                    <div class="tab status save-scroll" data-tab="status">
-                        {{> systems/dsa5/templates/actors/parts/status_effects.html}}
-                    </div>
-                    <div class="tab save-scroll" data-tab="notes">
-                        {{> systems/dsa5/templates/actors/actor-notes.html}}
-                    </div>
-                {{/when}}
+            </div>
+
+            {{#when merchantType 'noteq' 'loot'}}
+                <div class="tab status save-scroll" data-tab="status">
+                    status
+                    {{> systems/dsa5/templates/actors/parts/status_effects.html}}
+                </div>
+                <div class="tab save-scroll" data-tab="notes">
+                    notes
+                    {{> systems/dsa5/templates/actors/actor-notes.html}}
+                </div>
+            {{/when}}
         </section>
     </section>
 </form>

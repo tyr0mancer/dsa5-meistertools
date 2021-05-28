@@ -24,8 +24,7 @@
     "/styles/forms.css"
   ],
   "esmodules": [
-    "/meistertools.js",
-    "/dsa5-merchants.js"
+    "/meistertools.js"
   ],
   "packs": [
     {

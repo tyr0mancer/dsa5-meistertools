@@ -1,3 +1,4 @@
+import DSA5Payment from "../../../systems/dsa5/modules/system/payment.js";
 import {MeistertoolsRarity} from "./rarity.js";
 
 export function registerHandlebarHelper() {
@@ -62,6 +63,12 @@ export function registerHandlebarHelper() {
         return result;
     });
 
+    /**
+     *
+     */
+    Handlebars.registerHelper('money', function (a) {
+        return DSA5Payment._moneyToString(a)
+    });
 
     // todo already defined?
     Handlebars.registerHelper('ifeq', function (a, b, options) {

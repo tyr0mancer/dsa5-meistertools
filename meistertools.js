@@ -3,6 +3,8 @@ import {registerSettings} from "./src/register-settings.js";
 import {registerLayer, registerControlButtons} from "./src/register-layer.js";
 import {registerHandlebarHelper} from "./src/register-handlebar-helper.js";
 import {MeistertoolsLocator} from "./src/locator.js";
+import MeistertoolsMerchantSheet from "./src/merchants.js";
+
 
 /** ******************************
  *  Constants
@@ -39,6 +41,8 @@ Hooks.once('init', () => {
     registerSettings()
     registerLayer()
     registerHandlebarHelper()
+
+    Actors.registerSheet("dsa5", MeistertoolsMerchantSheet, {types: ["npc"]});
 });
 
 

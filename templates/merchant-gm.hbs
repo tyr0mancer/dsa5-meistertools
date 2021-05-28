@@ -102,7 +102,7 @@
 
                 <!-- own code is about to begin -->
 
-                <div class="col-2" style="grid-template-columns: 250px auto">
+                <div class="col-2" style="grid-template-columns: 290px auto">
 
                     <div class="box header">
                         <h1><a class="re-roll" data-roll-type="current"><i class="fas fa-dice"></i></a></h1>
@@ -114,7 +114,7 @@
 
                         <div class="col-3">
                             <div class="borderless box">
-                                <select id="general.merchantType" name="general.merchantType" class="labeled">
+                                <select id="general.merchantType" name="general.merchantType" class="labeled merchant">
                                     {{#select general.merchantType}}
                                         {{#each options.MERCHANT_TYPE}}
                                             <option value="{{key}}">{{name}}</option>
@@ -124,7 +124,7 @@
                                 <label for="general.merchantType">Typ</label>
                             </div>
                             <div class="borderless box">
-                                <select id="general.quality" name="general.quality" class="labeled">
+                                <select id="general.quality" name="general.quality" class="labeled merchant">
                                     {{#select general.quality}}
                                         {{#each options.QUALITY}}
                                             <option value="{{key}}">{{name}}</option>
@@ -134,7 +134,7 @@
                                 <label for="general.quality">Q</label>
                             </div>
                             <div class="borderless box">
-                                <select id="general.price" name="general.price" class="labeled">
+                                <select id="general.price" name="general.price" class="labeled merchant">
                                     {{#select general.price}}
                                         {{#each options.PRICE}}
                                             <option value="{{key}}">{{name}}</option>
@@ -146,8 +146,9 @@
                         </div>
                         {{#ifeq general.merchantType 'tavern'}}
                             <div class="inner box">
-                                <input class="labeled" type="text" name="general.name" value="{{general.name}}"/>
-                                <label>Name der Taverne <a class="re-roll" data-roll-type="name"><i
+                                <input class="labeled merchant" type="text" name="general.tavern-name"
+                                       value="{{general.tavern-name}}"/>
+                                <label>Name der Taverne <a class="re-roll" data-roll-type="tavern-name"><i
                                         class="fas fa-dice"></i></a></label>
                             </div>
                         {{/ifeq}}
@@ -158,7 +159,7 @@
                                 <div class="col-2">
                                     <b>Bietet</b>
                                     <div>
-                                        <select id="general.buys.price" name="general.buys.price">
+                                        <select id="general.buys.price" name="general.buys.price" class="merchant">
                                             {{#select general.buys.price}}
                                                 <option value="0">-kauft nichts</option>
                                                 {{#each options.PRICE}}
@@ -168,23 +169,23 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div>
-                                    <input id="general.buys.rarity-0" name="general.buys.rarity-0"
+                                <div class="buy-rarity">
+                                    <input id="general.buys.rarity-0" name="general.buys.rarity-0" class="merchant"
                                         {{checked general.buys.rarity-0}} type="checkbox"/>
                                     <label for="general.buys.rarity-0">{{display_rarity 0}}</label>
-                                    <input id="general.buys.rarity-1" name="general.buys.rarity-1"
+                                    <input id="general.buys.rarity-1" name="general.buys.rarity-1" class="merchant"
                                         {{checked general.buys.rarity-1}} type="checkbox"/>
                                     <label for="general.buys.rarity-1">{{display_rarity 1}}</label>
-                                    <input id="general.buys.rarity-2" name="general.buys.rarity-2"
+                                    <input id="general.buys.rarity-2" name="general.buys.rarity-2" class="merchant"
                                         {{checked general.buys.rarity-2}} type="checkbox"/>
                                     <label for="general.buys.rarity-2">{{display_rarity 2}}</label>
-                                    <input id="general.buys.rarity-3" name="general.buys.rarity-3"
+                                    <input id="general.buys.rarity-3" name="general.buys.rarity-3" class="merchant"
                                         {{checked general.buys.rarity-3}} type="checkbox"/>
                                     <label for="general.buys.rarity-3">{{display_rarity 3}}</label>
-                                    <input id="general.buys.rarity-4" name="general.buys.rarity-4"
+                                    <input id="general.buys.rarity-4" name="general.buys.rarity-4" class="merchant"
                                         {{checked general.buys.rarity-4}} type="checkbox"/>
                                     <label for="general.buys.rarity-4">{{display_rarity 4}}</label>
-                                    <input id="general.buys.rarity-5" name="general.buys.rarity-5"
+                                    <input id="general.buys.rarity-5" name="general.buys.rarity-5" class="merchant"
                                         {{checked general.buys.rarity-5}} type="checkbox"/>
                                     <label for="general.buys.rarity-5">{{display_rarity 5}}</label>
                                 </div>
@@ -199,7 +200,7 @@
                                     <h2>
                                         {{#if ../general.edit-settings}}
                                             <input type="text" name="categoryName" data-category-id="{{n}}"
-                                                   value="{{categoryName}}"/>
+                                                   class="merchant" value="{{categoryName}}"/>
                                         {{else}}
                                             <a class="re-roll" data-roll-type="items-{{n}}"><i class="fas fa-dice"></i></a>
                                             {{categoryName}}
@@ -219,7 +220,8 @@
 
                                                     <div class="borderless box">
                                                         <select id="library-{{n}}" name="source-id"
-                                                                class="labeled library" data-category-id="{{n}}">
+                                                                class="labeled library merchant"
+                                                                data-category-id="{{n}}">
                                                             {{#select source-id}}
                                                                 <option></option>
                                                                 {{#each ../options.LIBRARY_ITEM_TYPES}}
@@ -231,21 +233,23 @@
                                                     </div>
 
                                                     <div class="borderless box">
-                                                        <select id="library-{{n}}" name="source-id"
-                                                                class="labeled rolltable" data-category-id="{{n}}">
+                                                        <select id="rolltable-{{n}}" name="source-id"
+                                                                class="labeled rolltable merchant"
+                                                                data-category-id="{{n}}">
                                                             {{#select source-id}}
                                                                 <option></option>
                                                                 {{#each ../options.ROLLTABLES}}
-                                                                    <option value="{{_id}}">{{name}}</option>
+                                                                    <option value="{{_id}}@{{packName}}">{{name}}</option>
                                                                 {{/each}}
                                                             {{/select}}
                                                         </select>
-                                                        <label for="library-{{n}}">Tabelle</label>
+                                                        <label for="rolltable-{{n}}">Tabelle</label>
                                                     </div>
 
                                                     <div class="borderless box">
-                                                        <select id="library-{{n}}" name="source-id"
-                                                                class="labeled rolltable" data-category-id="{{n}}">
+                                                        <select id="items-{{n}}" name="source-id"
+                                                                class="labeled items merchant"
+                                                                data-category-id="{{n}}">
                                                             {{#select source-id}}
                                                                 <option></option>
                                                                 {{#each ../options.PACKS}}
@@ -253,46 +257,46 @@
                                                                 {{/each}}
                                                             {{/select}}
                                                         </select>
-                                                        <label for="library-{{n}}">Item Paket</label>
+                                                        <label for="items-{{n}}">Item Paket</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <div class="borderless box">
-                                                        <input class="labeled" type="text" name="filter-text"
+                                                        <input class="labeled merchant" type="text" name="filter-text"
                                                                data-category-id="{{n}}" value="{{filter-text}}"/>
                                                         <label>Text Filter</label>
                                                     </div>
                                                     <div>
                                                         <input id="filter-rarity-{{n}}" name="filter-rarity"
-                                                               data-category-id="{{n}}"
+                                                               data-category-id="{{n}}" class="merchant"
                                                             {{checked filter-rarity}} type="checkbox"/>
-                                                        <label for="filter-rarity-{{n}}">Verfügbarkeit prüfen</label>
+                                                        <label for="filter-rarity-{{n}}" title="Gewichtung gemäß Verfügbarkeit an aktuellem Ort">Verfügbarkeit</label>
                                                     </div>
                                                 </div>
                                                 <div class="inner box float amount-rule">
                                                     <div class="borderless box">
-                                                        <input class="labeled" type="text" name="amount-q0"
-                                                               data-category-id="{{n}}" value="{{amount-q0}}"/>
+                                                        <input class="labeled merchant" type="text" name="amount-q1"
+                                                               data-category-id="{{n}}" value="{{amount-q1}}"/>
                                                         <label>Q1</label>
                                                     </div>
                                                     <div class="borderless box">
-                                                        <input class="labeled" type="text" name="amount-q1"
-                                                               data-category-id="{{n}}" value="{{amount-q1}}"/>
+                                                        <input class="labeled merchant" type="text" name="amount-q2"
+                                                               data-category-id="{{n}}" value="{{amount-q2}}"/>
                                                         <label>Q2</label>
                                                     </div>
                                                     <div class="borderless box">
-                                                        <input class="labeled" type="text" name="amount-q2"
-                                                               data-category-id="{{n}}" value="{{amount-q2}}"/>
+                                                        <input class="labeled merchant" type="text" name="amount-q3"
+                                                               data-category-id="{{n}}" value="{{amount-q3}}"/>
                                                         <label>Q3</label>
                                                     </div>
                                                     <div class="borderless box">
-                                                        <input class="labeled" type="text" name="amount-q3"
-                                                               data-category-id="{{n}}" value="{{amount-q3}}"/>
+                                                        <input class="labeled merchant" type="text" name="amount-q4"
+                                                               data-category-id="{{n}}" value="{{amount-q4}}"/>
                                                         <label>Q4</label>
                                                     </div>
                                                     <div class="borderless box">
-                                                        <input class="labeled" type="text" name="amount-q4"
-                                                               data-category-id="{{n}}" value="{{amount-q4}}"/>
+                                                        <input class="labeled merchant" type="text" name="amount-q5"
+                                                               data-category-id="{{n}}" value="{{amount-q5}}"/>
                                                         <label>Q5</label>
                                                     </div>
                                                 </div>
@@ -314,7 +318,7 @@
                                                     <img style="height: 32px" src="{{img}}"/>
                                                 </td>
                                                 <td>{{name}}</td>
-                                                <td>{{price}}</td>
+                                                <td>{{{money data.price.value}}}</td>
                                                 <td>
                                                     <button>+</button>
                                                 </td>

@@ -102,6 +102,7 @@
     padding: 2px 0;
     transform: translateY(-100%);
 }
+
 .meistertools .box.inner.header > .top-bar {
     font-size: 1.2em;
 }
@@ -645,4 +646,8 @@ a.load-pattern {
 
 .meistertools .amount-rule input {
     width: 60px;
+}
+
+.meistertools .buy-rarity label {
+    height: 40px;
 }

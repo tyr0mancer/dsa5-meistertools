@@ -255,11 +255,11 @@ export class MeistertoolsRarity extends Application {
         const currentRegionArray = currentLocation.regions || currentLocation.currentRegions || []
         const currentRegionKeys = currentRegionArray.map(r => r.key)
         const regionRarityArray = rarity.regions?.filter(r => currentRegionKeys.includes(r.key)).map(r => r.value)
-        if (regionRarityArray.length)
+        if (regionRarityArray?.length)
             current = Math.max(...regionRarityArray)
         const currentBiomeKeys = currentLocation.currentBiome ? [currentLocation.currentBiome.key] : currentLocation.biomes?.map(r => r.key) || []
         const biomeRarityArray = rarity.biomes?.filter(b => currentBiomeKeys.includes(b.key)).map(b => b.value)
-        if (biomeRarityArray.length) {
+        if (biomeRarityArray?.length) {
             const biomeMin = Math.max(...biomeRarityArray)
             if (current === undefined || biomeMin < current)
                 current = biomeMin

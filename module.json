@@ -19,9 +19,9 @@
     }
   ],
   "styles": [
+    "/styles/forms.css",
     "/styles/meistertools.css",
-    "/styles/menu.css",
-    "/styles/forms.css"
+    "/styles/menu.css"
   ],
   "esmodules": [
     "/meistertools.js"

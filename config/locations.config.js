@@ -6,6 +6,13 @@ export default {
     ],
     regions: [
         {key: 'albernia', name: 'Fürstentum Albernia', category: 'politik'},
+
+        /*
+            weiden
+            darpatien
+            horasreich
+        */
+
         {key: 'mittelreich', name: 'Mittelreich', category: 'politik'},
     ],
     biomes: [

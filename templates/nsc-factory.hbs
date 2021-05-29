@@ -62,9 +62,10 @@
                                         <div>
                                             <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
                                                  data-result-id="{{id}}" data-result-key="img"/>
+
                                             <button class="re-roll" data-result-id="{{id}}" data-result-key="traits"
                                                     title="Weitere Charakteristiken auswürfeln"><i
-                                                    class="fas fa-portrait"></i></button>
+                                                    class="fas fa-comment-dots"></i></button>
                                         </div>
                                         <div>
                                             <table>
@@ -88,17 +89,19 @@
                                                     <td><i class="far fa-eye" title="Augenfarbe"></i></td>
                                                     <td>{{eyecolor}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td><i class="fas fa-city" title="Herkunft"></i></td>
-                                                    <td>{{origin}}</td>
-                                                </tr>
+                                                {{#if origin}}
+                                                    <tr>
+                                                        <td><i class="fas fa-city" title="Herkunft"></i></td>
+                                                        <td>{{origin}}</td>
+                                                    </tr>
+                                                {{/if}}
                                             </table>
                                         </div>
                                     </div>
                                     <div>
-                                        {{#if physicalTrait}}
-                                            <b>Aussehen</b>
-                                            <div>{{physicalTrait}}</div>
+                                        {{#if characterTrait}}
+                                            <b>Charakter</b>
+                                            <div>{{characterTrait}}</div>
                                         {{/if}}
                                         {{#if catchphrase}}
                                             <b>Zitat</b>

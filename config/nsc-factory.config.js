@@ -6,7 +6,8 @@ export default {
     settings: {
         baseActorCollection: "dsa5-homebrew.actor-archetypen",
         folderName: "MeisterTools NSC",
-        closeAfterGeneration: true
+        closeAfterGeneration: true,
+        rolltablesCollection: "dsa5-meistertools.rolltable-names"
     },
 
     lastSelection: {
@@ -14,8 +15,8 @@ export default {
         "gender": "random",
         "position": "top-left",
         "archetype": "mittelreich",
-        "variation": "albernisch",
-        "profession": "AENj6jLndvawKiHG",
+        "variation": "albernia",
+        "profession": "",
         "patternName": "",
         "players": {
             "position": "center",
@@ -38,15 +39,15 @@ export default {
             _id: "",
         },
         rollTables: {
-            "vorname-m": "gareth_vorname_m",
-            "vorname-w": "gareth_vorname_w",
-            "nachname": "gareth_nachname",
-            "origin": ["Gareth", "Havena", "Gashok", "Lowangen"],
-            "physicalTrait": "physical_trait",
-            "catchphrase": "catchphrases",
+            "vorname-m": "Gareth Vorname männlich",
+            "vorname-w": "Gareth Vorname weiblich",
+            "nachname": "Gareth Nachname",
+            "origin": "Gareth Orte",
+            "characterTrait": "Charakter",
+            "catchphrase": "Catchphrase",
             "haircolor": "Mittelländer Haarfarbe",
             "eyecolor": "Mittelländer Augenfarbe",
-            "jobs": "buerger_berufe"
+            "jobs": "Bürger Berufe"
         },
         pattern: {
             genderRatio: [["w", 50], ["m", 50]],
@@ -57,7 +58,7 @@ export default {
             age: "5 + 7W6",
             haircolor: "${haircolor}",
             eyecolor: "${eyecolor}",
-            physicalTrait: "${physicalTrait}",
+            characterTrait: "${characterTrait}",
             catchphrase: "${catchphrase}",
             career: "${jobs}"
         },
@@ -80,20 +81,24 @@ export default {
             },
             variations: [
                 {
-                    key: "garethisch",
-                    name: "Gareth und Umgebung"
+                    key: "gareth",
+                    name: "Gareth und Umgebung",
+                    data: {
+                        rarity: {general: 2, regions: [["gareth", 5], ["mittelreich", 4]]},
+                        rollTables: {
+                            "origin": "Gareth Orte",
+                        }
+                    }
                 },
                 {
-                    key: "albernisch",
+                    key: "albernia",
                     name: "Albernia",
                     data: {
-                        rarity: {
-                            current: 5, general: 1, regions: [['albernia', 5], ["mittelreich", 2]]
-                        },
+                        rarity: {general: 1, regions: [['albernia', 5], ["mittelreich", 2]]},
                         rollTables: {
-                            "vorname-m": "albernia_vorname_m",
-                            "vorname-w": "albernia_vorname_w",
-                            "origin": "albernia_orte",
+                            "vorname-m": "Albernia Vorname männlich",
+                            "vorname-w": "Albernia Vorname weiblich",
+                            "origin": "Albernia Orte",
                         }
                     }
                 },
@@ -101,12 +106,13 @@ export default {
                     key: "weiden",
                     name: "Weiden",
                     data: {
+                        rarity: {general: 1, regions: [['weiden', 5], ["mittelreich", 2]]},
                         rollTables: {
-                            "vorname-m": "weidensche_vorname_m",
-                            "vorname-w": "weidensche_vorname_w",
-                            "nachname-prefix": "weidensche_nachname_prefix",
-                            "nachname-suffix": "weidensche_nachname_suffix",
-                            "origin": "weiden_orte"
+                            "vorname-m": "Weiden Vorname männlich",
+                            "vorname-w": "Weiden Vorname weiblich",
+                            "nachname-prefix": "Weiden Nachname Prefix",
+                            "nachname-suffix": "Weiden Nachname Suffix",
+                            "origin": "Weiden Orte"
                         },
                         pattern: {
                             name: "${vorname-gender} ${nachname-prefix}${nachname-suffix}",
@@ -117,12 +123,13 @@ export default {
                     key: "darpatien",
                     name: "Darpatien",
                     data: {
+                        rarity: {general: 1, regions: [['darpatien', 5], ["mittelreich", 2]]},
                         rollTables: {
-                            "vorname-m": "darpatisch_vorname_m",
-                            "vorname-w": "darpatisch_vorname_w",
-                            "nachname-prefix": "darpatisch_nachname_prefix",
-                            "nachname-suffix": "darpatisch_nachname_suffix",
-                            "origin": "darpatien_orte"
+                            "vorname-m": "Darpatien Vorname männlich",
+                            "vorname-w": "Darpatien Vorname weiblich",
+                            "nachname-prefix": "Darpatien Nachname Prefix",
+                            "nachname-suffix": "Darpatien Nachname Suffix",
+                            "origin": "Darpatien Ort"
                         },
                         pattern: {
                             name: "${vorname-gender} ${nachname-prefix}${nachname-suffix}",
@@ -138,26 +145,25 @@ export default {
                 actor: {collection: '', _id: ''},
                 images: "modules/dsa5-homebrew/images/actors/random-npc/mittellande",
                 rollTables: {
-                    "vorname-m": "horasisch_vorname_m",
-                    "vorname-w": "horasisch_vorname_w",
-                    "nachname": "horasisch_nachname",
-                    "origin": "horasreich_orte"
+                    "vorname-m": "Horasreich Vorname männlich",
+                    "vorname-w": "Horasreich Vorname weiblich",
+                    "nachname": "Horasreich Nachname",
+                    "origin": "Horasreich Orte"
                 },
-                rarity: {
-                    current: 2, general: 1, regions: [["horasreich", 5], ['mittelreich', 3]]
-                },
+                rarity: {general: 2, regions: [["horasreich", 5], ['mittelreich', 3]]},
             }
         },
         {
             species: "human",
             key: "bornland", name: "Bornland", img: "modules/dsa5-core/icons/culture/Bornland.webp",
             data: {
+                rarity: {general: 1, regions: [["bornland", 5]]},
                 images: "modules/dsa5-homebrew/images/actors/random-npc/mittellande",
                 rollTables: {
-                    "vorname-m": "bornlaendisch_vorname_m",
-                    "vorname-w": "bornlaendisch_vorname_w",
-                    "nachname": "bornlaendisch_nachname",
-                    "origin": "bornland_orte"
+                    "vorname-m": "Bornland Vorname männlich",
+                    "vorname-w": "Bornland Vorname weiblich",
+                    "nachname": "Bornland Nachname",
+                    "origin": "Bornland Orte"
                 }
             }
         },
@@ -165,15 +171,16 @@ export default {
             species: "human",
             key: 'thorwal', name: 'Thorwal', img: "modules/dsa5-core/icons/culture/Thorwal.webp",
             data: {
+                rarity: {general: 1, regions: [["thorwal", 5], ["nostria", 2]]},
                 images: "modules/dsa5-homebrew/images/actors/random-npc/thorwaler",
                 rollTables: {
-                    "vorname-m": "thorwaler_vorname_m",
-                    "vorname-w": "thorwaler_vorname_w",
-                    "zusatz-m": ['son'],
-                    "zusatz-w": ['dotter', 'dottir'],
-                    "origin": "thorwal_orte",
+                    "vorname-m": "Thorwaler Vorname männlich",
+                    "vorname-w": "Thorwaler Vorname weiblich",
+                    "origin": "Thorwaler Orte",
                     "haircolor": "Thorwaler Haarfarbe",
                     "eyecolor": "Thorwaler Augenfarbe",
+                    "zusatz-m": ['son'],
+                    "zusatz-w": ['dotter', 'dottir'],
                 },
                 pattern: {
                     name: "${vorname-gender} ${vorname-gender}${zusatz-gender}",
@@ -184,12 +191,13 @@ export default {
             species: "human",
             key: 'norbarden', name: 'Norbarden', img: "modules/dsa5-core/icons/culture/Norbarden.webp",
             data: {
+                rarity: {general: 1, regions: [["norbarden", 5]]},
                 images: "modules/dsa5-homebrew/images/actors/random-npc/norbarden",
                 rollTables: {
-                    "vorname-m": "norbarden_vorname_m",
-                    "vorname-w": "norbarden_vorname_w",
-                    "nachname": "norbarden_nachname",
-                    "origin": "norbarden_orte",
+                    "vorname-m": "Norbarde Vorname männlich",
+                    "vorname-w": "Norbarde Vorname weiblich",
+                    "nachname": "Norbarde Nachname",
+                    "origin": "Norbarde Sippe",
                     "haircolor": "Norbarde Haarfarbe",
                     "eyecolor": "Norbarde Augenfarbe",
                 }
@@ -199,13 +207,14 @@ export default {
             species: "human",
             key: 'novadis', name: 'Novadis', img: "modules/dsa5-core/icons/culture/Novadis.webp",
             data: {
+                rarity: {general: 1, regions: [["khom", 5]]},
                 images: "modules/dsa5-homebrew/images/actors/random-npc/tulamiden",
                 rollTables: {
-                    "vorname-m": "tulamiden_vorname_m",
-                    "vorname-w": "tulamiden_vorname_w",
+                    "vorname-m": "Tulamide Vorname männlich",
+                    "vorname-w": "Tulamide Vorname weiblich",
                     "zusatz-m": ["ibn", "ben"],
                     "zusatz-w": ["saba", "suni", "sunya"],
-                    "origin": "novadis_orte",
+                    "origin": "Novadis Orte",
                     "haircolor": "Tulamide Haarfarbe",
                     "eyecolor": "Tulamide Augenfarbe",
                 },
@@ -213,19 +222,17 @@ export default {
                     name: "${vorname-gender} ${zusatz-gender} ${vorname-gender}",
                 }
             },
-            rarity: {
-                current: 1, general: 1, regions: [['khom', 5], ["tulamiden", 3]]
-            },
         },
         {
             species: "human",
             key: 'nivesen', name: 'Nivesen', img: "modules/dsa5-core/icons/culture/Nivesen.webp",
             data: {
+                rarity: {general: 1, regions: [["nivesen", 5]]},
                 images: "modules/dsa5-homebrew/images/actors/random-npc/nivesen",
                 rollTables: {
-                    "vorname-m": "nivesen_vorname_m",
-                    "vorname-w": "nivesen_vorname_w",
-                    "origin": "nivesen_orte",
+                    "vorname-m": "Nivese Vorname männlich",
+                    "vorname-w": "Nivese Vorname weiblich",
+                    "origin": "Nivese Orte",
                     "haircolor": "Nivese Haarfarbe",
                     "eyecolor": "Nivese Augenfarbe",
                 },
@@ -234,26 +241,28 @@ export default {
                 }
             }
         },
-        {
-            species: "human",
-            key: 'mohas', name: 'Mohas', img: "modules/dsa5-core/icons/culture/Mohas.webp",
-            data: {
-                images: "modules/dsa5-homebrew/images/actors/random-npc/moha",
-                rollTables: {
-                    "vorname-m": "moha_name_m",
-                    "vorname-w": "moha_name_w",
-                    "origin": "mohas_orte",
-                    "haircolor": "Waldmensch Haarfarbe",
-                    "eyecolor": "Waldmensch Augenfarbe",
+        /*
+                {
+                    species: "human",
+                    key: 'mohas', name: 'Mohas', img: "modules/dsa5-core/icons/culture/Mohas.webp",
+                    data: {
+                        images: "modules/dsa5-homebrew/images/actors/random-npc/moha",
+                        rollTables: {
+                            "vorname-m": "Moha Vorname männlich",
+                            "vorname-w": "Moha Vorname weiblich",
+                            "origin": "",
+                            "haircolor": "Waldmensch Haarfarbe",
+                            "eyecolor": "Waldmensch Augenfarbe",
+                        },
+                        pattern: {
+                            name: "${vorname-gender}"
+                        },
+                        rarity: {
+                            current: 0, general: 0
+                        }
+                    },
                 },
-                pattern: {
-                    name: "${vorname-gender}"
-                },
-                rarity: {
-                    current: 0, general: 0
-                }
-            },
-        },
+        */
         /*
                 {
                     species: "human",
@@ -261,7 +270,7 @@ export default {
                     data: {
                         images: "/human/amazonen",
                         rollTables: {
-                            "vorname": "amazonen_vorname",
+                            "vorname": "Amazone Vorname",
                             "origin": "amazonen_orte"
                         },
                         pattern: {
@@ -282,11 +291,11 @@ export default {
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/zwerge",
                 rollTables: {
-                    "vorname-m": "zwerge_vorname_m",
-                    "vorname-w": "zwerge_vorname_w",
+                    "vorname-m": "Zwerg Vorname männlich",
+                    "vorname-w": "Zwerg Vorname weiblich",
                     "zusatz-w": [", Tochter der"],
                     "zusatz-m": [", Sohn des"],
-                    "origin": "ambosszwerge_orte",
+                    "origin": "Ambosszwerge Orte",
                     "haircolor": "Zwerg Haarfarbe",
                     "eyecolor": "Zwerg Augenfarbe",
                 },
@@ -305,11 +314,11 @@ export default {
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/zwerge",
                 rollTables: {
-                    "vorname-m": "zwerge_vorname_m",
-                    "vorname-w": "zwerge_vorname_w",
+                    "vorname-m": "Zwerg Vorname männlich",
+                    "vorname-w": "Zwerg Vorname weiblich",
                     "zusatz-w": [", Tochter der"],
                     "zusatz-m": [", Sohn des"],
-                    "origin": "brillantzwerge_orte",
+                    "origin": "Brillantzwerge Orte",
                     "haircolor": "Zwerg Haarfarbe",
                     "eyecolor": "Zwerg Augenfarbe",
                 },
@@ -328,8 +337,8 @@ export default {
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/zwerge",
                 rollTables: {
-                    "vorname-m": "zwerge_vorname_m",
-                    "vorname-w": "zwerge_vorname_w",
+                    "vorname-m": "Zwerg Vorname männlich",
+                    "vorname-w": "Zwerg Vorname weiblich",
                     "zusatz-w": [", Tochter der"],
                     "zusatz-m": [", Sohn des"],
                     "origin": "erzzwerge_orte",
@@ -351,10 +360,10 @@ export default {
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/huegelzwerge",
                 rollTables: {
-                    "vorname-m": "huegelzwerge_vorname_m",
-                    "vorname-w": "huegelzwerge_vorname_w",
-                    "nachname": "huegelzwerge_nachname",
-                    "origin": "huegelzwerge_orte",
+                    "vorname-m": "Zwerg Vorname männlich",
+                    "vorname-w": "Zwerg Vorname weiblich",
+                    "nachname": "Hügelzwerg Sippenname",
+                    "origin": "Hügelzwerg Orte",
                     "haircolor": "Zwerg Haarfarbe",
                     "eyecolor": "Zwerg Augenfarbe",
                 },
@@ -376,10 +385,10 @@ export default {
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/auelfen",
                 rollTables: {
-                    "vorname-m": "elfen_vorname_m",
-                    "vorname-w": "elfen_vorname_w",
-                    "nachname": "elfen_nachname",
-                    "origin": "auelfen_orte",
+                    "vorname-m": "Elf Vorname männlich",
+                    "vorname-w": "Elf Vorname weiblich",
+                    "nachname": "Elf Nachname",
+                    "origin": "Auelf Orte",
                     "haircolor": "Auelf Haarfarbe",
                     "eyecolor": "Auelf Augenfarbe",
                 },
@@ -395,10 +404,10 @@ export default {
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/auelfen",
                 rollTables: {
-                    "vorname-m": "elfen_vorname_m",
-                    "vorname-w": "elfen_vorname_w",
-                    "nachname": "elfen_nachname",
-                    "origin": "firnelfen_orte",
+                    "vorname-m": "Elf Vorname männlich",
+                    "vorname-w": "Elf Vorname weiblich",
+                    "nachname": "Elf Nachname",
+                    "origin": "Firnelf Orte",
                     "haircolor": "Firnelf Haarfarbe",
                     "eyecolor": "Firnelf Augenfarbe",
                 },
@@ -407,17 +416,17 @@ export default {
                     weightSubtrahend: "110 + 2W6",
                 }
             }
-        },
+        },      // icons/svg/hanging-sign.svg
         {
             species: "elven",
             key: 'waldelfen', name: 'Waldelfen', img: "modules/dsa5-core/icons/culture/Waldelfen.webp",
             data: {
                 images: "modules/dsa5-homebrew/images/actors/random-npc/waldelfen",
                 rollTables: {
-                    "vorname-m": "elfen_vorname_m",
-                    "vorname-w": "elfen_vorname_w",
-                    "nachname": "elfen_nachname",
-                    "origin": "waldelfen_orte",
+                    "vorname-m": "Elf Vorname männlich",
+                    "vorname-w": "Elf Vorname weiblich",
+                    "nachname": "Elf Nachname",
+                    "origin": "Waldelf Sippe",
                     "haircolor": "Waldelf Haarfarbe",
                     "eyecolor": "Waldelf Augenfarbe",
                 },

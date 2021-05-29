@@ -12,7 +12,7 @@ export class NscFactory extends FormApplication {
         this.settings = game.settings.get(moduleName, 'nsc-factory') || NscFactory.defaultSettings || {}
         this.selection = this.settings.lastSelection || {}
         this.professionCompendium = game.packs.get(this.settings.settings?.baseActorCollection)
-        this.rollTablesCompendium = game.packs.get(moduleName + ".rolltable-names")
+        this.rollTablesCompendium = game.packs.get(this.settings.settings?.rolltablesCollection)
 
         Hooks.on(moduleName + ".update-settings", (settings) => {
             this.settings = settings['nsc-factory']
@@ -152,7 +152,7 @@ export class NscFactory extends FormApplication {
                 "data.details.height.value": newActor.height,
                 "data.details.weight.value": newActor.weight,
                 "data.details.age.value": newActor.age,
-                "data.details.biography.value": `<p><i>"${newActor.catchphrase}"</i></p><p>${newActor.physicalTrait}</p>`,
+                "data.details.biography.value": `<p><i>"${newActor.catchphrase}"</i></p><p>${newActor.characterTrait}</p>`,
                 "data.details.distinguishingmark.value": newActor.distinguishingmark,
             })
             console.log(actor)
@@ -387,10 +387,10 @@ export class NscFactory extends FormApplication {
 
 
     async _rollTraits(archetypeData, gender, professionName) {
-        const physicalTrait = await this._followPattern(archetypeData.pattern.physicalTrait, archetypeData.rollTables, gender)
+        const characterTrait = await this._followPattern(archetypeData.pattern.characterTrait, archetypeData.rollTables, gender)
         const catchphrase = await this._followPattern(archetypeData.pattern.catchphrase, archetypeData.rollTables, gender)
         const origin = await this._followPattern(archetypeData.pattern.origin, archetypeData.rollTables, gender)
-        return {physicalTrait, catchphrase, origin}
+        return {characterTrait, catchphrase, origin}
     }
 
 

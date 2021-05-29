@@ -35,7 +35,6 @@ export class MeistertoolsSettings extends FormApplication {
         this.initialTab = initialTab
         this.settings = {}
         for (let {key} of settingsCategories) {
-            console.log(key)
             this.settings[key] = game.settings.get(moduleName, key)
         }
 

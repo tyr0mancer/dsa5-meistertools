@@ -186,8 +186,9 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
 
     async _serveOrder() {
         let content = ``
-        for (let {price, item} of this.merchantFlags.cart) {
-            content += `<img src="${item.img}" style="height: 32px" /><b>${item.name}</b> - ${price}`
+        for (let {item, link} of this.merchantFlags.cart) {
+            console.log(item)
+            content += `<div><img src="${item.img}" style="height: 48px; border: none" /><b>${link}</b></div>`
         }
 
         const message = await ChatMessage.create({
@@ -343,6 +344,7 @@ async function calculateCurrent(category, {quality, price}) {
         const p = game.packs.get(entry.collection)
         const item = await p?.getEntity(entry.resultId)
         const price = Math.floor(item?.data.data.price.value * sellFactor * 100) / 100
-        category.current.push({item, visible: false, price})
+        console.log(item.link)
+        category.current.push({item, visible: false, price, link: item.link})
     }
 }

@@ -110,9 +110,11 @@
                             <a class="show-all" title="Alle Einträge sichtbar machen"><i class="far fa-eye"></i></a>
                             <a class="hide-all" title="Alle Einträge unsichtbar machen"><i class="far fa-eye-slash"></i></a>
                             {{#if locked}}
-                                <a class="unlock-merchant" style="color: red" title="Ansicht für Spieler freigeben"><i class="fas fa-lock"></i></a>
+                                <a class="unlock-merchant" style="color: red" title="Ansicht für Spieler freigeben"><i
+                                        class="fas fa-lock"></i></a>
                             {{else}}
-                                <a class="lock-merchant" style="color: green" title="Ansicht für Spieler verbergen"><i class="fas fa-unlock"></i></a>
+                                <a class="lock-merchant" style="color: green" title="Ansicht für Spieler verbergen"><i
+                                        class="fas fa-unlock"></i></a>
                             {{/if}}
                         </div>
 
@@ -211,8 +213,10 @@
                             </div>
                         {{/if}}
 
-                        <a class="delete-display-messages">delete-messages</a>
-                        <a class="delete-payment-messages">delete-bills</a>
+                        <div>
+                            <a class="delete-display-messages"><i class="fas fa-comment-dots"></i> Display Chats löschen</a><br/>
+                            <a class="delete-payment-messages"><i class="fas fa-comment-dollar"></i> Payment Chats löschen</a>
+                        </div>
                     </div>
 
                     <div>

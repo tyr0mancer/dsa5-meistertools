@@ -1,6 +1,21 @@
 <form>
-    <div class="box">
-        Spieleransicht
+    <div class="box header">
+        <h1>{{general.tavern-name}}</h1>
     </div>
+
+    {{#each supply as |category n|}}
+        {{#with category}}
+            <div class="box header">
+                <h2>{{categoryName}}</h2>
+                <div class="col-3">
+                    {{#each_when current "visible" true}}
+                        <img src="{{item.img}}" style="width:48px"/>
+                        <b>{{item.name}}</b>
+                        <div>{{{money price}}}</div>
+                    {{/each_when}}
+                </div>
+            </div>
+        {{/with}}
+    {{/each}}
 
 </form>

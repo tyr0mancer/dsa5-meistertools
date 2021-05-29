@@ -57,9 +57,13 @@ export function registerHandlebarHelper() {
      */
     Handlebars.registerHelper('each_when', function (list, k, v, opts) {
         let i, result = '';
-        for (i = 0; i < list?.length; ++i)
-            if (list[i][k]?.includes(v))
+        for (i = 0; i < list?.length; ++i) {
+            if (!list[i][k]) continue
+            if (typeof list[i][k] === "string" && list[i][k].includes(v))
                 result = result + opts.fn(list[i]);
+            if (typeof list[i][k] === "boolean" && list[i][k])
+                result = result + opts.fn(list[i]);
+        }
         return result;
     });
 

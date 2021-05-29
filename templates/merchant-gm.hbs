@@ -107,8 +107,8 @@
                     <div class="box header">
                         <h1><a class="re-roll" data-roll-type="current"><i class="fas fa-dice"></i></a></h1>
                         <div class="top-bar">
-                            <a><i class="far fa-eye"></i></a>
-                            <a><i class="far fa-eye-slash"></i></a>
+                            <a class="show-all"><i class="far fa-eye"></i></a>
+                            <a class="hide-all"><i class="far fa-eye-slash"></i></a>
                             <a><i class="fas fa-lock"></i></a>
                         </div>
 
@@ -191,6 +191,18 @@
                                 </div>
                             </div>
                         {{/ifeq}}
+
+
+                        {{#if cart}}
+                            <div class="box">
+                                {{#each cart}}
+                                    <div><b>{{item.name}} {{{money price}}}</b></div>
+                                    <!--<textarea>{{stringify this}}</textarea>-->
+                                {{/each}}
+                                <button class="clear-cart">clear</button>
+                            </div>
+                        {{/if}}
+
                     </div>
 
                     <div>
@@ -270,7 +282,8 @@
                                                         <input id="filter-rarity-{{n}}" name="filter-rarity"
                                                                data-category-id="{{n}}" class="merchant"
                                                             {{checked filter-rarity}} type="checkbox"/>
-                                                        <label for="filter-rarity-{{n}}" title="Gewichtung gemäß Verfügbarkeit an aktuellem Ort">Verfügbarkeit</label>
+                                                        <label for="filter-rarity-{{n}}"
+                                                               title="Gewichtung gemäß Verfügbarkeit an aktuellem Ort">Verfügbarkeit</label>
                                                     </div>
                                                 </div>
                                                 <div class="inner box float amount-rule">
@@ -305,26 +318,42 @@
                                         </div>
                                     </div>
 
-                                    <table>
-                                        <tr>
-                                            <th>Bild</th>
-                                            <th>Name</th>
-                                            <th>Preis</th>
-                                            <th></th>
-                                        </tr>
-                                        {{#each current}}
+                                    {{#unless ../general.edit-settings}}
+                                        <table class="current-supply">
                                             <tr>
-                                                <td>
-                                                    <img style="height: 32px" src="{{img}}"/>
-                                                </td>
-                                                <td>{{name}}</td>
-                                                <td>{{{money data.price.value}}}</td>
-                                                <td>
-                                                    <button>+</button>
-                                                </td>
+                                                <th class="image">Bild</th>
+                                                <th>Name</th>
+                                                <th class="price">Preis</th>
+                                                <th class="buttons"></th>
                                             </tr>
-                                        {{/each}}
-                                    </table>
+                                            {{#each current}}
+                                                {{#with item}}
+                                                    <tr {{#unless ../visible}}class="invisible"{{/unless}}>
+                                                        <td>
+                                                            <img data-entry-id="{{_id}}" data-category-id="{{n}}"
+                                                                 class="show-entry" src="{{img}}"/>
+                                                        </td>
+                                                        <td>
+                                                            <h3>{{#if data.description.value}}
+                                                            <a class="toggle-description" data-target="#detail-{{_id}}">
+                                                                <i
+                                                                        class="fas fa-info-circle"></i> {{/if}}{{name}}
+                                                            </a></h3>
+                                                            <div id="detail-{{_id}}" class="inner box hidden">
+                                                                {{{data.description.value}}}
+                                                            </div>
+                                                        </td>
+                                                        <td>{{{money ../price}}}</td>
+                                                        <td>
+                                                            <button class="add-entry" data-entry-id="{{_id}}"
+                                                                    data-category-id="{{n}}"><i
+                                                                    class="fas fa-cart-plus"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                {{/with}}
+                                            {{/each}}
+                                        </table>
+                                    {{/unless}}
                                 </div>
                             {{/with}}
                         {{/each}}

@@ -36,3 +36,4 @@ export const RANDOM_TAVERN_NAME = {
 }
 
 export const SOURCE_TYPES = ["library", "rolltable", "items"]
+

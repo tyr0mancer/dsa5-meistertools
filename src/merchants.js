@@ -98,11 +98,47 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             )
         })
 
+        html.find(".toggle-description").click((event) => {
+            const target = $(event.currentTarget).attr("data-target")
+            $(target).toggle(100)
+        })
+
         html.find(".add-category").click(() => {
             const supply = this.merchantFlags?.supply || []
             supply.push(DEFAULT_CATEGORY_ENTRY)
             this.actor.setFlag(moduleName, 'merchant.supply', supply)
         })
+
+
+        html.find(".show-category").click((event) => {
+            const categoryId = $(event.currentTarget).attr("data-category-id")
+            this.merchantFlags.supply[categoryId].current.forEach(entry => entry.visible = true)
+            this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
+        })
+
+        html.find(".show-all").click(() => {
+            this.merchantFlags.supply.forEach(category => category.current.forEach(entry => entry.visible = true))
+            this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
+        })
+        html.find(".hide-all").click(() => {
+            this.merchantFlags.supply.forEach(category => category.current.forEach(entry => entry.visible = false))
+            this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
+        })
+
+        html.find(".add-entry").click((event) => {
+            const categoryId = $(event.currentTarget).attr("data-category-id")
+            const entryId = $(event.currentTarget).attr("data-entry-id")
+            const cart = this.merchantFlags.cart || []
+            const entry = this.merchantFlags.supply[categoryId].current.find(e => e.item._id === entryId)
+            cart.push(entry)
+            this.actor.setFlag(moduleName, 'merchant.cart', cart)
+        })
+
+        html.find(".clear-cart").click(() => {
+            this.actor.setFlag(moduleName, 'merchant.cart', [])
+        })
+
+
 
         html.find(".delete-category").click((event) => {
             const categoryId = $(event.currentTarget).attr("data-category-id")
@@ -112,6 +148,16 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         })
 
         html.find("input.merchant,select.merchant").change(e => this._handleChange(e))
+
+        html.find(".show-entry").click(event => {
+            const categoryId = $(event.currentTarget).attr("data-category-id")
+            const entryId = $(event.currentTarget).attr("data-entry-id")
+            const {supply} = this.merchantFlags
+            const entry = supply[categoryId].current.find(e => e.item._id === entryId)
+            entry.visible = true
+            this.actor.setFlag(moduleName, 'merchant.supply', supply)
+        })
+
 
     }
 
@@ -202,8 +248,8 @@ async function calculateCurrent(category, {quality, price}) {
     const results = []
     for (const item of itemsArray) {
         const rarity = filterRarity
-            ? await MeistertoolsRarity.getCurrentRarity(item)
-            : item.data.data?.rarity?.current || 3
+            ? await MeistertoolsRarity.getCurrentRarity(item) || MeistertoolsRarity.defaultRarity
+            : MeistertoolsRarity.defaultRarity
         results.push({
             collection: item.compendium.collection,
             weight: rarity * rarity,
@@ -230,9 +276,11 @@ async function calculateCurrent(category, {quality, price}) {
     table.delete()
 
     category.current = []
+    const {sell: sellFactor} = PRICE.find(p => p.key === parseInt(price))
     for (let entry of res.results) {
         const p = game.packs.get(entry.collection)
         const item = await p.getEntity(entry.resultId)
-        category.current.push(item)
+        const price = Math.floor(item.data.data.price.value * sellFactor * 100) / 100
+        category.current.push({item, visible: false, price})
     }
 }

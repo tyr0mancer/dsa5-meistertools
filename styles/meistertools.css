@@ -651,3 +651,35 @@ a.load-pattern {
 .meistertools .buy-rarity label {
     height: 40px;
 }
+
+.meistertools table.current-supply th {
+    text-align: left;
+}
+
+.meistertools table.current-supply td {
+    vertical-align: top;
+}
+
+.meistertools table.current-supply img {
+    max-width: 32px;
+    max-height: 32px;
+    border: none;
+    cursor: pointer;
+}
+
+.meistertools table.current-supply th.image {
+    width: 40px
+}
+
+.meistertools table.current-supply th.price {
+    width: 100px
+}
+
+.meistertools table.current-supply th.buttons {
+    width: 40px
+}
+
+.meistertools table.current-supply tr.invisible {
+    background-color: lightsalmon;
+}
+

@@ -59,9 +59,3 @@ export class RequestRoll extends Application {
     }
 
 }
-
-function nextStep(input, rule) {
-    console.log(input)
-
-    return `<pre>${JSON.stringify(rule)}</pre>`
-}

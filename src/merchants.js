@@ -1,4 +1,4 @@
-//import DSA5Payment from "../../../systems/dsa5/modules/system/payment.js";
+import DSA5Payment from "../../../systems/dsa5/modules/system/payment.js";
 import ActorSheetdsa5NPC from "../../../systems/dsa5/modules/actor/npc-sheet.js";
 import {MeistertoolsUtil} from "../meistertools-util.js";
 import {MeistertoolsRarity} from "./rarity.js";
@@ -18,6 +18,8 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         super(...args);
         this.rolltableOptions = []
         this.packOptions = []
+        this.paymentMessages = []
+        this.displayMessages = []
         this.setOptions().then(() => this.render(true))
     }
 
@@ -67,7 +69,8 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
                 ROLLTABLES: this.rolltableOptions,
                 PACKS: this.packOptions
             },
-            ...this.merchantFlags
+            ...this.merchantFlags,
+            locked: (this.actor.data.permission.default !== 1),
         })
         return data;
     }
@@ -125,7 +128,7 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
         })
 
-        html.find(".add-entry").click((event) => {
+        html.find(".add-to-cart").click((event) => {
             const categoryId = $(event.currentTarget).attr("data-category-id")
             const entryId = $(event.currentTarget).attr("data-entry-id")
             const cart = this.merchantFlags.cart || []
@@ -138,6 +141,15 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             this.actor.setFlag(moduleName, 'merchant.cart', [])
         })
 
+        html.find(".serve-cart").click(() => {
+            this._serveOrder()
+            this._requestPayment()
+            this.actor.setFlag(moduleName, 'merchant.cart', [])
+        })
+        html.find(".request-payment").click(() => {
+            this._requestPayment()
+            this.actor.setFlag(moduleName, 'merchant.cart', [])
+        })
 
 
         html.find(".delete-category").click((event) => {
@@ -158,7 +170,44 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             this.actor.setFlag(moduleName, 'merchant.supply', supply)
         })
 
+        html.find("a.unlock-merchant").click(() => this._unlockMerchant());
+        html.find("a.lock-merchant").click(() => this._lockMerchant());
 
+        html.find("a.delete-payment-messages").click(() => {
+            this.paymentMessages.forEach(m => m.delete())
+        });
+
+        html.find("a.delete-display-messages").click(() => {
+            this.displayMessages.forEach(m => m.delete())
+        });
+
+
+    }
+
+    async _serveOrder() {
+        let content = ``
+        for (let {price, item} of this.merchantFlags.cart) {
+            content += `<img src="${item.img}" style="height: 32px" /><b>${item.name}</b> - ${price}`
+        }
+
+        const message = await ChatMessage.create({
+            speaker: {alias: this.merchantFlags.general["tavern-name"]},
+            content
+        })
+        this.displayMessages.push(message)
+    }
+
+    async _requestPayment() {
+        let sum = 0
+        for (let {price} of this.merchantFlags.cart)
+            sum += price
+        let money = DSA5Payment._getPaymoney(sum.toString())
+        if (!money) return
+        const message = await ChatMessage.create({
+            speaker: {alias: (this.merchantFlags.general.merchantType === "tavern") ? this.merchantFlags.general["tavern-name"] : this.actor.name},
+            content: `<button class="payButton" data-amount="${money}">${DSA5Payment._moneyToString(money)} bezahlen</button>`
+        })
+        this.paymentMessages.push(message)
     }
 
 
@@ -208,6 +257,17 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
     }
 
 
+    async _unlockMerchant() {
+        const perms = this.actor.data.permission
+        perms.default = 1
+        await this.actor.update({permission: perms})
+    }
+
+    async _lockMerchant() {
+        const perms = this.actor.data.permission
+        perms.default = 0
+        await this.actor.update({permission: perms})
+    }
 }
 
 function getRandomEstablishmentName() {
@@ -250,17 +310,19 @@ async function calculateCurrent(category, {quality, price}) {
         const rarity = filterRarity
             ? await MeistertoolsRarity.getCurrentRarity(item) || MeistertoolsRarity.defaultRarity
             : MeistertoolsRarity.defaultRarity
-        results.push({
-            collection: item.compendium.collection,
-            weight: rarity * rarity,
-            type: 2,
-            text: item.name,
-            resultId: item._id,
-            img: item.img,
-            drawn: false,
-            range: [-1, -1],
-            flags: {}
-        })
+
+        if (item.compendium)
+            results.push({
+                collection: item.compendium?.collection,
+                weight: rarity * rarity,
+                type: 2,
+                text: item.name,
+                resultId: item._id,
+                img: item.img,
+                drawn: false,
+                range: [-1, -1],
+                flags: {}
+            })
     }
 
     const tableData = {
@@ -272,15 +334,15 @@ async function calculateCurrent(category, {quality, price}) {
     }
     let table = await RollTable.create(tableData)
     await table.normalize()
-    const res = await table.drawMany(amount)
+    const res = await table.drawMany(amount, {displayChat: false})
     table.delete()
 
     category.current = []
     const {sell: sellFactor} = PRICE.find(p => p.key === parseInt(price))
     for (let entry of res.results) {
         const p = game.packs.get(entry.collection)
-        const item = await p.getEntity(entry.resultId)
-        const price = Math.floor(item.data.data.price.value * sellFactor * 100) / 100
+        const item = await p?.getEntity(entry.resultId)
+        const price = Math.floor(item?.data.data.price.value * sellFactor * 100) / 100
         category.current.push({item, visible: false, price})
     }
 }

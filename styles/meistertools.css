@@ -675,11 +675,17 @@ a.load-pattern {
     width: 100px
 }
 
-.meistertools table.current-supply th.buttons {
-    width: 40px
+.meistertools table.current-supply td.price {
+    text-align: right;
+}
+
+.meistertools table.current-supply .cart {
+    width: 40px;
+    text-align: right;
 }
 
 .meistertools table.current-supply tr.invisible {
-    background-color: lightsalmon;
+    background-color: lightyellow;
+    opacity: 0.6;
 }
 

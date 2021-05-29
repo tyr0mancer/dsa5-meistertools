@@ -225,7 +225,7 @@ export class MeistertoolsRarity extends Application {
     }
 
     static rarityDescription(rarity = this.defaultRarity) {
-        return this.rarityOptions.find(e => e.key === rarity).name
+        return this.rarityOptions.find(e => e.key === rarity)?.name
     }
 
     static cleanRarity(rarity) {

@@ -33,6 +33,12 @@
       "label": "Karten",
       "path": "packs/scenes-maps.db",
       "entity": "Scene"
+    },
+    {
+      "name": "actor-archetypes",
+      "label": "NSC Fabrik Archetypen",
+      "path": "packs/actor-archetypes.db",
+      "entity": "Actor"
     }
   ],
   "dependencies": [

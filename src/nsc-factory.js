@@ -95,8 +95,12 @@ export class NscFactory extends FormApplication {
             mergeObject(archetypeData, variation.data)
 
         const professionActor = this.professionCompendium.index.find(e => e._id === this.selection?.profession)
-        professionActor.collection = this.professionCompendium.collection
-        const archetypeActor = await game.packs.get(archetypeData.actor.collection)?.getEntry(archetypeData.actor._id)
+        if (!professionActor) {
+            ui.notifications.info(`Profession wählen`);
+            return
+        }
+        professionActor.collection = this.professionCompendium?.collection
+        const archetypeActor = await game.packs.get(archetypeData.actor?.collection)?.getEntry(archetypeData.actor._id)
 
         this.preview = {
             professionActor,

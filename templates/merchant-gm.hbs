@@ -213,9 +213,10 @@
                             </div>
                         {{/if}}
 
-                        <div>
+                        <div class="hidden">
                             <a class="delete-display-messages"><i class="fas fa-comment-dots"></i> Display Chats löschen</a><br/>
-                            <a class="delete-payment-messages"><i class="fas fa-comment-dollar"></i> Payment Chats löschen</a>
+                            <a class="delete-payment-messages"><i class="fas fa-comment-dollar"></i> Payment Chats
+                                löschen</a>
                         </div>
                     </div>
 
@@ -376,10 +377,11 @@
                             {{/with}}
                         {{/each}}
 
-                        {{#if general.edit-settings}}
+                        {{#ifeq general.edit-settings false}}
+                        {{else}}
                             <div class="float: right"><a class="add-category"><i class="fas fa-plus-circle"></i>
                                 Kategorie hinzufügen</a></div>
-                        {{/if}}
+                        {{/ifeq}}
                     </div>
 
                     <!-- thats it with own code. everything else is (c) Ulisses and taken from the dsa5 core system -->

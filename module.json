@@ -23,9 +23,21 @@
   ],
   "packs": [
     {
+      "name": "item-tavern",
+      "label": "Tavernen",
+      "path": "packs/item-tavern.db",
+      "entity": "Item"
+    },
+    {
       "name": "rolltable-names",
       "label": "Namensliste",
       "path": "packs/rolltable-names.db",
+      "entity": "RollTable"
+    },
+    {
+      "name": "rolltable-taverns",
+      "label": "Tavernen",
+      "path": "packs/rolltable-taverns.db",
       "entity": "RollTable"
     },
     {

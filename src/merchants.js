@@ -120,11 +120,11 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         })
 
         html.find(".show-all").click(() => {
-            this.merchantFlags.supply.forEach(category => category.current.forEach(entry => entry.visible = true))
+            this.merchantFlags.supply.forEach(category => category.current?.forEach(entry => entry.visible = true))
             this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
         })
         html.find(".hide-all").click(() => {
-            this.merchantFlags.supply.forEach(category => category.current.forEach(entry => entry.visible = false))
+            this.merchantFlags.supply.forEach(category => category.current?.forEach(entry => entry.visible = false))
             this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
         })
 
@@ -160,6 +160,7 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         })
 
         html.find("input.merchant,select.merchant").change(e => this._handleChange(e))
+        //html.find("input.merchant,select.merchant").change(e => this._handleChange(e))
 
         html.find(".show-entry").click(event => {
             const categoryId = $(event.currentTarget).attr("data-category-id")
@@ -180,7 +181,6 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         html.find("a.delete-display-messages").click(() => {
             this.displayMessages.forEach(m => m.delete())
         });
-
 
     }
 
@@ -212,7 +212,7 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
     }
 
 
-    _handleChange(event) {
+    async _handleChange(event) {
         const categoryId = $(event.currentTarget).attr("data-category-id")
         const name = event.currentTarget.name
         const value = (event.currentTarget.type === "checkbox")
@@ -229,7 +229,10 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
                 break
             }
         supply[categoryId][name] = value
-        this.actor.setFlag(moduleName, 'merchant.supply', supply)
+        //console.log(name, value, moduleName)
+        console.log(supply)
+        await this.actor.setFlag(moduleName, 'merchant.supply', supply)
+        console.log(this.actor)
     }
 
 
@@ -344,7 +347,6 @@ async function calculateCurrent(category, {quality, price}) {
         const p = game.packs.get(entry.collection)
         const item = await p?.getEntity(entry.resultId)
         const price = Math.floor(item?.data.data.price.value * sellFactor * 100) / 100
-        console.log(item.link)
         category.current.push({item, visible: false, price, link: item.link})
     }
 }

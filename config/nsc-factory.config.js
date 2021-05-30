@@ -10,13 +10,16 @@ export default {
         closeAfterGeneration: true,
     },
 
+
+
+
     lastSelection: {
         "amount": 1,
         "gender": "random",
         "position": "top-left",
         "archetype": "mittelreich",
-        "variation": "albernia",
-        "profession": "",
+        "variation": "gareth",
+        "profession": "hMRTISPWfxIX8rtX",
         "patternName": "",
         "players": {
             "position": "center",

@@ -1,21 +1,16 @@
 {
   "name": "dsa5-meistertools",
   "title": "DSA5 - MeisterTools",
-  "description": "Viele kleine Helferlein, die dem DSA5 Spielleiter auf Foundry VTT das Leben leichter machen sollen.",
+  "description": "Helferlein, die dem DSA5 Spielleiter auf Foundry VTT das Leben leichter machen sollen.",
   "author": "tyr0mancer",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "minimumCoreVersion": "0.7.9",
-  "compatibleCoreVersion": "0.7.9",
+  "compatibleCoreVersion": "0.7.10",
   "languages": [
     {
       "lang": "de",
       "name": "Deutsch",
       "path": "lang/de.json"
-    },
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
     }
   ],
   "styles": [

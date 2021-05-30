@@ -3,43 +3,115 @@
         {{#each options.ruleCategories}}
             <div class="inner box header">
                 <h2>{{name}}</h2>
-                <ul>
-                    {{#each_when ../options.rules 'category' key}}
-                        <li><a class="set-rule" data-rule-key="{{key}}"><i class="{{icon}}"></i> {{name}}</a></li>
-                    {{/each_when}}
-                </ul>
+                {{#each_when ../options.rules 'category' key}}
+                    <div><a class="set-rule" data-rule-key="{{key}}"><i class="{{icon}}"
+                                                                        style="width: 20px"></i> {{name}}</a></div>
+                {{/each_when}}
             </div>
         {{/each}}
-    </div>
-    <div class="box header float">
-        <h1><i class="{{rule.icon}}"></i> {{rule.name}}</h1>
 
-        {{#each rule.rollRequests as |request n|}}
-            {{#with request}}
-                <div class="inner box header">
-                    <h2>{{comment}}</h2>
-                    <div class="col-2">
-                        <div class="float">
-                            {{#ifeq target "Player"}}
-                                {{#each ../options.players}}
-                                    <div>
-                                        <input id="actor-{{n}}-{{_id}}" type="radio" value="{{_id}}"
-                                               name="target-{{n}}"/>
-                                        <label for="actor-{{n}}-{{_id}}">{{name}} </label>
-                                    </div>
-                                {{/each}}
-                            {{else}}
-                                <b>Todo: Pick Actor</b>
-                            {{/ifeq}}
-                        </div>
-                        <div>
-                            <b>Modifier {{modifier}}</b>
-                            <button class="request-roll" data-request="{{n}}">{{talent}}</button>
-                        </div>
-                    </div>
-                    <p>{{{description}}}</p>
-                </div>
-            {{/with}}
-        {{/each}}
+        <div class="inner box">
+            <button class="talents">Talentprobe</button>
+        </div>
+
     </div>
+
+    {{#if rule}}
+        <div class="box header float">
+            <h1><i class="{{rule.icon}}"></i> {{rule.name}}</h1>
+
+            {{#if rule.url}}
+                <p>...kommt bald:</p>
+                <textarea>{{rule.url}}</textarea>
+            {{/if}}
+
+            {{#each rule.rollRequests as |request n|}}
+                {{#with request}}
+                    <div class="inner box header">
+                        <h2>{{name}}</h2>
+                        <div class="col-2">
+                            <div class="float">
+                                {{#ifeq target "Player"}}
+                                    {{#each ../options.players}}
+                                        <div>
+                                            <input id="actor-{{n}}-{{_id}}" type="radio" value="{{_id}}"
+                                                   name="target-{{n}}"/>
+                                            <label for="actor-{{n}}-{{_id}}">{{name}} </label>
+                                        </div>
+                                    {{/each}}
+                                {{else}}
+                                    <b>Todo: Pick Actor</b>
+                                {{/ifeq}}
+                            </div>
+                            <div>
+                                {{#each rolls as |roll k|}}
+                                    {{#with roll}}
+                                        <div>
+                                            <b>Modifier {{modifier}}</b>
+                                            <button class="request-roll" data-request="{{n}}"
+                                                    data-roll="{{k}}">{{talent}}</button>
+                                        </div>
+                                    {{/with}}
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        {{#if description}}
+                            <p>{{description}}</p>
+                        {{/if}}
+
+                        {{#if duration}}
+                            <p>Dauer: {{duration}}</p>
+                        {{/if}}
+
+                        {{#if modifiers}}
+                            <h3><b>Zusätzliche Modifikatoren: </b>
+                                {{#each modifiers}}
+                                    <i>{{this}} </i>
+                                {{/each}}
+                            </h3>
+                        {{/if}}
+
+                    </div>
+                {{/with}}
+            {{/each}}
+        </div>
+
+    {{else}}
+        <div class="box header">
+            <h1>Talentprobe anfordern</h1>
+            <div class="float">
+                {{#each options.players}}
+                    <div>
+                        <input id="player-{{_id}}" type="checkbox" class="player" name="{{_id}}"/>
+                        <label for="player-{{_id}}">{{name}} </label>
+                    </div>
+                {{/each}}
+            </div>
+
+            <div class="inner box header">
+                <h2>Talente</h2>
+                <div class="float">
+                    {{#each skills as |skill n|}}
+                        {{#with skill}}
+                            <div class="inner box header">
+                                <div class="skills {{data.data.group.value}}">
+                                    <a class="toggle show" data-target=".skill.{{n}}"><i class="fas fa-info-circle"></i>
+                                        {{name}}</a>
+                                    <button class="request-talent-check" data-talent="{{name}}" title="Probe anfordern"><i class="fas fa-dice-d20"></i></button>
+                                </div>
+                                <div class="hidden skill {{n}}">
+                                    <!--<textarea>{{stringify data.data.group.value}}</textarea>-->
+                                    {{{localize (concat "SKILLdescr." name)}}}
+                                </div>
+                            </div>
+                        {{/with}}
+                    {{/each}}
+                </div>
+            </div>
+
+        </div>
+
+
+    {{/if}}
 </div>

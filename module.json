@@ -30,7 +30,7 @@
     },
     {
       "name": "rolltable-names",
-      "label": "Namensliste",
+      "label": "NSC Fabrik",
       "path": "packs/rolltable-names.db",
       "entity": "RollTable"
     },

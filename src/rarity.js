@@ -265,9 +265,9 @@ export class MeistertoolsRarity extends Application {
                 current = biomeMin
         }
         if (current === undefined) current = rarity.general
-        rarity.current = current
-        await item.update({"data.rarity": duplicate(rarity)})
-        return rarity.current
+        //rarity.current = current
+        //await item.update({"data.rarity": duplicate(rarity)})
+        return current
     }
 
     _setFilter() {

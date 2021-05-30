@@ -5,9 +5,9 @@ export default {
      */
     settings: {
         baseActorCollection: "dsa5-homebrew.actor-archetypen",
-        folderName: "MeisterTools NSC",
+        rolltablesCollection: "dsa5-meistertools.rolltable-names",
+        folderName: "NSC Fabrik",
         closeAfterGeneration: true,
-        rolltablesCollection: "dsa5-meistertools.rolltable-names"
     },
 
     lastSelection: {
@@ -207,7 +207,7 @@ export default {
             species: "human",
             key: 'novadis', name: 'Novadis', img: "modules/dsa5-core/icons/culture/Novadis.webp",
             data: {
-                rarity: {general: 1, regions: [["khom", 5]]},
+                rarity: {general: 1, regions: [["kalifat", 5]]},
                 images: "modules/dsa5-homebrew/images/actors/random-npc/tulamiden",
                 rollTables: {
                     "vorname-m": "Tulamide Vorname männlich",

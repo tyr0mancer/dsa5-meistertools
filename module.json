@@ -32,6 +32,12 @@
       "label": "Namensliste",
       "path": "packs/rolltable-names.db",
       "entity": "RollTable"
+    },
+    {
+      "name": "scenes-maps",
+      "label": "Karten",
+      "path": "packs/scenes-maps.db",
+      "entity": "Scene"
     }
   ],
   "dependencies": [

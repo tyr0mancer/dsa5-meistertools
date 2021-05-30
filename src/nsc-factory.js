@@ -489,12 +489,10 @@ export class NscFactory extends FormApplication {
             result.career = await this._followPattern(archetypeData.pattern.career, archetypeData.rollTables, gender)
 
         result.name = await this._rollName(archetypeData, result.gender)
-        const image = await this._rollAppearance(archetypeData, result.gender, result.career)
-        mergeObject(result, {...image})
-        /*
-                const traits = await this._rollTraits(archetypeData, result.gender, result.career)
-                mergeObject(result, {...traits})
-        */
+        const appearance = await this._rollAppearance(archetypeData, result.gender, result.career)
+        const traits = await this._rollTraits(archetypeData, result.gender, result.career)
+
+        mergeObject(result, {...appearance, ...traits})
         return result;
     }
 

@@ -71,6 +71,10 @@
                                             <table>
                                                 <tr>
                                                     <td><i class="fas fa-hourglass-half" title="Alter"></i></td>
+                                                    <td>{{career}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="fas fa-hourglass-half" title="Alter"></i></td>
                                                     <td>{{age}} Jahre</td>
                                                 </tr>
                                                 <tr>
@@ -89,24 +93,18 @@
                                                     <td><i class="far fa-eye" title="Augenfarbe"></i></td>
                                                     <td>{{eyecolor}}</td>
                                                 </tr>
-                                                {{#if origin}}
-                                                    <tr>
-                                                        <td><i class="fas fa-city" title="Herkunft"></i></td>
-                                                        <td>{{origin}}</td>
-                                                    </tr>
-                                                {{/if}}
+                                                <tr>
+                                                    <td><i class="fas fa-city" title="Herkunft"></i></td>
+                                                    <td>{{origin}}</td>
+                                                </tr>
                                             </table>
                                         </div>
                                     </div>
                                     <div>
-                                        {{#if characterTrait}}
-                                            <b>Charakter</b>
-                                            <div>{{characterTrait}}</div>
-                                        {{/if}}
-                                        {{#if catchphrase}}
-                                            <b>Zitat</b>
-                                            <div>"{{catchphrase}}"</div>
-                                        {{/if}}
+                                        <b>Charakter</b>
+                                        <div>{{characterTrait}}</div>
+                                        <b>Zitat</b>
+                                        <div>"{{catchphrase}}"</div>
                                     </div>
                                 </div>
                             {{/with}}

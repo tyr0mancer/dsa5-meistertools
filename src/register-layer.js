@@ -41,7 +41,7 @@ export function registerControlButtons(controls) {
         */
         {
             name: "request-roll",
-            title: 'Fokus-Regeln',
+            title: 'Regelbuch',
             icon: "fas fa-book",
             button: true,
             onClick: () => new RequestRoll().render(true)

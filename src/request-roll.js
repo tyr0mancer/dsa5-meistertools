@@ -10,7 +10,6 @@ export class RequestRoll extends Application {
         this.ruleCategories = RULE_CATEGORIES
         this.content = ""
         this.skillpack = game.packs.get("dsa5.skills")
-        this.skills = []
         //getTemplate(`modules/${moduleName}/templates/roll_nightwatch.hbs`);
     }
 
@@ -29,8 +28,19 @@ export class RequestRoll extends Application {
     }
 
     async getData() {
-        if (!this.skills.length)
-            this.skills = await this.skillpack.getContent()
+        if (!this.skillGroups) {
+            this.skillGroups = []
+            const skills = await this.skillpack.getContent()
+            for (const skill of skills) {
+                let groupName = skill.data.data.group.value
+                let group = this.skillGroups.find(g => g.name === groupName)
+                if (!group) {
+                    this.skillGroups.push({name: groupName, skills: []})
+                    group = this.skillGroups[this.skillGroups.length - 1]
+                }
+                group.skills.push(skill.name)
+            }
+        }
 
         return {
             options: {
@@ -38,7 +48,7 @@ export class RequestRoll extends Application {
                 rules: this.rules,
                 ruleCategories: this.ruleCategories,
             },
-            skills: this.skills,
+            skillGroups: this.skillGroups,
             rule: this.rule,
         }
     }
@@ -72,8 +82,9 @@ export class RequestRoll extends Application {
         })
 
         html.find("button.request-talent-check").click(event => {
+            const sib = $(event.currentTarget).siblings()
+            const modifier = sib[1].value
             const talent = $(event.currentTarget).attr("data-talent")
-            const modifier = 0
             const userIds = []
             html.find(`input.player`).each((i, e) => {
                 if (e.checked)

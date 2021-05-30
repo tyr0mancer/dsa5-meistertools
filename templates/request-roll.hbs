@@ -79,7 +79,7 @@
 
     {{else}}
         <div class="box header">
-            <h1>Talentprobe anfordern</h1>
+            <h1>Talentproben</h1>
             <div class="float">
                 {{#each options.players}}
                     <div>
@@ -89,26 +89,35 @@
                 {{/each}}
             </div>
 
-            <div class="inner box header">
-                <h2>Talente</h2>
-                <div class="float">
-                    {{#each skills as |skill n|}}
-                        {{#with skill}}
-                            <div class="inner box header">
-                                <div class="skills {{data.data.group.value}}">
-                                    <a class="toggle show" data-target=".skill.{{n}}"><i class="fas fa-info-circle"></i>
-                                        {{name}}</a>
-                                    <button class="request-talent-check" data-talent="{{name}}" title="Probe anfordern"><i class="fas fa-dice-d20"></i></button>
+            {{#each skillGroups as |group n|}}
+                <div class="inner box header">
+                    <h2 class="skills {{group.name}}">{{localize (concat "SKILL." group.name)}}</h2>
+                    <div class="float">
+                        {{#each group.skills as |skill k|}}
+                            {{#with skill}}
+                                <div class="inner box skills">
+                                    <a class="toggle show" data-target=".skill.{{n}}-{{k}}">{{this}}</a>
+                                    <button class="request-talent-check" data-talent="{{this}}"
+                                            title="Probe anfordern">
+                                        <i class="fas fa-dice-d20"></i></button>
+                                    <select style="float: right; width: 50px">
+                                        <option value="5">+5 = extrem leicht</option>
+                                        <option value="3">+3 = sehr leicht</option>
+                                        <option value="1">+1</option>
+                                        <option selected>0</option>
+                                        <option>-1</option>
+                                        <option>-5</option>
+                                        <option>-3</option>
+                                    </select>
+                                    <div class="hidden skill {{n}}-{{k}}">
+                                        {{{localize (concat "SKILLdescr." this)}}}
+                                    </div>
                                 </div>
-                                <div class="hidden skill {{n}}">
-                                    <!--<textarea>{{stringify data.data.group.value}}</textarea>-->
-                                    {{{localize (concat "SKILLdescr." name)}}}
-                                </div>
-                            </div>
-                        {{/with}}
-                    {{/each}}
+                            {{/with}}
+                        {{/each}}
+                    </div>
                 </div>
-            </div>
+            {{/each}}
 
         </div>
 

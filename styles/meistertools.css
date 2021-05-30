@@ -699,3 +699,9 @@ a.load-pattern {
 .skills {
     min-width: 230px
 }
+
+
+.request-talent-check {
+    margin: 10px;
+    float: right;
+}

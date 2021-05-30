@@ -61,7 +61,7 @@
   ],
   "url": "https://github.com/tyr0mancer/dsa5-meistertools",
   "manifest": "https://raw.githubusercontent.com/tyr0mancer/dsa5-meistertools/master/module.json",
-  "download": "https://github.com/tyr0mancer/dsa5-meistertools/archive/refs/tags/0.2.0.zip",
+  "download": "https://github.com/tyr0mancer/dsa5-meistertools/archive/refs/tags/0.4.0.zip",
   "bugs": "https://github.com/tyr0mancer/dsa5-meistertools/issues",
   "allowBugReporter": true
 }

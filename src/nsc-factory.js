@@ -147,6 +147,8 @@ export class NscFactory extends FormApplication {
             await actor.update({
                 "name": newActor.name,
                 "img": newActor.img,
+                "token.name": newActor.name,
+                "token.img": newActor.img,
                 "data.details.species.value": this.preview.archetypeData.species?.name,
                 "data.details.eyecolor.value": newActor.eyecolor,
                 "data.details.haircolor.value": newActor.haircolor,
@@ -159,7 +161,6 @@ export class NscFactory extends FormApplication {
                 "data.details.biography.value": `<p><i>"${newActor.catchphrase}"</i></p><p>${newActor.characterTrait}</p>`,
                 "data.details.distinguishingmark.value": newActor.distinguishingmark,
             })
-            console.log(actor)
             await this._createActorTokenInCanvas(actor, this.preview.selection.position)
         }
 

@@ -11,15 +11,13 @@ export default {
     },
 
 
-
-
     lastSelection: {
         "amount": 1,
         "gender": "random",
         "position": "top-left",
         "archetype": "mittelreich",
         "variation": "gareth",
-        "profession": "hMRTISPWfxIX8rtX",
+        "profession": "Bw0l1TAGJAiPIZtb",
         "patternName": "",
         "players": {
             "position": "center",

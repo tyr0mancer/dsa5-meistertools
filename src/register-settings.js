@@ -1,4 +1,5 @@
 import {moduleName} from "../meistertools.js";
+import zutatenNsc from "../config/nsc-factory.config.zutaten.js";
 import {MeistertoolsUtil} from "../meistertools-util.js";
 import {NscFactory} from "./nsc-factory.js";
 import {SceneParser} from "./scene-parser.js";
@@ -45,6 +46,8 @@ export class MeistertoolsSettings extends FormApplication {
             baseActors: [],
             playlists: game.playlists.entities.map(p => p.name),
         }
+
+        this.zutatenInstalled = (game.modules.get("dsa5-meistertools-zutaten")?.active)
     }
 
     async _setSelectOptions() {
@@ -74,7 +77,8 @@ export class MeistertoolsSettings extends FormApplication {
         await this._setSelectOptions()
         return {
             selectOptions: this.selectOptions,
-            ...this.settings
+            ...this.settings,
+            zutatenInstalled: this.zutatenInstalled
         }
     }
 
@@ -104,6 +108,15 @@ export class MeistertoolsSettings extends FormApplication {
             this.settings[category] = await game.settings.get(moduleName, category)
             this.render()
         });
+        html.find("button[name=install-zutaten]").click(async (event) => {
+            const category = $(event.currentTarget).attr("data-category")
+            if (category === "nsc-factory") {
+                await game.settings.set(moduleName, category, zutatenNsc)
+                this.settings[category] = await game.settings.get(moduleName, category)
+                this.render()
+            }
+        });
+
 
 
         html.find("button.insert-entry").click(event => {

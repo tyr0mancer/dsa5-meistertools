@@ -41,7 +41,7 @@
     ----------------------- -->
     <section class="tab" data-tab="nsc">
         {{#with nsc-factory}}
-<!--
+            <!--
             <div class="box header">
 
                 <h1>Akteur Verzeichnisse</h1>
@@ -60,7 +60,7 @@
                                     {{#each ../../selectOptions.actorPacks}}
                                         <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
                                     {{/each}}
-                                {{/select}}
+            {{/select}}
                             </select>
                             <label for="actorCollection-{{n}}">Collection</label>
                         </div>
@@ -151,7 +151,11 @@
             <button type="reset" name="reset-settings" class="reset" data-category="nsc-factory">
                 <i class="fas fa-undo"></i> {{localize 'meistertools.reset-settings'}}</button>
             <button type="button" name="restore-settings" class="reset" data-category="nsc-factory">
-                <i class="fas fa-undo"></i> {{localize 'meistertools.restore-settings'}}</button>
+                <i class="fas fa-file-download"></i> {{localize 'meistertools.restore-settings'}}</button>
+            {{#if zutatenInstalled}}
+                <button type="button" name="install-zutaten" data-category="nsc-factory">
+                    <i class="fas fa-magic"></i> MeisterTools mit Zutaten konfigurieren</button>
+            {{/if}}
         </footer>
     </section>
 
@@ -321,7 +325,8 @@
                             <label for="scene-collection-keywords-{{n}}">Keywords</label>
                         </div>
                         <div class="borderless box">
-                            <input id="scene-collection-folderName-{{n}}" name="scenes.sceneCollections[{{n}}].folderName"
+                            <input id="scene-collection-folderName-{{n}}"
+                                   name="scenes.sceneCollections[{{n}}].folderName"
                                    value="{{folderName}}" type="text" class="labeled"/>
                             <label for="scene-collection-folder-{{n}}">Neuer Ordner</label>
                         </div>

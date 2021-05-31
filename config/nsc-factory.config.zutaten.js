@@ -19,7 +19,7 @@ export default {
         "position": "top-left",
         "archetype": "mittelreich",
         "variation": "gareth",
-        "profession": "hMRTISPWfxIX8rtX",
+        "profession": "JlZm9ZGJ0etOu6nX",
         "patternName": "",
         "players": {
             "position": "center",

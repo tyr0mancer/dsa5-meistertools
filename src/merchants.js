@@ -346,7 +346,7 @@ async function calculateCurrent(category, {quality, price}) {
     for (let entry of res.results) {
         const p = game.packs.get(entry.collection)
         const item = await p?.getEntity(entry.resultId)
-        const price = Math.floor(item?.data.data.price.value * sellFactor * 100) / 100
+        const price = parseInt(Math.floor(item?.data.data.price.value * sellFactor * 100).toString().replace(/./g, (c, i) => i <= 1 ? c : "0")) / 100
         category.current.push({item, visible: false, price, link: item.link})
     }
 }

@@ -287,6 +287,7 @@
     border: 1px solid black;
     height: 40px;
     padding: 5px;
+    overflow: hidden;
 }
 
 .meistertools div#nsc-selection img {
@@ -638,6 +639,10 @@ a.load-pattern {
 .meistertools a.set-keyword:hover {
     color: var(--color-light);
     background-color: var(--color-secondary);
+}
+
+.meistertools select#playlistFilter {
+    width: 100px;
 }
 
 /* ---------------------------------

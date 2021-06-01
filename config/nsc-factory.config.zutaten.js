@@ -143,6 +143,7 @@ export default {
             species: "human",
             key: "horasreich", name: "Horasreich", img: "modules/dsa5-core/icons/culture/Horasreich.webp",
             data: {
+                images: "modules/dsa5-meistertools-zutaten/images/archetypes/horasreich",
                 actor: {collection: '', _id: ''},
                 rollTables: {
                     "vorname-m": "Horasreich Vorname männlich",

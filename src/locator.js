@@ -90,7 +90,7 @@ export class MeistertoolsLocator extends Application {
         }
     }
 
-    static get locatorToken() {
+    static get currentLocatorToken() {
         return game.settings.get(moduleName, 'locations').currentLocation.locatorToken
     }
 
@@ -159,7 +159,7 @@ export class MeistertoolsLocator extends Application {
         if (!this.locatorScene) return
         await this.locatorScene.view()
         if (!this.locatorToken) return
-        await canvas.pan({x: this.locatorToken.x, y: this.locatorToken.y})
+        await canvas.pan({x: this.locatorToken.data.x, y: this.locatorToken.data.y})
         canvas.tokens.activate()
     }
 

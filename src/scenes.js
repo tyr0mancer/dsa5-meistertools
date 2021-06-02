@@ -62,8 +62,12 @@ export class Scenes extends Application {
 
             const scene = (sceneSource === "pack")
                 ? await game.scenes.importFromCollection(this.activeCollection.collection, sceneId, this.folder ? {folder: this.folder.id} : null)
-                : this.scenes[sceneSource].find(s => s._id === sceneId)
-            scene.view()
+                : await this.scenes[sceneSource].find(s => s.id === sceneId)
+
+            console.log(scene)
+            scene.view().then(s => console.log(s))
+
+
             this.close()
         })
 
@@ -102,7 +106,7 @@ export class Scenes extends Application {
         this.activeCollection = this.settings.sceneCollections.find(c => c.collection === collection)
 
         if (this.activeCollection.folder)
-            this.folder = game.folders.find(f => f._id === this.activeCollection.folder)
+            this.folder = game.folders.find(f => f.id === this.activeCollection.folder)
         else
             this.folder = await MeistertoolsUtil.getFolder(this.activeCollection.folderName, "Scene")
         this.scenes.folder = this.folder.content

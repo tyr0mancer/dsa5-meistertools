@@ -1,6 +1,6 @@
 import {updatePlaylist} from "./src/update-playlist.js";
 import {registerSettings} from "./src/register-settings.js";
-import {registerLayer, registerControlButtons} from "./src/register-layer.js";
+import {registerControlButtons} from "./src/register-layer.js";
 import {registerHandlebarHelper} from "./src/register-handlebar-helper.js";
 import {MeistertoolsLocator} from "./src/locator.js";
 import MeistertoolsMerchantSheet from "./src/merchants.js";
@@ -39,7 +39,7 @@ Hooks.on("getSceneControlButtons", (controls) => registerControlButtons(controls
 Hooks.once('init', () => {
     console.log(moduleName, "| Initializing MeisterTools")
     registerSettings()
-    registerLayer()
+    //registerLayer()
     registerHandlebarHelper()
 
     Actors.registerSheet("dsa5", MeistertoolsMerchantSheet, {types: ["npc"]});

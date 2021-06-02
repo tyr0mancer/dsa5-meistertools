@@ -95,7 +95,7 @@ export function registerControlButtons(controls) {
             name: "meistertools",
             title: "MeisterTools",
             icon: "fas fa-dungeon",
-            layer: (game.data.version.startsWith("0.7.")) ? "MeistertoolsLayer" : "meistertools",
+            layer: "controls", //(game.data.version.startsWith("0.7.")) ? "MeistertoolsLayer" : "meistertools",
             tools
         }
         if (topMenu)
@@ -116,6 +116,7 @@ export function registerControlButtons(controls) {
 
 }
 
+/*
 
 export function registerLayer() {
     let canvasLayers = Canvas.layers;
@@ -126,21 +127,16 @@ export function registerLayer() {
         }
     })
 }
+*/
 
-class MeistertoolsLayer extends CanvasLayer {
+class MeistertoolsLayer extends ControlsLayer {
     constructor() {
         super();
     }
 
-    /*
-        static get layerOptions() {
-            return mergeObject(super.layerOptions, {
-                canDragCreate: false,
-                objectClass: Note,
-                sheetClass: NoteConfig
-            });
-        }
-    */
+    static get layerOptions() {
+        return mergeObject(super.layerOptions, { zIndex: 1000 });
+    }
 
     activate() {
         CanvasLayer.prototype.activate.apply(this);

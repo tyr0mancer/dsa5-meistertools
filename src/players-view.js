@@ -47,14 +47,14 @@ export class PlayersView extends Application {
         html.find("a.message-user").click(event => {
             const recipient = $(event.currentTarget).attr("data-recipient")
             new Dialog({
-                title: 'Geheime Nachricht an ' + recipient,
-                content: `<input type='text' name='message'/>`,
+                title: 'Geheime Nachricht versenden',
+                content: `<label>Deine geheime Nachricht an <b>${recipient}</b>:</label><textarea name='message'></textarea>`,
                 buttons: {
                     yes: {
                         icon: "<i class='fas fa-check'></i>",
                         label: `Senden`,
                         callback: html => {
-                            const message = html.find('input[name=\'message\']').val();
+                            const message = html.find('textarea[name=\'message\']').val();
                             if (message)
                                 ChatMessage.create({
                                     user: game.user._id,
@@ -66,7 +66,7 @@ export class PlayersView extends Application {
                 },
                 default: 'yes',
                 render: html => {
-                    html.find('input[name=\'message\']').focus()
+                    html.find('textarea[name=\'message\']').focus()
                 }
             }).render(true);
         })
@@ -81,9 +81,6 @@ export class PlayersView extends Application {
             this.user = game.users.entities.find(e => e._id === userId)
             this.render()
         })
-
-
-
 
 
         html.find("button[name=open-library]").click(ev => {

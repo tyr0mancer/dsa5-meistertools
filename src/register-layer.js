@@ -95,9 +95,9 @@ export function registerControlButtons(controls) {
             name: "meistertools",
             title: "MeisterTools",
             icon: "fas fa-dungeon",
-            layer: "controls", //(game.data.version.startsWith("0.7.")) ? "MeistertoolsLayer" : "meistertools",
+            layer: "meistertools",
             tools
-        }
+        } // 27345
         if (topMenu)
             controls.unshift(meistertoolsControls);
         else
@@ -116,8 +116,6 @@ export function registerControlButtons(controls) {
 
 }
 
-/*
-
 export function registerLayer() {
     let canvasLayers = Canvas.layers;
     canvasLayers.meistertools = MeistertoolsLayer;
@@ -127,30 +125,44 @@ export function registerLayer() {
         }
     })
 }
-*/
 
-class MeistertoolsLayer extends ControlsLayer {
+class MeistertoolsLayer extends CanvasLayer {
     constructor() {
         super();
+        this.options = this.constructor.layerOptions;
     }
 
+
+
+    /** @inheritdoc */
     static get layerOptions() {
-        return mergeObject(super.layerOptions, { zIndex: 1000 });
+        return foundry.utils.mergeObject(super.layerOptions, {
+            name: "meistertools",
+            canDragCreate: false,
+            controllableObjects: true,
+            rotatableObjects: true,
+            zIndex: 200,
+        });
     }
 
+
+    /** @override */
+    async tearDown() {
+        return super.tearDown();
+    }
+
+
+    /** @override */
     activate() {
-        CanvasLayer.prototype.activate.apply(this);
+        super.activate();
         return this;
     }
 
+    /** @override */
     deactivate() {
-        CanvasLayer.prototype.deactivate.apply(this);
+        super.deactivate();
         return this;
     }
 
-    async draw() {
-        super.draw();
-    }
+
 }
-
-

@@ -354,26 +354,22 @@ export class FileBrowser extends FilePicker {
         if (target === CONST.DEFAULT_TOKEN) target = this.constructor.LAST_BROWSED_DIRECTORY;
 
         // Request files from the server
-        const result = await this.constructor.browse(source, target, options).catch(error => {
-            ui.notifications.warn(error);
-            return this.constructor.browse(source, "", options);
-        });
+        let result
+        while (!result) {
+            result = await this.constructor.browse(source, target, options).catch(() => {
+            });
+            let target_arr = target.split('/')
+            target_arr.pop()
+            target = target_arr.join('/')
+        }
 
-        // Populate browser content
-        this.result = result;
-        this.source.target = result.target;
-        if (source === "s3") this.source.bucket = result.bucket;
-        this.constructor.LAST_BROWSED_DIRECTORY = result.target;
-        this._loaded = true;
-
-        // Render the application
         return result;
     }
 
 }
 
 class Rule {
-    constructor(delta, q0="start", F=["stop"]) {
+    constructor(delta, q0 = "start", F = ["stop"]) {
         this.deltaFunction = delta
         this.initialState = q0
         this.finalStates = F

@@ -462,7 +462,6 @@ export class NscFactory extends FormApplication {
      */
     async _followPattern(pattern, rollTables, gender = '') {
         if (!pattern || !rollTables) return ''
-        console.log(pattern, rollTables)
         const genderedPattern = pattern.replace(/gender/g, gender)
         return MeistertoolsUtil.asyncStringReplace(genderedPattern, /\${([a-zA-Z_-]+)}/g, (originalString, match) => this._getFromDataSource(rollTables, match))
     }

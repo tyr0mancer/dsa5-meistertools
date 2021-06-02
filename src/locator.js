@@ -121,19 +121,16 @@ export class MeistertoolsLocator extends Application {
     /**
      * updates current location based on locator token position in locator scene
      * returns updated current biome and regions
-     * @param scene
      * @param token
      * @return {Error|{currentBiome: {}, currentRegions: []}}
      */
-    static updateLocation(scene, token) {
+    static updateLocation(token) {
         const settings = game.settings.get(moduleName, 'locations')
-        if (!scene)
-            scene = game.scenes.get(settings.currentLocation.locatorScene)
+        const scene = game.scenes.get(settings.currentLocation.locatorScene)
         if (!scene) return new Error('cant find scene')
         if (!token)
             token = scene?.data?.tokens?.find(t => t._id === settings.currentLocation.locatorToken)
         if (!token) return new Error('cant find token')
-
         const currentRegions = []
         for (const {region, drawing} of scene.data.flags[moduleName]?.regions || []) {
             let points = [];
@@ -142,7 +139,7 @@ export class MeistertoolsLocator extends Application {
                 points.push(drawing.points[i][1] + drawing.y);
             }
             let polygon = new PIXI.Polygon(points)
-            if (region && polygon.contains(token.x + (0.5 * scene.data.grid), token.y + (0.5 * scene.data.grid)))
+            if (region && polygon.contains(token.data.x + (0.5 * scene.data.grid), token.data.y + (0.5 * scene.data.grid)))
                 currentRegions.push(region)
         }
         game.settings.set(moduleName, "locations", mergeObject(settings, {"currentLocation.currentRegions": currentRegions}))

@@ -21,10 +21,13 @@ export const moduleName = "dsa5-meistertools";  // just in case I need to change
 /**
  * when the locator token is moved, check for the new regions that apply
  */
-Hooks.on("preUpdateToken", async (scene, token, delta) => {
+Hooks.on("preUpdateToken", async (token, delta, ...param) => {
+    let scene
     if (!game.user.isGM || (!delta.x && !delta.y)) return
-    if (MeistertoolsLocator.currentLocatorToken === token._id)
-        MeistertoolsLocator.updateLocation(scene, mergeObject(token, delta))
+    if (MeistertoolsLocator.currentLocatorToken === token._id) {
+        mergeObject(token.data, delta)
+        MeistertoolsLocator.updateLocation(token)
+    }
 });
 
 

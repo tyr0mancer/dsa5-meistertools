@@ -63,11 +63,7 @@ export class Scenes extends Application {
             const scene = (sceneSource === "pack")
                 ? await game.scenes.importFromCollection(this.activeCollection.collection, sceneId, this.folder ? {folder: this.folder.id} : null)
                 : await this.scenes[sceneSource].find(s => s.id === sceneId)
-
-            console.log(scene)
-            scene.view().then(s => console.log(s))
-
-
+            await scene.view()
             this.close()
         })
 

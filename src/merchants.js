@@ -187,7 +187,6 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
     async _serveOrder() {
         let content = ``
         for (let {item, link} of this.merchantFlags.cart) {
-            console.log(item)
             content += `<div><img src="${item.img}" style="height: 48px; border: none" /><b>${link}</b></div>`
         }
 

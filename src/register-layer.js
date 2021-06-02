@@ -132,8 +132,6 @@ class MeistertoolsLayer extends CanvasLayer {
         this.options = this.constructor.layerOptions;
     }
 
-
-
     /** @inheritdoc */
     static get layerOptions() {
         return foundry.utils.mergeObject(super.layerOptions, {
@@ -144,25 +142,5 @@ class MeistertoolsLayer extends CanvasLayer {
             zIndex: 200,
         });
     }
-
-
-    /** @override */
-    async tearDown() {
-        return super.tearDown();
-    }
-
-
-    /** @override */
-    activate() {
-        super.activate();
-        return this;
-    }
-
-    /** @override */
-    deactivate() {
-        super.deactivate();
-        return this;
-    }
-
 
 }

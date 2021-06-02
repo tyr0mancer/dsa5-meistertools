@@ -100,7 +100,7 @@ export class NscFactory extends FormApplication {
             return
         }
         professionActor.collection = this.professionCompendium?.collection
-        const archetypeActor = await game.packs.get(archetypeData.actor?.collection)?.getEntry(archetypeData.actor._id)
+        const archetypeActor = await game.packs.get(archetypeData.actor?.collection)?.getDocument(archetypeData.actor._id)
 
         this.preview = {
             professionActor,
@@ -446,7 +446,7 @@ export class NscFactory extends FormApplication {
             await this.rollTablesCompendium.getIndex()
         const tableId = this.rollTablesCompendium.index.find(e => e.name === rollTables[match])?._id
         if (!tableId) return ''
-        const table = await this.rollTablesCompendium.getEntry(tableId)
+        const table = await this.rollTablesCompendium.getDocument(tableId)
         return MeistertoolsUtil.drawFromArray(table.results)?.text
     }
 

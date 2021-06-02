@@ -287,7 +287,7 @@ async function calculateCurrent(category, {quality, price}) {
     if (sourceType === "rolltable") {
         const [id, packName] = sourceId.split('@')
         const pack = game.packs.get(packName)
-        const table = await pack.getEntry(id)
+        const table = await pack.getDocument(id)
         for (let {collection, resultId, type} of table.results) {
             if (type !== 2) continue
             const p = game.packs.get(collection)

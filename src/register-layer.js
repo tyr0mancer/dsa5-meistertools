@@ -20,6 +20,7 @@ export function registerControlButtons(controls) {
             name: "scenes",
             title: 'Szenenwechsel',
             icon: "fas fa-map",
+            visible: true,
             button: true,
             onClick: () => new Scenes().render(true)
         },
@@ -94,7 +95,7 @@ export function registerControlButtons(controls) {
             name: "meistertools",
             title: "MeisterTools",
             icon: "fas fa-dungeon",
-            layer: "MeistertoolsLayer",
+            layer: (game.data.version.startsWith("0.7.")) ? "MeistertoolsLayer" : "meistertools",
             tools
         }
         if (topMenu)
@@ -117,28 +118,29 @@ export function registerControlButtons(controls) {
 
 
 export function registerLayer() {
-    const layers = mergeObject(Canvas.layers, {
-        meistertools: MeistertoolsLayer
-    });
+    let canvasLayers = Canvas.layers;
+    canvasLayers.meistertools = MeistertoolsLayer;
     Object.defineProperty(Canvas, 'layers', {
         get: function () {
-            return layers
+            return canvasLayers
         }
-    });
+    })
 }
 
-class MeistertoolsLayer extends PlaceablesLayer {
+class MeistertoolsLayer extends CanvasLayer {
     constructor() {
         super();
     }
 
-    static get layerOptions() {
-        return mergeObject(super.layerOptions, {
-            canDragCreate: false,
-            objectClass: Note,
-            sheetClass: NoteConfig
-        });
-    }
+    /*
+        static get layerOptions() {
+            return mergeObject(super.layerOptions, {
+                canDragCreate: false,
+                objectClass: Note,
+                sheetClass: NoteConfig
+            });
+        }
+    */
 
     activate() {
         CanvasLayer.prototype.activate.apply(this);

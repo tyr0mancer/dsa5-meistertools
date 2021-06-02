@@ -444,10 +444,11 @@ export class NscFactory extends FormApplication {
         }
         if (this.rollTablesCompendium.index.length === 0) // data source is a rolltable, if necessary get index
             await this.rollTablesCompendium.getIndex()
-        const tableId = this.rollTablesCompendium.index.find(e => e.name === rollTables[match])?._id
+        const tableId = this.rollTablesCompendium.index.map(x => x).find(e => e.name === rollTables[match])?._id
         if (!tableId) return ''
         const table = await this.rollTablesCompendium.getDocument(tableId)
-        return MeistertoolsUtil.drawFromArray(table.results)?.text
+        const result = await table?.draw({displayChat: false})
+        return result?.results?.length ? result.results[0].data.text : ""
     }
 
 
@@ -461,6 +462,7 @@ export class NscFactory extends FormApplication {
      */
     async _followPattern(pattern, rollTables, gender = '') {
         if (!pattern || !rollTables) return ''
+        console.log(pattern, rollTables)
         const genderedPattern = pattern.replace(/gender/g, gender)
         return MeistertoolsUtil.asyncStringReplace(genderedPattern, /\${([a-zA-Z_-]+)}/g, (originalString, match) => this._getFromDataSource(rollTables, match))
     }

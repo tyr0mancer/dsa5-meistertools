@@ -206,38 +206,76 @@ export class SceneParser extends Application {
     async _showDrawing(event) {
         const drawingId = $(event.currentTarget).attr("data-drawing-id")
         const visibility = $(event.currentTarget).attr("data-visibility")
+        console.log(canvas.drawings)
+        console.log(drawingId, visibility)
+
+        // if we hide a region, we just remove the drawing from the map
         if (visibility === 'hidden') {
-            const drawings = game.scenes.viewed.getEmbeddedCollection('Drawing').filter(d => d._id !== drawingId)
-            return await game.scenes.viewed.update({drawings})
+            //canvas.scene.deleteEmbeddedDocuments("Drawing", [], {deleteAll: true})
+            canvas.scene.deleteEmbeddedDocuments("Drawing", [drawingId])
+
+            //const drawingMap = scene.getEmbeddedCollection('Drawing')
+            //drawingMap.delete(drawingId)
+            //console.log(drawingMap.map(d => [d._id, d]))
+/*
+            canvas.scene.deleteEmbeddedDocuments
+            const result = await scene.update({drawings: []})
+            console.log(result)
+*/
+            return
         }
 
-        // adjust visibility for existing drawing and center view
-        let drawingExists = false
-        const drawings = game.scenes.viewed.getEmbeddedCollection('Drawing').map(drawing => {
-            if (drawing._id === drawingId) {
-                drawing.hidden = (visibility === 'gm-only')
-                drawingExists = true
-                canvas.pan({
-                    x: drawing.x + Math.floor(drawing.width / 2),
-                    y: drawing.y + Math.floor(drawing.height / 2)
-                });
-            }
-            return {...drawing}
-        }) || []
+
+        const {drawing} = game.scenes.viewed.getFlag(moduleName, "regions").find(e => e.drawing?._id === drawingId)
+        console.log(drawing)
+        canvas.scene.createEmbeddedDocuments("Drawing", [drawing])
+/*
+        drawing.hidden = (visibility === 'gm-only')
+        canvas.pan({
+            x: drawing.x + Math.floor(drawing.width / 2),
+            y: drawing.y + Math.floor(drawing.height / 2)
+        });
+        drawings.push(drawing)
+        await game.scenes.viewed.update({drawings})
+*/
+
+
+        /*
+
+                    console.clear()
+                    console.log(game.scenes.viewed.getEmbeddedCollection('Drawing'),drawingId)
+                    game.scenes.viewed.getEmbeddedCollection('Drawing').delete(drawingId)
+                    console.log(game.scenes.viewed.getEmbeddedCollection('Drawing'))
+        */
+        //await game.scenes.viewed.update({drawings})
+
+        //game.scenes.viewed.getEmbeddedCollection('Drawing').delete(drawingId)
+        //const drawings = game.scenes.viewed.getEmbeddedCollection('Drawing').filter(d => d._id !== drawingId) //.map(e=>e)
+        /*
+                    console.log(drawings, drawingId)
+                    const res =  await game.scenes.viewed.update({drawings: []})
+                    console.log(res)
+        */
+
+        /*        // adjust visibility for existing drawing and center view
+                let drawingExists = false
+                const drawings = game.scenes.viewed.getEmbeddedCollection('Drawing').map(drawing => {
+                    if (drawing._id === drawingId) {
+                        drawing.hidden = (visibility === 'gm-only')
+                        drawingExists = true
+                        canvas.pan({
+                            x: drawing.x + Math.floor(drawing.width / 2),
+                            y: drawing.y + Math.floor(drawing.height / 2)
+                        });
+                    }
+                    return {...drawing}
+                }) || []*/
 
         // if drawing doesnt exist yet, we gotta paint it
-        if (!drawingExists) {
-            const {drawing} = game.scenes.viewed.getFlag(moduleName, "regions").find(e => e.drawing?._id === drawingId)
-            drawing.hidden = (visibility === 'gm-only')
-            canvas.pan({
-                x: drawing.x + Math.floor(drawing.width / 2),
-                y: drawing.y + Math.floor(drawing.height / 2)
-            });
-            drawings.push(drawing)
-        }
+//        if (!drawingExists) {
+//        }
 
         // perform update of drawings in scene
-        await game.scenes.viewed.update({drawings})
     }
 
 

@@ -111,8 +111,12 @@ export class NscFactory extends FormApplication {
             mergeObject(archetypeData, archetype.data)
         archetypeData.species = this.settings.species.find(s => s.key === archetype?.species)
         const variation = archetype?.variations?.find(v => v.key === this.selection.variation)
-        if (variation?.data)
+        if (variation?.data) {
             mergeObject(archetypeData, variation.data)
+            mergeObject(archetypeData, {variation})
+        }
+        mergeObject(archetypeData, {archetype})
+
 
         const professionActor = this.professionCompendium.index.find(e => e._id === this.selection?.profession)
         if (!professionActor) {
@@ -173,15 +177,16 @@ export class NscFactory extends FormApplication {
                 "data.details.eyecolor.value": newActor.eyecolor,
                 "data.details.haircolor.value": newActor.haircolor,
                 "data.details.Home.value": newActor.origin,
-                "data.details.gender.value": newActor.gender,
+                "data.details.gender.value": newActor.genderName,
                 "data.details.career.value": newActor.career,
+                "data.details.culture.value": newActor.culture,
                 "data.details.height.value": newActor.height,
                 "data.details.weight.value": newActor.weight,
                 "data.details.age.value": newActor.age,
                 "data.details.biography.value": `<p><i>"${newActor.catchphrase}"</i></p><p>${newActor.characterTrait}</p>`,
                 "data.details.distinguishingmark.value": newActor.distinguishingmark,
             })
-            await this._createActorTokenInCanvas(actor, this.preview.selection.position)
+            await this._createActorTokenInCanvas(actor, this.selection.position)
         }
 
         if (this.settings.settings.closeAfterGeneration)
@@ -511,6 +516,9 @@ export class NscFactory extends FormApplication {
         const result = {gender, name: 'Alrik', career: professionActor.name}
         if (result.gender === 'random')
             result.gender = this._rollGender(archetypeData.pattern.genderRatio)
+        result.genderName = this.settings.gender?.find(g => g.key === result.gender)?.name
+        result.culture = archetypeData.variation?.name || archetypeData.archetype?.name
+
         if (JOBLESS_PROFESSIONS.includes(result.career))
             result.career = await this._followPattern(archetypeData.pattern.career, archetypeData.rollTables, gender)
 

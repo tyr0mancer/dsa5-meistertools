@@ -7,6 +7,26 @@ const DEFAULT_IMAGE = '404.jpeg'
 const JOBLESS_PROFESSIONS = ["Bürger"]
 
 export class NscFactory extends FormApplication {
+    isOpen = false
+
+    toggle() {
+        if (this.isOpen)
+            this.close()
+        else
+            this.render(true)
+    }
+
+    close() {
+        this.isOpen = false
+        super.close()
+    }
+
+    render(force) {
+        this.isOpen = true
+        super.render(force)
+    }
+
+
     constructor() {
         super();
         this.settings = game.settings.get(moduleName, 'nsc-factory') || NscFactory.defaultSettings || {}

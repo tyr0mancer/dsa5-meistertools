@@ -1,8 +1,17 @@
 import {moduleName} from "../meistertools.js";
 import defaultSettings from "../config/scenes.config.js";
-import {FileBrowser, MeistertoolsUtil} from "../meistertools-util.js";
+import {MeistertoolsUtil} from "../meistertools-util.js";
 
 export class Scenes extends Application {
+    isOpen = false
+    toggle() {
+        if (this.isOpen)
+            this.close()
+        else
+            this.render(true)
+        this.isOpen = !this.isOpen
+    }
+
     constructor() {
         super();
         this.settings = game.settings.get(moduleName, 'scenes')

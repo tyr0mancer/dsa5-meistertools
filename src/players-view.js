@@ -4,6 +4,25 @@ import DSA5 from "../../../systems/dsa5/modules/system/config-dsa5.js";
 
 
 export class PlayersView extends Application {
+    isOpen = false
+
+    toggle() {
+        if (this.isOpen)
+            this.close()
+        else
+            this.render(true)
+    }
+
+    close() {
+        this.isOpen = false
+        super.close()
+    }
+
+    render(force) {
+        this.isOpen = true
+        super.render(force)
+    }
+
     constructor() {
         super();
         this.user = game.user

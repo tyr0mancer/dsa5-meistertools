@@ -14,7 +14,18 @@ import {RandomTables} from "./random-tables.js";
 
 import {moduleName} from "../meistertools.js";
 
+
 export function registerControlButtons(controls) {
+    const _SceneDirector = new Scenes()
+    const _NscFactory = new NscFactory()
+    const _RequestRoll = new RequestRoll()
+    const _Jukebox = new Jukebox()
+    const _PlayersView = new PlayersView()
+    const _Locator = new MeistertoolsLocator()
+    const _Settings = new MeistertoolsSettings()
+
+
+
     const tools = [
         {
             name: "scenes",
@@ -22,14 +33,14 @@ export function registerControlButtons(controls) {
             icon: "fas fa-map",
             visible: true,
             button: true,
-            onClick: () => new Scenes().render(true)
+            onClick: () => _SceneDirector.toggle()
         },
         {
             name: "nsc-factory",
             title: 'NSC Fabrik',
             icon: "fas fa-user-friends",
             button: true,
-            onClick: () => new NscFactory().render(true)
+            onClick: () => _NscFactory.toggle()
         },
         /*
         {
@@ -45,7 +56,7 @@ export function registerControlButtons(controls) {
             title: 'Regelbuch (beta)',
             icon: "fas fa-book",
             button: true,
-            onClick: () => new RequestRoll().render(true)
+            onClick: () => _RequestRoll.toggle()
         },
         /*
         {
@@ -70,14 +81,14 @@ export function registerControlButtons(controls) {
             title: 'Aktuellen Ort festlegen',
             icon: "fas fa-map-signs",
             button: true,
-            onClick: () => new MeistertoolsLocator().render(true)
+            onClick: () => _Locator.toggle()
         },
         {
             name: "music",
             title: 'Musik',
             icon: "fas fa-music",
             button: true,
-            onClick: () => new Jukebox().render(true)
+            onClick: () => _Jukebox.toggle()
         },
     ]
 
@@ -88,7 +99,7 @@ export function registerControlButtons(controls) {
             title: 'Settings',
             icon: "fas fa-cog",
             button: true,
-            onClick: () => new MeistertoolsSettings().render(true)
+            onClick: () => _Settings.toggle()
         })
     if (game.user.isGM) {
         const meistertoolsControls = {
@@ -110,7 +121,7 @@ export function registerControlButtons(controls) {
         title: 'DSA MeisterTools',
         icon: "fas fa-eye",
         button: true,
-        onClick: () => new PlayersView().render(true)
+        onClick: () => _PlayersView.toggle()
     })
 
 

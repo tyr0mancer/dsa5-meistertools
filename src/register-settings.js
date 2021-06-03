@@ -31,6 +31,25 @@ export function registerSettings() {
 
 
 export class MeistertoolsSettings extends FormApplication {
+    isOpen = false
+
+    toggle() {
+        if (this.isOpen)
+            this.close()
+        else
+            this.render(true)
+    }
+
+    close() {
+        this.isOpen = false
+        super.close()
+    }
+
+    render(force) {
+        this.isOpen = true
+        super.render(force)
+    }
+
     constructor(initialTab = 'nsc') {
         super();
         this.initialTab = initialTab
@@ -65,6 +84,9 @@ export class MeistertoolsSettings extends FormApplication {
             width: 1000,
             height: 800,
             resizable: true,
+            closeOnSubmit: false,
+            submitOnChange: false,
+            submitOnClose: false,
             template: `modules/${moduleName}/templates/settings.hbs`,
             id: 'meistertools.settings',
             title: 'MeisterTools Settings',
@@ -116,7 +138,6 @@ export class MeistertoolsSettings extends FormApplication {
                 this.render()
             }
         });
-
 
 
         html.find("button.insert-entry").click(event => {

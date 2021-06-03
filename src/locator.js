@@ -2,6 +2,25 @@ import {moduleName} from "../meistertools.js";
 import {SceneParser} from "./scene-parser.js";
 
 export class MeistertoolsLocator extends Application {
+    isOpen = false
+
+    toggle() {
+        if (this.isOpen)
+            this.close()
+        else
+            this.render(true)
+    }
+
+    close() {
+        this.isOpen = false
+        super.close()
+    }
+
+    render(force) {
+        this.isOpen = true
+        super.render(force)
+    }
+
     constructor() {
         super();
         this.settings = game.settings.get(moduleName, 'locations')

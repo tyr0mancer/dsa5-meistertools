@@ -2,6 +2,25 @@ import {moduleName} from "../meistertools.js";
 import {MeistertoolsUtil} from "../meistertools-util.js";
 
 export class Jukebox extends Application {
+    isOpen = false
+
+    toggle() {
+        if (this.isOpen)
+            this.close()
+        else
+            this.render(true)
+    }
+
+    close() {
+        this.isOpen = false
+        super.close()
+    }
+
+    render(force) {
+        this.isOpen = true
+        super.render(force)
+    }
+
     constructor() {
         super();
         this.activePlaylistIds = game.playlists.filter(p => p.playing).map(p => p._id)
@@ -47,7 +66,7 @@ export class Jukebox extends Application {
         this.activePlaylistIds = [playlistId]
         await game.playlists.forEach(playlist => playlist.stopAll())
         await game.playlists.find(playlist => playlist._id === playlistId).playAll()
-        setTimeout(()=>{
+        setTimeout(() => {
             this.render()
         }, 1000)
     }
@@ -65,7 +84,7 @@ export class Jukebox extends Application {
             else if (playlist.playing)
                 playlist.stopAll()
         })
-        setTimeout(()=>{
+        setTimeout(() => {
             this.render()
         }, 1000)
     }

@@ -6,13 +6,8 @@ import {Scenes} from "./scenes.js";
 import {RequestRoll} from "./request-roll.js";
 import {Jukebox} from "./jukebox.js";
 
-/*
-import {ManageProps} from "./props.js";
-import {FightSimulator} from "./fight-simulator.js";
-import {RandomTables} from "./random-tables.js";
-*/
-
 import {moduleName} from "../meistertools.js";
+import {SceneParser} from "./scene-parser.js";
 
 
 export function registerControlButtons(controls) {
@@ -23,7 +18,7 @@ export function registerControlButtons(controls) {
     const _PlayersView = new PlayersView()
     const _Locator = new MeistertoolsLocator()
     const _Settings = new MeistertoolsSettings()
-
+    const _MapMaker = new SceneParser()
 
 
     const tools = [
@@ -92,7 +87,15 @@ export function registerControlButtons(controls) {
         },
     ]
 
-    const {showSettings, topMenu} = game.settings.get(moduleName, 'general')
+    const {showSettings, showMapMaker, topMenu} = game.settings.get(moduleName, 'general')
+    if (showMapMaker)
+        tools.push({
+            name: "mapmaker",
+            title: 'Map Maker',
+            icon: "fas fa-drafting-compass",
+            button: true,
+            onClick: () => _MapMaker.toggle()
+        })
     if (showSettings)
         tools.push({
             name: "settings",
@@ -101,6 +104,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => _Settings.toggle()
         })
+
     if (game.user.isGM) {
         const meistertoolsControls = {
             name: "meistertools",

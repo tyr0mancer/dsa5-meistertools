@@ -154,7 +154,8 @@
                 <i class="fas fa-file-download"></i> {{localize 'meistertools.restore-settings'}}</button>
             {{#if zutatenInstalled}}
                 <button type="button" name="install-zutaten" data-category="nsc-factory">
-                    <i class="fas fa-magic"></i> MeisterTools mit Zutaten konfigurieren</button>
+                    <i class="fas fa-magic"></i> MeisterTools mit Zutaten konfigurieren
+                </button>
             {{/if}}
         </footer>
     </section>
@@ -169,37 +170,117 @@
             <button class="open-app" name="entity-tagger">Verfügbarkeit von Items verwalten</button>
 
             <div class="box header">
-                <h2>Regionale Kategorien</h2>
-                {{#each regionCategories as |this n|}}
-                    <div class="inner box float">
+                <h2 class="toggle" data-target=".region-settings">Regionen</h2>
+                <div class="top-bar">
+                    <a class="insert-entry" data-path="locations.regionCategories">Kategorie <i
+                            class="fas fa-plus-square"></i></a>
+                </div>
+                <div class="region-settings">
+
+                    <div class="inner box col-2" style="grid-template-columns: 40px auto;">
                         <div>
-                            <button class="remove-entry" type="button"
-                                    data-path="locations.regionCategories" data-index="{{n}}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <button class="bottom-line insert-region"><i class="fas fa-plus-square"></i></button>
                         </div>
-                        <div class="borderless box">
-                            <input id="region-categories-name-{{n}}" name="locations.regionCategories[{{n}}].name"
-                                   value="{{name}}" type="text" class="labeled"/>
-                            <label for="region-categories-name-{{n}}">Name</label>
-                        </div>
-                        <div class="borderless box">
-                            <input id="region-categories-key-{{n}}" name="locations.regionCategories[{{n}}].key"
-                                   value="{{key}}" type="text" class="labeled"/>
-                            <label for="region-categories-key-{{n}}">id</label>
-                        </div>
-                        <div class="borderless box">
-                            <b>Zeichnungen Stil</b>
-                            <textarea name="locations.regionCategories[{{n}}].style">{{stringify style}}</textarea>
+
+                        <div class="inner box float">
+
+                            <div class="borderless box">
+                                <input id="region-new-name" name="tmp.region-name" type="text" class="labeled"/>
+                                <label for="region-new-name">Region</label>
+                            </div>
+                            <div class="borderless box">
+                                <input id="region-new-key" name="tmp.region-key" type="text" class="labeled"/>
+                                <label for="region-new-key">key</label>
+                            </div>
+
+
+                            <div class="borderless box" style="width: 250px">
+                                <select id="region-new-category" name="tmp.region-category" class="labeled">
+                                    {{#each regionCategories}}
+                                        <option value="{{key}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                                <label for="region-new-category">Kategorie</label>
+                            </div>
+
+                            <div class="borderless box" style="width: 250px">
+                                <select id="region-new-biome" name="tmp.region-biome" class="labeled">
+                                    <option></option>
+                                    {{#each biomes}}
+                                        <option value="{{key}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                                <label for="region-new-biome">Default Landschafts-Typ</label>
+                            </div>
+
                         </div>
                     </div>
-                {{/each}}
-                <button type="button" class="insert-entry" data-path="locations.regionCategories">neue Kategorie
-                </button>
+
+
+                    {{#each regionCategories as |this n|}}
+                        <div class="inner box col-2" style="grid-template-columns: 40px auto;">
+                            <div>
+                                <button class="remove-entry bottom-line" type="button"
+                                        data-path="locations.regionCategories" data-index="{{n}}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+
+                            <div>
+                                <div class="float">
+                                    <div class="borderless box">
+                                        <input id="region-categories-name-{{n}}"
+                                               name="locations.regionCategories[{{n}}].name"
+                                               value="{{name}}" type="text" class="labeled"/>
+                                        <label for="region-categories-name-{{n}}">Name</label>
+                                    </div>
+                                    <div class="borderless box">
+                                        <input id="region-categories-key-{{n}}"
+                                               name="locations.regionCategories[{{n}}].key"
+                                               value="{{key}}" type="text" class="labeled"/>
+                                        <label for="region-categories-key-{{n}}">key</label>
+                                    </div>
+
+                                    <div class="borderless box">
+                                        <input id="region-categories-style.fillColor-{{n}}"
+                                               name="locations.regionCategories[{{n}}].style.fillColor"
+                                               value="{{style.fillColor}}" type="text" class="labeled"/>
+                                        <label for="region-categories-style.fillColor-{{n}}">style.fillColor</label>
+                                    </div>
+                                    <div class="borderless box">
+                                        <input id="region-categories-style.text-{{n}}"
+                                               name="locations.regionCategories[{{n}}].style.text"
+                                               value="{{style.text}}" type="text" class="labeled"/>
+                                        <label for="region-categories-style.text-{{n}}">style.text</label>
+                                    </div>
+
+                                </div>
+
+                                <div class="box float">
+                                    {{#each ../regions as |region id|}}
+                                        {{#with region}}
+                                            {{#ifeq category ../key}}
+                                                <div class="inner box"><a class="remove-entry"
+                                                                          data-path="locations.regions"
+                                                                          data-index="{{id}}"><i
+                                                        class="fas fa-trash-alt"></i>
+                                                    <b>{{name}}</b>
+                                                    ({{key}}) <i>{{biome}}</i></a></div>
+                                            {{/ifeq}}
+                                        {{/with}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
 
             </div>
             <div class="box header">
                 <h2 class="toggle" data-target=".biome-settings">Landschafts-Typen</h2>
+                <div class="top-bar">
+                    <a class="insert-entry" data-path="locations.biomes"><i class="fas fa-plus-square"></i></a>
+                </div>
                 <div class="biome-settings float">
                     {{#each biomes as |this n|}}
                         <div class="inner box">
@@ -234,7 +315,6 @@
                         </div>
                     {{/each}}
                 </div>
-                <button type="button" class="insert-entry" data-path="locations.biomes">+</button>
             </div>
 
         {{/with}}

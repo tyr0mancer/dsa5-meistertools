@@ -140,7 +140,16 @@ export class MeistertoolsSettings extends FormApplication {
         });
 
 
-        html.find("button.insert-entry").click(event => {
+        html.find(".insert-region").click(event => {
+            const name = html.find("input[name='tmp.region-name']").val()
+            const key = html.find("input[name='tmp.region-key']").val()
+            const category = html.find("select[name='tmp.region-category']").val()
+            const biome = html.find("select[name='tmp.region-biome']").val()
+            this.settings.locations.regions.push({name, key, category, biome})
+            this.render()
+        })
+
+        html.find(".insert-entry").click(event => {
             const path = $(event.currentTarget).attr("data-path")?.split('.')
             if (!path) return
             if (!this.settings[path[0]][path[1]])
@@ -149,7 +158,7 @@ export class MeistertoolsSettings extends FormApplication {
             this.render()
         })
 
-        html.find("button.remove-entry").click(event => {
+        html.find(".remove-entry").click(event => {
             const index = $(event.currentTarget).attr("data-index")
             const path = $(event.currentTarget).attr("data-path")?.split('.')
             if (!path || !this.settings[path[0]][path[1]]) return

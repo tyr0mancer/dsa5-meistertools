@@ -3,6 +3,25 @@ import {MeistertoolsUtil} from "../meistertools-util.js";
 import defaultSettings from "../config/locations.config.js";
 
 export class SceneParser extends Application {
+    isOpen = false
+
+    toggle() {
+        if (this.isOpen)
+            this.close()
+        else
+            this.render(true)
+    }
+
+    close() {
+        this.isOpen = false
+        super.close()
+    }
+
+    render(force) {
+        this.isOpen = true
+        super.render(force)
+    }
+
     constructor() {
         super();
         this.formData = {}
@@ -12,40 +31,64 @@ export class SceneParser extends Application {
         Hooks.on("canvasInit", () => {
             this.render()
         });
+
+        Hooks.on("createDrawing", () => {
+            this.render()
+        });
+
     }
 
     async _initRegions() {
         const sceneRegions = game.scenes.viewed.getFlag(moduleName, "regions") || []
-        const settings = game.settings.get(moduleName, "locations")
-        this.biomes = settings.biomes
-        this.regionCategories = settings.regionCategories.map(c => {
+        const {regions, regionCategories} = game.settings.get(moduleName, "locations")
+        const sceneDrawings = game.scenes.viewed.getEmbeddedCollection('Drawing')
+
+        for (let c of regionCategories) {
             if (this.hiddenBoxes[`.${c.key}.regions`] === undefined)
                 this.hiddenBoxes[`.${c.key}.regions`] = true // all hidden by default
-            return {
-                ...c,
-                hidden: this.hiddenBoxes[`.${c.key}.regions`],
-                regions: settings.regions
-                    .filter(r => r.category === c.key)
-                    .map(r => {
-                        return {
-                            ...r,
-                            inScene: sceneRegions.filter(e => e.region?.key === r.key && e.region?.category === c.key)
-                        }
-                    })
+        }
+
+        this.regionMap = new Map(regionCategories.map(c => [c.key, {
+            ...c,
+            hidden: this.hiddenBoxes[`.${c.key}.regions`],
+            regions: new Map()
+        }]))
+
+        for (let region of regions)
+            this.regionMap.get(region.category)?.regions.set(region.key, {...region, inScene: false, drawings: []})
+
+        for (let {region, drawingData: drawing} of sceneRegions) {
+            const regionEntry = this.regionMap.get(region.category)?.regions.get(region.key)
+            if (regionEntry) {
+                regionEntry.inScene = true
+                regionEntry.drawings.push({...drawing, inScene: false})
             }
-        })
+        }
+
+        for (let drawing of sceneDrawings) {
+            const region = drawing.getFlag(moduleName, 'region')
+            if (region) {
+                const fittingDrawing = this.regionMap.get(region.category)?.regions.get(region.key)?.drawings
+                    .find(d => d.x === drawing.data.x && d.y === drawing.data.y)
+                if (fittingDrawing) {
+                    fittingDrawing.inScene = true
+                    fittingDrawing._id = drawing._id
+                }
+            }
+        }
+
     }
 
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             top: 50,
             left: 100,
-            width: 600,
+            width: 400,
             height: 800,
             resizable: true,
             template: `modules/${moduleName}/templates/scene-parser.hbs`,
             id: 'meistertools.scene-parser',
-            title: 'Regionen verwalten',
+            title: 'Kartograf',
             tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "nsc"}]
         });
     }
@@ -55,11 +98,8 @@ export class SceneParser extends Application {
         return {
             scene: game.scenes.viewed,
             hiddenBoxes: this.hiddenBoxes,
-            regionCategories: this.regionCategories,
-            /*
-                        sceneRegions: game.scenes.viewed.getFlag(moduleName, "regions") || [],
-            */
-            biomes: this.biomes,
+            regionMap: this.regionMap,
+            newDrawings: game.scenes.viewed.getEmbeddedCollection('Drawing')?.map(e => e).filter(e => !e.getFlag(moduleName, 'region')).length > 0,
             sceneBiome: game.scenes.viewed.getFlag(moduleName, "biome") || {}
         }
     }
@@ -71,21 +111,15 @@ export class SceneParser extends Application {
             onToggle: e => this._handleToggle(e)
         });
 
-        html.find("button.add-drawing").click(event => this._addDrawing(event))
-        html.find("button.show-drawing").click(event => this._showDrawing(event))
-        html.find("button.remove-drawing").click(event => this._removeDrawing(event))
+        html.find(".add-drawing").click(event => this._addDrawing(event))
+        html.find(".show-drawing").click(event => this._showDrawing(event))
+        html.find(".remove-map-entry").click(event => this._removeMapEntry(event))
 
         html.find("button.parse-scene").click(() => this._parseScene())
+        html.find("button.remove-new-drawings").click(() => this._removeNewDrawings())
+
         html.find("button.purge-scene").click(() => this._purgeScene())
         html.find("button.purge-drawings").click(() => canvas.drawings.deleteAll())
-
-        html.find("button.add-region").click(event => this._addRegion(event))
-        html.find("button.remove-region").click(event => this._removeRegion(event))
-
-        html.find("select#biome").change(async event => {
-            const biomeInScene = this.biomes.find(b => b.key === event.currentTarget.value)
-            await game.scenes.viewed.setFlag(moduleName, "biome", biomeInScene)
-        })
     }
 
     /**
@@ -104,39 +138,32 @@ export class SceneParser extends Application {
      */
     async _parseScene(scene = game.scenes.viewed) {
         const {regions, regionCategories} = game.settings.get(moduleName, "locations")
-        const newRegions = []
-        const drawings = scene.getEmbeddedCollection('Drawing')
-            .map(drawing => {
-                // drawing is assigned to a region already
-                if (drawing.flags[moduleName]?.region) return drawing
+        const sceneRegions = scene.getFlag(moduleName, "regions") || []
+        for (const drawing of scene.getEmbeddedCollection('Drawing')) {
+            // drawing is assigned to a region already
+            if (drawing.getFlag(moduleName, "region"))
+                continue;
 
-                // find a region that fits to the drawings name
-                const keys = drawing.text.split('.')
-                const region = regions.find(r => (keys.length > 1) ? (r.category === keys[0] && r.key === keys[1]) : (r.key === keys[0]))
+            // find a region that fits to the drawings name
+            const keys = drawing.data.text.split('.')
+            const region = regions.find(r => (keys.length > 1) ? (r.category === keys[0] && r.key === keys[1]) : (r.key === keys[0]))
 
-                // name does not refer to a known region, so no changes apply
-                if (!region) return drawing
+            // name does not refer to a known region
+            if (!region) continue;
 
-                // otherwise adjust style of drawing...
-                const style = duplicate(regionCategories.find(c => c.key === region.category).style || {})
-                style.locked = true
-                style.hidden = true
-                if (style.fillColor === 'random')
-                    style.fillColor = MeistertoolsUtil.niceColor(regions.map(r => r.key).indexOf(region.key))
-                const newDrawing = mergeObject(drawing, {
-                    text: region.name,
-                    flags: {[moduleName]: {region}},
-                    ...style
-                })
+            const style = duplicate(regionCategories.find(c => c.key === region.category).style || {})
+            style.locked = true
+            style.hidden = true
+            if (!style.text) style.text = region.name
+            if (style.fillColor === 'random')
+                style.fillColor = MeistertoolsUtil.niceColor(regions.map(r => r.key).indexOf(region.key))
+            await drawing.update({...style})
+            await drawing.setFlag(moduleName, "region", region)
+            sceneRegions.push({region, drawingData: {...drawing.data}})
+            ui.notifications.info(`Neue Zeichnung gefunden: ${region.name}`);
 
-                // ...and add it with the region to scenes flags
-                newRegions.push({region, drawing: newDrawing})
-                return {...newDrawing}
-            })
-        await scene.update({drawings})
-        ui.notifications.info(`${newRegions.length} neue Region(en) gefunden`);
-        const newFlags = newRegions.concat(scene.getFlag(moduleName, "regions") || [])
-        await scene.setFlag(moduleName, "regions", newFlags)
+        }
+        await scene.setFlag(moduleName, "regions", sceneRegions)
         this.render()
     }
 
@@ -188,12 +215,19 @@ export class SceneParser extends Application {
      * @return {Promise<void>}
      * @private
      */
-    async _removeDrawing(event) {
+    async _removeMapEntry(event) {
         const drawingId = $(event.currentTarget).attr("data-drawing-id")
-        const drawings = game.scenes.viewed.getEmbeddedCollection('Drawing').filter(d => d._id !== drawingId)
-        await game.scenes.viewed.update({drawings})
-        const flags = game.scenes.viewed.getFlag(moduleName, "regions") || []
-        await game.scenes.viewed.setFlag(moduleName, "regions", flags.filter(f => f.drawing?._id !== drawingId))
+        const drawingCanvas = game.scenes.viewed.getEmbeddedCollection('Drawing')?.get(drawingId)
+        const sceneRegions = game.scenes.viewed.getFlag(moduleName, "regions") || []
+        let drawingFlag = sceneRegions.find(r => r.drawingData._id === drawingId) || {}
+        if (!drawingFlag.drawingData) {
+            const regionPerDrawing = drawingCanvas?.getFlag(moduleName, "region")
+            drawingFlag = sceneRegions.find(r => r.region.key === regionPerDrawing.key && r.drawingData.x === drawingCanvas.data.x) || {}
+        }
+        if (drawingFlag.drawingData?._id)
+            await game.scenes.viewed.setFlag(moduleName, "regions", sceneRegions.filter(r => r.drawingData._id !== drawingFlag.drawingData._id))
+        if (drawingCanvas)
+            await game.scenes.viewed.deleteEmbeddedDocuments("Drawing", [drawingCanvas._id])
         this.render()
     }
 
@@ -206,76 +240,15 @@ export class SceneParser extends Application {
     async _showDrawing(event) {
         const drawingId = $(event.currentTarget).attr("data-drawing-id")
         const visibility = $(event.currentTarget).attr("data-visibility")
-        console.log(canvas.drawings)
-        console.log(drawingId, visibility)
-
-        // if we hide a region, we just remove the drawing from the map
         if (visibility === 'hidden') {
-            //canvas.scene.deleteEmbeddedDocuments("Drawing", [], {deleteAll: true})
-            canvas.scene.deleteEmbeddedDocuments("Drawing", [drawingId])
-
-            //const drawingMap = scene.getEmbeddedCollection('Drawing')
-            //drawingMap.delete(drawingId)
-            //console.log(drawingMap.map(d => [d._id, d]))
-/*
-            canvas.scene.deleteEmbeddedDocuments
-            const result = await scene.update({drawings: []})
-            console.log(result)
-*/
-            return
+            await game.scenes.viewed.deleteEmbeddedDocuments("Drawing", [drawingId])
+            this.render()
+        } else {
+            const sceneRegions = game.scenes.viewed.getFlag(moduleName, "regions")
+            const {drawingData: drawing} = sceneRegions.find(r => r.drawingData._id === drawingId)
+            await game.scenes.viewed.createEmbeddedDocuments("Drawing", [drawing])
+            this.render()
         }
-
-
-        const {drawing} = game.scenes.viewed.getFlag(moduleName, "regions").find(e => e.drawing?._id === drawingId)
-        console.log(drawing)
-        canvas.scene.createEmbeddedDocuments("Drawing", [drawing])
-/*
-        drawing.hidden = (visibility === 'gm-only')
-        canvas.pan({
-            x: drawing.x + Math.floor(drawing.width / 2),
-            y: drawing.y + Math.floor(drawing.height / 2)
-        });
-        drawings.push(drawing)
-        await game.scenes.viewed.update({drawings})
-*/
-
-
-        /*
-
-                    console.clear()
-                    console.log(game.scenes.viewed.getEmbeddedCollection('Drawing'),drawingId)
-                    game.scenes.viewed.getEmbeddedCollection('Drawing').delete(drawingId)
-                    console.log(game.scenes.viewed.getEmbeddedCollection('Drawing'))
-        */
-        //await game.scenes.viewed.update({drawings})
-
-        //game.scenes.viewed.getEmbeddedCollection('Drawing').delete(drawingId)
-        //const drawings = game.scenes.viewed.getEmbeddedCollection('Drawing').filter(d => d._id !== drawingId) //.map(e=>e)
-        /*
-                    console.log(drawings, drawingId)
-                    const res =  await game.scenes.viewed.update({drawings: []})
-                    console.log(res)
-        */
-
-        /*        // adjust visibility for existing drawing and center view
-                let drawingExists = false
-                const drawings = game.scenes.viewed.getEmbeddedCollection('Drawing').map(drawing => {
-                    if (drawing._id === drawingId) {
-                        drawing.hidden = (visibility === 'gm-only')
-                        drawingExists = true
-                        canvas.pan({
-                            x: drawing.x + Math.floor(drawing.width / 2),
-                            y: drawing.y + Math.floor(drawing.height / 2)
-                        });
-                    }
-                    return {...drawing}
-                }) || []*/
-
-        // if drawing doesnt exist yet, we gotta paint it
-//        if (!drawingExists) {
-//        }
-
-        // perform update of drawings in scene
     }
 
 
@@ -302,25 +275,11 @@ export class SceneParser extends Application {
         this.hiddenBoxes[target] = !(this.hiddenBoxes[target] || false)
     }
 
-
-    async _addRegion(event) {
-        event.preventDefault()
-        const category = $(event.currentTarget).attr("data-category")
-        const key = this.formData[category + '-new-region-key']
-        const name = this.formData[category + '-new-region-name']
-        const settings = game.settings.get(moduleName, "locations")
-        if (!key || !name || !category) return
-        settings.regions.push({category, key, name})
-        await game.settings.set(moduleName, "locations", settings)
-        this.render()
-    }
-
-    async _removeRegion(event) {
-        const category = $(event.currentTarget).attr("data-category")
-        const key = $(event.currentTarget).attr("data-key")
-        const settings = game.settings.get(moduleName, "locations")
-        settings.regions = settings.regions.filter(r => r.category !== category || r.key !== key)
-        await game.settings.set(moduleName, "locations", settings)
+    _removeNewDrawings() {
+        for (const drawing of game.scenes.viewed.getEmbeddedCollection('Drawing')) {
+            if (!drawing.getFlag(moduleName, "region"))
+                drawing.delete()
+        }
         this.render()
     }
 

@@ -1,107 +1,79 @@
 <div class="meistertools">
-    <div class="box header">
-        <h1>Regionen</h1>
-        {{#each regionCategories}}
-            <div class="inner box header">
-                <h2 class="toggle {{#if hidden}}show{{/if}}" data-target=".{{key}}.regions">{{name}}</h2>
-                <div class="{{key}} regions {{#if hidden}}hidden{{/if}}">
+    <div style="text-align: center">
+        <button class="parse-scene" {{#unless newDrawings}}disabled{{/unless}}
+                title="Zeichnungen in Scene als Karteneinträge interpretieren">
+            <i class="fas fa-drafting-compass"></i> Zeichnungen parsen
+        </button>
 
-                    {{#if regions}}
+        <button class="remove-new-drawings" {{#unless newDrawings}}disabled{{/unless}}
+                title="Zeichnungen in Scene entfernen">
+            <i class="far fa-trash-alt"></i>
+        </button>
+    </div>
+
+    <div class="box float">
+
+        {{#each regionMap}}
+            {{#with [1]}}
+                <div class="inner box header" style="max-width: 400px; width: 100%">
+                    <h2 class="toggle {{#if hidden}}show{{/if}}" data-target=".{{key}}.regions">{{name}}</h2>
+                    <!--<div class="top-bar"><a><i class="far fa-eye"></i></a> <a><i class="far fa-eye-slash"></i></a></div>-->
+                    <div class="{{key}} regions {{#if hidden}}hidden{{/if}}">
+
                         <table class="regions">
                             <tr>
-                                <th>id</th>
                                 <th>Name</th>
-                                <th>Zeichnungen</th>
-                                <th></th>
+                                <th style="width: 100px">Zeichnungen</th>
                             </tr>
-                            {{#each regions}}
-                                <tr>
-                                    <td>
-                                        <button class="remove-region" data-category="{{category}}" data-key="{{key}}"
-                                                style="background-color: red; color: white">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                    <td><h3>{{name}}</h3><i>{{key}}</i></td>
-                                    <td>
-                                        {{#each inScene}}
-                                            <div>
-                                                <button class="remove-drawing" data-drawing-id="{{drawing._id}}">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
-                                                <button class="show-drawing" data-drawing-id="{{drawing._id}}"
-                                                        data-visibility="gm-only">
-                                                    <i class="far fa-eye"></i>
-                                                </button>
-                                                <!--
-                                                <button class="show-drawing" data-drawing-id="{{drawing._id}}"
-                                                        data-visibility="all">show players
-                                                </button>
-                                                -->
-                                                <button class="show-drawing" data-drawing-id="{{drawing._id}}"
-                                                        data-visibility="hidden"><i class="far fa-eye-slash"></i>
-                                                </button>
-                                            </div>
-                                        {{/each}}
-                                    </td>
-                                    <td>
-                                        <button class="add-drawing" data-label="{{category}}.{{key}}"><i
-                                                class="fas fa-pencil-alt"></i></button>
-                                    </td>
-                                </tr>
+                            {{#each regions as |region n|}}
+                                {{#with region.[1]}}
+                                    <tr class="add-drawing" data-label="{{category}}.{{key}}">
+                                        <td><h3><b>{{name}}</b><br/><i style="color: gray">{{key}}</i></h3></td>
+                                        <td> {{../[0]}}
+                                            {{#each drawings}}
+                                                <div class="col-2">
+                                                    <div>
+                                                        <a class="remove-map-entry" title="Karteneintrag entfernen"
+                                                           data-drawing-id="{{_id}}">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        {{#if inScene}}
+                                                            <a class="show-drawing" title="Karteneintrag verbergen"
+                                                               data-drawing-id="{{_id}}" data-visibility="hidden"><i
+                                                                    class="far fa-eye-slash"></i>
+                                                            </a>
+                                                        {{else}}
+                                                            <a class="show-drawing" title="Karteneintrag anzeigen"
+                                                               data-drawing-id="{{_id}}" data-visibility="gm-only">
+                                                                <i class="far fa-eye"></i>
+                                                            </a>
+                                                        {{/if}}
+                                                    </div>
+                                                </div>
+                                            {{/each}}
+                                        </td>
+                                    </tr>
+                                {{/with}}
                             {{/each}}
                         </table>
-                    {{else}}
-                        <div>Keine Einträge</div>
-                    {{/if}}
-                    <form>
-                        <div class="inner box float">
-                            <div>
-                                <button class="add-region" data-category="{{key}}"><i class="fas fa-plus"></i></button>
-                            </div>
-                            <div><input id="{{key}}-new-region-name" name="{{key}}-new-region-name"
-                                        type="text" placeholder="Name der Region"/></div>
-                            <div><input id="{{key}}-new-region-key" name="{{key}}-new-region-key"
-                                        type="text"/></div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            {{/with}}
         {{/each}}
     </div>
 
-    <div class="box header">
-        <h1>{{scene.name}}</h1>
-        <div class="inner box col-2">
-            <div>
-                <button class="parse-scene"
-                        title="Zeichnungen in Scene als Karteneinträge interpretieren">
-                    <i class="fas fa-drafting-compass"></i>
-                    Zeichnungen parsen
-                </button>
-            </div>
-            <div class="borderless box">
-                <select id="biome" name="biome" class="labeled">
-                    {{#select sceneBiome.key}}
-                        <option></option>
-                        {{#each biomes}}
-                            <option value="{{key}}">{{name}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-                <label for="biome">Landschaftstyp</label>
-            </div>
-        </div>
 
-        <div class="inner box header">
-            <h2 class="toggle show" data-target=".danger-zone">Danger-Zone!</h2>
-            <div class="danger-zone hidden">
-                <button class="purge-drawings">Alle Zeichnungen in dieser Szene löschen</button>
-                <button class="purge-scene" style="background-color: red">Alle Einträge in dieser Szene löschen</button>
-                {{stringify scene.data.flags.dsa5-meistertools}}
-            </div>
+    <!--<div class="box header">
+        <h2 class="toggle show" data-target=".danger-zone">Danger-Zone!</h2>
+        <div class="danger-zone hidden">
+            <button class="purge-drawings">Alle Zeichnungen in dieser Szene löschen</button>
+            <button class="purge-scene" style="background-color: red">Alle Einträge in dieser Szene löschen</button>
+            {{stringify scene.data.flags.dsa5-meistertools}}
         </div>
-    </div>
+    </div>-->
+
 
 </div>
 

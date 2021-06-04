@@ -497,6 +497,10 @@ a.load-pattern {
     background-color: var(--color-light);
 }
 
+.meistertools tr.add-drawing {
+    cursor: pointer;
+}
+
 
 /* ---------------------------------
     Locator

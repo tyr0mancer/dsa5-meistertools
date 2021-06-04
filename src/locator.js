@@ -152,7 +152,6 @@ export class MeistertoolsLocator extends Application {
         if (!token) return new Error('cant find token')
         const currentRegions = []
         for (const {region, drawingData: drawing} of scene.data.flags[moduleName]?.regions || []) {
-            console.log(drawing)
             let points = [];
             for (let i = 0; i < drawing.points.length; i++) {
                 points.push(drawing.points[i][0] + drawing.x);

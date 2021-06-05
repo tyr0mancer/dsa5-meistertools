@@ -8,6 +8,7 @@ import {Jukebox} from "./jukebox.js";
 
 import {moduleName} from "../meistertools.js";
 import {SceneParser} from "./scene-parser.js";
+import {MeistertoolsRarity} from "./rarity.js";
 
 
 export function registerControlButtons(controls) {
@@ -19,7 +20,7 @@ export function registerControlButtons(controls) {
     const _Locator = new MeistertoolsLocator()
     const _Settings = new MeistertoolsSettings()
     const _MapMaker = new SceneParser()
-
+    const _EntityManager = new MeistertoolsRarity()
 
     const tools = [
         {
@@ -87,7 +88,7 @@ export function registerControlButtons(controls) {
         },
     ]
 
-    const {showSettings, showMapMaker, topMenu} = game.settings.get(moduleName, 'general')
+    const {showSettings, showMapMaker, topMenu, showEntityTagger} = game.settings.get(moduleName, 'general')
     if (showMapMaker)
         tools.push({
             name: "mapmaker",
@@ -95,6 +96,14 @@ export function registerControlButtons(controls) {
             icon: "fas fa-drafting-compass",
             button: true,
             onClick: () => _MapMaker.toggle()
+        })
+    if (showEntityTagger)
+        tools.push({
+            name: "entity-tagger",
+            title: 'Entity Manager',
+            icon: "fas fa-tags",
+            button: true,
+            onClick: () => _EntityManager.toggle()
         })
     if (showSettings)
         tools.push({

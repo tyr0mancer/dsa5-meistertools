@@ -81,7 +81,7 @@ export class MeistertoolsSettings extends FormApplication {
         return mergeObject(super.defaultOptions, {
             classes: ['meistertools'],
             popOut: true,
-            width: 1000,
+            width: 1020,
             height: 800,
             resizable: true,
             closeOnSubmit: false,

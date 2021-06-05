@@ -2,6 +2,26 @@ import {moduleName} from "../meistertools.js";
 import {MeistertoolsLocator, LocationPicker} from "./locator.js";
 
 export class MeistertoolsRarity extends Application {
+    isOpen = false
+
+    toggle() {
+        if (this.isOpen)
+            this.close()
+        else
+            this.render(true)
+    }
+
+    close() {
+        this.isOpen = false
+        super.close()
+    }
+
+    render(force) {
+        this.isOpen = true
+        super.render(force)
+    }
+
+
     constructor(tagPropertyName = 'rarity', tagPropertyPath = 'data.rarity') {
         super();
         this.tagPropertyName = tagPropertyName

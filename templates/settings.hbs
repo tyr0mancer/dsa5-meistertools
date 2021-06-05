@@ -36,6 +36,16 @@
                     </div>
 
                     <div>
+                        <input {{checked showEntityTagger}}
+                                id="showEntityTagger" name="general.showEntityTagger" type="checkbox"/>
+                        <label for="showEntityTagger">Entity Manager in Menü</label>
+                    </div>
+                    <div>
+                        Wenn aktiviert, kann der Meistertools Kartograf direkt aus dem Hauptmenü geöffnet werden.
+                    </div>
+
+
+                    <div>
                         <input {{checked topMenu}}
                                 id="topMenu" name="general.topMenu" type="checkbox"/>
                         <label for="topMenu">MeisterTools Menü nach oben</label>
@@ -194,16 +204,18 @@
     ----------------------- -->
     <section class="tab" data-tab="locations">
         {{#with locations}}
-            <button class="open-app" name="scene-parser">Regionen und Karten verwalten</button>
-            <button class="open-app" name="entity-tagger">Verfügbarkeit von Items verwalten</button>
+            <div class="box">
+                <button class="open-app" name="scene-parser" title="Regionen und Karten verwalten"><i class="fas fa-drafting-compass"></i> <b>Kartograf</b></button>
+                <button class="open-app" name="entity-tagger" title="Verfügbarkeit von Items verwalten"><i class="fas fa-tags"></i> Entity Manager</button>
+            </div>
 
             <div class="box header">
-                <h2 class="toggle" data-target=".region-settings">Regionen</h2>
-                <div class="top-bar">
+                <h2 class="toggle show" data-target=".region-settings">Regionen</h2>
+                <div class="top-bar region-settings hidden">
                     <a class="insert-entry" data-path="locations.regionCategories">Kategorie <i
                             class="fas fa-plus-square"></i></a>
                 </div>
-                <div class="region-settings">
+                <div class="region-settings hidden">
 
                     <div class="inner box col-2" style="grid-template-columns: 40px auto;">
                         <div>
@@ -305,11 +317,11 @@
 
             </div>
             <div class="box header">
-                <h2 class="toggle" data-target=".biome-settings">Landschafts-Typen</h2>
-                <div class="top-bar">
+                <h2 class="toggle show" data-target=".biome-settings">Landschafts-Typen</h2>
+                <div class="top-bar biome-settings hidden">
                     <a class="insert-entry" data-path="locations.biomes"><i class="fas fa-plus-square"></i></a>
                 </div>
-                <div class="biome-settings float">
+                <div class="biome-settings hidden float">
                     {{#each biomes as |this n|}}
                         <div class="inner box">
                             <div>

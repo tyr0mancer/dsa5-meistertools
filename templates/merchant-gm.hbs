@@ -107,13 +107,14 @@
                     <div class="box header">
                         <h1><a class="re-roll" data-roll-type="current"><i class="fas fa-dice"></i></a></h1>
                         <div class="top-bar">
+                            <a class="remove-all" title="Alle Einträge entfernen"><i class="far fa-trash-alt"></i></a>
                             <a class="show-all" title="Alle Einträge sichtbar machen"><i class="far fa-eye"></i></a>
                             <a class="hide-all" title="Alle Einträge unsichtbar machen"><i class="far fa-eye-slash"></i></a>
                             {{#if locked}}
-                                <a class="unlock-merchant" style="color: red" title="Ansicht für Spieler freigeben"><i
+                                <a class="unlock-merchant" title="Ansicht für Spieler freigeben"><i
                                         class="fas fa-lock"></i></a>
                             {{else}}
-                                <a class="lock-merchant" style="color: green" title="Ansicht für Spieler verbergen"><i
+                                <a class="lock-merchant" title="Ansicht für Spieler verbergen"><i
                                         class="fas fa-unlock"></i></a>
                             {{/if}}
                         </div>
@@ -377,11 +378,8 @@
                             {{/with}}
                         {{/each}}
 
-                        {{#ifeq general.edit-settings false}}
-                        {{else}}
-                            <div class="float: right"><a class="add-category"><i class="fas fa-plus-circle"></i>
-                                Kategorie hinzufügen</a></div>
-                        {{/ifeq}}
+                        <div class="float: right"><a class="add-category"><i class="fas fa-plus-circle"></i>
+                            Kategorie hinzufügen</a></div>
                     </div>
 
                     <!-- thats it with own code. everything else is (c) Ulisses and taken from the dsa5 core system -->

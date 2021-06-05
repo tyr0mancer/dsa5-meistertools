@@ -12,6 +12,7 @@
     --color-light: #ffffe0;
 
     --color-red: #930722;
+    --color-green: green;
     --color-blue: #0C2836;
     --color-golden: goldenrod;
     --color-grey:  #9C9FB8;
@@ -703,6 +704,14 @@ a.load-pattern {
     opacity: 0.6;
 }
 
+
+.meistertools .unlock-merchant {
+    color: var(--color-red)
+}
+
+.meistertools .lock-merchant {
+    color: var(--color-green)
+}
 
 
 

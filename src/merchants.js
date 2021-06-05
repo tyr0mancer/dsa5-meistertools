@@ -127,6 +127,12 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             this.merchantFlags.supply.forEach(category => category.current?.forEach(entry => entry.visible = false))
             this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
         })
+        html.find(".remove-all").click(() => {
+            //this.actor.unsetFlag(moduleName, 'merchant.supply')
+            this.merchantFlags.supply.forEach(category => category.current = [])
+            this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
+
+        })
 
         html.find(".add-to-cart").click((event) => {
             const categoryId = $(event.currentTarget).attr("data-category-id")

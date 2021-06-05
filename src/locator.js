@@ -188,11 +188,17 @@ export class MeistertoolsLocator extends Application {
 
 export class LocationPicker extends Dialog {
 
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            width: 800
+        });
+    }
+
     constructor(callback, {selectedRegions, selectedBiomes, regionOptions, biomeOptions} = {
         selectedRegions: MeistertoolsLocator.currentLocation.currentRegions,
         selectedBiomes: [MeistertoolsLocator.currentLocation.currentBiome]
     }, multipleBiomes = false) {
-        let content = `<div class="meistertools">`
+        let content = `<div class="meistertools region-picker">`
         if (!regionOptions) regionOptions = MeistertoolsLocator.regions
         if (!biomeOptions) biomeOptions = MeistertoolsLocator.biomes
         regionOptions = regionOptions.sort((a, b) => MeistertoolsUtil.strcmp(a.name, b.name))

@@ -97,6 +97,7 @@ export class MeistertoolsSettings extends FormApplication {
 
     async getData() {
         await this._setSelectOptions()
+        this.settings.locations.regions = this.settings.locations.regions.sort((a, b) => MeistertoolsUtil.strcmp(a.name, b.name))
         return {
             selectOptions: this.selectOptions,
             ...this.settings,

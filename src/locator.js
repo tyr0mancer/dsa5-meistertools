@@ -1,5 +1,6 @@
 import {moduleName} from "../meistertools.js";
 import {SceneParser} from "./scene-parser.js";
+import {MeistertoolsUtil} from "../meistertools-util.js";
 
 export class MeistertoolsLocator extends Application {
     isOpen = false
@@ -194,7 +195,8 @@ export class LocationPicker extends Dialog {
         let content = `<div class="meistertools">`
         if (!regionOptions) regionOptions = MeistertoolsLocator.regions
         if (!biomeOptions) biomeOptions = MeistertoolsLocator.biomes
-
+        regionOptions = regionOptions.sort((a, b) => MeistertoolsUtil.strcmp(a.name, b.name))
+        biomeOptions = biomeOptions.sort((a, b) => MeistertoolsUtil.strcmp(a.name, b.name))
         const selectedRegionKeys = selectedRegions?.map(r => r.key) || []
         const selectedBiomeKeys = selectedBiomes?.map(r => r.key) || []
         for (let category of MeistertoolsLocator.regionCategories) {

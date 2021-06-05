@@ -77,6 +77,7 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
 
     activateListeners(html) {
         super.activateListeners(html);
+        MeistertoolsUtil.addDefaultListeners(html);
 
         html.find(".re-roll").click(async event => {
             const rollType = $(event.currentTarget).attr("data-roll-type")

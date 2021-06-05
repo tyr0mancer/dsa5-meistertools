@@ -1,13 +1,15 @@
 <form>
-    <div class="box header">
-        <h1>{{general.tavern-name}}</h1>
-    </div>
+    {{#ifeq general.merchantType "tavern" }}
+        <div class="box header">
+            <h1>{{general.tavern-name}}</h1>
+        </div>
+    {{/ifeq}}
 
     {{#each supply as |category n|}}
         {{#with category}}
             <div class="box header">
-                <h2>{{categoryName}}</h2>
-                <div class="col-3">
+                <h2 class="toggle" data-target=".{{n}}-merchant-cat">{{categoryName}}</h2>
+                <div class="col-3 {{n}}-merchant-cat">
                     {{#each_when current "visible" true}}
                         <img src="{{item.img}}" style="width:48px"/>
                         <b>{{item.name}}</b>
@@ -17,5 +19,22 @@
             </div>
         {{/with}}
     {{/each}}
+    {{#ifeq general.merchantType "merchant" }}
+        {{#ifeq general.buys.price "0"}}
+        {{else}}
+            <div class="box header">
+                <h2>Ankauf</h2>
+                Kauft Items zu Preis Stufe {{general.buys.price}}
+
+                {{#each ownstuff}}
+                    <div>
+                        <a>sell this</a>
+                        <p>Item Description, img etc.</p>
+                    </div>
+                {{/each}}
+            </div>
+        {{/ifeq}}
+    {{/ifeq}}
+
 
 </form>

@@ -83,7 +83,7 @@ export default {
             variations: [
                 {
                     key: "gareth",
-                    name: "Gareth und Umgebung",
+                    name: "Garetien",
                     data: {
                         rarity: {general: 2, regions: [["gareth", 5], ["mittelreich", 4]]},
                         rollTables: {

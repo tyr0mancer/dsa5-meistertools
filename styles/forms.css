@@ -232,7 +232,7 @@
 }
 
 .meistertools i.button.fa-minus-circle {
-    color: red
+    color: var(--color-red)
 }
 
 /* label buttons */

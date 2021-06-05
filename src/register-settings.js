@@ -176,6 +176,7 @@ export class MeistertoolsSettings extends FormApplication {
             game.settings.set(moduleName, category, this.settings[category]);
         }
         Hooks.call(moduleName + ".update-settings", this.settings)
+        this.close()
     }
 
 }

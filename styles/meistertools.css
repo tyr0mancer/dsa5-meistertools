@@ -10,6 +10,11 @@
     --color-disabled: #9C9FB8;
     --color-disabled-background: #cccccc;
     --color-light: #ffffe0;
+
+    --color-red: #930722;
+    --color-blue: #0C2836;
+    --color-golden: goldenrod;
+    --color-grey:  #9C9FB8;
 }
 
 
@@ -235,34 +240,34 @@
 
 .meistertools .rarity.star0:before {
     content: "\f057";
-    color: red;
+    color: var(--color-red);
 }
 
 .meistertools .rarity.star1:before {
     content: "\f005";
-    color: var(--color-quaternary);
+    color: var(--color-grey);
     font-weight: 200;
 }
 
 .meistertools .rarity.star2:before {
     content: "\f005";
-    color: blue;
+    color: var(--color-blue);
     font-weight: 200;
 }
 
 .meistertools .rarity.star3:before {
     content: "\f5c0";
-    color: blue;
+    color: var(--color-blue);
 }
 
 .meistertools .rarity.star4:before {
     content: "\f005";
-    color: blue;
+    color: var(--color-blue);
 }
 
 .meistertools .rarity.star5:before {
     content: "\f005";
-    color: goldenrod;
+    color: var(--color-golden);
 }
 
 
@@ -397,7 +402,7 @@ a.load-pattern {
 
 .meistertools .scene-position.none {
     text-align: center;
-    background-color: red;
+    background-color: var(--color-red);
     color: white;
 }
 

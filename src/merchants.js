@@ -219,19 +219,14 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             : event.currentTarget.value
         if (!categoryId)
             return this.actor.setFlag(moduleName, "merchant." + name, value)
-
         const {supply} = this.merchantFlags
-
         for (const c of event.currentTarget.classList)
             if (SOURCE_TYPES.includes(c)) {
                 supply[categoryId]["source-type"] = c
                 break
             }
         supply[categoryId][name] = value
-        //console.log(name, value, moduleName)
-        console.log(supply)
         await this.actor.setFlag(moduleName, 'merchant.supply', supply)
-        console.log(this.actor)
     }
 
 
@@ -284,14 +279,21 @@ async function rollCategory(category, {quality, price}) {
 
     let itemsArray = []
     if (sourceType === "rolltable") {
-        console.log(sourceId)
         const [id, packName] = sourceId.split('@')
         const pack = game.packs.get(packName)
         const table = await pack.getDocument(id)
         for (const {data} of table.results) {
             if (data.type !== 2) return
             const e = await game.packs.get(data.collection).getEntity(data.resultId)
-            itemsArray.push(e)
+            if (e)
+                itemsArray.push(e)
+            else {
+                const pack = game.packs.get(data.collection)
+                console.log(pack)
+                const x = pack.get(data.resultId)
+                console.log(data)
+                // todo item isnt in the compendium (any more?)
+            }
         }
     } else if (sourceType === "items") {
         const pack = game.packs.get(sourceId)
@@ -314,7 +316,7 @@ async function rollCategory(category, {quality, price}) {
             ? await MeistertoolsRarity.getCurrentRarity(item) || MeistertoolsRarity.defaultRarity
             : MeistertoolsRarity.defaultRarity
 
-        if (item.compendium)
+        if (item?.compendium)
             results.push({
                 collection: item.compendium?.collection,
                 weight: rarity * rarity,
@@ -327,8 +329,6 @@ async function rollCategory(category, {quality, price}) {
                 flags: {}
             })
     }
-
-
 
 
     const tableData = {

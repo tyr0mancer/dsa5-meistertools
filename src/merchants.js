@@ -61,7 +61,7 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
     }
 
     async getData() {
-        const data = super.getData();
+        const data = await super.getData();
         this.merchantFlags = this.actor.getFlag(moduleName, 'merchant')
         mergeObject(data, {
             options: {
@@ -84,10 +84,10 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
                 this.actor.setFlag(moduleName, "merchant.general.tavern-name", getRandomEstablishmentName())
             } else if (rollType === "current") {
                 for (const category of this.merchantFlags.supply)
-                    await calculateCurrent(category, this.merchantFlags.general)
+                    await rollCategory(category, this.merchantFlags.general)
             } else {
                 const n = parseInt(rollType.split("-")[1])
-                await calculateCurrent(this.merchantFlags.supply[n], this.merchantFlags.general)
+                await rollCategory(this.merchantFlags.supply[n], this.merchantFlags.general)
             }
             this.actor.setFlag(moduleName, 'merchant.supply', this.merchantFlags.supply)
         })
@@ -278,19 +278,19 @@ function getRandomEstablishmentName() {
     return `${rndArr(RANDOM_TAVERN_NAME.article)} ${rndArr(RANDOM_TAVERN_NAME.adjective)} ${rndArr(RANDOM_TAVERN_NAME.subject)}`
 }
 
-async function calculateCurrent(category, {quality, price}) {
+async function rollCategory(category, {quality, price}) {
     const amount = MeistertoolsUtil.rollDice(category["amount-q" + quality])
     const {"source-type": sourceType, "source-id": sourceId, "filter-text": filterText, "filter-rarity": filterRarity} = category
 
     let itemsArray = []
     if (sourceType === "rolltable") {
+        console.log(sourceId)
         const [id, packName] = sourceId.split('@')
         const pack = game.packs.get(packName)
         const table = await pack.getDocument(id)
-        for (let {collection, resultId, type} of table.results) {
-            if (type !== 2) continue
-            const p = game.packs.get(collection)
-            const e = await p.getEntity(resultId)
+        for (const {data} of table.results) {
+            if (data.type !== 2) return
+            const e = await game.packs.get(data.collection).getEntity(data.resultId)
             itemsArray.push(e)
         }
     } else if (sourceType === "items") {
@@ -328,6 +328,9 @@ async function calculateCurrent(category, {quality, price}) {
             })
     }
 
+
+
+
     const tableData = {
         name: 'rolltable_TEMPORARY',
         formula: `1d${results.length}`,
@@ -342,10 +345,11 @@ async function calculateCurrent(category, {quality, price}) {
 
     category.current = []
     const {sell: sellFactor} = PRICE.find(p => p.key === parseInt(price))
-    for (let entry of res.results) {
-        const p = game.packs.get(entry.collection)
-        const item = await p?.getEntity(entry.resultId)
+    for (const {data} of res.results) {
+        const p = game.packs.get(data.collection)
+        const item = await p?.getEntity(data.resultId)
         const price = parseInt(Math.floor(item?.data.data.price.value * sellFactor * 100).toString().replace(/./g, (c, i) => i <= 1 ? c : "0")) / 100
-        category.current.push({item, visible: false, price, link: item.link})
+        const link = `@Compendium[${item.pack}.${item.id}]{${item.name}}`
+        category.current.push({item, visible: false, price, link})
     }
 }

@@ -68,6 +68,10 @@ export class SceneParser extends Application {
         for (let drawing of sceneDrawings) {
             const region = drawing.getFlag(moduleName, 'region')
             if (region) {
+                /*
+                const fittingDrawing = this.regionMap.get(region.category)?.regions.get(region.key)?.drawings
+                    .find(d => Math.floor(d.x) === Math.floor(drawing.data.x) && Math.floor(d.y) === Math.floor(drawing.data.y))
+                */
                 const fittingDrawing = this.regionMap.get(region.category)?.regions.get(region.key)?.drawings
                     .find(d => d.x === drawing.data.x && d.y === drawing.data.y)
                 if (fittingDrawing) {

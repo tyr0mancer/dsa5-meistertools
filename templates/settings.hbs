@@ -11,17 +11,42 @@
     General
     ----------------------- -->
     <section class="tab" data-tab="general">
+
+        <img src="modules/dsa5-meistertools/assets/images/meistertools.webp" alt="MeisterTools" style="border: none"/>
+
         {{#with general}}
             <div class="inner box">
-                <input {{checked showSettings}}
-                        id="showSettings" name="general.showSettings" type="checkbox"/>
-                <label for="showSettings">Settings in MeisterTools Menü</label>
-                <input {{checked showMapMaker}}
-                        id="showMapMaker" name="general.showMapMaker" type="checkbox"/>
-                <label for="showMapMaker">Map Maker in MeisterTools Menü</label>
-                <input {{checked topMenu}}
-                        id="topMenu" name="general.topMenu" type="checkbox"/>
-                <label for="topMenu">MeisterTools im Hauptmenü oben anzeigen</label>
+                <div class="col-2">
+                    <div>
+                        <input {{checked showSettings}}
+                                id="showSettings" name="general.showSettings" type="checkbox"/>
+                        <label for="showSettings">Settings in Menü</label>
+                    </div>
+                    <div>
+                        Wenn aktiviert, können die Meistertool Settings aus dem Hauptmenü geöffnet werden.
+                    </div>
+
+                    <div>
+                        <input {{checked showMapMaker}}
+                                id="showMapMaker" name="general.showMapMaker" type="checkbox"/>
+                        <label for="showMapMaker">Kartograf in Menü</label>
+                    </div>
+                    <div>
+                        Wenn aktiviert, kann der Meistertools Kartograf direkt aus dem Hauptmenü geöffnet werden.
+                    </div>
+
+                    <div>
+                        <input {{checked topMenu}}
+                                id="topMenu" name="general.topMenu" type="checkbox"/>
+                        <label for="topMenu">MeisterTools Menü nach oben</label>
+                    </div>
+                    <div>
+                        Wenn aktiviert, wird das Meistertools Menü für den GM im Hauptmenü als oberstes angezeigt.
+                    </div>
+
+                </div>
+
+
                 <!--
                 <input {{checked adjustControlsCss}}
                         type="checkbox" id="adjustControlsCss" name="general.adjustControlsCss"/>

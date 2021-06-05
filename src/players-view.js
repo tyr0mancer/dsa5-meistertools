@@ -91,9 +91,6 @@ export class PlayersView extends Application {
         })
 
 
-        html.find("a.select-user").dblclick(event => {
-            alert(this.user)
-        })
 
         html.find("a.select-user").click(event => {
             const userId = $(event.currentTarget).attr("data-user-id")
@@ -107,9 +104,9 @@ export class PlayersView extends Application {
         })
 
         html.find("button[name=find-token]").click(ev => {
-            const token = game.scenes.viewed.data.tokens.find(t => t.actorId === this.user?.character?._id)
+            const token = game.scenes.viewed.data.tokens.find(t => t._actor.id === this.user?.character?._id)
             if (token) {
-                canvas.pan(token)
+                canvas.pan(token.data)
                 canvas.tokens.activate()
                 this.close()
             } else {

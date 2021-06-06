@@ -24,13 +24,19 @@
                             <div><img src="{{item.img}}" style="width:24px; border: none"/></div>
 
                             {{#if item.data.description.value}}
-                                <div><a class="toggle-description"
-                                        data-target="#detail-{{item._id}}"><i class="fas fa-info-circle"></i>
-                                    {{item.name}}</a></div>
-                                <div style="text-align: right">{{{money price}}}</div>
-                                <div id="detail-{{item._id}}" class="inner box hidden" style="grid-column: 1 / span 3">
-                                    {{{item.data.description.value}}}
-                                </div>
+                                {{#ifeq ../../general.merchantType "tavern" }}
+                                    <div>{{item.name}}</div>
+                                    <div style="text-align: right">{{{money price}}}</div>
+                                {{else}}
+                                    <div><a class="toggle-description"
+                                            data-target="#detail-{{item._id}}"><i class="fas fa-info-circle"></i>
+                                        {{item.name}}</a></div>
+                                    <div style="text-align: right">{{{money price}}}</div>
+                                    <div id="detail-{{item._id}}" class="inner box hidden"
+                                         style="grid-column: 1 / span 3">
+                                        {{{item.data.description.value}}}
+                                    </div>
+                                {{/ifeq}}
                             {{else}}
                                 <div>{{item.name}}</div>
                                 <div style="text-align: right">{{{money price}}}</div>
@@ -42,7 +48,7 @@
             </div>
         {{/with}}
     {{/each}}
-<!--
+    <!--
     {{#ifeq general.merchantType "merchant" }}
         <div class="box header">
             <h2>Ankauf</h2>
@@ -56,16 +62,16 @@
                         <img src="{{img}}" style="height: 32px"/>
                         <a class="add-to-offer" data-item-id="{{id}}">{{name}}</a>
                         {{data.price.value}}
-                        {{data.quantity.value}}
+        {{data.quantity.value}}
                         &lt;!&ndash;<textarea>{{stringify this}}</textarea>&ndash;&gt;
                     </div>
                 {{/each}}
-            {{/ifeq}}
+    {{/ifeq}}
             <div class="inner box header">
                 <h2>Ausgewählt</h2>
                 {{#each offeredStuff}}
-                    {{name}}
-                {{/each}}
+        {{name}}
+    {{/each}}
 
                 <button class="sell-items">verkaufen</button>
             </div>

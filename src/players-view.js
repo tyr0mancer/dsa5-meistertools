@@ -133,6 +133,10 @@ export class PlayersView extends Application {
             //this.user.character.sheet.renderPopout(true)
         })
 
+        html.find(".box.header.biome").click(ev => {
+            this.render(true)
+        })
+
 
     }
 

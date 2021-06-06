@@ -1,40 +1,76 @@
 <form>
     {{#ifeq general.merchantType "tavern" }}
         <div class="box header">
-            <h1>{{general.tavern-name}}</h1>
+            <h1>“ {{general.tavern-name}} ”</h1>
+            <div class="col-2" style="grid-template-columns: 50px auto">
+                <img src="{{actor.img}}" style="border: none; width: 48px;"/>
+                <div style="padding-top: 10px">
+                    <b>{{actor.name}}</b>
+                    <i>{{actor.data.details.gender.value}}</i>
+                    <i>{{actor.data.details.age.value}} Jahre</i>
+                    <p>{{actor.data.details.species.value}}</p>
+                </div>
+            </div>
         </div>
     {{/ifeq}}
 
     {{#each supply as |category n|}}
         {{#with category}}
-            <div class="box header">
-                <h2 class="toggle" data-target=".{{n}}-merchant-cat">{{categoryName}}</h2>
-                <div class="col-3 {{n}}-merchant-cat">
-                    {{#each_when current "visible" true}}
-                        <img src="{{item.img}}" style="width:48px"/>
-                        <b>{{item.name}}</b>
-                        <div>{{{money price}}}</div>
-                    {{/each_when}}
+            <div class="inner box">
+                <h3 class="toggle " data-target=".{{n}}-merchant-cat">{{categoryName}}</h3>
+                <div class="{{n}}-merchant-cat ">
+                    <div class="col-3" style="grid-template-columns: 32px auto 100px">
+                        {{#each_when current "visible" true}}
+                            <div><img src="{{item.img}}" style="width:24px; border: none"/></div>
+
+                            {{#if item.data.description.value}}
+                                <div><a class="toggle-description"
+                                        data-target="#detail-{{item._id}}"><i class="fas fa-info-circle"></i>
+                                    {{item.name}}</a></div>
+                                <div style="text-align: right">{{{money price}}}</div>
+                                <div id="detail-{{item._id}}" class="inner box hidden" style="grid-column: 1 / span 3">
+                                    {{{item.data.description.value}}}
+                                </div>
+                            {{else}}
+                                <div>{{item.name}}</div>
+                                <div style="text-align: right">{{{money price}}}</div>
+                            {{/if}}
+
+                        {{/each_when}}
+                    </div>
                 </div>
             </div>
         {{/with}}
     {{/each}}
+<!--
     {{#ifeq general.merchantType "merchant" }}
-        {{#ifeq general.buys.price "0"}}
-        {{else}}
-            <div class="box header">
-                <h2>Ankauf</h2>
-                Kauft Items zu Preis Stufe {{general.buys.price}}
+        <div class="box header">
+            <h2>Ankauf</h2>
+            {{#ifeq general.buys.price "0"}}
+                <b>Der Händler kauft keine Waren.</b>
 
-                {{#each ownstuff}}
+            {{else}}
+                &lt;!&ndash;Kauft Items zu einem Preis der Stufe {{general.buys.price}}&ndash;&gt;
+                {{#each this.ownStuff}}
                     <div>
-                        <a>sell this</a>
-                        <p>Item Description, img etc.</p>
+                        <img src="{{img}}" style="height: 32px"/>
+                        <a class="add-to-offer" data-item-id="{{id}}">{{name}}</a>
+                        {{data.price.value}}
+                        {{data.quantity.value}}
+                        &lt;!&ndash;<textarea>{{stringify this}}</textarea>&ndash;&gt;
                     </div>
                 {{/each}}
+            {{/ifeq}}
+            <div class="inner box header">
+                <h2>Ausgewählt</h2>
+                {{#each offeredStuff}}
+                    {{name}}
+                {{/each}}
+
+                <button class="sell-items">verkaufen</button>
             </div>
-        {{/ifeq}}
-    {{/ifeq}}
+        </div>
+    {{/ifeq}}-->
 
 
 </form>

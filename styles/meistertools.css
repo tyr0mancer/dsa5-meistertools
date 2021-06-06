@@ -513,8 +513,8 @@ a.load-pattern {
  --------------------------------- */
 
 .meistertools .region.box {
-    width: 200px;
-    margin: 15px;
+
+    margin: 5px;
     background-color: white;
     color: black;
     opacity: 0.6;

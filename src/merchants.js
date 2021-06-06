@@ -20,6 +20,19 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         this.packOptions = []
         this.paymentMessages = []
         this.displayMessages = []
+        console.clear()
+
+        this.ownStuff = []
+        this.offeredStuff = []
+        const acceptedTypes = ["equipment", "meleeweapon"]
+        const player = game.user.character
+        if (player) {
+            for (const item of player.items.filter(i => i.type !== "skill")) {
+                if (acceptedTypes.includes(item.type))
+                    this.ownStuff.push(item)
+            }
+        }
+
         this.setOptions().then(() => this.render(true))
     }
 
@@ -71,6 +84,8 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             },
             ...this.merchantFlags,
             locked: (this.actor.data.permission.default !== 1),
+            ownStuff: this.ownStuff,
+            offeredStuff: this.offeredStuff
         })
         return data;
     }
@@ -188,6 +203,15 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         html.find("a.delete-display-messages").click(() => {
             this.displayMessages.forEach(m => m.delete())
         });
+
+
+        html.find("a.add-to-offer").click((event) => {
+            const itemId = $(event.currentTarget).attr("data-item-id")
+            this.offeredStuff.push(this.ownStuff.find(i => i.id === itemId))
+            console.log(this.offeredStuff)
+            this.render()
+        });
+
 
     }
 

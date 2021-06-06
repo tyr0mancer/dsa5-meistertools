@@ -37,7 +37,7 @@ export class MeistertoolsLocator extends Application {
             top: 50,
             left: 100,
             width: 320,
-            height: 420,
+            height: 380,
             template: `modules/${moduleName}/templates/locator.hbs`,
             id: 'meistertools.locator',
             title: 'MeisterTools Locator',
@@ -69,7 +69,7 @@ export class MeistertoolsLocator extends Application {
             await this._updateSettings({"currentLocation.currentBiome": this.settings.biomes.find(b => b.key === event.currentTarget.value)})
             Hooks.call(moduleName + ".update-location", this.settings.currentLocation)
         })
-        html.find("button.pick-region").click(() => new LocationPicker(async (regions, biomes) => {
+        html.find(".pick-region").click(() => new LocationPicker(async (regions, biomes) => {
             await this._updateSettings({
                 "currentLocation.currentRegions": regions,
                 "currentLocation.currentBiome": biomes[0]

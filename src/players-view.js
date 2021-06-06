@@ -103,6 +103,12 @@ export class PlayersView extends Application {
             game.dsa5.itemLibrary.render(true)
         })
 
+        html.find("button[name=open-wizzard]").click(ev => {
+            game.dsa5.apps.journalBrowser.render(true)
+        })
+
+
+
         html.find("button[name=find-token]").click(ev => {
             const token = game.scenes.viewed.data.tokens.find(t => t._actor.id === this.user?.character?._id)
             if (token) {

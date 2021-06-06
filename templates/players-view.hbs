@@ -2,6 +2,7 @@
     <div class="col-2" style="grid-template-columns: auto 300px">
         <div>
             <div class="inner box">
+                <button name="open-wizzard"><i class="fas fa-book"></i>Regelwerke</button>
                 <button name="open-library"><i class="fas fa-book"></i>Bibliothek</button>
                 <button name="find-token"><i class="fas fa-crosshairs"></i> Wo bin ich?</button>
                 <button class="open-app" name="combats"><i class="fas fa-fist-raised"></i> Initiative!</button>
@@ -31,19 +32,20 @@
         <div class="box header biome"
              style="background: url({{currentLocation.currentBiome.img}})">
             <h2>{{currentLocation.currentBiome.name}}</h2>
-            <div class="region box">
-                <h2>Coming soon:</h2>
-                <ul>
-                    <li>Uhrzeit und Kalender</li>
-                    <li>Aktuelles Wetter und Mondphase</li>
-                    <li>Hunger, Durst, Schlaf</li>
-                    <li>LeP, AsP, KaP</li>
-                </ul>
-            </div>
+            <!--
+                        <div class="region box">
+                            <h2>Coming soon:</h2>
+                            <ul>
+                                <li>Uhrzeit und Kalender</li>
+                                <li>Aktuelles Wetter und Mondphase</li>
+                                <li>Hunger, Durst, Schlaf</li>
+                                <li>LeP, AsP, KaP</li>
+                            </ul>
+                        </div>
+            -->
         </div>
     </div>
 
-    <!--
     {{#if user.character}}
         <div class="box header"><h1>{{user.character.name}}</h1>
             <div class="col-2" style="grid-template-columns: 150px auto ">
@@ -61,7 +63,6 @@
 
         </div>
     {{/if}}
-    -->
 
     {{#if isGM}}
         <div class="inner box header">

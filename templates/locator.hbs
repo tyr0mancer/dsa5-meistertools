@@ -30,17 +30,6 @@
         <div class="top-bar">
             <a class="pick-region" title="Regionen manuell auswählen"><i class="fas fa-edit"></i></a>
         </div>
-        <!--
-        <select name="biome" class="biome">
-            {{#select currentLocation.currentBiome.key}}
-                <option></option>
-                {{#each biomes}}
-                    <option value="{{key}}">{{name}}</option>
-                {{/each}}
-        {{/select}}
-        </select>
-
--->
         <div class="region box">
             {{#each expandedRegions}}
                 <h2><b>{{name}}</b>
@@ -51,16 +40,5 @@
             {{/each}}
         </div>
     </div>
-
-    <!--
-        <div class="col-2">
-            <button class="open-parser wide" title="Regionen und Kartenzeichnungen"><i class="fas fa-cogs"></i></button>
-            <div style="text-align: right">
-                <button class="set-token wide" title="Das ausgewählte Token als Locator Token verwenden">
-                    <i class="fas fa-user-tag"></i></button>
-                &lt;!&ndash; <button class="set-scene">set scene</button> &ndash;&gt;
-            </div>
-        </div>
-    -->
 
 </div>

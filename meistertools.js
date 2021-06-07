@@ -4,6 +4,7 @@ import {registerLayer, registerControlButtons} from "./src/register-layer.js";
 import {registerHandlebarHelper} from "./src/register-handlebar-helper.js";
 import {MeistertoolsLocator} from "./src/locator.js";
 import MeistertoolsMerchantSheet from "./src/merchants.js";
+import {ItemRegionDSA5, ItemAvailabilityDSA5} from "./src/item-sheet.js";
 
 
 /** ******************************
@@ -46,6 +47,11 @@ Hooks.once('init', () => {
     registerHandlebarHelper()
 
     Actors.registerSheet("dsa5", MeistertoolsMerchantSheet, {types: ["npc"]});
+
+    Items.registerSheet("dsa5", ItemRegionDSA5, {types: ["equipment"]});
+    Items.registerSheet("dsa5", ItemAvailabilityDSA5, {types: []});
+
+    loadTemplates(["modules/dsa5-meistertools/templates/item-rarity.hbs"])
 });
 
 

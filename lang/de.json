@@ -3,12 +3,21 @@
   "nsc-settings": "NSC Fabrik",
   "scenes-settings": "Szenen Verwaltung",
   "locations-settings": "Regionen und Landschafts-Typen",
-
   "meistertools": {
     "save-settings": "Settings speichern",
     "reset-settings": "Änderungen rückgängig",
     "restore-settings": "Settings zurück setzen",
     "in-other-news": "Rise up this mornin'\nSmile with the risin' sun\nThree little birds\nPitched by my doorstep\nSingin' sweet songs\nOf melodies pure and true\nSayin', \"This is my message to you, whoo-hoo\"\n",
     "nsc-factory": "NSC Fabrik"
+  },
+  "Availability": {
+    "unknown": "unbekannt",
+    "general": "allgemeine Verfügbarkeit",
+    "none": "nicht verfügbar",
+    "very-rare": "sehr selten",
+    "rare": "selten",
+    "normal": "normal",
+    "common": "oft",
+    "very-common": "sehr oft"
   }
 }

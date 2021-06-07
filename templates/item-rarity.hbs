@@ -1,0 +1,34 @@
+<div class="tab effects" data-tab="rarity">
+    <div class="meistertools">
+
+        <div class="form-group">
+            <label class="label-text">{{localize "Availability.general"}}</label>
+            <select name="data.rarity.general" data-dtype="String">
+                {{#select data.rarity.general}}
+                    {{#each rarityOptions as |ch char|}}
+                        <option value="{{char}}">{{localize ch}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="label-text">Regionen</label>
+            <div>
+                {{#each data.rarity.regions}}
+                    <div>{{name}} {{display_rarity value}} </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="label-text">Landschafts-Typen</label>
+            <div>
+                {{#each data.rarity.biomes}}
+                    <div>{{name}} {{display_rarity value}} </div>
+                {{/each}}
+            </div>
+        </div>
+
+    </div>
+</div>

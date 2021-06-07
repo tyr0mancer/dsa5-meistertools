@@ -68,6 +68,7 @@ export class Scenes extends Application {
 
     activateListeners(html) {
         super.activateListeners(html);
+        MeistertoolsUtil.addDefaultListeners(html);
         html.find(".scene-thumb").click(async event => {
             const sceneId = $(event.currentTarget).attr("data-scene-id")
             const sceneSource = $(event.currentTarget).attr("data-scene-source")
@@ -86,6 +87,11 @@ export class Scenes extends Application {
 
         html.find("select[name=playlist]").change(event => {
             this.filter.playlist = event.currentTarget.value
+            this.render()
+        })
+
+        html.find("button[name=reset-biome]").click(() => {
+            this.filter.biome = MeistertoolsLocator.currentLocation.currentBiome.key
             this.render()
         })
 
@@ -108,6 +114,9 @@ export class Scenes extends Application {
             this.filter = {}
             this.render()
         })
+
+
+
     }
 
     async _pickCollection(collection) {

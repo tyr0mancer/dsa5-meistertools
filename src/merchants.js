@@ -208,7 +208,6 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         html.find("a.add-to-offer").click((event) => {
             const itemId = $(event.currentTarget).attr("data-item-id")
             this.offeredStuff.push(this.ownStuff.find(i => i.id === itemId))
-            console.log(this.offeredStuff)
             this.render()
         });
 
@@ -320,9 +319,7 @@ async function rollCategory(category, {quality, price}) {
                 itemsArray.push(e)
             else {
                 const pack = game.packs.get(data.collection)
-                console.log(pack)
                 const x = pack.get(data.resultId)
-                console.log(data)
                 // todo item isnt in the compendium (any more?)
             }
         }
@@ -349,11 +346,11 @@ async function rollCategory(category, {quality, price}) {
 
         if (item?.compendium)
             results.push({
-                collection: item.compendium?.collection,
+                collection: item.compendium?.collection || item.pack,
                 weight: rarity * rarity,
                 type: 2,
                 text: item.name,
-                resultId: item._id,
+                resultId: item.id || item._id,
                 img: item.img,
                 drawn: false,
                 range: [-1, -1],

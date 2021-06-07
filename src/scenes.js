@@ -1,6 +1,5 @@
-import {moduleName} from "../meistertools.js";
+import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 import defaultSettings from "../config/scenes.config.js";
-import {MeistertoolsUtil} from "../meistertools-util.js";
 import {MeistertoolsLocator} from "./locator.js";
 
 export class Scenes extends Application {

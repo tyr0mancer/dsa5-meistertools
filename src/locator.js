@@ -1,6 +1,5 @@
-import {moduleName} from "../meistertools.js";
+import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 import {SceneParser} from "./scene-parser.js";
-import {MeistertoolsUtil} from "../meistertools-util.js";
 
 export class MeistertoolsLocator extends Application {
     isOpen = false

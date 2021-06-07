@@ -1,8 +1,7 @@
+import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 import DSA5Payment from "../../../systems/dsa5/modules/system/payment.js";
 import ActorSheetdsa5NPC from "../../../systems/dsa5/modules/actor/npc-sheet.js";
-import {MeistertoolsUtil} from "../meistertools-util.js";
 import {MeistertoolsRarity} from "./rarity.js";
-import {moduleName} from "../meistertools.js";
 import {
     MERCHANT_TYPE,
     PRICE,

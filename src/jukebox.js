@@ -1,5 +1,4 @@
-import {moduleName} from "../meistertools.js";
-import {MeistertoolsUtil} from "../meistertools-util.js";
+import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 
 export class Jukebox extends Application {
     isOpen = false

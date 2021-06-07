@@ -1,6 +1,5 @@
-import {moduleName} from "../meistertools.js";
+import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 import {RULE_CATEGORIES, RULES} from "../config/request-roll.config.js";
-import {MeistertoolsUtil} from "../meistertools-util.js";
 
 
 export class RequestRoll extends Application {

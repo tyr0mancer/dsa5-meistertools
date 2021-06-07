@@ -1,5 +1,4 @@
-import {moduleName} from "../meistertools.js";
-import {MeistertoolsUtil} from "../meistertools-util.js";
+import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 import defaultSettings from "../config/locations.config.js";
 
 const MAP_DISTANCE_TOLERANCE = 1 // how close shall maps be to be considered the same map?

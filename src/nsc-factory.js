@@ -1,5 +1,4 @@
-import {moduleName} from "../meistertools.js";
-import {FileBrowser, MeistertoolsUtil} from "../meistertools-util.js";
+import {moduleName, FileBrowser, MeistertoolsUtil} from "../meistertools.js";
 import defaultSettings from "../config/nsc-factory.config.js";
 
 const MIN_AMOUNT = 1

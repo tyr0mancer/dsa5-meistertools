@@ -1,6 +1,5 @@
-import {moduleName} from "../meistertools.js";
+import {moduleName,MeistertoolsUtil} from "../meistertools.js";
 import zutatenNsc from "../config/nsc-factory.config.zutaten.js";
-import {MeistertoolsUtil} from "../meistertools-util.js";
 import {NscFactory} from "./nsc-factory.js";
 import {SceneParser} from "./scene-parser.js";
 import {MeistertoolsRarity} from "./rarity.js";

@@ -2,6 +2,8 @@ import {moduleName} from "../meistertools.js";
 import {MeistertoolsUtil} from "../meistertools-util.js";
 import defaultSettings from "../config/locations.config.js";
 
+const MAP_DISTANCE_TOLERANCE = 1 // how close shall maps be to be considered the same map?
+
 export class SceneParser extends Application {
     isOpen = false
 
@@ -65,15 +67,13 @@ export class SceneParser extends Application {
             }
         }
 
+        const distance = (a, b) => Math.abs(a - b)
+        const closeEnough = ({x: x1, y: y1}, {x: x2, y: y2}) => distance(x1, x2) <= MAP_DISTANCE_TOLERANCE && distance(y1, y2) <= MAP_DISTANCE_TOLERANCE
         for (let drawing of sceneDrawings) {
             const region = drawing.getFlag(moduleName, 'region')
             if (region) {
-                /*
                 const fittingDrawing = this.regionMap.get(region.category)?.regions.get(region.key)?.drawings
-                    .find(d => Math.floor(d.x) === Math.floor(drawing.data.x) && Math.floor(d.y) === Math.floor(drawing.data.y))
-                */
-                const fittingDrawing = this.regionMap.get(region.category)?.regions.get(region.key)?.drawings
-                    .find(d => d.x === drawing.data.x && d.y === drawing.data.y)
+                    .find(d => closeEnough(d, drawing.data))
                 if (fittingDrawing) {
                     fittingDrawing.inScene = true
                     fittingDrawing._id = drawing._id
@@ -149,8 +149,12 @@ export class SceneParser extends Application {
                 continue;
 
             // find a region that fits to the drawings name
-            const keys = drawing.data.text.split('.')
-            const region = regions.find(r => (keys.length > 1) ? (r.category === keys[0] && r.key === keys[1]) : (r.key === keys[0]))
+            /*
+                        const keys = drawing.data.text.split('.')
+                        const region = regions.find(r => (keys.length > 1) ? (r.category === keys[0] && r.key === keys[1]) : (r.key === keys[0]))
+            */
+            const regionKey = drawing.data.text.split('.').pop()
+            const region = regions.find(r => r.key === regionKey)
 
             // name does not refer to a known region
             if (!region) continue;
@@ -251,6 +255,7 @@ export class SceneParser extends Application {
             const sceneRegions = game.scenes.viewed.getFlag(moduleName, "regions")
             const {drawingData: drawing} = sceneRegions.find(r => r.drawingData._id === drawingId)
             await game.scenes.viewed.createEmbeddedDocuments("Drawing", [drawing])
+            canvas.pan(drawing)
             this.render()
         }
     }

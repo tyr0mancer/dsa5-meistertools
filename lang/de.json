@@ -19,5 +19,11 @@
     "normal": "normal",
     "common": "oft",
     "very-common": "sehr oft"
+  },
+  "Region": {
+    "city": "Städte & Stätten",
+    "province": "Provinz",
+    "realm": "Reich",
+    "biome": "Landschaft"
   }
 }

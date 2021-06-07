@@ -16,7 +16,7 @@ export class ItemRegionDSA5 extends ItemSheetdsa5 {
 
     async getData(options) {
         const data = await super.getData(options);
-        data['rarityOptions'] = rarityOptions;
+        data['regionTypes'] = regionTypes;
         return data
     }
 
@@ -53,4 +53,11 @@ const rarityOptions = {
     3: "Availability.normal",
     4: "Availability.common",
     5: "Availability.very-common",
+};
+
+const regionTypes = {
+    "city": "Region.city",
+    "province": "Region.province",
+    "realm": "Region.realm",
+    "biome": "Region.biome",
 };

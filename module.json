@@ -29,6 +29,12 @@
       "entity": "Item"
     },
     {
+      "name": "item-regions",
+      "label": "Regionen",
+      "path": "packs/item-regions.db",
+      "entity": "Item"
+    },
+    {
       "name": "rolltable-names",
       "label": "NSC Fabrik",
       "path": "packs/rolltable-names.db",

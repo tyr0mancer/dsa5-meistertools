@@ -51,7 +51,10 @@ Hooks.once('init', () => {
     Items.registerSheet("dsa5", ItemRegionDSA5, {types: ["equipment"]});
     Items.registerSheet("dsa5", ItemAvailabilityDSA5, {types: []});
 
-    loadTemplates(["modules/dsa5-meistertools/templates/item-rarity.hbs"])
+    loadTemplates([
+        "modules/dsa5-meistertools/templates/item-rarity.hbs",
+        "modules/dsa5-meistertools/templates/item-region.hbs"
+    ])
 });
 
 
@@ -62,7 +65,6 @@ Hooks.on('updateScene', (scene, data) => {
     if (currentBiome)
         MeistertoolsLocator.currentLocation = {currentBiome}
 })
-
 
 
 // Bilder von https://www.pexels.com/

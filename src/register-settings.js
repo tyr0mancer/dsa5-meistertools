@@ -139,6 +139,9 @@ export class MeistertoolsSettings extends FormApplication {
                 this.render()
             }
         });
+        html.find("button[name=report-bug]").click(async () => {
+            window.open("https://github.com/tyr0mancer/dsa5-meistertools/issues", "_blank")
+        });
 
 
         html.find(".insert-region").click(event => {

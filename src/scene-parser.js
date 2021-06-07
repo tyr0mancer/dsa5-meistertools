@@ -42,8 +42,12 @@ export class SceneParser extends Application {
 
     async _initRegions() {
         const sceneRegions = game.scenes.viewed.getFlag(moduleName, "regions") || []
-        const {regions, regionCategories} = game.settings.get(moduleName, "locations")
+        const {regions, regionCategories, biomes} = game.settings.get(moduleName, "locations")
         const sceneDrawings = game.scenes.viewed.getEmbeddedCollection('Drawing')
+
+        this.biomeOptions = biomes
+        this.sceneBiome = game.scenes.viewed.getFlag(moduleName, "biome") || {}
+
 
         for (let c of regionCategories) {
             if (this.hiddenBoxes[`.${c.key}.regions`] === undefined)
@@ -104,7 +108,8 @@ export class SceneParser extends Application {
             hiddenBoxes: this.hiddenBoxes,
             regionMap: this.regionMap,
             newDrawings: game.scenes.viewed.getEmbeddedCollection('Drawing')?.map(e => e).filter(e => !e.getFlag(moduleName, 'region')).length > 0,
-            sceneBiome: game.scenes.viewed.getFlag(moduleName, "biome") || {}
+            biomeOptions: this.biomeOptions,
+            sceneBiome: this.sceneBiome
         }
     }
 
@@ -124,6 +129,16 @@ export class SceneParser extends Application {
 
         html.find("button.purge-scene").click(() => this._purgeScene())
         html.find("button.purge-drawings").click(() => canvas.drawings.deleteAll())
+
+        html.find("select[name=biome]").change(async (event) => {
+            const biome = this.biomeOptions.find(b => b.key === event.currentTarget.value)
+            if (biome)
+                await game.scenes.viewed.setFlag(moduleName, "biome", biome)
+            else
+                await game.scenes.viewed.unsetFlag(moduleName, "biome")
+            this.render()
+        })
+
     }
 
     /**

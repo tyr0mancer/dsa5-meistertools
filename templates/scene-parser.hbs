@@ -64,6 +64,20 @@
         {{/each}}
     </div>
 
+    <div class="box">
+        <select id="biome" name="biome" class="labeled">
+            {{#select sceneBiome.key}}
+                <option></option>
+                {{#each biomeOptions}}
+                    <option value="{{key}}">{{name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        <label for="scene-collection-{{n}}">Landschafts-Typ</label>
+        {{#if sceneBiome}}
+            <img src="{{sceneBiome.img}}"/>
+        {{/if}}
+    </div>
 
     <!--<div class="box header">
         <h2 class="toggle show" data-target=".danger-zone">Danger-Zone!</h2>
@@ -73,7 +87,6 @@
             {{stringify scene.data.flags.dsa5-meistertools}}
         </div>
     </div>-->
-
 
 </div>
 

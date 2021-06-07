@@ -1,9 +1,11 @@
 import {moduleName} from "../meistertools.js";
 import defaultSettings from "../config/scenes.config.js";
 import {MeistertoolsUtil} from "../meistertools-util.js";
+import {MeistertoolsLocator} from "./locator.js";
 
 export class Scenes extends Application {
     isOpen = false
+
     toggle() {
         if (this.isOpen)
             this.close()
@@ -14,9 +16,9 @@ export class Scenes extends Application {
 
     constructor() {
         super();
-        this.settings = game.settings.get(moduleName, 'scenes')
         this.scenes = {}
         this.filter = {playlist: "", keyword: ""}
+        Hooks.on(moduleName + ".update-settings", () => this.render())
     }
 
     static get defaultOptions() {
@@ -34,6 +36,7 @@ export class Scenes extends Application {
     }
 
     async getData() {
+        this.settings = game.settings.get(moduleName, 'scenes')
         if (!this.activeCollection)
             await this._pickCollection(this.settings.sceneCollections[0]?.collection)
         const filter = (s) => {
@@ -51,7 +54,7 @@ export class Scenes extends Application {
             filter: this.filter,
             scenes: [
                 {source: "folder", name: "Szenen in Ordner", scenes: this.scenes.folder.filter(filter)},
-                {source: "pack", name: "Szenen in Collection", scenes: this.scenes.pack.filter(filter)}
+                {source: "pack", name: "Szenen in Kompendium", scenes: this.scenes.pack.filter(filter)}
             ],
             activeCollection: this.activeCollection,
             selectOptions: {

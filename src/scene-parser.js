@@ -45,9 +45,8 @@ export class SceneParser extends Application {
         const {regions, regionCategories, biomes} = game.settings.get(moduleName, "locations")
         const sceneDrawings = game.scenes.viewed.getEmbeddedCollection('Drawing')
 
-        this.biomeOptions = biomes
+        this.biomeOptions = duplicate(biomes)
         this.sceneBiome = game.scenes.viewed.getFlag(moduleName, "biome") || {}
-
 
         for (let c of regionCategories) {
             if (this.hiddenBoxes[`.${c.key}.regions`] === undefined)

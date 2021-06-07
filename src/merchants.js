@@ -59,8 +59,8 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         const options = super.defaultOptions;
         mergeObject(options, {
             classes: options.classes.concat(["meistertools", "dsa5", "actor", "npc-sheet", "merchant-sheet"]),
-            width: (game.user.isGM) ? 900 : 400,
-            height: (game.user.isGM) ? 800 : 600,
+            width: (game.user.isGM) ? 900 : 500,
+            height: (game.user.isGM) ? 800 : 700,
         });
 
         return options;

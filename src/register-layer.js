@@ -1,5 +1,5 @@
 import {NscFactory} from "./nsc-factory.js";
-import {MeistertoolsSettings} from "./register-settings.js";
+import {MeistertoolsSettings} from "./settings.js";
 import {MeistertoolsLocator} from "./locator.js";
 import {PlayersView} from "./players-view.js";
 import {Scenes} from "./scenes.js";

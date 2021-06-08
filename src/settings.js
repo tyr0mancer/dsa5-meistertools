@@ -1,36 +1,23 @@
-import {moduleName,MeistertoolsUtil} from "../meistertools.js";
+import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 import zutatenNsc from "../config/nsc-factory.config.zutaten.js";
 import {NscFactory} from "./nsc-factory.js";
 import {SceneParser} from "./scene-parser.js";
 import {MeistertoolsRarity} from "./rarity.js";
 import {Scenes} from "./scenes.js";
 
-const settingsCategories = [
+export const settingsCategories = [
     {key: "nsc-factory", default: NscFactory.defaultSettings},
     {key: "scenes", default: Scenes.defaultSettings},
     {key: "locations", default: SceneParser.defaultSettings},
     {key: "general", default: {showSettings: true}},
 ]
 
-export function registerSettings() {
-    game.settings.registerMenu(moduleName, "config-ui", {
-        name: "DSA5 Meistertools",
-        label: "Einstellungen",
-        hint: "Alle Einstellungen der DSA5 Meistertools",
-        icon: "fas fa-eye",
-        type: MeistertoolsSettings,
-        restricted: true
-    });
-    for (const category of settingsCategories)
-        game.settings.register(moduleName, category.key, {
-            default: category.default,
-            scope: "world", config: false, type: Object
-        });
-}
 
-
-export class MeistertoolsSettings extends FormApplication {
-    isOpen = false
+class MeisterApplication extends FormApplication {
+    constructor() {
+        super();
+        this.isOpen = false
+    }
 
     toggle() {
         if (this.isOpen)
@@ -49,9 +36,18 @@ export class MeistertoolsSettings extends FormApplication {
         super.render(force)
     }
 
-    constructor(initialTab = 'nsc') {
+
+    activateListeners(html) {
+        super.activateListeners(html);
+        MeistertoolsUtil.addDefaultListeners(html);
+    }
+
+}
+
+
+export class MeistertoolsSettings extends MeisterApplication {
+    constructor() {
         super();
-        this.initialTab = initialTab
         this.settings = {}
         for (let {key} of settingsCategories) {
             this.settings[key] = game.settings.get(moduleName, key)

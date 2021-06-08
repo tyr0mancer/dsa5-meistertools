@@ -1,5 +1,5 @@
 import {updatePlaylist} from "./src/update-playlist.js";
-import {registerSettings} from "./src/register-settings.js";
+import {MeistertoolsSettings, settingsCategories} from "./src/settings.js";
 import {registerLayer, registerControlButtons} from "./src/register-layer.js";
 import {registerHandlebarHelper} from "./src/register-handlebar-helper.js";
 import {MeistertoolsLocator} from "./src/locator.js";
@@ -65,6 +65,23 @@ Hooks.on('updateScene', (scene, data) => {
     if (currentBiome)
         MeistertoolsLocator.currentLocation = {currentBiome}
 })
+
+
+function registerSettings() {
+    game.settings.registerMenu(moduleName, "config-ui", {
+        name: "DSA5 Meistertools",
+        label: "Einstellungen",
+        hint: "Alle Einstellungen der DSA5 Meistertools",
+        icon: "fas fa-eye",
+        type: MeistertoolsSettings,
+        restricted: true
+    });
+    for (const category of settingsCategories)
+        game.settings.register(moduleName, category.key, {
+            default: category.default,
+            scope: "world", config: false, type: Object
+        });
+}
 
 
 const COLOR_PALETTE = ['#536DFE', '#FF9800', '#795548', '#455A64', '#03A9F4', '#D32F2F']

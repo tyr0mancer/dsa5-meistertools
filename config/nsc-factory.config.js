@@ -16,7 +16,7 @@ export default {
         "gender": "random",
         "position": "top-left",
         "archetype": "mittelreich",
-        "variation": "gareth",
+        "variation": "garetien",
         "profession": "Bw0l1TAGJAiPIZtb",
         "patternName": "",
         "players": {
@@ -80,10 +80,10 @@ export default {
             key: "mittelreich", name: "Mittelreich", img: "modules/dsa5-core/icons/culture/Mittelreich.webp",
             variations: [
                 {
-                    key: "gareth",
+                    key: "garetien",
                     name: "Garetien",
                     data: {
-                        rarity: {general: 2, regions: [["gareth", 5], ["mittelreich", 4]]},
+                        rarity: {general: 2, regions: [["garetien", 5], ["mittelreich", 4]]},
                         rollTables: {
                             "origin": "Gareth Orte",
                         }

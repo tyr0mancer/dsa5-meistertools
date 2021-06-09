@@ -1,5 +1,5 @@
 /* ---------------------------------
-    color palette
+    general
  --------------------------------- */
 :root {
     --color-primary: #763626;
@@ -18,6 +18,10 @@
     --color-grey: #9C9FB8;
 }
 
+
+.meistertools img {
+    border: none
+}
 
 /* ---------------------------------
     navigation
@@ -97,7 +101,7 @@
 
 .meistertools .box.header > .top-bar {
     font-size: 1.5em;
-    color: var(--color-secondary);
+    color: var(--color-primary);
     background-color: var(--color-light);
     border: 2px solid var(--color-secondary);
     line-height: 1em;
@@ -123,6 +127,7 @@
     font-size: 1.8em;
     color: var(--color-light);
     background-color: var(--color-primary);
+    background-image: url('../assets/images/background_h1.webp');
 }
 
 .meistertools .box.header > h3:first-child {
@@ -214,15 +219,21 @@
 }
 
 .meistertools .toggle::before {
-    content: '- ';
+    font-family: "Font Awesome 5 Free", serif;
+    font-weight: 900;
+    content: "\f102";
+    padding-right: 10px;
 }
 
 .meistertools .toggle.show {
-    cursor: s-resize;
+    cursor: pointer;
 }
 
 .meistertools .toggle.show::before {
-    content: '+ ';
+    font-family: "Font Awesome 5 Free", serif;
+    font-weight: 900;
+    content: "\f103";
+    padding-right: 10px;
 }
 
 .meistertools .hidden {
@@ -742,3 +753,8 @@ a.load-pattern {
     color: #666;
     padding: 10px 0 0 30px;
 }
+
+.meistertools #nsc-collection sort-up:first-child {
+    display: none;
+}
+

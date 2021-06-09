@@ -1,9 +1,8 @@
 export default {
     "sceneCollections": [{
         "collection": "dsa5-meistertools.scenes-maps",
-        "folderName": "Karten",
-        "folder": "",
+        "folder": "Meistertools Karten",
         "name": "Karten",
         "keywords": "",
-    }], "updatePlaylist": false, "defaultPlaylist": ""
+    }], "updatePlaylist": true, "defaultPlaylist": ""
 }

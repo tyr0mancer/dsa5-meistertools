@@ -1,14 +1,20 @@
 {
-  "general-settings": "Allgemeines",
-  "nsc-settings": "NSC Fabrik",
-  "scenes-settings": "Szenen Verwaltung",
-  "locations-settings": "Regionen und Landschafts-Typen",
-  "meistertools": {
-    "save-settings": "Settings speichern",
-    "reset-settings": "Änderungen rückgängig",
-    "restore-settings": "Settings zurück setzen",
-    "in-other-news": "Rise up this mornin'\nSmile with the risin' sun\nThree little birds\nPitched by my doorstep\nSingin' sweet songs\nOf melodies pure and true\nSayin', \"This is my message to you, whoo-hoo\"\n",
-    "nsc-factory": "NSC Fabrik"
+  "MeisterSettings": {
+    "general": "Allgemeines",
+    "nsc": "NSC Fabrik",
+    "scenes": "Szenen Verwaltung",
+    "locations": "Regionen und Landschafts-Typen",
+    "archetypes": "Herkunft und Kultur",
+    "species": "Spezies",
+    "gender": "Gender Optionen",
+    "fallbackData": "Default Werte für Zufalls-Generator",
+    "configuration": "Weitere Konfiguration",
+    "nscpacks": "NSC Kompendien",
+    "scenepacks": "Szenen Kompendien",
+    "factoryReset": "Meistertools wurden auf die Anfangs-Konfiguration zurück gesetzt.",
+    "ScenePlaylist": "Playlisten finden",
+    "DefaultPlaylist": "Fallback Playlist",
+    "FindPlaylist": "Namensgleiche Playlist suchen"
   },
   "Availability": {
     "unknown": "unbekannt",
@@ -25,5 +31,19 @@
     "province": "Provinz",
     "realm": "Reich",
     "biome": "Landschaft"
+  },
+  "Help": {
+    "nsc-factory": {
+      "packs": "Token zu Akteuren aus diesen Kompendien können in der App NSC Fabrik einer Szene hinzugefügt werden.",
+      "configuration": "Die weitere Konfiguration der NSC Fabrik erfolgt aktuell leider nicht über eine sexy GUI sondern via ehrlichem JSON.",
+      "archetypes": " ",
+      "gender": "Da mir aktuell nur Daten für männliche und weibliche Namen vorliegen, ist die Auswahl des Geschlechts entsprechend eingeschränkt, kann aber im Folgenden editiert werden.",
+      "fallbackData": " ",
+      "species": " "
+    },
+    "Scenes": {
+      "Playlist": "Wenn der aktiven Szene eine Playlist zugewiesen ist, Foundry diese aber nicht finden kann, weil sie mit gleichen Namen neu angelegt wurde und daher eine neue id hat, sucht MeisterTools nach einer namensgleichen Playlist und speichert diese als neue Playlist dieser Szene. MeisterTools kann außerdem eine Default-Playliste setzen, wenn keine Playlist definiert ist und keine namensgleiche Playlist gefunden werden kann.",
+      "Packs": "Auf Szenen dieser Kompendien kann mit der App 'Szenenwechsel' zugegriffen werden."
+    }
   }
 }

@@ -1,5 +1,6 @@
-import {moduleName, FileBrowser, MeistertoolsUtil} from "../meistertools.js";
+import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 import defaultSettings from "../config/nsc-factory.config.js";
+import {FileBrowser} from "../util/file-browser.js";
 
 const MIN_AMOUNT = 1
 const DEFAULT_IMAGE = '404.jpeg'

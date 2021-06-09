@@ -1,0 +1,100 @@
+<div class="tab general active" data-tab="general">
+
+    <img src="modules/dsa5-meistertools/assets/images/meistertools.webp" alt="MeisterTools"/>
+
+    {{#with general}}
+        <div class="inner box header col-2">
+            <h2>Allgemeine Einstellungen</h2>
+
+            <div class="col-2">
+                <div>
+                    <input {{checked showSettings}}  class="switch"
+                                                     id="showSettings" name="general.showSettings" type="checkbox"/>
+                    <label for="showSettings"></label>
+                    <label for="showSettings">Settings in Menü</label>
+                </div>
+                <div>
+                    Wenn aktiviert, können die Meistertool Settings aus dem Hauptmenü geöffnet werden.
+                </div>
+                <div>
+                    <input {{checked topMenu}} class="switch"
+                                               id="topMenu" name="general.topMenu" type="checkbox"/>
+                    <label for="topMenu"></label>
+                    <label for="topMenu">MeisterTools Menü nach oben</label>
+                </div>
+                <div>
+                    Wenn aktiviert, wird das Meistertools Menü für den GM im Hauptmenü als oberstes angezeigt.
+                </div>
+                <div>
+                    <input {{checked showMapMaker}} class="switch"
+                                                    id="showMapMaker" name="general.showMapMaker" type="checkbox"/>
+                    <label for="showMapMaker"></label>
+                    <label for="showMapMaker">Kartograf in Menü</label>
+                </div>
+                <div>
+                    Wenn aktiviert, kann der Meistertools Entity Manager direkt aus dem Hauptmenü geöffnet werden.
+                </div>
+                <div>
+                    <input {{checked showEntityTagger}} class="switch"
+                                                        id="showEntityTagger" name="general.showEntityTagger"
+                                                        type="checkbox"/>
+                    <label for="showEntityTagger"></label>
+                    <label for="showEntityTagger">Entity Manager in Menü</label>
+                </div>
+                <div>
+                    Wenn aktiviert, kann der Meistertools Kartograf direkt aus dem Hauptmenü geöffnet werden.
+                </div>
+            </div>
+
+
+            <div class="inner box">
+                <button type="button" class="bold" name="reset"><i class="fas fa-wrench"></i> Zurück setzen</button>
+                <br/>
+                <button type="button" class="bold" name="magic"><i class="fas fa-magic"></i> Auto-Konfig</button>
+            </div>
+
+        </div>
+    {{/with}}
+
+
+    <div class="box float header col-2">
+        <h2>Links</h2>
+        <div class="inner box">
+            <button class="video-tutorial bold" type="button"><i class="fab fa-youtube"></i> Tutorial schauen</button>
+            <br/>
+            <button class="open-wiki bold" type="button"><i class="fab fa-wikipedia-w"></i> Zum Wiki</button>
+        </div>
+        <div class="inner box">
+            <button class="report-bug bold red" type="button"><i class="fas fa-bug"></i> Fehler melden</button>
+            <p>Meistertools sind kein Produkt von Ulisses Medien und Spiele Distribution GmbH. solltet Ihr Fehler
+                finden, bitte tragt diese auf meiner Issue List auf Github ein.</p>
+        </div>
+    </div>
+
+    <div class="copyright-notes">
+        <h2 class="toggle show" data-target=".copyright">copyright notes</h2>
+        <div class="copyright hidden">
+            <p>This product was created under license from Ulisses Medien und Spiele Distribution GmbH. Das Schwarze
+                Auge /
+                The Dark Eye and their respective logo(s) as well as Aventuria, Dere, Myranor, Riesland, Tharun and
+                Uthuria,
+                and their respective logos are trademarks of Ulisses Medien und Spiele Distribution GmbH. The title and
+                contents of this book are protected under the copyright laws of Germany, the United States of America
+                and
+                other countries. No part of this publication may be reproduced, stored in retrieval systems or
+                transmitted,
+                in any form or by any means without prior written consent from Ulisses Medien und Spiele Distribution
+                GmbH.</p>
+            <p>This publication includes material that was produced by Ulisses Spiele and/or other authors and which is
+                protected under applicable copyright laws. Use of such material is granted under the Community Content
+                Agreement for the SCRIPTORIUM AVENTURIS.</p>
+            <p>All original content in this work is copyright 2021 by tyr0mancer and published under the Community
+                Content
+                Agreement for the SCRIPTORIUM AVENTURIS.</p>
+        </div>
+    </div>
+
+
+    <!--// Bilder von https://www.pexels.com/-->
+
+</div>

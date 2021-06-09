@@ -1,5 +1,4 @@
 import {NscFactory} from "./nsc-factory.js";
-import {MeistertoolsSettings} from "./settings.js";
 import {MeistertoolsLocator} from "./locator.js";
 import {PlayersView} from "./players-view.js";
 import {Scenes} from "./scenes.js";
@@ -9,6 +8,7 @@ import {Jukebox} from "./jukebox.js";
 import {moduleName} from "../meistertools.js";
 import {SceneParser} from "./scene-parser.js";
 import {MeistertoolsRarity} from "./rarity.js";
+import {MeistertoolsSettings} from "../modules/settings.mjs";
 
 
 export function registerControlButtons(controls) {
@@ -121,7 +121,7 @@ export function registerControlButtons(controls) {
             icon: "fas fa-dungeon",
             layer: "meistertools",
             tools
-        } // 27345
+        }
         if (topMenu)
             controls.unshift(meistertoolsControls);
         else

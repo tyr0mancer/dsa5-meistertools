@@ -1,35 +1,10 @@
 import {updatePlaylist} from "./src/update-playlist.js";
-import {MeistertoolsSettings, settingsCategories} from "./src/settings.js";
 import {registerLayer, registerControlButtons} from "./src/register-layer.js";
 import {registerHandlebarHelper} from "./src/register-handlebar-helper.js";
 import {MeistertoolsLocator} from "./src/locator.js";
 import MeistertoolsMerchantSheet from "./src/merchants.js";
 import {ItemRegionDSA5, ItemAvailabilityDSA5} from "./src/item-sheet.js";
-
-
-/** ******************************
- *  Constants
- */
-
-export const moduleName = "dsa5-meistertools";  // just in case I need to change the modules name
-
-
-/** ******************************
- *  Hooks
- */
-
-
-/**
- * when the locator token is moved, check for the new regions that apply
- */
-Hooks.on("preUpdateToken", async (token, delta, ...param) => {
-    let scene
-    if (!game.user.isGM || (!delta.x && !delta.y)) return
-    if (MeistertoolsLocator.currentLocatorToken === token._id) {
-        mergeObject(token.data, delta)
-        MeistertoolsLocator.updateLocation(token)
-    }
-});
+import {MeistertoolsSettings} from "./modules/settings.mjs";
 
 
 /**
@@ -52,9 +27,26 @@ Hooks.once('init', () => {
     Items.registerSheet("dsa5", ItemAvailabilityDSA5, {types: []});
 
     loadTemplates([
+        "modules/dsa5-meistertools/templates/settings/general.hbs",
+        "modules/dsa5-meistertools/templates/settings/nsc-factory.hbs",
+        "modules/dsa5-meistertools/templates/settings/scene.hbs",
+        "modules/dsa5-meistertools/templates/settings/locations.hbs",
         "modules/dsa5-meistertools/templates/item-rarity.hbs",
         "modules/dsa5-meistertools/templates/item-region.hbs"
     ])
+});
+
+
+/**
+ * when the locator token is moved, check for the new regions that apply
+ */
+Hooks.on("preUpdateToken", async (token, delta, ...param) => {
+    let scene
+    if (!game.user.isGM || (!delta.x && !delta.y)) return
+    if (MeistertoolsLocator.currentLocatorToken === token._id) {
+        mergeObject(token.data, delta)
+        MeistertoolsLocator.updateLocation(token)
+    }
 });
 
 
@@ -76,12 +68,33 @@ function registerSettings() {
         type: MeistertoolsSettings,
         restricted: true
     });
-    for (const category of settingsCategories)
+    for (const category of MeistertoolsSettings.categories)
         game.settings.register(moduleName, category.key, {
             default: category.default,
             scope: "world", config: false, type: Object
         });
 }
+
+
+/** ******************************
+ *  Constants
+ */
+
+export const MT = {
+    moduleName: "dsa5-meistertools",
+    colorPalette: ['#536DFE', '#FF9800', '#795548', '#455A64', '#03A9F4', '#D32F2F'],
+    umlaute: {
+        '\u00dc': 'UE',
+        '\u00c4': 'AE',
+        '\u00d6': 'OE',
+        '\u00fc': 'ue',
+        '\u00e4': 'ae',
+        '\u00f6': 'oe',
+        '\u00df': 'ss'
+    }
+}
+
+export const moduleName = "dsa5-meistertools";  // just in case I need to change the modules name
 
 
 const COLOR_PALETTE = ['#536DFE', '#FF9800', '#795548', '#455A64', '#03A9F4', '#D32F2F']
@@ -151,15 +164,23 @@ export class MeistertoolsUtil {
         if (obj === undefined) return undefined
         const expanded = {};
         for (let [k, v] of Object.entries(obj)) {
+/*
             let parsedVal = v
-            // todo this is way to expensive
+            // todo seems to be too expensive. most values arent json that need parsing here. trying with data-dtype="JSON"
+
             try {
                 parsedVal = JSON.parse(v);
             } catch (e) {
                 parsedVal = v
             }
-            this.setProperty(expanded, k, parsedVal);
+*/
+            //console.log(k)
+            //console.log(v)
+            this.setProperty(expanded, k, v);
         }
+
+        console.log(expanded)
+
         return expanded;
     }
 
@@ -178,20 +199,21 @@ export class MeistertoolsUtil {
             let parts = key.split('.');
             key = parts.pop();
             target = parts.reduce((obj, currentKey) => {
+
                 let match = currentKey.match(/^(.*)\[(.*)]$/)
                 if (match) {
                     const property = match[1]
-                    if (!obj.hasOwnProperty(property) || !Array.isArray(obj[property])) obj[property] = [];
+                    if (!obj.hasOwnProperty(property) || !Array.isArray(obj[property])) obj[property] = [{}];
 
-                    let index = parseInt(match[2])
-                    if (isNaN(index) || index < 0) {
-                        index = obj[property].length
-                    }
-
-                    while (obj[property].length <= index) {
+                    let index = obj[property].length - 1
+                    if (obj[property][index][key] !== undefined)
+                        index++
+                    while (obj[property].length <= index)
                         obj[property].push({})
-                    }
+
                     return obj[property][index];
+                    // >stuff.txt*/
+
                 } else {
                     if (!obj.hasOwnProperty(currentKey)) obj[currentKey] = {};
                     return obj[currentKey];
@@ -201,6 +223,9 @@ export class MeistertoolsUtil {
         // Update the target
         if (target[key] !== value) {
             changed = true;
+            console.log(target)
+            console.log(key)
+            console.log(value)
             target[key] = value;
         }
         // Return changed status
@@ -414,65 +439,6 @@ export class MeistertoolsUtil {
 
 }
 
-
-/**
- * Find images in the deepest possible path
- * FilePicker Variation with no UI
- */
-export class FileBrowser extends FilePicker {
-    constructor(options) {
-        super(options);
-    }
-
-    /* -------------------------------------------- */
-
-    /**
-     * Browse to a specific location for this FilePicker instance
-     * @param {string} [target]   The target within the currently active source location.
-     * @param {Object} [options]  Browsing options
-     */
-    async browse(target, options = {}) {
-
-        // If the user does not have permission to browse, do not proceed
-        if (game.world && !game.user.can("FILES_BROWSE")) return;
-
-        // Configure browsing parameters
-        target = typeof target === "string" ? target : this.target;
-        const source = this.activeSource;
-        options = mergeObject({
-            extensions: this.extensions,
-            wildcard: false
-        }, options);
-
-        // Determine the S3 buckets which may be used
-        if (source === "s3") {
-            if (this.constructor.S3_BUCKETS === null) {
-                const buckets = await this.constructor.browse("s3", "");
-                this.constructor.S3_BUCKETS = buckets.dirs;
-            }
-            this.sources.s3.buckets = this.constructor.S3_BUCKETS;
-            if (!this.source.bucket) this.source.bucket = this.constructor.S3_BUCKETS[0];
-            options.bucket = this.source.bucket;
-        }
-
-        // Avoid browsing certain paths
-        if (target.startsWith("/")) target = target.slice(1);
-        if (target === CONST.DEFAULT_TOKEN) target = this.constructor.LAST_BROWSED_DIRECTORY;
-
-        // Request files from the server
-        let result
-        while (!result) {
-            result = await this.constructor.browse(source, target, options).catch(() => {
-            });
-            let target_arr = target.split('/')
-            target_arr.pop()
-            target = target_arr.join('/')
-        }
-
-        return result;
-    }
-
-}
 
 class Rule {
     constructor(delta, q0 = "start", F = ["stop"]) {

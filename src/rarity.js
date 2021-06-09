@@ -269,7 +269,7 @@ export class MeistertoolsRarity extends Application {
     }
 
     static async getCurrentRarity(item, currentLocation = MeistertoolsLocator.currentLocation, force = false) {
-        const rarity = item.data.data.rarity
+        const rarity = item.data.data?.rarity
         if (!rarity) return this.defaultRarity
         let current
         const currentRegionArray = currentLocation.regions || currentLocation.currentRegions || []

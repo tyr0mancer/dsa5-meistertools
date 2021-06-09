@@ -1,0 +1,79 @@
+<div class="tab general" data-tab="scenes">
+
+    <div class="box header">
+        <h1>{{localize "MeisterSettings.ScenePlaylist"}}</h1>
+        <p>{{localize "Help.Scenes.Playlist"}}</p>
+        <div class="col-2">
+            <div class="inner box">
+                <input {{checked scenes.updatePlaylist}}
+                        class="switch" id="updatePlaylist" name="scenes.updatePlaylist" type="checkbox"/>
+                <label for="updatePlaylist"></label>
+                <label for="updatePlaylist">{{localize "MeisterSettings.FindPlaylist"}}</label>
+            </div>
+            <div class="inner box">
+                <select name="scenes.defaultPlaylist" class="labeled">
+                    {{#select scenes.defaultPlaylist}}
+                        <option></option>
+                        {{#each playlists}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <label>{{localize "MeisterSettings.DefaultPlaylist"}}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="box header">
+        <h1>{{localize "MeisterSettings.scenepacks"}}</h1>
+        <div class="top-bar">
+            <a class="insert-entry" data-path="scenes-collection"><i class="fas fa-plus-square"></i></a>
+        </div>
+        <p>{{localize "Help.Scenes.Packs"}}</p>
+        <div id="scenes-collection">
+            {{#each scenes.sceneCollections as |this n|}}
+                <div class="inner box header">
+                    <div class="top-bar">
+                        <a class="sort-up"><i class="fas fa-sort-up"></i></a>
+                        <a class="remove-entry"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-text">{{localize "pack"}}</label>
+                        <select name="scenes.sceneCollections[{{n}}].collection" class="autocomplete"
+                                data-targets="name folder">
+                            {{#select collection}}
+                                <option></option>
+                                {{#each ../scenePacks}}
+                                    <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                                {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "name"}}</label>
+                        <input type="text" value="{{name}}" name="scenes.sceneCollections[{{n}}].name"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "folder"}}</label>
+                        <input type="text" value="{{folder}}" name="scenes.sceneCollections[{{n}}].folder"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "keywords"}}</label>
+                        <input type="text" value="{{keywords}}" name="scenes.sceneCollections[{{n}}].keywords"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "MeisterSettings.DynamicMap"}}</label>
+                        <div>
+                            <input {{checked isDynamicMap}} data-dtype="Boolean"
+                                    class="switch" id="isDynamicMap-{{n}}" name="scenes.sceneCollections[{{n}}].isDynamicMap" type="checkbox"/>
+                            <label for="isDynamicMap-{{n}}"></label>
+                            <label for="isDynamicMap-{{n}}">{{localize "MeisterSettings.DynamicMap"}}</label>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+</div>

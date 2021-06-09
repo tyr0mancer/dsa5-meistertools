@@ -6,6 +6,9 @@ export class Scenes extends Application {
     isOpen = false
 
     toggle() {
+       console.clear()
+        console.log(game)
+
         if (this.isOpen)
             this.close()
         else
@@ -115,18 +118,12 @@ export class Scenes extends Application {
         })
 
 
-
     }
 
     async _pickCollection(collection) {
         this.activeCollection = this.settings.sceneCollections.find(c => c.collection === collection)
-
-        if (this.activeCollection.folder)
-            this.folder = game.folders.find(f => f.id === this.activeCollection.folder)
-        else
-            this.folder = await MeistertoolsUtil.getFolder(this.activeCollection.folderName, "Scene")
+        this.folder = await MeistertoolsUtil.getFolder(this.activeCollection.folder, "Scene")
         this.scenes.folder = this.folder.content
-
         this.pack = game.packs.get(collection)
         this.scenes.pack = await this.pack.getContent()
     }

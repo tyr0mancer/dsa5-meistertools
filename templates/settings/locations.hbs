@@ -1,0 +1,9 @@
+<div class="tab general" data-tab="locations">
+    <div class="box header">
+        <h1>{{localize "Meistertools.regions"}}</h1>
+        <div class="top-bar"><a class="toggle {{#unless _expandedTargets.texti}}show{{/unless}}" data-target=".regions-list">xxx</a></div>
+        <div class="regions-list {{#unless _expandedTargets.regions-list}}hidden{{/unless}}">
+            <textarea readonly>{{stringify locations}}</textarea>
+        </div>
+    </div>
+</div>

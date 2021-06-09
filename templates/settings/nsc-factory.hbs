@@ -1,0 +1,149 @@
+<div class="tab general" data-tab="nsc-factory">
+
+    <div class="box header">
+        <h1>{{localize "MeisterSettings.nscpacks"}}</h1>
+        <div class="top-bar">
+            <a class="insert-entry" data-path="nsc-collection"><i class="fas fa-plus-square"></i></a>
+        </div>
+        <p>{{localize "Help.nsc-factory.packs"}}</p>
+        <div id="nsc-collection">
+            {{#each nsc-factory.collections as |this n|}}
+                <div class="inner box header">
+                    <div class="top-bar">
+                        <a class="sort-up"><i class="fas fa-sort-up"></i></a>
+                        <a class="remove-entry"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-text">{{localize "pack"}}</label>
+                        <select name="nsc-factory.collections[{{n}}].collection"
+                                class="autocomplete" data-targets="name folder">
+                            {{#select collection}}
+                                <option></option>
+                                {{#each ../actorPacks}}
+                                    <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                                {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "name"}}</label>
+                        <input type="text" value="{{name}}" name="nsc-factory.collections[{{n}}].name"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "folder"}}</label>
+                        <input type="text" value="{{folder}}" name="nsc-factory.collections[{{n}}].folder"/>
+                    </div>
+
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+
+    <div class="box header">
+        <h1>NSC Fabrik</h1>
+        <div class="inner box header">
+            <div class="form-group">
+                <label class="label-text">{{localize "pack"}}</label>
+                <select name="nsc-factory.settings.baseActorCollection"
+                        class="autocomplete" data-targets="name folder">
+                    {{#select nsc-factory.settings.baseActorCollection}}
+                        <option></option>
+                        {{#each actorPacks}}
+                            <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-text">{{localize "folder"}}</label>
+                <input type="text" value="{{nsc-factory.settings.folderName}}" name="nsc-factory.settings.folderName"/>
+            </div>
+            <div class="form-group">
+                <label class="label-text">nach Erstellung</label>
+                <div>
+                    <input {{checked nsc-factory.settings.closeAfterGeneration}}
+                            class="switch" id="closeAfterGeneration"
+                            name="nsc-factory.settings.closeAfterGeneration" type="checkbox"/>
+                    <label for="closeAfterGeneration"></label>
+                    <label for="closeAfterGeneration">schließen</label>
+                </div>
+            </div>
+        </div>
+
+        <!--
+        <div class="float col-even">
+            <div class="inner box">
+                <select id="baseActorCollection" name="nsc-factory.settings.baseActorCollection"
+                        class="labeled">
+                    {{#select nsc-factory.settings.baseActorCollection}}
+                        <option></option>
+                        {{#each actorPacks}}
+                            <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                        {{/each}}
+        {{/select}}
+                </select>
+                <label for="baseActorCollection">Professionen Collection</label>
+            </div>
+            <div class="inner box">
+                <input id="folderName" name="nsc-factory.settings.folderName"
+                       value="{{nsc-factory.settings.folderName}}"
+                       type="text" class="labeled"/>
+                <label for="folderName">Ordner für generierte NSC</label>
+            </div>
+            <div class="inner box">
+                <input {{checked nsc-factory.settings.closeAfterGeneration}} class="switch"
+                                                                             id="closeAfterGeneration"
+                                                                             name="nsc-factory.settings.closeAfterGeneration"
+                                                                             type="checkbox"/>
+                <label for="closeAfterGeneration"></label>
+                <label for="closeAfterGeneration">nach Erstellung schließen</label>
+            </div>
+        </div>-->
+
+
+        <h1>{{localize "MeisterSettings.configuration"}}</h1>
+        <p>{{localize "Help.nsc-factory.configuration"}}</p>
+        <div class="inner box header">
+            <h3>{{localize "MeisterSettings.archetypes"}}</h3>
+            <div class="top-bar"><a class="toggle {{#unless _expandedTargets.archetypes}}show{{/unless}}"
+                                    data-target=".archetypes"><i class="fab fa-js"></i></a></div>
+            <p>{{localize "Help.nsc-factory.archetypes"}}</p>
+            <div class="archetypes {{#unless _expandedTargets.archetypes}}hidden{{/unless}}">
+                <textarea name="nsc-factory.archetypes" data-dtype="JSON">{{stringify
+                        nsc-factory.archetypes}}</textarea>
+            </div>
+        </div>
+        <div class="inner box header">
+            <h3>{{localize "MeisterSettings.species"}}</h3>
+            <div class="top-bar"><a class="toggle {{#unless _expandedTargets.species}}show{{/unless}}"
+                                    data-target=".species"><i class="fab fa-js"></i></a></div>
+            <p>{{localize "Help.nsc-factory.species"}}</p>
+            <div class="species {{#unless _expandedTargets.species}}hidden{{/unless}}">
+                <textarea name="nsc-factory.species" data-dtype="JSON">{{stringify nsc-factory.species}}</textarea>
+            </div>
+        </div>
+        <div class="inner box header">
+            <h3>{{localize "MeisterSettings.gender"}}</h3>
+            <div class="top-bar"><a class="toggle {{#unless _expandedTargets.gender}}show{{/unless}}"
+                                    data-target=".gender"><i class="fab fa-js"></i></a></div>
+            <p>{{localize "Help.nsc-factory.gender"}}</p>
+            <div class="gender {{#unless _expandedTargets.gender}}hidden{{/unless}}">
+                <textarea name="nsc-factory.gender" data-dtype="JSON">{{stringify nsc-factory.gender}}</textarea>
+            </div>
+        </div>
+        <div class="inner box header">
+            <h3>{{localize "MeisterSettings.fallbackData"}}</h3>
+            <div class="top-bar"><a class="toggle {{#unless _expandedTargets.fallbackData}}show{{/unless}}"
+                                    data-target=".fallbackData"><i class="fab fa-js"></i></a></div>
+            <p>{{localize "Help.nsc-factory.fallbackData"}}</p>
+            <div class="fallbackData {{#unless _expandedTargets.fallbackData}}hidden{{/unless}}">
+                <textarea name="nsc-factory.fallbackData" data-dtype="JSON">{{stringify
+                        nsc-factory.fallbackData}}</textarea>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -2,14 +2,14 @@
     boxed-style radio button / checkbox button
  --------------------------------- */
 
-.box input[type="radio"],
-.box input[type="checkbox"] {
+.box input[type=radio],
+.box input[type=checkbox] {
     position: absolute;
     opacity: 0;
 }
 
-.box input[type="radio"] + label,
-.box input[type="checkbox"] + label {
+.box input[type=radio] + label,
+.box input[type=checkbox] + label {
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     color: var(--color-primary);
@@ -22,8 +22,8 @@
     display: inline-block;
 }
 
-.box input[type="radio"] + label:hover,
-.box input[type="checkbox"] + label:hover {
+.box input[type=radio] + label:hover,
+.box input[type=checkbox] + label:hover {
     color: var(--color-secondary);
     border: 2px solid var(--color-secondary);
 }
@@ -44,7 +44,7 @@
  --------------------------------- */
 
 /* default input */
-.meistertools input[type="text"] {
+.meistertools input[type=text] {
     text-align: left;
     cursor: text;
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.3);
@@ -52,17 +52,17 @@
     border-radius: 5px;
 }
 
-.meistertools input[type="text"]:focus {
+.meistertools input[type=text]:focus {
     background-color: var(--color-light);
 }
 
 
 /* labeled input show the label above the input field */
-.meistertools input[type="text"].labeled {
+.meistertools input[type=text].labeled {
     margin-top: 16px;
 }
 
-.meistertools input[type="text"].labeled + label {
+.meistertools input[type=text].labeled + label {
     color: var(--color-secondary);
     position: absolute;
     left: 10px;
@@ -75,7 +75,7 @@
     line-height: 1em
 }
 
-.meistertools input[type="text"].labeled:focus + label {
+.meistertools input[type=text].labeled:focus + label {
     background-color: var(--color-primary);
     color: white;
 }
@@ -211,6 +211,16 @@
 }
 
 
+.meistertools button.red {
+    background-color: var(--color-red);
+    color: var(--color-light);
+}
+
+.meistertools button.bold {
+    min-width: 150px;
+}
+
+
 
 /* Reset buttons */
 
@@ -321,3 +331,62 @@ button.top-right-nsc {
 }
 
 
+/* ---------------------------------
+    Toggle Switch Checkbox
+ --------------------------------- */
+input.switch[type=checkbox] {
+    visibility: hidden;
+}
+
+input.switch[type=checkbox]:checked + label {
+    transform: rotate(360deg);
+    background-color: var(--color-primary);
+}
+
+input.switch[type=checkbox]:checked + label:before {
+    transform: translateX(15px);
+    background-color: var(--color-light);
+}
+
+input.switch[type=checkbox] + label {
+    display: flex;
+    width: 30px;
+    height: 15px;
+    border: 1px solid;
+    border-radius: 99em;
+    position: relative;
+    background-color: var(--color-disabled-background);
+    transition: transform 0.75s ease-in-out;
+    transform-origin: 50% 50%;
+    cursor: pointer;
+    float: left;
+}
+
+input.switch[type=checkbox] + label:before {
+    transition: transform 0.75s ease;
+    transition-delay: 0.5s;
+    content: "";
+    display: block;
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    background-color: var(--color-disabled);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+}
+
+label + label {
+    margin-left: 5px;
+    float: none;
+    display: inline-block;
+    cursor: pointer;
+    padding-top: 4px;
+    font-weight: normal;
+    color: var(--color-disabled);
+}
+
+input.switch[type=checkbox]:checked + label + label {
+    font-weight: bolder;
+    color: var(--color-primary);
+}

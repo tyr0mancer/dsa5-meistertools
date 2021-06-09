@@ -3,7 +3,6 @@ import {MeistertoolsLocator} from "./locator.js";
 import {PlayersView} from "./players-view.js";
 import {Scenes} from "./scenes.js";
 import {RequestRoll} from "./request-roll.js";
-import {Jukebox} from "./jukebox.js";
 
 import {moduleName} from "../meistertools.js";
 import {SceneParser} from "./scene-parser.js";
@@ -15,7 +14,7 @@ export function registerControlButtons(controls) {
     const _SceneDirector = new Scenes()
     const _NscFactory = new NscFactory()
     const _RequestRoll = new RequestRoll()
-    const _Jukebox = new Jukebox()
+    //const _Jukebox = new Jukebox()
     const _PlayersView = new PlayersView()
     const _Locator = new MeistertoolsLocator()
     const _Settings = new MeistertoolsSettings()
@@ -79,6 +78,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => _Locator.toggle()
         },
+/*
         {
             name: "music",
             title: 'Musik',
@@ -86,6 +86,7 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => _Jukebox.toggle()
         },
+*/
     ]
 
     const {showSettings, showMapMaker, topMenu, showEntityTagger} = game.settings.get(moduleName, 'general')

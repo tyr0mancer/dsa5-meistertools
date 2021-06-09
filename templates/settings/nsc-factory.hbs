@@ -72,37 +72,6 @@
             </div>
         </div>
 
-        <!--
-        <div class="float col-even">
-            <div class="inner box">
-                <select id="baseActorCollection" name="nsc-factory.settings.baseActorCollection"
-                        class="labeled">
-                    {{#select nsc-factory.settings.baseActorCollection}}
-                        <option></option>
-                        {{#each actorPacks}}
-                            <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
-                        {{/each}}
-        {{/select}}
-                </select>
-                <label for="baseActorCollection">Professionen Collection</label>
-            </div>
-            <div class="inner box">
-                <input id="folderName" name="nsc-factory.settings.folderName"
-                       value="{{nsc-factory.settings.folderName}}"
-                       type="text" class="labeled"/>
-                <label for="folderName">Ordner für generierte NSC</label>
-            </div>
-            <div class="inner box">
-                <input {{checked nsc-factory.settings.closeAfterGeneration}} class="switch"
-                                                                             id="closeAfterGeneration"
-                                                                             name="nsc-factory.settings.closeAfterGeneration"
-                                                                             type="checkbox"/>
-                <label for="closeAfterGeneration"></label>
-                <label for="closeAfterGeneration">nach Erstellung schließen</label>
-            </div>
-        </div>-->
-
-
         <h1>{{localize "MeisterSettings.configuration"}}</h1>
         <p>{{localize "Help.nsc-factory.configuration"}}</p>
         <div class="inner box header">
@@ -111,7 +80,7 @@
                                     data-target=".archetypes"><i class="fab fa-js"></i></a></div>
             <p>{{localize "Help.nsc-factory.archetypes"}}</p>
             <div class="archetypes {{#unless _expandedTargets.archetypes}}hidden{{/unless}}">
-                <textarea name="nsc-factory.archetypes" data-dtype="JSON">{{stringify
+                <textarea class="large" name="nsc-factory.archetypes" data-dtype="JSON">{{stringify
                         nsc-factory.archetypes}}</textarea>
             </div>
         </div>
@@ -121,7 +90,7 @@
                                     data-target=".species"><i class="fab fa-js"></i></a></div>
             <p>{{localize "Help.nsc-factory.species"}}</p>
             <div class="species {{#unless _expandedTargets.species}}hidden{{/unless}}">
-                <textarea name="nsc-factory.species" data-dtype="JSON">{{stringify nsc-factory.species}}</textarea>
+                <textarea class="large" name="nsc-factory.species" data-dtype="JSON">{{stringify nsc-factory.species}}</textarea>
             </div>
         </div>
         <div class="inner box header">
@@ -130,7 +99,7 @@
                                     data-target=".gender"><i class="fab fa-js"></i></a></div>
             <p>{{localize "Help.nsc-factory.gender"}}</p>
             <div class="gender {{#unless _expandedTargets.gender}}hidden{{/unless}}">
-                <textarea name="nsc-factory.gender" data-dtype="JSON">{{stringify nsc-factory.gender}}</textarea>
+                <textarea class="large" name="nsc-factory.gender" data-dtype="JSON">{{stringify nsc-factory.gender}}</textarea>
             </div>
         </div>
         <div class="inner box header">
@@ -139,7 +108,7 @@
                                     data-target=".fallbackData"><i class="fab fa-js"></i></a></div>
             <p>{{localize "Help.nsc-factory.fallbackData"}}</p>
             <div class="fallbackData {{#unless _expandedTargets.fallbackData}}hidden{{/unless}}">
-                <textarea name="nsc-factory.fallbackData" data-dtype="JSON">{{stringify
+                <textarea class="large" name="nsc-factory.fallbackData" data-dtype="JSON">{{stringify
                         nsc-factory.fallbackData}}</textarea>
             </div>
         </div>

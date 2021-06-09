@@ -1,9 +1,89 @@
 <div class="tab general" data-tab="locations">
+
     <div class="box header">
-        <h1>{{localize "Meistertools.regions"}}</h1>
-        <div class="top-bar"><a class="toggle {{#unless _expandedTargets.texti}}show{{/unless}}" data-target=".regions-list">xxx</a></div>
-        <div class="regions-list {{#unless _expandedTargets.regions-list}}hidden{{/unless}}">
-            <textarea readonly>{{stringify locations}}</textarea>
+        <h1>{{localize "MeisterSettings.RegionCategories"}}</h1>
+        <div class="top-bar">
+            <a class="insert-entry" data-path="region-categories-list"><i class="fas fa-plus-square"></i></a>
+        </div>
+        <p>{{localize "Help.Locations.Biomes"}}</p>
+        <div id="region-categories-list">
+            {{#each locations.regionCategories as |this n|}}
+                <div class="inner box header">
+                    <div class="top-bar">
+                        <a class="sort-up"><i class="fas fa-sort-up"></i></a>
+                        <a class="remove-entry"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label-text">{{localize "name"}}</label>
+                        <input type="text" value="{{name}}" name="locations.regionCategories[{{n}}].name"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "key"}}</label>
+                        <input type="text" value="{{key}}" name="locations.regionCategories[{{n}}].key"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "style"}}</label>
+                        <textarea name="locations.regionCategories[{{n}}].style" data-dtype="JSON">{{stringify style}}</textarea>
+                    </div>
+                </div>
+            {{/each}}
         </div>
     </div>
+
+
+    <div class="box header">
+        <h1>{{localize "MeisterSettings.Biomes"}}</h1>
+        <div class="top-bar">
+            <a class="insert-entry" data-path="biomes-list"><i class="fas fa-plus-square"></i></a>
+        </div>
+        <p>{{localize "Help.Locations.Biomes"}}</p>
+        <div id="biomes-list">
+            {{#each locations.biomes as |this n|}}
+                <div class="inner box header">
+                    <div class="top-bar">
+                        <a class="sort-up"><i class="fas fa-sort-up"></i></a>
+                        <a class="remove-entry"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "name"}}</label>
+                        <input type="text" value="{{name}}" name="locations.biomes[{{n}}].name"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "key"}}</label>
+                        <input type="text" value="{{key}}" name="locations.biomes[{{n}}].key"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "herbmod"}}</label>
+                        <input type="text" value="{{herbmod}}" name="locations.biomes[{{n}}].herbmod"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-text">{{localize "TOKEN.ImagePath"}}</label>
+                        <div class="form-fields">
+                            {{filePicker target=(concat 'locations.biomes[' (concat n '].img')) type="imagevideo"}}
+                            <input class="image" type="text" name="locations.biomes[{{n}}].img"
+                                   placeholder="path/image.png" value="{{img}}"/>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+
+    <div class="inner box header">
+        <h2>{{localize "MeisterSettings.Regions"}}</h2>
+        <div class="top-bar">
+            <a class="toggle {{#unless _expandedTargets.regions}}show{{/unless}}"
+               data-target=".regions"><i class="fab fa-js"></i></a>
+        </div>
+        <p>{{localize "Help.Locations.Regions"}}</p>
+        <div class="regions {{#unless _expandedTargets.regions}}hidden{{/unless}}">
+            <textarea class="large" name="locations.regions" data-dtype="JSON">{{stringify locations.regions}}</textarea>
+        </div>
+    </div>
+
+
 </div>
+
+

@@ -69,7 +69,7 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         if (this.playerViewEnabled())
             return `modules/${moduleName}/templates/merchant-player.hbs`
         else
-            return `modules/${moduleName}/templates/merchant-gm.hbs`
+            return `modules/${moduleName}/templates/merchant-sheet.html`
     }
 
     async getData() {

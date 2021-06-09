@@ -32,7 +32,8 @@ Hooks.once('init', () => {
         "modules/dsa5-meistertools/templates/settings/scene.hbs",
         "modules/dsa5-meistertools/templates/settings/locations.hbs",
         "modules/dsa5-meistertools/templates/item-rarity.hbs",
-        "modules/dsa5-meistertools/templates/item-region.hbs"
+        "modules/dsa5-meistertools/templates/item-region.hbs",
+        "modules/dsa5-meistertools/templates/merchant-gm.hbs",
     ])
 });
 

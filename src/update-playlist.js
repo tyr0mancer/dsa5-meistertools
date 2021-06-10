@@ -17,12 +17,16 @@ export function updatePlaylist(scene, data) {
             if (!playlistName && defaultPlaylist !== '') {
                 playlistName = defaultPlaylist
             }
-
             if (playlistName) {
                 console.log(moduleName + ' :: scene playlist not found, was named ', playlistName)
                 const playlist = game.playlists.find(p => p.name === playlistName)
-                if (playlist)
-                    scene.update({playlist: playlist.data._id})
+                if (playlist) {
+                    scene.update({playlist: playlist.id})
+                    console.log(moduleName + ' :: found playlist with same name and updated scene', playlist)
+                }
+            }
+            else {
+                console.log(moduleName + ' :: no scene playlist found')
             }
         }
     }

@@ -22,6 +22,46 @@ export function registerHandlebarHelper() {
     });
 
 
+    Handlebars.registerHelper('skill_options', function (description) {
+        let result = ``
+        const modifiers = [
+            {
+                value: 5, label: "+5", defaultText: "extrem leichte Probe",
+                regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">\+5/
+            },
+            {
+                value: 3, label: "+3", defaultText: "sehr leichte Probe",
+                regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">\+3/
+            },
+            {
+                value: 1, label: "+1", defaultText: "leichte Probe",
+                regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">\+1/
+            },
+            {
+                value: 0, label: "+-0", defaultText: "normale Probe",
+                regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">\+-0/
+            },
+            {
+                value: -1, label: "-1", defaultText: "schwere Probe",
+                regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">-1/
+            },
+            {
+                value: -3, label: "-3", defaultText: "sehr schwere Probe",
+                regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">-3/
+            },
+            {
+                value: -5, label: "-5", defaultText: "extrem schwere Probe",
+                regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">-5/
+            },
+        ]
+        for (const {value, label, defaultText, regex} of modifiers) {
+            const match = regex.exec(description)
+            result += `<option value="${value}">${label} ≙ ${match ? match[1] : defaultText}</option>`
+        }
+        return new Handlebars.SafeString(result);
+    });
+
+
     /**
      * helper for checkboxes and radio buttons
      */

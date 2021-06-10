@@ -1,17 +1,18 @@
+import {moduleName} from "../meistertools.js";
+import {MeistertoolsSettings} from "../modules/settings.mjs";
+import {SceneDirector} from "../modules/scene-director.mjs";
+
+
 import {NscFactory} from "./nsc-factory.js";
 import {MeistertoolsLocator} from "./locator.js";
 import {PlayersView} from "./players-view.js";
-import {Scenes} from "./scenes.js";
 import {RequestRoll} from "./request-roll.js";
-
-import {moduleName} from "../meistertools.js";
 import {SceneParser} from "./scene-parser.js";
 import {MeistertoolsRarity} from "./rarity.js";
-import {MeistertoolsSettings} from "../modules/settings.mjs";
 
 
 export function registerControlButtons(controls) {
-    const _SceneDirector = new Scenes()
+    const _SceneDirector = new SceneDirector()
     const _NscFactory = new NscFactory()
     const _RequestRoll = new RequestRoll()
     //const _Jukebox = new Jukebox()

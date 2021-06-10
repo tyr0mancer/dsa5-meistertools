@@ -118,7 +118,7 @@
 
                     {{#each_when ../settings.archetypes 'species' key}}
                         <div>
-                            <input {{checked_radio ../../selection.archetype key}}
+                            <input {{checked_radio ../../selection.archetype key}} class="akteur"
                                     id="archetype-{{key}}" type="radio" value="{{key}}" name="archetype"/>
                             <label for="archetype-{{key}}" style="background-image: url({{img}});">
                                 {{name}}
@@ -146,7 +146,7 @@
             <div class="inner box profession float">
                 {{#each selectOptions.professionCompendium}}
                     <div>
-                        <input {{checked_radio ../selection.profession _id}}
+                        <input {{checked_radio ../selection.profession _id}}  class="akteur"
                                 id="profession-{{_id}}" type="radio" value="{{_id}}" name="profession"/>
                         <label for="profession-{{_id}}"
                                style="background-image: url({{img}});"
@@ -191,12 +191,14 @@
             <div class="inner box float player-actors">
                 {{#each selectOptions.playerActors}}
                     <div>
-                        <input {{checked active}} id="player-{{actor._id}}" name="players.selection.{{actor._id}}"
+                        <input {{checked active}} id="player-{{actor._id}}"
+                                                  class="akteur"
+                                                  name="players.selection.{{actor._id}}"
                                                   type="checkbox"/>
-                        <label for="player-{{actor._id}}">{{actor.name}}</label>
+                        <label for="player-{{actor._id}}" style="background-image: url({{actor.img}});">{{actor.name}}</label>
                     </div>
                 {{/each}}
-            </div>
+            </div>SKILLdescr
             <div class="inner box col-2 player-actors">
                 {{pick_scene-position "players.position" selection.players.position selectOptions.scenePositions}}
                 <div style="text-align: right">
@@ -207,12 +209,12 @@
         </div>
 
         <div class="box header left-padding existing-nsc">
-            <h1>Bisher Generierte NSC</h1>
+            <h1>Mit NSC Fabrik generiert</h1>
             <div class="inner box float">
                 {{#each selectOptions.generatedNsc}}
                     <div>
-                        <input id="existing-nsc-{{_id}}" name="existing-nsc.selection.{{_id}}" type="checkbox"/>
-                        <label for="existing-nsc-{{_id}}">{{name}}</label>
+                        <input id="existing-nsc-{{_id}}" class="akteur" name="existing-nsc.selection.{{_id}}" type="checkbox"/>
+                        <label for="existing-nsc-{{_id}}" style="background-image: url({{img}});">{{name}}</label>
                     </div>
                 {{/each}}
             </div>

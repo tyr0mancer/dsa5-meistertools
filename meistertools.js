@@ -224,9 +224,6 @@ export class MeistertoolsUtil {
         // Update the target
         if (target[key] !== value) {
             changed = true;
-            console.log(target)
-            console.log(key)
-            console.log(value)
             target[key] = value;
         }
         // Return changed status

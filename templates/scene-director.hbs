@@ -1,53 +1,61 @@
-<div>
+<form autocomplete="off">
     <nav class="tabs">
-        {{#each selectOptions.sceneCollections}}
+        {{#each selectOptions.sceneCollections as |this n|}}
             <a class="set-category {{#ifeq ../activeCollection.collection collection}}active{{/ifeq}}"
-               data-collection="{{collection}}">{{name}}</a>
+               data-collection-index="{{n}}">{{name}}</a>
         {{/each}}
     </nav>
 
-    <div class="box header float">
+    <div class="box header col-2">
         <h1>Filter</h1>
-        <div class="borderless box">
-            <button name="clear-filter" title="Filter zurücksetzen"><i class="far fa-times-circle"></i></button>
+        <div class="top-bar">
+            <a class="clear-filter" title="Filter zurücksetzen"><i class="far fa-times-circle"></i></a>
+        </div>
+
+        <div>
+            <div class="form-group">
+                <label class="label-text">Suchbegriff</label>
+                <input type="text" value="{{filter.keyword}}" name="keyword"/>
+            </div>
+            <div class="form-group">
+                <label class="label-text">Playlist <a
+                        class="reset-playlist"
+                        title="Aktuelle Playlist verwenden"><i
+                        class="fas fa-music"></i></a></label>
+                <select name="playlist">
+                    {{#select filter.playlist}}
+                        <option></option>
+                        {{#each selectOptions.playlists}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-text">Landschafts-Typ <a
+                        class="reset-biome"
+                        title="Aktuellen Landschafts-Typ verwenden"><i
+                        class="fas fa-globe"></i></a></label>
+                <select name="biome">
+                    {{#select filter.biome}}
+                        <option></option>
+                        {{#each selectOptions.biomes}}
+                            <option value="{{key}}">{{name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
         </div>
         <div class="inner box">
-            <input id="keyword" name="keyword" value="{{filter.keyword}}" type="text" class="labeled"/>
-            <label for="keyword">Suchbegriff</label>
-        </div>
-        <div class="borderless box">
             {{#each selectOptions.keywords}}
                 <a class="set-keyword" data-keyword="{{this}}">{{this}}</a>
             {{/each}}
         </div>
-        <div class="inner box">
-            <select id="playlistFilter" name="playlist" class="labeled">
-                {{#select filter.playlist}}
-                    <option></option>
-                    {{#each selectOptions.playlists}}
-                        <option value="{{this}}">{{this}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-            <label for="playlistFilter"><i class="fas fa-music"></i> Playlist</label>
-        </div>
-        <div class="inner box">
-            <select id="biomeFilter" name="biome" class="labeled">
-                {{#select filter.biome}}
-                    <option></option>
-                    {{#each selectOptions.biomes}}
-                        <option value="{{key}}">{{name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-            <label for="biomeFilter"><i class="fas fa-globe"></i> Landschafts-Typ</label>
-        </div>
-        <button name="reset-biome" class="bottom-line" title="Aktuellen Landschafts-Typ auswählen"><i class="fas fa-map-signs"></i></button>
 
     </div>
 
     {{#each scenes}}
-        <div class="box header">
+        <div class="scene-director box header {{source}}">
             <h2>{{name}}</h2>
             <div class="float">
                 {{#each scenes}}
@@ -56,14 +64,15 @@
                             <h3>{{name}}</h3>
                             <figure><img class="scene-thumb" data-scene-id="{{_id}}"
                                          data-scene-source="{{../../source}}"
-                                         src="{{thumb}}" title="Szene '{{name}}' ansehen"/></figure>
+                                         src="{{img}}" title="Szene '{{name}}' ansehen"/></figure>
                             {{#with flags.dsa5-meistertools}}
                                 <hr/>
                                 {{#if biome}}
                                     <h3><i class="fas fa-globe"></i> {{biome.name}}</h3>
                                 {{/if}}
                                 {{#if regions}}
-                                    <h3><a class="toggle show" data-target=".region-list-{{../../_id}}"><i class="fas fa-globe-europe"></i> {{regions.length}} Karteneinträge</a></h3>
+                                    <h3><a class="toggle show" data-target=".region-list-{{../../_id}}"><i
+                                            class="fas fa-globe-europe"></i> {{regions.length}} Karteneinträge</a></h3>
                                     <div class="inner box region-list-{{../../_id}} hidden">
                                         {{#each regions}}
                                             <h3><i class="fas fa-globe-europe"></i> "{{region.name}}"</h3>
@@ -96,4 +105,4 @@
         </div>
     {{/each}}
 
-</div>
+</form>

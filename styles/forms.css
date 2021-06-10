@@ -211,15 +211,22 @@
 }
 
 
+.meistertools button.bold {
+    min-width: 150px;
+    background-color: var(--color-tertiary);
+    color: var(--color-light);
+}
+.meistertools button.bold:hover {
+    color: var(--color-secondary);
+}
+
 .meistertools button.red {
     background-color: var(--color-red);
     color: var(--color-light);
 }
-
-.meistertools button.bold {
-    min-width: 150px;
+.meistertools button.red:hover {
+    color: white;
 }
-
 
 
 /* Reset buttons */

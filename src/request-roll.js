@@ -50,7 +50,8 @@ export class RequestRoll extends Application {
         if (!this.skillGroups) {
             this.skillGroups = []
             const skills = await this.skillpack.getContent()
-            for (const skill of skills) {
+            console.log(skills)
+            for (const skill of skills.sort((a, b) => MeistertoolsUtil.strcmp(a.name, b.name))) {
                 let groupName = skill.data.data.group.value
                 let group = this.skillGroups.find(g => g.name === groupName)
                 if (!group) {

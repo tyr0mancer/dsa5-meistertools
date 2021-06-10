@@ -1,38 +1,11 @@
 import {MeistertoolsUtil, moduleName} from "../meistertools.js";
 import {MeisterApplication} from "../util/meister-application.js";
 
+import {SceneDirector} from "./scene-director.mjs";
+
 import {NscFactory} from "../src/nsc-factory.js";
-import {Scenes} from "../src/scenes.js";
 import {SceneParser} from "../src/scene-parser.js";
-
-//import {LIBRARY_ITEM_TYPES, MERCHANT_TYPE, PRICE, QUALITY} from "../config/merchants.config.js";
-import zutatenNsc from "../config/nsc-factory.config.zutaten.js";
-import scenesHomebrew from "../config/scenes.config.homebrew.js";
-
-
-const SECRET_INGREDIENTS = [
-    {
-        "key": "nsc-zutaten",
-        "text": "Zutaten für die NSC Fabrik",
-        "module": "dsa5-meistertools-zutaten",
-        "category": "nsc-factory",
-        "defaultData": zutatenNsc,
-    },
-    {
-        "key": "scenes-homebrew",
-        "text": "Szenen aus dem Homebrew Modul",
-        "module": "dsa5-homebrew",
-        "category": "scenes",
-        "defaultData": scenesHomebrew,
-    },
-    {
-        "key": "ab-phoenix",
-        "text": "Abenteuer - Banner des Phönix",
-        "module": "dsa5-ab-phoenix",
-        "category": "scenes",
-        "defaultData": scenesHomebrew,
-    }
-]
+import {defaultSettings, SECRET_INGREDIENTS} from "../config/general.config.js";
 
 
 export class MeistertoolsSettings extends MeisterApplication {
@@ -53,7 +26,7 @@ export class MeistertoolsSettings extends MeisterApplication {
     static get categories() {
         return [
             {
-                key: "general", name: "MeisterSettings.general", icon: "fas fa-cogs", default: {showSettings: true}
+                key: "general", name: "MeisterSettings.general", icon: "fas fa-cogs", default: defaultSettings
             },
             {
                 key: "nsc-factory",
@@ -62,7 +35,7 @@ export class MeistertoolsSettings extends MeisterApplication {
                 default: NscFactory.defaultSettings
             },
             {
-                key: "scenes", name: "MeisterSettings.scenes", icon: "fas fa-map", default: Scenes.defaultSettings
+                key: "scenes", name: "MeisterSettings.scenes", icon: "fas fa-map", default: SceneDirector.defaultSettings
             },
             {
                 key: "locations",

@@ -1,20 +1,10 @@
+import {MeistertoolsLocator} from "../src/locator.js";
 import {moduleName, MeistertoolsUtil} from "../meistertools.js";
 import defaultSettings from "../config/scenes.config.js";
-import {MeistertoolsLocator} from "./locator.js";
+import {MeisterApplication} from "../util/meister-application.js";
+import {FileBrowser} from "../util/file-browser.js";
 
-export class Scenes extends Application {
-    isOpen = false
-
-    toggle() {
-       console.clear()
-        console.log(game)
-
-        if (this.isOpen)
-            this.close()
-        else
-            this.render(true)
-        this.isOpen = !this.isOpen
-    }
+export class SceneDirector extends MeisterApplication {
 
     constructor() {
         super();
@@ -28,10 +18,10 @@ export class Scenes extends Application {
             classes: ['meistertools'],
             top: 50,
             left: 100,
-            width: 720,
+            width: 740,
             height: 650,
             resizable: true,
-            template: `modules/${moduleName}/templates/scenes.hbs`,
+            template: `modules/${moduleName}/templates/scene-director.hbs`,
             id: 'meistertools.scenes',
             title: 'Szenen verwalten',
         });
@@ -40,7 +30,7 @@ export class Scenes extends Application {
     async getData() {
         this.settings = game.settings.get(moduleName, 'scenes')
         if (!this.activeCollection)
-            await this._pickCollection(this.settings.sceneCollections[0]?.collection)
+            await this._pickCollection(0)
         const filter = (s) => {
             if (this.filter.keyword && !s.name.toLowerCase().includes(this.filter.keyword.toLowerCase()))
                 return false
@@ -55,8 +45,8 @@ export class Scenes extends Application {
         return {
             filter: this.filter,
             scenes: [
-                {source: "folder", name: "Szenen in Ordner", scenes: this.scenes.folder.filter(filter)},
-                {source: "pack", name: "Szenen in Kompendium", scenes: this.scenes.pack.filter(filter)}
+                {source: "folder", name: "In Welt", scenes: this.scenes.folder?.filter(filter) || []},
+                {source: "pack", name: "Aus Kompendium", scenes: this.scenes.pack?.filter(filter) || []}
             ],
             activeCollection: this.activeCollection,
             selectOptions: {
@@ -74,16 +64,29 @@ export class Scenes extends Application {
         html.find(".scene-thumb").click(async event => {
             const sceneId = $(event.currentTarget).attr("data-scene-id")
             const sceneSource = $(event.currentTarget).attr("data-scene-source")
-
-            const scene = (sceneSource === "pack")
-                ? await game.scenes.importFromCollection(this.activeCollection.collection, sceneId, this.folder ? {folder: this.folder.id} : null)
-                : await this.scenes[sceneSource].find(s => s.id === sceneId)
+            if (sceneSource !== "pack") {
+                const scene = await this.scenes[sceneSource].find(s => s._id === sceneId)
+                await scene.view()
+                return this.close()
+            }
+            const scene = await game.scenes.importFromCollection(this.activeCollection.collection, sceneId, this.folder ? {folder: this.folder.id} : null)
+            if (this.activeCollection.isDynamicMap) {
+                const img = $(event.currentTarget).attr("src").replace('-thumbs\/', '\/')
+                await scene.update({"img": img})
+            }
             await scene.view()
-            this.close()
+            return this.close()
         })
 
         html.find(".set-category").click(async event => {
-            await this._pickCollection($(event.currentTarget).attr("data-collection"))
+            await this._pickCollection($(event.currentTarget).attr("data-collection-index"))
+            this.render()
+        })
+
+        html.find("a.reset-playlist").click(() => {
+            this.filter.playlist = (game.playlists.playing.length)
+                ? game.playlists.playing[0].name
+                : ''
             this.render()
         })
 
@@ -92,7 +95,7 @@ export class Scenes extends Application {
             this.render()
         })
 
-        html.find("button[name=reset-biome]").click(() => {
+        html.find("a.reset-biome").click(() => {
             this.filter.biome = MeistertoolsLocator.currentLocation.currentBiome.key
             this.render()
         })
@@ -112,7 +115,7 @@ export class Scenes extends Application {
             this.render()
         })
 
-        html.find("button[name=clear-filter]").click(() => {
+        html.find("a.clear-filter").click(() => {
             this.filter = {}
             this.render()
         })
@@ -120,12 +123,30 @@ export class Scenes extends Application {
 
     }
 
-    async _pickCollection(collection) {
-        this.activeCollection = this.settings.sceneCollections.find(c => c.collection === collection)
+    async _pickCollection(index = 0) {
+        this.activeCollection = this.settings.sceneCollections[index]
         this.folder = await MeistertoolsUtil.getFolder(this.activeCollection.folder, "Scene")
         this.scenes.folder = this.folder.content
-        this.pack = game.packs.get(collection)
-        this.scenes.pack = await this.pack.getContent()
+        this.pack = game.packs.get(this.activeCollection.collection)
+        if (this.activeCollection.isDynamicMap) {
+            const content = await this.pack?.getContent()
+            this.scenes.pack = []
+            for (const templateScene of content) {
+                const {name, img, _id} = templateScene
+                const biome = templateScene.getFlag("dsa5-meistertools", "biome")
+                const playlistName = templateScene.getFlag("dsa5-meistertools", "playlistName")
+                const path = img.substring(0, img.lastIndexOf(".")) + '-thumbs';
+                const folder = await new FileBrowser().browse(path)
+                for (let img of folder.files) {
+                    //const match = img.match(/(.*)#(.*)\.webp/g)
+                    const scene = {name, data: {img, name, _id}}
+                    mergeObject(scene, {data: {flags: {"dsa5-meistertools": {biome, playlistName}}}})
+                    this.scenes.pack.push(scene)
+                }
+            }
+        } else {
+            this.scenes.pack = await this.pack?.getContent() || []
+        }
     }
 
     /**

@@ -7,7 +7,7 @@ export default {
     }, {
         "collection": "dsa5-homebrew.scene-bm-forest",
         "folder": "Meistertools - BM",
-        "name": "Battlemaps Natur",
+        "name": "Battlemaps",
         "keywords": "main-road,side-road,statue,river",
         "isDynamicMap": true
     }, {

@@ -464,8 +464,7 @@ a.load-pattern {
     width: 225px
 }
 
-.meistertools .profession input[type="radio"] + label,
-.meistertools .archetypes input[type="radio"] + label {
+.meistertools input.akteur + label {
     background-size: 32px 32px;
     background-repeat: no-repeat;
     background-position: top right;
@@ -474,8 +473,7 @@ a.load-pattern {
     padding-right: 32px;
 }
 
-.meistertools .profession input[type="radio"] + label:hover,
-.meistertools .archetypes input[type="radio"] + label:hover {
+.meistertools input.akteur + label:hover {
     font-weight: bold;
     background-size: 48px 48px;
     background-position: top right -10px;
@@ -626,7 +624,7 @@ a.load-pattern {
 
 .meistertools img.scene-thumb {
     width: 200px;
-    height: 100px;
+    height: 200px;
     object-fit: cover;
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -636,13 +634,13 @@ a.load-pattern {
 }
 
 .meistertools img.scene-thumb:hover {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
 }
 
 .meistertools figure {
     width: 200px;
-    height: 100px;
+    height: 200px;
     margin: 0;
     padding: 0;
     background: #fff;
@@ -652,7 +650,9 @@ a.load-pattern {
 .meistertools a.set-keyword {
     padding: 3px;
     border-radius: 5px;
-    margin-right: 5px;
+    margin-right: 2px;
+    margin-bottom: 5px;
+    display: inline-block;
     background-color: var(--color-light);
     border: 1px solid var(--color-primary);
 }
@@ -758,3 +758,15 @@ a.load-pattern {
     display: none;
 }
 
+
+/* ---------------------------------
+    Szenenwechsel
+ --------------------------------- */
+
+.scene-director.box.folder {
+    background-color: var(--color-light);
+}
+
+.scene-director.box.pack {
+    background-color: var(--color-quaternary);
+}

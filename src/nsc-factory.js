@@ -189,9 +189,9 @@ export class NscFactory extends FormApplication {
             await this._createActorTokenInCanvas(actor, this.selection.position)
         }
 
+        this.preview = false
         if (this.settings.settings.closeAfterGeneration)
             return this.close()
-        this.preview = false
         return this.render()
     }
 

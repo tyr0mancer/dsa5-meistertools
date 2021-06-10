@@ -7,19 +7,18 @@ export class MeisterApplication extends FormApplication {
 
     toggle() {
         if (this.isOpen)
-            this.close()
-        else
-            this.render(true)
+            return this.close()
+        this.render(true)
     }
 
     close() {
-        this.isOpen = false
         super.close()
+        this.isOpen = false
     }
 
     render(force) {
-        this.isOpen = true
         super.render(force)
+        this.isOpen = true
     }
 
     async getData() {

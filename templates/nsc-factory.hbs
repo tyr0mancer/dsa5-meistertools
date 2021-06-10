@@ -119,7 +119,8 @@
                     {{#each_when ../settings.archetypes 'species' key}}
                         <div>
                             <input {{checked_radio ../../selection.archetype key}} class="akteur"
-                                    id="archetype-{{key}}" type="radio" value="{{key}}" name="archetype"/>
+                                                                                   id="archetype-{{key}}" type="radio"
+                                                                                   value="{{key}}" name="archetype"/>
                             <label for="archetype-{{key}}" style="background-image: url({{img}});">
                                 {{name}}
                                 {{#if variations}}
@@ -147,7 +148,8 @@
                 {{#each selectOptions.professionCompendium}}
                     <div>
                         <input {{checked_radio ../selection.profession _id}}  class="akteur"
-                                id="profession-{{_id}}" type="radio" value="{{_id}}" name="profession"/>
+                                                                              id="profession-{{_id}}" type="radio"
+                                                                              value="{{_id}}" name="profession"/>
                         <label for="profession-{{_id}}"
                                style="background-image: url({{img}});"
                         >{{name}}</label>
@@ -195,10 +197,12 @@
                                                   class="akteur"
                                                   name="players.selection.{{actor._id}}"
                                                   type="checkbox"/>
-                        <label for="player-{{actor._id}}" style="background-image: url({{actor.img}});">{{actor.name}}</label>
+                        <label for="player-{{actor._id}}"
+                               style="width:150px;background-image:url({{actor.img}});">{{actor.name}}</label>
                     </div>
                 {{/each}}
-            </div>SKILLdescr
+            </div>
+            SKILLdescr
             <div class="inner box col-2 player-actors">
                 {{pick_scene-position "players.position" selection.players.position selectOptions.scenePositions}}
                 <div style="text-align: right">
@@ -213,8 +217,17 @@
             <div class="inner box float">
                 {{#each selectOptions.generatedNsc}}
                     <div>
-                        <input id="existing-nsc-{{_id}}" class="akteur" name="existing-nsc.selection.{{_id}}" type="checkbox"/>
-                        <label for="existing-nsc-{{_id}}" style="background-image: url({{img}});">{{name}}</label>
+                        <input id="existing-nsc-{{_id}}" class="akteur" name="existing-nsc.selection.{{_id}}"
+                               type="checkbox"/>
+                        <label for="existing-nsc-{{_id}}" style="background-image: url({{img}});">
+                            <b>{{name}}</b>
+                            <div>
+
+                                <span>{{data.data.details.species.value}}</span>
+                                <i>({{data.data.details.culture.value}})</i>
+                                <span>{{data.data.details.career.value}}</span>
+                            </div>
+                        </label>
                     </div>
                 {{/each}}
             </div>

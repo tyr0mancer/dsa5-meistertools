@@ -164,24 +164,8 @@ export class MeistertoolsUtil {
     static expandObjectAndArray(obj) {
         if (obj === undefined) return undefined
         const expanded = {};
-        for (let [k, v] of Object.entries(obj)) {
-/*
-            let parsedVal = v
-            // todo seems to be too expensive. most values arent json that need parsing here. trying with data-dtype="JSON"
-
-            try {
-                parsedVal = JSON.parse(v);
-            } catch (e) {
-                parsedVal = v
-            }
-*/
-            //console.log(k)
-            //console.log(v)
+        for (let [k, v] of Object.entries(obj))
             this.setProperty(expanded, k, v);
-        }
-
-        console.log(expanded)
-
         return expanded;
     }
 

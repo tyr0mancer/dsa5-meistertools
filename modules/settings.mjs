@@ -81,15 +81,6 @@ export class MeistertoolsSettings extends MeisterApplication {
     }
 
     async getData() {
-        /*
-                AudioHelper.play({src: "sounds/dice.wav", volume: 0.8, loop: false}, true);
-                AudioHelper.play({src: "sounds/lock.wav", volume: 0.8, loop: false}, true);
-                AudioHelper.play({src: "sounds/notify.wav", volume: 0.8, loop: false}, true);
-                AudioHelper.play({src: "sounds/notify.wav", volume: 0.8, loop: false}, true);
-
-                ,
-        */
-
         const data = await super.getData();
         mergeObject(data, {
             settingsCategories: MeistertoolsSettings.categories,
@@ -120,7 +111,7 @@ export class MeistertoolsSettings extends MeisterApplication {
         await MeistertoolsSettings.resetSettings()
         await this._reload()
         this._callHook()
-        AudioHelper.play({src: "sounds/notify.wav", volume: 0.8, loop: false}, true);
+        AudioHelper.play({src: "sounds/notify.wav", volume: 0.8, loop: false}, false);
     }
 
     async _resetConfirm() {
@@ -128,32 +119,27 @@ export class MeistertoolsSettings extends MeisterApplication {
             title: "Reset Settings",
             content: "<p>Alle Einstellungen zurück setzen?</p>",
             yes: () => this._reset(),
-            no: () => console.log("you never should have come here"),
+            no: () => {},
             defaultYes: false
         });
     }
 
     async _magic(html) {
-        console.clear()
         let installedModules = this.settings.general.installedModules
-        console.log(installedModules)
         let updated = false
         for (const {category, key, defaultData, module} of SECRET_INGREDIENTS)
             if (html.find(`input[name=${key}]:checked`).length) {
                 await game.settings.set(moduleName, category, defaultData)
                 installedModules[module] = true
-                console.log(installedModules)
                 updated = true
             }
         if (updated) {
             this.settings.general.installedModules = installedModules
-            console.log(this.settings.general)
             await game.settings.set(moduleName, "general", this.settings.general)
             await this._reload()
             this._callHook()
-            console.log(this.settings.general)
             ui.notifications.info(game.i18n.localize("MeisterSettings.Installed3rdParty"));
-            AudioHelper.play({src: "sounds/drums.wav", volume: 0.8, loop: false}, true);
+            AudioHelper.play({src: "sounds/drums.wav", volume: 0.8, loop: false}, false);
         }
 
     }

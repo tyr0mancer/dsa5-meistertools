@@ -20,7 +20,16 @@
     "Regions": "Regionen",
     "Installed3rdParty": "MeisterTools wurde für externe Module konfiguriert. Welcome to the next level!",
     "MagicHeader": "Module wählen",
-    "MagicText": "Für welche der folgenden Dritt-Module sollen die MeisterTools Einstellungen angepasst gesetzt werden?"
+    "MagicText": "Für welche der folgenden Dritt-Module sollen die MeisterTools Einstellungen angepasst gesetzt werden?",
+    "Name": "Name",
+    "Key": "Schlüssel",
+    "Pack": "Kompendium",
+    "Folder": "Ordner in Welt",
+    "Keywords": "Suchbegriffe",
+    "DynamicMap": "Dynamische Szenen",
+    "Herbmod": "Modifikator Pflanzensuche",
+    "DrawingStyle": "Stil der Karten-Zeichnungen",
+    "ImagePath": "Bildpfad"
   },
   "Availability": {
     "unknown": "unbekannt",
@@ -52,7 +61,9 @@
       "Packs": "Auf Szenen dieser Kompendien kann mit der App 'Szenenwechsel' zugegriffen werden."
     },
     "Locations": {
-      "Regions": "Die Verwaltung von Regionen wird bald auf Item-Basis erfolgen. In der Zwischenzeit ist nur das Bearbeiten des JSON Formates möglich."
+      "Regions": "Die Verwaltung von Regionen wird bald auf Item-Basis erfolgen. In der Zwischenzeit ist nur das Bearbeiten des JSON Formates möglich.",
+      "Biomes": " ",
+      "RegionCategories": " "
     }
   }
 }

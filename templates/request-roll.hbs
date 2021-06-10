@@ -22,8 +22,7 @@
             <h1><i class="{{rule.icon}}"></i> {{rule.name}}</h1>
 
             {{#if rule.url}}
-                <p>...kommt bald:</p>
-                <textarea>{{rule.url}}</textarea>
+                <h2><a href="{{rule.url}}">Ulisses Regelwiki</a></h2>
             {{/if}}
 
             {{#each rule.rollRequests as |request n|}}

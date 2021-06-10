@@ -79,15 +79,15 @@ export function registerControlButtons(controls) {
             button: true,
             onClick: () => _Locator.toggle()
         },
-/*
-        {
-            name: "music",
-            title: 'Musik',
-            icon: "fas fa-music",
-            button: true,
-            onClick: () => _Jukebox.toggle()
-        },
-*/
+        /*
+                {
+                    name: "music",
+                    title: 'Musik',
+                    icon: "fas fa-music",
+                    button: true,
+                    onClick: () => _Jukebox.toggle()
+                },
+        */
     ]
 
     const {showSettings, showMapMaker, topMenu, showEntityTagger} = game.settings.get(moduleName, 'general')
@@ -131,6 +131,14 @@ export function registerControlButtons(controls) {
     }
 
 
+    if (!game.user.isGM)
+        controls.find(c => (c.name === "token"))?.tools?.push({
+            name: "request-roll",
+            title: 'Regelbuch (beta)',
+            icon: "fas fa-book",
+            button: true,
+            onClick: () => _RequestRoll.toggle()
+        })
     controls.find(c => (c.name === "token"))?.tools?.push({
         name: "players-view",
         title: 'DSA MeisterTools',
@@ -138,7 +146,6 @@ export function registerControlButtons(controls) {
         button: true,
         onClick: () => _PlayersView.toggle()
     })
-
 
 }
 

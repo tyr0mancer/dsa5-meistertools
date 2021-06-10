@@ -26,6 +26,7 @@ export const SECRET_INGREDIENTS = [
 ]
 
 
-export const defaultSettings = {
-    showSettings: true
+export const generalDefaultSettings = {
+    showSettings: true,
+    installedModules: {}
 }

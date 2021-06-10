@@ -20,12 +20,9 @@ Hooks.once('init', () => {
     registerSettings()
     registerLayer()
     registerHandlebarHelper()
-
     Actors.registerSheet("dsa5", MeistertoolsMerchantSheet, {types: ["npc"]});
-
     Items.registerSheet("dsa5", ItemRegionDSA5, {types: ["equipment"]});
     Items.registerSheet("dsa5", ItemAvailabilityDSA5, {types: []});
-
     loadTemplates([
         "modules/dsa5-meistertools/templates/settings/general.hbs",
         "modules/dsa5-meistertools/templates/settings/nsc-factory.hbs",

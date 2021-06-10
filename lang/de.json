@@ -17,7 +17,10 @@
     "FindPlaylist": "Namensgleiche Playlist suchen",
     "RegionCategories": "Kategorien für Regionen",
     "Biomes": "Landschafts-Typen",
-    "Regions": "Regionen"
+    "Regions": "Regionen",
+    "Installed3rdParty": "MeisterTools wurde für externe Module konfiguriert. Welcome to the next level!",
+    "MagicHeader": "Module wählen",
+    "MagicText": "Für welche der folgenden Dritt-Module sollen die MeisterTools Einstellungen angepasst gesetzt werden?"
   },
   "Availability": {
     "unknown": "unbekannt",
@@ -48,7 +51,7 @@
       "Playlist": "Wenn der aktiven Szene eine Playlist zugewiesen ist, Foundry diese aber nicht finden kann, weil sie mit gleichen Namen neu angelegt wurde und daher eine neue id hat, sucht MeisterTools nach einer namensgleichen Playlist und speichert diese als neue Playlist dieser Szene. MeisterTools kann außerdem eine Default-Playliste setzen, wenn keine Playlist definiert ist und keine namensgleiche Playlist gefunden werden kann.",
       "Packs": "Auf Szenen dieser Kompendien kann mit der App 'Szenenwechsel' zugegriffen werden."
     },
-    "Locations":{
+    "Locations": {
       "Regions": "Die Verwaltung von Regionen wird bald auf Item-Basis erfolgen. In der Zwischenzeit ist nur das Bearbeiten des JSON Formates möglich."
     }
   }

@@ -74,7 +74,6 @@ export class MeisterApplication extends FormApplication {
                 if (!e.value && targets.includes(e.name.split(".").pop())) e.value = name
             })
         })
-
     }
 
 }

@@ -5,7 +5,7 @@ import {SceneDirector} from "./scene-director.mjs";
 
 import {NscFactory} from "../src/nsc-factory.js";
 import {SceneParser} from "../src/scene-parser.js";
-import {defaultSettings, SECRET_INGREDIENTS} from "../config/general.config.js";
+import {generalDefaultSettings, SECRET_INGREDIENTS} from "../config/general.config.js";
 
 
 export class MeistertoolsSettings extends MeisterApplication {
@@ -26,7 +26,7 @@ export class MeistertoolsSettings extends MeisterApplication {
     static get categories() {
         return [
             {
-                key: "general", name: "MeisterSettings.general", icon: "fas fa-cogs", default: defaultSettings
+                key: "general", name: "MeisterSettings.general", icon: "fas fa-cogs", default: generalDefaultSettings
             },
             {
                 key: "nsc-factory",
@@ -35,7 +35,10 @@ export class MeistertoolsSettings extends MeisterApplication {
                 default: NscFactory.defaultSettings
             },
             {
-                key: "scenes", name: "MeisterSettings.scenes", icon: "fas fa-map", default: SceneDirector.defaultSettings
+                key: "scenes",
+                name: "MeisterSettings.scenes",
+                icon: "fas fa-map",
+                default: SceneDirector.defaultSettings
             },
             {
                 key: "locations",
@@ -78,6 +81,15 @@ export class MeistertoolsSettings extends MeisterApplication {
     }
 
     async getData() {
+        /*
+                AudioHelper.play({src: "sounds/dice.wav", volume: 0.8, loop: false}, true);
+                AudioHelper.play({src: "sounds/lock.wav", volume: 0.8, loop: false}, true);
+                AudioHelper.play({src: "sounds/notify.wav", volume: 0.8, loop: false}, true);
+                AudioHelper.play({src: "sounds/notify.wav", volume: 0.8, loop: false}, true);
+
+                ,
+        */
+
         const data = await super.getData();
         mergeObject(data, {
             settingsCategories: MeistertoolsSettings.categories,
@@ -107,7 +119,8 @@ export class MeistertoolsSettings extends MeisterApplication {
     async _reset() {
         await MeistertoolsSettings.resetSettings()
         await this._reload()
-        Hooks.call(moduleName + ".update-settings", this.settings)
+        this._callHook()
+        AudioHelper.play({src: "sounds/notify.wav", volume: 0.8, loop: false}, true);
     }
 
     async _resetConfirm() {
@@ -121,35 +134,70 @@ export class MeistertoolsSettings extends MeisterApplication {
     }
 
     async _magic(html) {
-        for (const {category, key, defaultData} of SECRET_INGREDIENTS)
-            if (html.find(`input[name=${key}]:checked`).length)
+        console.clear()
+        let installedModules = this.settings.general.installedModules
+        console.log(installedModules)
+        let updated = false
+        for (const {category, key, defaultData, module} of SECRET_INGREDIENTS)
+            if (html.find(`input[name=${key}]:checked`).length) {
                 await game.settings.set(moduleName, category, defaultData)
-        await this._reload()
-        Hooks.call(moduleName + ".update-settings", this.settings)
+                installedModules[module] = true
+                console.log(installedModules)
+                updated = true
+            }
+        if (updated) {
+            this.settings.general.installedModules = installedModules
+            console.log(this.settings.general)
+            await game.settings.set(moduleName, "general", this.settings.general)
+            await this._reload()
+            this._callHook()
+            console.log(this.settings.general)
+            ui.notifications.info(game.i18n.localize("MeisterSettings.Installed3rdParty"));
+            AudioHelper.play({src: "sounds/drums.wav", volume: 0.8, loop: false}, true);
+        }
+
     }
 
     async _magicConfirm() {
-
-
         const getMagicIngredients = () => {
             let result = ``
-            for (const {module, key, text} of SECRET_INGREDIENTS) {
-                const [disabled, title] = game.modules.get(module)?.active ? ["", "Modul: " + module] : ["disabled", "Das benötigte Modul ist nicht installiert"]
-                result += `<div class="inner box" title="${title}" ><input class="switch" ${disabled} id="${key}" name="${key}" type="checkbox"/><label for="${key}"></label><label for="${key}">${text}</label></div>`
+            const availableIngredients = []
+            const installedIngredients = []
+            const unavailableIngredients = []
+
+            for (const ingredient of SECRET_INGREDIENTS) {
+                if (!game.modules.get(ingredient.module)?.active) {
+                    unavailableIngredients.push(ingredient)
+                    continue
+                }
+                if (this.settings.general?.installedModules?.[ingredient.module])
+                    installedIngredients.push(ingredient)
+                else
+                    availableIngredients.push(ingredient)
+            }
+
+            if (availableIngredients.length) {
+                result += `<h3>Verfügbare Module</h3>`
+                for (const {module, key, text} of availableIngredients)
+                    result += `<div class="inner box" title="${module}" ><input class="switch" id="${key}" name="${key}" type="checkbox"/><label for="${key}"></label><label for="${key}">${text}</label></div>`
+            }
+            if (installedIngredients.length) {
+                result += `<h3>Bereits für MeisterTools konfiguriert</h3>`
+                for (const {module, key, text} of installedIngredients)
+                    result += `<div class="inner box" title="${module}" ><input class="switch" id="${key}" type="checkbox" checked="checked" disabled/><label for="${key}"></label><label for="${key}">${text}</label></div>`
+            }
+            if (unavailableIngredients) {
+                result += `<h3>Nicht verfügbar</h3>`
+                for (const {key, text} of unavailableIngredients)
+                    result += `<div class="inner box" title="Das benötigte Modul ist nicht installiert" ><input class="switch" disabled id="${key}" name="${key}" type="checkbox"/><label for="${key}"></label><label for="${key}">${text}</label></div>`
             }
             return result
         }
-
         Dialog.confirm({
             title: "MeisterTools Autokonfiguration",
-            content: `<div class="meistertools">
-                <h2>Module wählen</h2>
-                <p>Für welche der folgenden Dritt-Module sollen die MeisterTools Einstellungen angepasst gesetzt werden?</p>
-                ${getMagicIngredients()}                
-            </div>`,
-            yes: (html) => this._magic(html),
-            no: () => console.log("you never should have come here"),
-            defaultYes: false
+            content: `<div class="meistertools"><h2>${game.i18n.localize("MeisterSettings.MagicHeader")}</h2><p>${game.i18n.localize("MeisterSettings.MagicText")}</p>${getMagicIngredients()}</div>`,
+            yes: (html) => this._magic(html), no: () => {
+            }, defaultYes: false
         });
     }
 
@@ -178,8 +226,12 @@ export class MeistertoolsSettings extends MeisterApplication {
             mergeObject(this.settings[category], formData[category])
             game.settings.set(moduleName, category, this.settings[category]);
         }
-        Hooks.call(moduleName + ".update-settings", this.settings)
+        this._callHook()
         this.close()
+    }
+
+    _callHook() {
+        Hooks.call(moduleName + ".update-settings", this.settings)
     }
 
 

@@ -154,6 +154,7 @@ export function registerLayer() {
 
 class MeistertoolsLayer extends CanvasLayer {
     constructor() {
+        //AudioHelper.play({src: `modules/${moduleName}/assets/audio/digby.mp3`, volume: 0.8, loop: false}, true);
         super();
         this.options = this.constructor.layerOptions;
     }

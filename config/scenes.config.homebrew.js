@@ -1,11 +1,12 @@
 export default {
     "sceneCollections": [{
-        "collection": "dsa5-homebrew.scene-totm",
+        "collection": "dsa5-homebrew.scene-dynamic-totm",
         "folder": "Meistertools - TOTM",
         "name": "Theatre Of The Mind",
-        "keywords": "Taverne,Tempel,Einkauf,Kerker",
+        "keywords": "Taverne,Tempel,Händler,Kerker,Schmied,Kaserne",
+        "isDynamicMap": true
     }, {
-        "collection": "dsa5-homebrew.scene-bm-forest",
+        "collection": "dsa5-homebrew.scene-dynamic-bm",
         "folder": "Meistertools - BM",
         "name": "Battlemaps",
         "keywords": "main-road,side-road,statue,river",

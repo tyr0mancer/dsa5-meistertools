@@ -11,6 +11,21 @@
     NSC Generator
     ----------------------- -->
     <section class="tab" data-tab="nsc-generator">
+
+        {{#if settings.storedPattern}}
+            <div class="inner box header">
+                <h3>{{#toggle "vorlagen:show" _expandedTargets}}{{localize
+                        "Meistertools.SavedConfigurations"}}{{/toggle}}</h3>
+                {{#collapsible "vorlagen:show" _expandedTargets}}
+                    {{#each ../settings.storedPattern as |pattern id|}}
+                        <a class="handle-pattern" data-action="remove" data-pattern-id="{{id}}"><i
+                                class="fas fa-minus-circle"></i></a>
+                        <a class="load-pattern handle-pattern" data-pattern-id="{{id}}">{{pattern.patternName}}</a>
+                    {{/each}}
+                {{/collapsible}}
+            </div>
+        {{/if}}
+
         <div class="nsc-factory">
             <div class="box header">
                 <h1>Konfiguration</h1>
@@ -37,138 +52,126 @@
             </div>
         </div>
 
-        <div class="inner box header">
-            <h3 class="toggle" data-target=".vorlagen">gespeicherte Konfigurationen</h3>
-            <div class="vorlagen">
-                {{#each settings.storedPattern as |pattern id|}}
-                    <a class="handle-pattern" data-action="remove" data-pattern-id="{{id}}"><i
-                            class="fas fa-minus-circle"></i></a>
-                    <a class="load-pattern handle-pattern" data-pattern-id="{{id}}">{{pattern.patternName}}</a>
-                {{/each}}
-            </div>
-        </div>
 
         {{#if preview}}
             <div class="box header">
-                <h1 class="toggle" data-target=".results-preview">Vorschau</h1>
-                <div class="results-preview ">
+                <h1>{{#toggle "results-preview:show" _expandedTargets}}Vorschau{{/toggle}}</h1>
+                {{#collapsible "results-preview:show" _expandedTargets}}
                     <div class="float">
-                        {{#each preview.results as |result id|}}
-                            {{#with result}}
-                                <div class="inner box header">
-                                    <h2 class="re-roll" data-result-id="{{id}}" data-result-key="name"
-                                        title="Name neu auswürfeln">{{name}}</h2>
-                                    <div class="col-2">
-                                        <div>
-                                            <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
-                                                 data-result-id="{{id}}" data-result-key="img"/>
-                                            <p><b><i class="fas fa-hammer" title="Beruf"></i></b>
-                                                {{career}}</p>
-                                        </div>
-                                        <div>
-                                            <table>
-                                                <tr>
-                                                    <td><i class="fas fa-hourglass-half" title="Alter"></i></td>
-                                                    <td>{{age}} Jahre</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="fas fa-arrows-alt-v" title="Größe"></i></td>
-                                                    <td>{{height}} cm</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="fas fa-weight-hanging" title="Gewicht"></i></td>
-                                                    <td>{{weight}} Stein</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="fas fa-hat-cowboy" title="Haarfarbe"></i></td>
-                                                    <td>{{haircolor}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="far fa-eye" title="Augenfarbe"></i></td>
-                                                    <td>{{eyecolor}}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
+                        {{#each ../preview.results as |this id|}}
+                            <div class="inner box header">
+                                <h2 class="re-roll" data-result-id="{{id}}" data-result-key="name"
+                                    title="Name neu auswürfeln">{{name}}</h2>
+                                <div class="col-2">
+                                    <div>
+                                        <img src="{{img}}" class="avatar re-roll" title="Aussehen neu auswürfeln"
+                                             data-result-id="{{id}}" data-result-key="img"/>
+                                        <p><b><i class="fas fa-hammer" title="Beruf"></i></b>
+                                            {{career}}</p>
                                     </div>
-                                    <div class="re-roll" data-result-id="{{id}}" data-result-key="traits"
-                                         title="Weitere Charakteristika und Hintergrund neu auswürfeln">
-                                        <p><b><i class="fas fa-city" title="Herkunft"></i></b>
-                                            {{origin}}</p>
-
-                                        <b>Charakter</b>
-                                        <div>{{characterTrait}}</div>
-                                        <b>Zitat</b>
-                                        <div>"{{catchphrase}}"</div>
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td><i class="fas fa-hourglass-half" title="Alter"></i></td>
+                                                <td>{{age}} Jahre</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fas fa-arrows-alt-v" title="Größe"></i></td>
+                                                <td>{{height}} cm</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fas fa-weight-hanging" title="Gewicht"></i></td>
+                                                <td>{{weight}} Stein</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fas fa-hat-cowboy" title="Haarfarbe"></i></td>
+                                                <td>{{haircolor}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="far fa-eye" title="Augenfarbe"></i></td>
+                                                <td>{{eyecolor}}</td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
-                            {{/with}}
+                                <div class="re-roll" data-result-id="{{id}}" data-result-key="traits"
+                                     title="Weitere Charakteristika und Hintergrund neu auswürfeln">
+                                    <p><b><i class="fas fa-city" title="Herkunft"></i></b>
+                                        {{origin}}</p>
+
+                                    <b>Charakter</b>
+                                    <div>{{characterTrait}}</div>
+                                    <b>Zitat</b>
+                                    <div>"{{catchphrase}}"</div>
+                                </div>
+                            </div>
                         {{/each}}
                     </div>
-                </div>
+                {{/collapsible}}
             </div>
         {{/if}}
 
 
         <!-- NSC Archetypes -->
         <div class="box header">
-            <h2 class="toggle" data-target=".archetypes.box">Spezies und Kultur</h2>
-
-            {{#each settings.species}}
-                <div class="archetypes inner box float">
-
-                    {{#each_when ../settings.archetypes 'species' key}}
-                        <div>
-                            <input {{checked_radio ../../selection.archetype key}} class="akteur"
-                                                                                   id="archetype-{{key}}" type="radio"
-                                                                                   value="{{key}}" name="archetype"/>
-                            <label for="archetype-{{key}}" style="background-image: url({{img}});">
-                                {{name}}
-                                {{#if variations}}
-                                    <select name="variation">
-                                        {{#select ../../selection.variation}}
-                                            <option></option>
-                                            {{#each variations}}
-                                                <option value="{{key}}">{{name}}</option>
-                                            {{/each}}
-                                        {{/select}}
-                                    </select>
-                                {{/if}} <!-- variations -->
-
-                            </label>
-                        </div>
-                    {{/each_when}} <!--archetypes-->
-
-                </div>
-            {{/each}} <!--species-->
-        </div>
-
-        <div class="box header">
-            <h2 class="toggle" data-target=".profession.float">Profession</h2>
-            <div class="inner box profession float">
-                {{#each selectOptions.professionCompendium}}
-                    <div>
-                        <input {{checked_radio ../selection.profession _id}}  class="akteur"
-                                                                              id="profession-{{_id}}" type="radio"
-                                                                              value="{{_id}}" name="profession"/>
-                        <label for="profession-{{_id}}"
-                               style="background-image: url({{img}});"
-                        >{{name}}</label>
+            <h2>{{#toggle "archetype-selection:show" _expandedTargets }}Spezies und Kultur{{/toggle}}</h2>
+            {{#collapsible "archetype-selection:show" _expandedTargets}}
+                {{#each ../settings.species}}
+                    <div class="archetypes inner box float">
+                        {{#each_when ../../settings.archetypes 'species' key}}
+                            <div>
+                                <input {{checked_radio ../../../selection.archetype key}}
+                                        class="akteur" id="archetype-{{key}}"
+                                        type="radio" value="{{key}}" name="archetype"/>
+                                <label for="archetype-{{key}}" style="background-image: url({{img}});">
+                                    {{name}}
+                                    {{#if variations}}
+                                        <select name="variation">
+                                            {{#select ../../../selection.variation}}
+                                                <option></option>
+                                                {{#each variations}}
+                                                    <option value="{{key}}">{{name}}</option>
+                                                {{/each}}
+                                            {{/select}}
+                                        </select>
+                                    {{/if}}
+                                </label>
+                            </div>
+                        {{/each_when}}
                     </div>
                 {{/each}}
-            </div>
+            {{/collapsible}}
         </div>
 
         <div class="box header">
-            <h2 class="toggle" data-target=".gender-selection">Geschlecht</h2>
+            <h2>{{#toggle "profession-selection" _expandedTargets}}Profession{{/toggle}}</h2>
+            {{#collapsible "profession-selection" _expandedTargets}}
+                <div class="inner box profession float">
+                    {{#each ../selectOptions.professionCompendium}}
+                        <div>
+                            <input {{checked_radio ../../selection.profession _id}}
+                                    class="akteur" id="profession-{{_id}}" type="radio" value="{{_id}}"
+                                    name="profession"/>
+                            <label for="profession-{{_id}}" style="background-image: url({{img}})">{{name}}</label>
+                        </div>
+                    {{/each}}
+                </div>
+            {{/collapsible}}
+        </div>
+
+        <div class="box header">
+            <h2>{{#toggle "gender-select" _expandedTargets}}Geschlecht{{/toggle}}</h2>
+            {{#collapsible "gender-select" _expandedTargets}}
             <div class="inner box gender-selection float">
-                {{#each settings.gender}}
+                {{#each ../settings.gender}}
                     <div>
-                        <input {{checked_radio ../selection.gender key}}
+                        <input {{checked_radio ../../selection.gender key}}
                                 id="gender-{{key}}" type="radio" value="{{key}}" name="gender"/>
                         <label for="gender-{{key}}">{{name}} <i class="{{icon}}"></i></label>
                     </div>
                 {{/each}}
             </div>
+            {{/collapsible}}
         </div>
 
         <div class="inner box header">
@@ -189,20 +192,18 @@
     <section class="tab" data-tab="existing-actors">
 
         <div class="box header left-padding players">
-            <h1 class="toggle" data-target=".player-actors">Spieler</h1>
+            <h1>Spieler</h1>
             <div class="inner box float player-actors">
                 {{#each selectOptions.playerActors}}
                     <div>
-                        <input {{checked active}} id="player-{{actor._id}}"
-                                                  class="akteur"
-                                                  name="players.selection.{{actor._id}}"
-                                                  type="checkbox"/>
+                        <input {{checked active}}
+                                id="player-{{actor._id}}" class="akteur"
+                                name="players.selection.{{actor._id}}" type="checkbox"/>
                         <label for="player-{{actor._id}}"
                                style="width:150px;background-image:url({{actor.img}});">{{actor.name}}</label>
                     </div>
                 {{/each}}
             </div>
-            SKILLdescr
             <div class="inner box col-2 player-actors">
                 {{pick_scene-position "players.position" selection.players.position selectOptions.scenePositions}}
                 <div style="text-align: right">

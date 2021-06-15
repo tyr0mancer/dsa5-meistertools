@@ -1,4 +1,4 @@
-import {moduleName, MeistertoolsUtil} from "../meistertools.js";
+import {moduleName, Meistertools} from "../meistertools.js";
 import DSA5Payment from "../../../systems/dsa5/modules/system/payment.js";
 import ActorSheetdsa5NPC from "../../../systems/dsa5/modules/actor/npc-sheet.js";
 import {MeistertoolsRarity} from "./rarity.js";
@@ -91,7 +91,7 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
 
     activateListeners(html) {
         super.activateListeners(html);
-        MeistertoolsUtil.addDefaultListeners(html);
+        Meistertools.addDefaultListeners(html);
 
         html.find(".re-roll").click(async event => {
             const rollType = $(event.currentTarget).attr("data-roll-type")
@@ -303,7 +303,7 @@ function getRandomEstablishmentName() {
 }
 
 async function rollCategory(category, {quality, price}) {
-    const amount = MeistertoolsUtil.rollDice(category["amount-q" + quality])
+    const amount = Meistertools.rollDice(category["amount-q" + quality])
     const {"source-type": sourceType, "source-id": sourceId, "filter-text": filterText, "filter-rarity": filterRarity} = category
 
     let itemsArray = []

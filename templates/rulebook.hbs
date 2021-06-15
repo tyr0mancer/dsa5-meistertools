@@ -1,0 +1,27 @@
+<form>
+
+    <div class="box float player-actors">
+        {{#each options.players}}
+            <div>
+                <input id="player-{{_id}}" type="checkbox"
+                       name="player-{{_id}}"/>
+                <label for="player-{{_id}}">{{name}} </label>
+            </div>
+        {{/each}}
+    </div>
+
+
+    <div class="float">
+        {{#each players}}
+            <div class="inner box player-selection checked">
+                <!--<textarea>{{stringify character}}</textarea>-->
+                <img src="{{character.img}}" style="width:64px"/>
+
+            </div>
+        {{/each}}
+    </div>
+    <div class="box">
+        Regel usw.
+
+    </div>
+</form>

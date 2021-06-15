@@ -1,57 +1,45 @@
-import {moduleName, MeistertoolsUtil} from "../meistertools.js";
+import mstrtls from "../config/meistertools-config.js"
+import {Meistertools} from "../meistertools.js";
 import defaultSettings from "../config/nsc-factory.config.js";
+
+
 import {FileBrowser} from "../util/file-browser.js";
+import {MeisterApplication} from "../util/meister-application.js";
 
 const MIN_AMOUNT = 1
 const DEFAULT_IMAGE = '404.jpeg'
 const JOBLESS_PROFESSIONS = ["Bürger"]
 
-export class NscFactory extends FormApplication {
-    isOpen = false
+export default class NscFactory extends MeisterApplication {
 
-    toggle() {
-        if (this.isOpen)
-            this.close()
-        else
-            this.render(true)
+    static get meisterModule() {
+        return {name: "NSC Fabrik", icon: "fas fa-user-friends", key: "nsc-factory", class: NscFactory}
     }
 
-    close() {
-        this.isOpen = false
-        super.close()
-    }
-
-    render(force) {
-        this.isOpen = true
-        super.render(force)
-    }
-
-
-    constructor() {
-        super();
-        this.settings = game.settings.get(moduleName, 'nsc-factory') || NscFactory.defaultSettings || {}
+    constructor(moduleKey = NscFactory.meisterModule.key) {
+        super(moduleKey);
+        this.settings = game.settings.get(mstrtls.moduleName, 'nsc-factory') || NscFactory.defaultSettings || {}
         this.selection = this.settings.lastSelection || {}
         this.professionCompendium = game.packs.get(this.settings.settings?.baseActorCollection)
         this.rollTablesCompendium = game.packs.get(this.settings.settings?.rolltablesCollection)
 
-        Hooks.on(moduleName + ".update-settings", (settings) => {
+        Hooks.on(mstrtls.moduleName + ".update-settings", (settings) => {
             this.settings = settings['nsc-factory']
             this.professionCompendium = game.packs.get(this.settings.settings?.baseActorCollection)
             this.render()
         });
     }
 
+
     static get defaultOptions() {
-        const lastPosition = game.settings.get(moduleName, 'nsc-factory').lastPosition || {
-            top: 70, left: 120, width: 560, height: 800,
-        }
         return mergeObject(super.defaultOptions, {
-            template: `modules/${moduleName}/templates/nsc-factory.hbs`,
-            title: game.i18n.localize('meistertools.nsc-factory'),
-            id: `${moduleName}.nsc-factory`,
+            template: `modules/${mstrtls.moduleName}/templates/nsc-factory.hbs`,
+            title: game.i18n.localize('Meistertools.NscFactory'),
+            id: `${mstrtls.moduleName}.nsc-factory`,
             tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "nsc-generator"}], //nsc-generator  existing-actors
             resizable: true, popOut: true,
-            ...lastPosition,
+            width: 560,
+            height: 800,
             closeOnSubmit: false,
             submitOnClose: true,
         });
@@ -59,7 +47,7 @@ export class NscFactory extends FormApplication {
 
     activateListeners(html) {
         super.activateListeners(html);
-        MeistertoolsUtil.addDefaultListeners(html, {onChange: e => this._handleDataChange(e)});
+        Meistertools.addDefaultListeners(html, {onChange: e => this._handleDataChange(e)});
         html.find("BUTTON[NAME=insert-player]").click((event) => this._insertPlayer(event))
         html.find("BUTTON[NAME=insert-existing-nsc]").click((event) => this._insertExistingNsc(event))
         html.find(".handle-pattern").click((event) => this._handlePattern(event))
@@ -70,31 +58,35 @@ export class NscFactory extends FormApplication {
     }
 
     async getData() {
+        const data = await super.getData();
         if (!this.professionCompendium?.index?.length) {
             await this.professionCompendium?.getIndex()
         }
-        return {
+        mergeObject(data, {
             settings: this.settings,
             selection: this.selection,
             preview: this.preview,
             selectionDisplay: await this._displaySelection(),
             selectOptions: {
-                playerActors: MeistertoolsUtil.playerActors,
-                generatedNsc: game.folders.find(f => f.name === this.settings.settings?.folderName && f.type === this.professionCompendium.entity)?.entities,
+                playerActors: Meistertools.playerActors,
+                generatedNsc: game.folders.find(f => f.name === this.settings.settings?.folderName && f.type === this.professionCompendium?.entity)?.entities,
                 scenePositions: SCENE_POSITIONS,
                 professionCompendium: this.professionCompendium?.index || [],
             }
-        }
-
-    }
-
-    async _updateObject(event, formData) {
-        const lastSelection = MeistertoolsUtil.expandObjectAndArray(formData)
-        this.settings = this._updateSettings({
-            lastSelection: {...lastSelection},
-            lastPosition: this.position
         })
+        return data;
     }
+
+
+    /*
+
+        async _updateObject(event, formData) {
+            const lastSelection = Meistertools.expandObjectAndArray(formData)
+            this.settings = this._updateSettings({
+                lastSelection: {...lastSelection}
+            })
+        }
+    */
 
 
     /**
@@ -104,7 +96,7 @@ export class NscFactory extends FormApplication {
      * @private
      */
     async _createPreview() {
-        const amount = MeistertoolsUtil.rollDice(this.selection.amount.toString())
+        const amount = Meistertools.rollDice(this.selection.amount.toString())
         const archetypeData = duplicate(this.settings.fallbackData)
         const archetype = this.settings.archetypes.find(a => a.key === this.selection.archetype)
         if (archetype?.data)
@@ -163,7 +155,7 @@ export class NscFactory extends FormApplication {
         if (!this.preview)
             await this._createPreview()
 
-        const {id: folderId} = await MeistertoolsUtil.getFolder(this.settings.settings?.folderName, this.professionCompendium.entity)
+        const {id: folderId} = await Meistertools.getFolder(this.settings.settings?.folderName, this.professionCompendium.entity)
 
         for (let newActor of this.preview.results) {
             const actor = await game.actors.importFromCollection(this.preview.professionActor.collection, this.preview.professionActor._id, folderId ? {folder: folderId} : null)
@@ -183,8 +175,8 @@ export class NscFactory extends FormApplication {
                 "data.details.height.value": newActor.height,
                 "data.details.weight.value": newActor.weight,
                 "data.details.age.value": newActor.age,
-                "data.details.biography.value": `<p><i>"${newActor.catchphrase}"</i></p><p>${newActor.characterTrait}</p>`,
-                "data.details.distinguishingmark.value": newActor.distinguishingmark,
+                "data.details.biography.value": `<p>Zitat: <i>"${newActor.catchphrase}"</i></p>`,
+                "data.details.distinguishingmark.value": newActor.characterTrait,
             })
             await this._createActorTokenInCanvas(actor, this.selection.position)
         }
@@ -202,7 +194,7 @@ export class NscFactory extends FormApplication {
      * @private
      */
     async _insertPlayer() {
-        for (const {actor} of MeistertoolsUtil.playerActors.filter(e => this.selection.players.selection[e.actor._id]))
+        for (const {actor} of Meistertools.playerActors.filter(e => this.selection.players.selection[e.actor._id]))
             await this._createActorTokenInCanvas(actor, this.selection.players.position)
         if (this.settings.settings.closeAfterGeneration)
             return this.close()
@@ -237,16 +229,14 @@ export class NscFactory extends FormApplication {
         if (typeof position === "string")
             position = this._getTokenPosition(position)
         const newToken = {
-            ...actor.token,
+            ...actor.data.token,
             ...position,
             ...options,
             name: actor.name,
             img: actor.img,
             actorId: actor.id,
             width: 1,
-            height: 1,
-            vision: false,
-            //actorData: {},
+            height: 1
         }
         return await game.scenes.viewed.createEmbeddedEntity("Token", newToken)
     }
@@ -352,7 +342,7 @@ export class NscFactory extends FormApplication {
     async _handleDataChange(event) {
         let obj = {}
         obj[event.currentTarget.name] = (event.currentTarget.type === "checkbox") ? event.currentTarget.checked : event.currentTarget.value
-        await mergeObject(this.selection, MeistertoolsUtil.expandObjectAndArray(obj))
+        await mergeObject(this.selection, Meistertools.expandObjectAndArray(obj))
         $('#nsc-selection').html(this._displaySelection())
     }
 
@@ -363,8 +353,9 @@ export class NscFactory extends FormApplication {
      * @private
      */
     _updateSettings(updateObject) {
-        const settings = game.settings.get(moduleName, 'nsc-factory') || NscFactory.defaultSettings || {}
-        game.settings.set(moduleName, 'nsc-factory', mergeObject(settings, updateObject))
+        console.log(updateObject)
+        const settings = game.settings.get(mstrtls.moduleName, 'nsc-factory') || NscFactory.defaultSettings || {}
+        game.settings.set(mstrtls.moduleName, 'nsc-factory', mergeObject(settings, updateObject))
         return settings
     }
 
@@ -437,15 +428,15 @@ export class NscFactory extends FormApplication {
         if (gender)
             folderName += '/' + gender
         if (professionName) {
-            folderName += '/' + MeistertoolsUtil.stringToKey(professionName)
+            folderName += '/' + Meistertools.stringToKey(professionName)
         }
         const folder = await new FileBrowser().browse(folderName)
-        const img = (folder.files.length) ? MeistertoolsUtil.drawFromArray(folder.files) : DEFAULT_IMAGE
+        const img = (folder.files.length) ? Meistertools.drawFromArray(folder.files) : DEFAULT_IMAGE
 
         // todo auf basis von img name einschränken oder anpassen
-        const age = await MeistertoolsUtil.rollDice(archetypeData.pattern.age)
-        const height = await MeistertoolsUtil.rollDice(archetypeData.pattern.height)
-        const weight = height - await MeistertoolsUtil.rollDice(archetypeData.pattern.weightSubtrahend)
+        const age = await Meistertools.rollDice(archetypeData.pattern.age)
+        const height = await Meistertools.rollDice(archetypeData.pattern.height)
+        const weight = height - await Meistertools.rollDice(archetypeData.pattern.weightSubtrahend)
         const eyecolor = await this._followPattern(archetypeData.pattern.eyecolor, archetypeData.rollTables, gender)
         const haircolor = await this._followPattern(archetypeData.pattern.haircolor, archetypeData.rollTables, gender)
 
@@ -462,7 +453,7 @@ export class NscFactory extends FormApplication {
      */
     async _getFromDataSource(rollTables, match) {
         if (Array.isArray(rollTables[match]))   // data source is a constant array
-            return MeistertoolsUtil.drawFromArray(rollTables[match])
+            return Meistertools.drawFromArray(rollTables[match])
         if (!this.rollTablesCompendium) {
             ui.notifications.error(`Could not find rolltable collection`);
             return
@@ -488,7 +479,7 @@ export class NscFactory extends FormApplication {
     async _followPattern(pattern, rollTables, gender = '') {
         if (!pattern || !rollTables) return ''
         const genderedPattern = pattern.replace(/gender/g, gender)
-        return MeistertoolsUtil.asyncStringReplace(genderedPattern, /\${([a-zA-Z_-]+)}/g, (originalString, match) => this._getFromDataSource(rollTables, match))
+        return Meistertools.asyncStringReplace(genderedPattern, /\${([a-zA-Z_-]+)}/g, (originalString, match) => this._getFromDataSource(rollTables, match))
     }
 
 

@@ -1,7 +1,10 @@
+import {moduleName} from "../meistertools.js";
+
 export class MeisterApplication extends FormApplication {
-    constructor() {
+    constructor(moduleKey) {
         super();
         this.isOpen = false
+        this.moduleKey = moduleKey
         this._expandedTargets = {}
     }
 
@@ -11,9 +14,11 @@ export class MeisterApplication extends FormApplication {
         this.render(true)
     }
 
-    close() {
-        super.close()
+    async close() {
+        await super.close()
         this.isOpen = false
+        if (this.moduleKey)
+            await $(document).find(`#meistertoolsOptions .control-tool.${this.moduleKey}`).removeClass('active')
     }
 
     render(force) {
@@ -29,6 +34,9 @@ export class MeisterApplication extends FormApplication {
         return data;
     }
 
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {top: 50, left: 110});
+    }
 
     activateListeners(html) {
         super.activateListeners(html);

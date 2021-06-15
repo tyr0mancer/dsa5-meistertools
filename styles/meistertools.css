@@ -23,6 +23,59 @@
     border: none
 }
 
+
+/* ---------------------------------
+    Controls and Options
+ --------------------------------- */
+
+#meistertoolsOptions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+li.scene-control.active-layer {
+    cursor: default !important;
+    color: var(--color-secondary) !important;
+    background-color: var(--color-tertiary) !important;
+}
+
+li.scene-control.meistertools.menu {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+li.scene-control.meistertools {
+    background-size: 22px 22px !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-image: url('../assets/images/meisteranvil-light.webp') !important;
+}
+
+li.scene-control.meistertools:hover {
+    background-image: url('../assets/images/meisteranvil.webp') !important;
+}
+
+li.scene-control.meistertools.active {
+    background-image: url('../assets/images/meisteranvil.webp') !important;
+}
+
+
+/*
+i.fa-meistertools {
+    margin-top: 4px;
+    display: block;
+    width: 28px;
+    height: 28px;
+    background-color: #763626;
+    background-image: url('../assets/images/meisteranvil-light.webp');
+}
+*/
+
+
 /* ---------------------------------
     navigation
  --------------------------------- */
@@ -214,6 +267,11 @@
     background-color: var(--color-quinary) !important;
 }
 
+.meistertools h1 .toggle:hover {
+    color: var(--color-quinary) !important;
+}
+
+
 .meistertools .toggle {
     cursor: pointer;
 }
@@ -340,7 +398,7 @@
     padding: 0;
 }
 
-.meistertools .nsc-factory {
+.meistertools section.tab div.nsc-factory {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: auto 64px;

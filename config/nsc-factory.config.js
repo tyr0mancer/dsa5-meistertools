@@ -35,7 +35,7 @@ export default {
      * will be overwritten by .data properties
      */
     fallbackData: {
-        images: "modules/dsa5-meistertools/assets/images/actor_archetypes/mittellande",
+        images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/mittellande",
         actor: {
             collection: "dsa5-meistertools.actor-archetypes",
             _id: "",
@@ -169,7 +169,7 @@ export default {
             key: 'thorwal', name: 'Thorwal', img: "modules/dsa5-core/icons/culture/Thorwal.webp",
             data: {
                 rarity: {general: 1, regions: [["thorwal", 5], ["nostria", 2]]},
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/thorwaler",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/thorwaler",
                 rollTables: {
                     "vorname-m": "Thorwaler Vorname männlich",
                     "vorname-w": "Thorwaler Vorname weiblich",
@@ -189,7 +189,7 @@ export default {
             key: 'norbarden', name: 'Norbarden', img: "modules/dsa5-core/icons/culture/Norbarden.webp",
             data: {
                 rarity: {general: 1, regions: [["norbarden", 5]]},
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/norbarden",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/norbarden",
                 rollTables: {
                     "vorname-m": "Norbarde Vorname männlich",
                     "vorname-w": "Norbarde Vorname weiblich",
@@ -205,7 +205,7 @@ export default {
             key: 'novadis', name: 'Novadis', img: "modules/dsa5-core/icons/culture/Novadis.webp",
             data: {
                 rarity: {general: 1, regions: [["kalifat", 5]]},
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/novadis",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/novadis",
                 rollTables: {
                     "vorname-m": "Tulamide Vorname männlich",
                     "vorname-w": "Tulamide Vorname weiblich",
@@ -225,7 +225,7 @@ export default {
             key: 'nivesen', name: 'Nivesen', img: "modules/dsa5-core/icons/culture/Nivesen.webp",
             data: {
                 rarity: {general: 1, regions: [["nivesen", 5]]},
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/nivesen",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/nivesen",
                 rollTables: {
                     "vorname-m": "Nivese Vorname männlich",
                     "vorname-w": "Nivese Vorname weiblich",
@@ -243,7 +243,7 @@ export default {
                     species: "human",
                     key: 'mohas', name: 'Mohas', img: "modules/dsa5-core/icons/culture/Mohas.webp",
                     data: {
-                        images: "modules/dsa5-meistertools/assets/images/actor_archetypes/moha",
+                        images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/moha",
                         rollTables: {
                             "vorname-m": "Moha Vorname männlich",
                             "vorname-w": "Moha Vorname weiblich",
@@ -265,7 +265,7 @@ export default {
                     species: "human",
                     key: 'amazonen', name: 'Amazonen', img: "modules/dsa5-core/icons/culture/Amazonen.webp",
                     data: {
-                        images: "modules/dsa5-meistertools/assets/images/actor_archetypes/amazonen",
+                        images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/amazonen",
                         rollTables: {
                             "vorname": "Amazone Vorname",
                             "origin": "amazonen_orte"
@@ -286,7 +286,7 @@ export default {
             species: "dwarf",
             key: 'ambosszwerge', name: 'Amboss-Zwerge', img: "modules/dsa5-core/icons/culture/Ambosszwerge.webp",
             data: {
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/zwerge",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/zwerge",
                 rollTables: {
                     "vorname-m": "Zwerg Vorname männlich",
                     "vorname-w": "Zwerg Vorname weiblich",
@@ -309,7 +309,7 @@ export default {
             species: "dwarf",
             key: 'brillantzwerge', name: 'Brillant-Zwerge', img: "modules/dsa5-core/icons/culture/Brillantzwerge.webp",
             data: {
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/zwerge",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/zwerge",
                 rollTables: {
                     "vorname-m": "Zwerg Vorname männlich",
                     "vorname-w": "Zwerg Vorname weiblich",
@@ -332,7 +332,7 @@ export default {
             species: "dwarf",
             key: 'erzzwerge', name: 'Erz-Zwerge', img: "modules/dsa5-core/icons/culture/Erzzwerge.webp",
             data: {
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/zwerge",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/zwerge",
                 rollTables: {
                     "vorname-m": "Zwerg Vorname männlich",
                     "vorname-w": "Zwerg Vorname weiblich",
@@ -355,7 +355,7 @@ export default {
             species: "dwarf",
             key: 'huegelzwerge', name: 'Hügel-Zwerge', img: "modules/dsa5-core/icons/culture/Huegelzwerge.webp",
             data: {
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/huegelzwerge",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/huegelzwerge",
                 rollTables: {
                     "vorname-m": "Zwerg Vorname männlich",
                     "vorname-w": "Zwerg Vorname weiblich",
@@ -380,7 +380,7 @@ export default {
             species: "elven",
             key: 'auelfen', name: 'Auelfen', img: "modules/dsa5-core/icons/culture/Auelfen.webp",
             data: {
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/elfen",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/elfen",
                 rollTables: {
                     "vorname-m": "Elf Vorname männlich",
                     "vorname-w": "Elf Vorname weiblich",
@@ -399,7 +399,7 @@ export default {
             species: "elven",
             key: 'firnelfen', name: 'Firnelfen', img: "modules/dsa5-core/icons/culture/Firnelfen.webp",
             data: {
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/elfen",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/elfen",
                 rollTables: {
                     "vorname-m": "Elf Vorname männlich",
                     "vorname-w": "Elf Vorname weiblich",
@@ -418,7 +418,7 @@ export default {
             species: "elven",
             key: 'waldelfen', name: 'Waldelfen', img: "modules/dsa5-core/icons/culture/Waldelfen.webp",
             data: {
-                images: "modules/dsa5-meistertools/assets/images/actor_archetypes/elfen",
+                images: "modules/dsa5-meistertools/assets/images/nsc-factory/archetypes/elfen",
                 rollTables: {
                     "vorname-m": "Elf Vorname männlich",
                     "vorname-w": "Elf Vorname weiblich",

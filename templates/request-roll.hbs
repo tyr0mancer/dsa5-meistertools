@@ -80,6 +80,22 @@
     {{else}}
         <div class="box header">
             <h1>Talentproben</h1>
+            <div class="top-bar">
+                {{#if selections.groupTalents}}
+                    <h3>
+                        <a class="set-data" data-name="groupTalents" data-dtype="Boolean" data-val="false">
+                            <i class="far fa-object-ungroup"></i> eine Liste
+                        </a>
+                    </h3>
+                {{else}}
+                    <h3>
+                        <a class="set-data" data-name="groupTalents" data-dtype="Boolean" data-val="true">
+                            <i class="far fa-object-group"></i> gruppieren
+                        </a>
+                    </h3>
+                {{/if}}
+
+            </div>
             <div class="float">
                 {{#each options.players}}
                     <div>
@@ -89,31 +105,36 @@
                 {{/each}}
             </div>
 
-            {{#each skillGroups as |group n|}}
-                <div class="inner box header">
-                    <h2 class="toggle show skills {{group.name}}" data-target="#skillgroup-{{n}}">{{localize
-                            (concat "SKILL." group.name)}}</h2>
-                    <div id="skillgroup-{{n}}" class="float hidden">
-                        {{#each group.skills as |skill k|}}
-                            {{#with skill}}
-                                <div class="inner box skills header">
-                                    <h3 class="toggle show" data-target=".skill.{{n}}-{{k}}">{{this}}</h3>
-                                    <button class="request-talent-check" data-talent="{{this}}"
-                                            title="Probe anfordern">
-                                        <i class="fas fa-dice-d20"></i></button>
-                                    <select style="width: 70px">
-                                        {{skill_options (localize (concat "SKILLdescr." this))}}
-                                    </select>
-                                    <div class="hidden skill {{n}}-{{k}}">
-                                        {{{localize (concat "SKILLdescr." this)}}}
+            {{#if selections.groupTalents}}
+                {{#each skillGroups as |group n|}}
+                    <div class="inner box header">
+                        <h2 class="toggle show skills {{group.name}}" data-target="#skillgroup-{{n}}">{{localize
+                                (concat "SKILL." group.name)}}</h2>
+                        <div id="skillgroup-{{n}}" class="float hidden">
+                            {{#each group.skills as |skill k|}}
+                                {{#with skill}}
+                                    <div class="inner box skills header">
+                                        <h3 class="toggle show" data-target=".skill.{{n}}-{{k}}">{{this}}</h3>
+                                        <button class="request-talent-check" data-talent="{{this}}"
+                                                title="Probe anfordern">
+                                            <i class="fas fa-dice-d20"></i></button>
+                                        <select style="width: 70px">
+                                            {{skill_options (localize (concat "SKILLdescr." this))}}
+                                        </select>
+                                        <div class="hidden skill {{n}}-{{k}}">
+                                            {{{localize (concat "SKILLdescr." this)}}}
+                                        </div>
                                     </div>
-                                </div>
-                            {{/with}}
-                        {{/each}}
+                                {{/with}}
+                            {{/each}}
+                        </div>
                     </div>
+                {{/each}}
+            {{else}}
+                <div class="inner box header">
+                    <h2>Alle talente</h2>
                 </div>
-            {{/each}}
-
+            {{/if}}
         </div>
 
 

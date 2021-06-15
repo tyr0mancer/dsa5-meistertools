@@ -3,9 +3,22 @@
   "title": "DSA5 - MeisterTools",
   "description": "Helferlein, die dem DSA5 Spielleiter auf Foundry VTT das Leben leichter machen sollen.",
   "author": "tyr0mancer",
+  "authors": [],
+  "url": "https://github.com/tyr0mancer/dsa5-meistertools",
+  "bugs": "https://github.com/tyr0mancer/dsa5-meistertools/issues",
+  "flags": {},
   "version": "0.5.0",
   "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "0.8.6",
+  "compatibleCoreVersion": "0.8.7",
+  "scripts": [],
+  "esmodules": [
+    "/meistertools-init.js"
+  ],
+  "styles": [
+    "/styles/forms.css",
+    "/styles/meistertools.css",
+    "/styles/menu.css"
+  ],
   "languages": [
     {
       "lang": "de",
@@ -13,62 +26,60 @@
       "path": "lang/de.json"
     }
   ],
-  "styles": [
-    "/styles/forms.css",
-    "/styles/meistertools.css",
-    "/styles/menu.css"
-  ],
-  "esmodules": [
-    "/meistertools.js"
-  ],
   "packs": [
     {
       "name": "item-tavern",
       "label": "Tavernen",
       "path": "packs/item-tavern.db",
+      "private": false,
       "entity": "Item"
     },
     {
       "name": "item-regions",
       "label": "Regionen",
       "path": "packs/item-regions.db",
+      "private": false,
       "entity": "Item"
     },
     {
       "name": "rolltable-names",
       "label": "NSC Fabrik",
       "path": "packs/rolltable-names.db",
+      "private": false,
       "entity": "RollTable"
     },
     {
       "name": "rolltable-taverns",
       "label": "Tavernen",
       "path": "packs/rolltable-taverns.db",
+      "private": false,
       "entity": "RollTable"
     },
     {
       "name": "scenes-maps",
       "label": "Karten",
       "path": "packs/scenes-maps.db",
+      "private": false,
       "entity": "Scene"
     },
     {
       "name": "actor-archetypes",
       "label": "NSC Fabrik Archetypen",
       "path": "packs/actor-archetypes.db",
+      "private": false,
       "entity": "Actor"
     }
   ],
+  "system": [],
   "dependencies": [
     {
       "name": "dsa5",
       "type": "system"
     }
   ],
-  "url": "https://github.com/tyr0mancer/dsa5-meistertools",
+  "socket": false,
   "manifest": "https://raw.githubusercontent.com/tyr0mancer/dsa5-meistertools/master/module.json",
   "download": "https://github.com/tyr0mancer/dsa5-meistertools/archive/refs/tags/0.5.0.zip",
-  "bugs": "https://github.com/tyr0mancer/dsa5-meistertools/issues",
-  "allowBugReporter": true
+  "protected": false,
+  "coreTranslation": false
 }
-

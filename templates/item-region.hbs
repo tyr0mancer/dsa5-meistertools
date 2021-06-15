@@ -5,11 +5,12 @@
     <div class="col ninety item-main">
         <div class="row-section">
             <div class="col four">
-                <label class="label-text table-title">{{localize "Category"}}</label>
+                <label class="label-text table-title">{{localize "Location.Category"}}</label>
             </div>
             <div class="col four">
                 <select name="data.regionType.value" data-dtype="String" style="width: 100%">
                     {{#select data.regionType.value}}
+                        <option value="biome">Landschafts-Typ</option>
                         {{#each regionTypes as |ch char|}}
                             <option value="{{char}}">{{localize ch}}</option>
                         {{/each}}
@@ -19,7 +20,7 @@
         </div>
         <div class="row-section">
             <div class="col four">
-                <label class="label-text table-title">{{localize "regionKey"}}</label>
+                <label class="label-text table-title">{{localize "Location.Key"}}</label>
             </div>
             <div class="col four">
                 <input class="input-text" type="text" name="data.regionKey.value" value="{{data.regionKey.value}}" data-dtype="String" />

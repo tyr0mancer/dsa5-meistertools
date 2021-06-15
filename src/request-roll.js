@@ -1,4 +1,4 @@
-import {moduleName, MeistertoolsUtil} from "../meistertools.js";
+import {moduleName, Meistertools} from "../meistertools.js";
 import {RULE_CATEGORIES, RULES} from "../config/request-roll.config.js";
 
 
@@ -29,6 +29,7 @@ export class RequestRoll extends Application {
         this.ruleCategories = RULE_CATEGORIES
         this.content = ""
         this.skillpack = game.packs.get("dsa5.skills")
+        this.selections = {}
         //getTemplate(`modules/${moduleName}/templates/roll_nightwatch.hbs`);
     }
 
@@ -51,11 +52,12 @@ export class RequestRoll extends Application {
             this.skillGroups = []
             const skills = await this.skillpack.getContent()
             console.log(skills)
-            for (const skill of skills.sort((a, b) => MeistertoolsUtil.strcmp(a.name, b.name))) {
+            for (const skill of skills.sort((a, b) => Meistertools.strcmp(a.name, b.name))) {
                 let groupName = skill.data.data.group.value
                 let group = this.skillGroups.find(g => g.name === groupName)
                 if (!group) {
                     this.skillGroups.push({name: groupName, skills: []})
+                    group = this.skillGroups[this.skillGroups.length - 1]
                     group = this.skillGroups[this.skillGroups.length - 1]
                 }
                 group.skills.push(skill.name)
@@ -68,6 +70,7 @@ export class RequestRoll extends Application {
                 rules: this.rules,
                 ruleCategories: this.ruleCategories,
             },
+            selections: this.selections,
             skillGroups: this.skillGroups,
             rule: this.rule,
         }
@@ -75,7 +78,15 @@ export class RequestRoll extends Application {
 
     activateListeners(html) {
         super.activateListeners(html);
-        MeistertoolsUtil.addDefaultListeners(html);
+        Meistertools.addDefaultListeners(html);
+
+        html.find(".set-data").click((event) => {
+            const name = $(event.currentTarget).attr("data-name")
+            const dtype = $(event.currentTarget).attr("data-dtype")
+            this.selections[name] = (dtype === "Boolean") ? $(event.currentTarget).attr("data-val") !== "false" : $(event.currentTarget).attr("data-val")
+            this.render()
+        })
+
 
         html.find(".talents").click(() => {
             this.rule = null

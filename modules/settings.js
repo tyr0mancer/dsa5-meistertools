@@ -1,18 +1,22 @@
-import {MeistertoolsUtil, moduleName} from "../meistertools.js";
+import {Meistertools, moduleName} from "../meistertools.js";
 import {MeisterApplication} from "../util/meister-application.js";
 
-import {SceneDirector} from "./scene-director.mjs";
-
-import {NscFactory} from "../src/nsc-factory.js";
-import {SceneParser} from "../src/scene-parser.js";
+import SceneDirector from "./scene-director.js";
+import NscFactory from "./nsc-factory.js";
 import {generalDefaultSettings, SECRET_INGREDIENTS} from "../config/general.config.js";
 
+import SceneParser from "../src/scene-parser.js";
 
-export class MeistertoolsSettings extends MeisterApplication {
-    constructor() {
-        super();
+
+export default class MeistertoolsSettings extends MeisterApplication {
+
+    static get meisterModule() {
+        return {name: "Settings", icon: "fas fa-cog", key: "settings", class: MeistertoolsSettings}
+    }
+
+    constructor(moduleKey = MeistertoolsSettings.meisterModule.key) {
+        super(moduleKey);
         this._reloadSettings()
-
         this.selectOptions = {
             actorPacks: game.packs.filter(p => p.metadata.entity === 'Actor'),
             scenePacks: game.packs.filter(p => p.metadata.entity === 'Scene'),
@@ -55,6 +59,22 @@ export class MeistertoolsSettings extends MeisterApplication {
         }
         ui.notifications.info(game.i18n.localize("MeisterSettings.factoryReset"));
     }
+
+    static registerSettings() {
+        game.settings.registerMenu(moduleName, "config-ui", {
+            name: "DSA5 Meistertools",
+            label: "Einstellungen",
+            hint: "Alle Einstellungen der DSA5 Meistertools",
+            type: MeistertoolsSettings,
+            restricted: true
+        });
+        for (const category of MeistertoolsSettings.categories)
+            game.settings.register(moduleName, category.key, {
+                default: category.default,
+                scope: "world", config: false, type: Object
+            });
+    }
+
 
     _reloadSettings() {
         this.settings = {}
@@ -117,9 +137,10 @@ export class MeistertoolsSettings extends MeisterApplication {
     async _resetConfirm() {
         Dialog.confirm({
             title: "Reset Settings",
-            content: "<p>Alle Einstellungen zurück setzen?</p>",
+            content: "<p>Alle Einstellungen wieder zurücksetzen?</p>",
             yes: () => this._reset(),
-            no: () => {},
+            no: () => {
+            },
             defaultYes: false
         });
     }
@@ -203,11 +224,12 @@ export class MeistertoolsSettings extends MeisterApplication {
         html.find("button.open-wiki").click(async () => {
             window.open("https://github.com/tyr0mancer/dsa5-meistertools/wiki", "_blank")
         })
+
     }
 
 
     _updateObject(event, formData) {
-        formData = MeistertoolsUtil.expandObjectAndArray(formData)
+        formData = Meistertools.expandObjectAndArray(formData)
         for (let {key: category} of MeistertoolsSettings.categories) {
             mergeObject(this.settings[category], formData[category])
             game.settings.set(moduleName, category, this.settings[category]);

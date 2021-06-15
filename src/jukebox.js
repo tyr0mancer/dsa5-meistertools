@@ -1,4 +1,4 @@
-import {moduleName, MeistertoolsUtil} from "../meistertools.js";
+import {moduleName, Meistertools} from "../meistertools.js";
 
 export class Jukebox extends Application {
     isOpen = false
@@ -54,7 +54,7 @@ export class Jukebox extends Application {
 
     activateListeners(html) {
         super.activateListeners(html);
-        MeistertoolsUtil.addDefaultListeners(html);
+        Meistertools.addDefaultListeners(html);
         html.find('button[name=start-playlist]').click(event => this._startPlaylist(event));
         html.find('a.skip-sound').click(event => this._skipSound(event));
         html.find('a.stop-music').click(() => this._stopMusic());

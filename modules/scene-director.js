@@ -1,13 +1,17 @@
 import {MeistertoolsLocator} from "../src/locator.js";
-import {moduleName, MeistertoolsUtil} from "../meistertools.js";
+import {moduleName, Meistertools} from "../meistertools.js";
 import defaultSettings from "../config/scenes.config.js";
 import {MeisterApplication} from "../util/meister-application.js";
 import {FileBrowser} from "../util/file-browser.js";
 
-export class SceneDirector extends MeisterApplication {
+export default class SceneDirector extends MeisterApplication {
 
-    constructor() {
-        super();
+    static get meisterModule() {
+        return {name: "Szenenwechsel", icon: "fas fa-map", key: "scene-director", class: SceneDirector}
+    }
+
+    constructor(moduleKey = SceneDirector.meisterModule.key) {
+        super(moduleKey);
         this.scenes = {}
         this.filter = {playlist: "", keyword: ""}
         Hooks.on(moduleName + ".update-settings", () => this.render())
@@ -16,8 +20,6 @@ export class SceneDirector extends MeisterApplication {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             classes: ['meistertools'],
-            top: 50,
-            left: 100,
             width: 740,
             height: 650,
             resizable: true,
@@ -60,7 +62,7 @@ export class SceneDirector extends MeisterApplication {
 
     activateListeners(html) {
         super.activateListeners(html);
-        MeistertoolsUtil.addDefaultListeners(html);
+        Meistertools.addDefaultListeners(html);
         html.find(".scene-thumb").click(async event => {
             const sceneId = $(event.currentTarget).attr("data-scene-id")
             const sceneSource = $(event.currentTarget).attr("data-scene-source")
@@ -125,12 +127,12 @@ export class SceneDirector extends MeisterApplication {
 
     async _pickCollection(index = 0) {
         this.activeCollection = this.settings.sceneCollections[index]
-        this.folder = await MeistertoolsUtil.getFolder(this.activeCollection.folder, "Scene")
+        this.folder = await Meistertools.getFolder(this.activeCollection.folder, "Scene")
         this.scenes.folder = this.folder.content
         this.pack = game.packs.get(this.activeCollection.collection)
+        this.scenes.pack = []
         if (this.activeCollection.isDynamicMap) {
             const content = await this.pack?.getContent()
-            this.scenes.pack = []
             for (const templateScene of content) {
                 const {name, img, _id} = templateScene
                 const biome = templateScene.getFlag("dsa5-meistertools", "biome")

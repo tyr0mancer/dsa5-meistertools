@@ -1,100 +1,4 @@
-import {updatePlaylist} from "./src/update-playlist.js";
-import {registerLayer, registerControlButtons} from "./src/register-layer.js";
-import {registerHandlebarHelper} from "./src/register-handlebar-helper.js";
-import {MeistertoolsLocator} from "./src/locator.js";
-import MeistertoolsMerchantSheet from "./src/merchants.js";
-import {ItemRegionDSA5, ItemAvailabilityDSA5} from "./src/item-sheet.js";
-import {MeistertoolsSettings} from "./modules/settings.mjs";
-
-
-/**
- * Add Entries to the SceneControl
- */
-Hooks.on("getSceneControlButtons", (controls) => registerControlButtons(controls))
-
-/**
- * Registers settings
- */
-Hooks.once('init', () => {
-    console.log(moduleName, "| Initializing MeisterTools")
-    registerSettings()
-    registerLayer()
-    registerHandlebarHelper()
-    Actors.registerSheet("dsa5", MeistertoolsMerchantSheet, {types: ["npc"]});
-    Items.registerSheet("dsa5", ItemRegionDSA5, {types: ["equipment"]});
-    Items.registerSheet("dsa5", ItemAvailabilityDSA5, {types: []});
-    loadTemplates([
-        "modules/dsa5-meistertools/templates/settings/general.hbs",
-        "modules/dsa5-meistertools/templates/settings/nsc-factory.hbs",
-        "modules/dsa5-meistertools/templates/settings/scene.hbs",
-        "modules/dsa5-meistertools/templates/settings/locations.hbs",
-        "modules/dsa5-meistertools/templates/item-rarity.hbs",
-        "modules/dsa5-meistertools/templates/item-region.hbs",
-        "modules/dsa5-meistertools/templates/merchant-gm.hbs",
-    ])
-});
-
-
-/**
- * when the locator token is moved, check for the new regions that apply
- */
-Hooks.on("preUpdateToken", async (token, delta, ...param) => {
-    let scene
-    if (!game.user.isGM || (!delta.x && !delta.y)) return
-    if (MeistertoolsLocator.currentLocatorToken === token._id) {
-        mergeObject(token.data, delta)
-        MeistertoolsLocator.updateLocation(token)
-    }
-});
-
-
-Hooks.on('updateScene', (scene, data) => {
-    if (!game.user?.isGM) return
-    updatePlaylist(scene, data)
-    const currentBiome = scene.getFlag(moduleName, 'biome')
-    if (currentBiome)
-        MeistertoolsLocator.currentLocation = {currentBiome}
-})
-
-
-function registerSettings() {
-    game.settings.registerMenu(moduleName, "config-ui", {
-        name: "DSA5 Meistertools",
-        label: "Einstellungen",
-        hint: "Alle Einstellungen der DSA5 Meistertools",
-        icon: "fas fa-eye",
-        type: MeistertoolsSettings,
-        restricted: true
-    });
-    for (const category of MeistertoolsSettings.categories)
-        game.settings.register(moduleName, category.key, {
-            default: category.default,
-            scope: "world", config: false, type: Object
-        });
-}
-
-
-/** ******************************
- *  Constants
- */
-
-export const MT = {
-    moduleName: "dsa5-meistertools",
-    colorPalette: ['#536DFE', '#FF9800', '#795548', '#455A64', '#03A9F4', '#D32F2F'],
-    umlaute: {
-        '\u00dc': 'UE',
-        '\u00c4': 'AE',
-        '\u00d6': 'OE',
-        '\u00fc': 'ue',
-        '\u00e4': 'ae',
-        '\u00f6': 'oe',
-        '\u00df': 'ss'
-    }
-}
-
-export const moduleName = "dsa5-meistertools";  // just in case I need to change the modules name
-
-
+export const moduleName = "dsa5-meistertools";
 const COLOR_PALETTE = ['#536DFE', '#FF9800', '#795548', '#455A64', '#03A9F4', '#D32F2F']
 const UMLAUTE = {
     '\u00dc': 'UE', '\u00c4': 'AE', '\u00d6': 'OE', '\u00fc': 'ue', '\u00e4': 'ae', '\u00f6': 'oe', '\u00df': 'ss'
@@ -112,7 +16,25 @@ function replaceUmlaute(str) {
 }
 
 
-export class MeistertoolsUtil {
+export class Meistertools {
+
+    static get config() {
+        return {
+            moduleName: "dsa5-meistertools",
+            colorPalette: ['#536DFE', '#FF9800', '#795548', '#455A64', '#03A9F4', '#D32F2F'],
+            umlaute: {
+                '\u00dc': 'UE',
+                '\u00c4': 'AE',
+                '\u00d6': 'OE',
+                '\u00fc': 'ue',
+                '\u00e4': 'ae',
+                '\u00f6': 'oe',
+                '\u00df': 'ss'
+            }
+        }
+    }
+
+
     /**
      * get unique color which is fix for a string. no check for collision
      */
@@ -235,6 +157,7 @@ export class MeistertoolsUtil {
         html.find("input.pick-path").change((event) => {
             $(event.currentTarget).css("background-image", "url(" + event.currentTarget.value + ")")
         })
+/*
         html.find(".toggle").click((event) => {
             const targetName = $(event.currentTarget).attr("data-target")
             $(event.currentTarget).toggleClass('show')
@@ -243,6 +166,7 @@ export class MeistertoolsUtil {
                 callback.onToggle(targetName)
             }
         })
+*/
         if (callback.onChange && typeof callback.onChange === 'function') {
             html.find("input,select").change(event => callback.onChange(event, html))
         }
@@ -327,72 +251,9 @@ export class MeistertoolsUtil {
     }
 
 
-    /** **************************************
-     * potentially deprecated
-     ************************************** */
-
-
-    static async requestRoll({talent, modifier, reason, playerName}) {
-        return new Promise((resolve) => {
-
-            let whisper = playerName ? ChatMessage.getWhisperRecipients(playerName) : undefined
-            const mod = modifier < 0 ? ` ${modifier}` : (modifier > 0 ? ` +${modifier}` : "")
-            let msg = `<a class="roll-button request-roll" data-type="skill" data-modifier="${modifier}" data-name="${talent}"><i class="fas fa-dice"></i> ${talent}${mod}</a>`
-            if (reason)
-                msg += ` - <b>${playerName}</b>`
-            ChatMessage.create({content: msg, whisper});
-            new Dialog({
-                title: `Eine Probe in ${talent} anfordern`,
-                content: `<h3>${reason}</h3>`,
-                buttons: {
-                    one: {
-                        icon: '<i class="fas fa-check"></i>',
-                        label: "1 QS",
-                        callback: () => resolve({success: true, qs: 1})
-                    },
-                    two: {
-                        icon: '<i class="fas fa-check"></i>',
-                        label: "2 QS",
-                        callback: () => resolve({success: true, qs: 2})
-                    },
-                    three: {
-                        icon: '<i class="fas fa-check"></i>',
-                        label: "3 QS",
-                        callback: () => resolve({success: true, qs: 3})
-                    },
-                    failure: {
-                        icon: '<i class="fas fa-times"></i>',
-                        label: "Nicht bestanden",
-                        callback: () => resolve({success: false})
-                    },
-                    critical: {
-                        icon: '<i class="fas fa-times"></i>',
-                        label: "Patzer",
-                        callback: () => resolve({success: false, critical: true})
-                    }
-                },
-                default: "failure"
-            }).render(true);
-
-        });
-    }
-
-
-    static get activePlayers() {
-        const activeUserIds = game.users
-            .filter(u => u.active && u.role !== 4)
-            .map(u => u._id)
-
-        return game.actors
-            .filter(u => {
-                for (let userId of activeUserIds) {
-                    if (u.data.permission[userId] === 3)
-                        return true
-                }
-                return false
-            })
-    }
-
+    /**
+     *
+     */
     static get playerActors() {
         const userIds = game.users.filter(u => u.role !== 4).map(u => {
             return {_id: u._id, active: u.active}
@@ -417,23 +278,3 @@ export class MeistertoolsUtil {
 
 
 }
-
-
-class Rule {
-    constructor(delta, q0 = "start", F = ["stop"]) {
-        this.deltaFunction = delta
-        this.initialState = q0
-        this.finalStates = F
-    }
-}
-
-
-export class RuleMachine {
-    constructor(Q, S, delta, q0, F) {
-    }
-}
-
-
-
-
-

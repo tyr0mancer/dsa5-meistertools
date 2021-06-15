@@ -1,9 +1,9 @@
-import {moduleName, MeistertoolsUtil} from "../meistertools.js";
+import {moduleName, Meistertools} from "../meistertools.js";
 import defaultSettings from "../config/locations.config.js";
 
 const MAP_DISTANCE_TOLERANCE = 1 // how close shall maps be to be considered the same map?
 
-export class SceneParser extends Application {
+export default class SceneParser extends Application {
     isOpen = false
 
     toggle() {
@@ -113,7 +113,7 @@ export class SceneParser extends Application {
 
     activateListeners(html) {
         super.activateListeners(html);
-        MeistertoolsUtil.addDefaultListeners(html, {
+        Meistertools.addDefaultListeners(html, {
             onChange: e => this._handleInput(e),
             onToggle: e => this._handleToggle(e)
         });
@@ -177,7 +177,7 @@ export class SceneParser extends Application {
             style.hidden = true
             if (!style.text) style.text = region.name
             if (style.fillColor === 'random')
-                style.fillColor = MeistertoolsUtil.niceColor(regions.map(r => r.key).indexOf(region.key))
+                style.fillColor = Meistertools.niceColor(regions.map(r => r.key).indexOf(region.key))
             await drawing.update({...style})
             await drawing.setFlag(moduleName, "region", region)
             sceneRegions.push({region, drawingData: {...drawing.data}})
@@ -285,7 +285,7 @@ export class SceneParser extends Application {
         if (name.endsWith("-name")) {
             const category = name.split('-')[0]
             const target = $('input[name=' + category + '-new-region-key]')
-            const key = MeistertoolsUtil.stringToKey(value, ' ', "last")
+            const key = Meistertools.stringToKey(value, ' ', "last")
             if (!target.val()) {
                 target.val(key);
                 this.formData[category + '-new-region-key'] = key

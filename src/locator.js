@@ -1,28 +1,15 @@
-import {moduleName, MeistertoolsUtil} from "../meistertools.js";
-import {SceneParser} from "./scene-parser.js";
+import {moduleName, Meistertools} from "../meistertools.js";
+import SceneParser from "./scene-parser.js";
+import {MeisterApplication} from "../util/meister-application.js";
 
-export class MeistertoolsLocator extends Application {
-    isOpen = false
+export class MeistertoolsLocator extends MeisterApplication {
 
-    toggle() {
-        if (this.isOpen)
-            this.close()
-        else
-            this.render(true)
+    static get meisterModule() {
+        return {name: "Aktuellen Ort festlegen", icon: "fas fa-map-signs", key: "locator", class: MeistertoolsLocator}
     }
 
-    close() {
-        this.isOpen = false
-        super.close()
-    }
-
-    render(force) {
-        this.isOpen = true
-        super.render(force)
-    }
-
-    constructor() {
-        super();
+    constructor(moduleKey = MeistertoolsLocator.meisterModule.key) {
+        super(moduleKey);
         this.settings = game.settings.get(moduleName, 'locations')
         Hooks.on(moduleName + ".update-location", (currentLocation) => {
             mergeObject(this.settings.currentLocation, currentLocation)
@@ -35,8 +22,8 @@ export class MeistertoolsLocator extends Application {
         return mergeObject(super.defaultOptions, {
             top: 50,
             left: 100,
-            width: 320,
-            height: 380,
+            width: 345,
+            height: 420,
             template: `modules/${moduleName}/templates/locator.hbs`,
             id: 'meistertools.locator',
             title: 'MeisterTools Locator',
@@ -207,8 +194,8 @@ export class LocationPicker extends Dialog {
         let content = `<div class="meistertools region-picker">`
         if (!regionOptions) regionOptions = MeistertoolsLocator.regions
         if (!biomeOptions) biomeOptions = MeistertoolsLocator.biomes
-        regionOptions = regionOptions.sort((a, b) => MeistertoolsUtil.strcmp(a.name, b.name))
-        biomeOptions = biomeOptions.sort((a, b) => MeistertoolsUtil.strcmp(a.name, b.name))
+        regionOptions = regionOptions.sort((a, b) => Meistertools.strcmp(a.name, b.name))
+        biomeOptions = biomeOptions.sort((a, b) => Meistertools.strcmp(a.name, b.name))
         const selectedRegionKeys = selectedRegions?.map(r => r.key) || []
         const selectedBiomeKeys = selectedBiomes?.map(r => r.key) || []
         for (let category of MeistertoolsLocator.regionCategories) {

@@ -1,4 +1,10 @@
 {
+  "Meistertools": {
+    "AppName": "MeisterTools",
+    "PlayerView": "Helden Menü",
+    "NscFactory": "NSC Fabrik",
+    "SavedConfigurations": "gespeicherte Konfigurationen"
+  },
   "MeisterSettings": {
     "general": "Allgemeines",
     "nsc": "NSC Fabrik",
@@ -46,6 +52,10 @@
     "province": "Provinz",
     "realm": "Reich",
     "biome": "Landschaft"
+  },
+  "Location": {
+    "Key": "Schlüssel",
+    "Category": "Kategorie"
   },
   "Help": {
     "nsc-factory": {

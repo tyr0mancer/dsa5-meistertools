@@ -18,27 +18,13 @@
                 <input type="text" value="{{filter.keyword}}" name="keyword"/>
             </div>
             <div class="form-group">
-                <label class="label-text">Playlist <a
-                        class="reset-playlist"
-                        title="Aktuelle Playlist verwenden"><i
-                        class="fas fa-music"></i></a></label>
-                <select name="playlist">
-                    {{#select filter.playlist}}
-                        <option></option>
-                        {{#each selectOptions.playlists}}
-                            <option value="{{this}}">{{this}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-            </div>
-            <div class="form-group">
                 <label class="label-text">Landschafts-Typ <a
                         class="reset-biome"
                         title="Aktuellen Landschafts-Typ verwenden"><i
                         class="fas fa-globe"></i></a></label>
                 <select name="biome">
                     {{#select filter.biome}}
-                        <option></option>
+                        <option value="">- alle</option>
                         {{#each selectOptions.biomes}}
                             <option value="{{key}}">{{name}}</option>
                         {{/each}}
@@ -79,9 +65,6 @@
                                         {{/each}}
                                     </div>
                                 {{/if}}
-                                {{#if playlistName}}
-                                    <h3><i class="fas fa-music"></i> "{{playlistName}}"</h3>
-                                {{/if}}
                                 {{#if props}}
                                     <div class="inner box">
                                         {{#each props}}
@@ -90,7 +73,6 @@
                                         {{/each}}
                                     </div>
                                 {{/if}}
-
                             {{/with}}
                             <div>
                                 {{#each flags.dsa5-meistertools.props}}

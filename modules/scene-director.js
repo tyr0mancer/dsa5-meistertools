@@ -73,7 +73,7 @@ export default class SceneDirector extends MeisterApplication {
             }
             const scene = await game.scenes.importFromCollection(this.activeCollection.collection, sceneId, this.folder ? {folder: this.folder.id} : null)
             if (this.activeCollection.isDynamicMap) {
-                const img = $(event.currentTarget).attr("src").replace('-thumbs\/', '\/')
+                const img = getSourceFromThumb($(event.currentTarget).attr("src"))
                 await scene.update({"img": img})
             }
             await scene.view()
@@ -126,6 +126,7 @@ export default class SceneDirector extends MeisterApplication {
     }
 
     async _pickCollection(index = 0) {
+        console.clear()
         this.activeCollection = this.settings.sceneCollections[index]
         this.folder = await Meistertools.getFolder(this.activeCollection.folder, "Scene")
         this.scenes.folder = this.folder.content
@@ -140,8 +141,9 @@ export default class SceneDirector extends MeisterApplication {
                 const path = img.substring(0, img.lastIndexOf(".")) + '-thumbs';
                 const folder = await new FileBrowser().browse(path)
                 for (let img of folder.files) {
-                    //const match = img.match(/(.*)#(.*)\.webp/g)
-                    const scene = {name, data: {img, name, _id}}
+                    const {name: tmpName, keywords} = getKeyAndName(img)
+                    //console.log(tmpName, keywords)
+                    const scene = {name: `${name} ${keywords} ${tmpName}`, data: {img, name: `${name} - ${keywords || tmpName}`, _id}}
                     mergeObject(scene, {data: {flags: {"dsa5-meistertools": {biome, playlistName}}}})
                     this.scenes.pack.push(scene)
                 }
@@ -158,4 +160,23 @@ export default class SceneDirector extends MeisterApplication {
         return defaultSettings
     }
 
+}
+
+const regex1 = /((.*)\/)*(.*)[%23|#](.*)\.(.*)/
+const regex2 = /((.*)\/)*(.*)\.(.*)/
+const getKeyAndName = (str) => {
+    const match1 = regex1.exec(str);
+    if (match1)
+        return {name: match1[3], keywords: match1[4]}
+    const match2 = regex2.exec(str);
+    if (match2)
+        return {name: match2[3], keywords: ""}
+    return {}
+}
+
+const regex = /(.*)(%23|#)(.*)\.(.*)/
+const getSourceFromThumb = (str2) => {
+    const str = str2.replace('-thumbs\/', '\/')
+    const match = regex.exec(str);
+    return match ? `${match[1]}.${match[4]}` : str
 }

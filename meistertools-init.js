@@ -12,6 +12,7 @@ import {MeistertoolsLocator} from "./src/locator.js";
 import {registerHandlebarHelper} from "./util/register-handlebar-helper.js";
 import MeistertoolsMerchantSheet from "./src/merchants.js";
 import {ItemRegionDSA5, ItemAvailabilityDSA5} from "./src/item-sheet.js";
+import {PlayersView} from "./src/players-view.js";
 
 export const moduleName = "dsa5-meistertools";  // just in case I need to change the modules name
 
@@ -28,13 +29,19 @@ Hooks.once('init', async () => {
     const {showMapMaker, showSettings, showEntityTagger} = game.settings.get(moduleName, 'general')
     game.meistertools = {
         modules: [
-            NscFactory.meisterModule,
-            SceneDirector.meisterModule,
-            RuleBook.meisterModule,
-            MeistertoolsLocator.meisterModule,
+            {...NscFactory.meisterModule, showEntry: true},
+            {...SceneDirector.meisterModule, showEntry: true},
+            {...RuleBook.meisterModule, showEntry: true},
+            {...MeistertoolsLocator.meisterModule, showEntry: true}
         ],
         applications: {},
     }
+    game.meistertools.modules.push({
+        key: "players-view",
+        isButton: true,
+        class: PlayersView
+    })
+
 
     if (showMapMaker)
         game.meistertools.modules.push({

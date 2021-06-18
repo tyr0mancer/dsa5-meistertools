@@ -37,7 +37,7 @@ export class PlayersView extends Application {
             top: 70,
             left: 120,
             width: 800,
-            height: 380,
+            height: 420,
             resizable: true,
             template: `modules/${moduleName}/templates/players-view.hbs`,
             id: 'meistertools.players-view',

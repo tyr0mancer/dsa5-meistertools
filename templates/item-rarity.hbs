@@ -16,7 +16,7 @@
             <label class="label-text">Regionen</label>
             <div>
                 {{#each data.rarity.regions}}
-                    <div>{{name}} {{display_rarity value}} </div>
+                    <div><a class="update-rarity" data-entry-key="{{key}}" data-entry-category="{{category}}">{{display_rarity value}} {{name}}</a></div>
                 {{/each}}
             </div>
         </div>
@@ -25,7 +25,7 @@
             <label class="label-text">Landschafts-Typen</label>
             <div>
                 {{#each data.rarity.biomes}}
-                    <div>{{name}} {{display_rarity value}} </div>
+                    <div><a class="update-rarity" data-entry-key="{{key}}">{{display_rarity value}} {{name}}</a></div>
                 {{/each}}
             </div>
         </div>

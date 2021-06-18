@@ -48,7 +48,8 @@ Hooks.once('init', async () => {
             name: "Map Maker",
             icon: "fas fa-drafting-compass",
             key: "mapmaker",
-            class: SceneParser
+            class: SceneParser,
+            showEntry: true
         })
 
     if (showEntityTagger)
@@ -56,11 +57,12 @@ Hooks.once('init', async () => {
             name: "Entity Manager",
             icon: "fas fa-tags",
             key: "entity-tagger",
-            class: MeistertoolsRarity
+            class: MeistertoolsRarity,
+            showEntry: true
         })
 
-    if (showSettings)
-        game.meistertools.modules.push(MeistertoolsSettings.meisterModule)
+    game.meistertools.modules.push({...MeistertoolsSettings.meisterModule, showEntry: !!showSettings})
+
 
     /**
      * register Actor Sheet to support Merchant

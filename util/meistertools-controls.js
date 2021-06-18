@@ -14,7 +14,6 @@ export default class MeistertoolsControls {
     static async registerControls(controls, html) {
         const playerBtn = $(`<li class="scene-control player-view" data-tool="players-view" title="${game.i18n.localize("Meistertools.PlayerView")}"><i class="fas fa-dsa5"></i></li>`);
         html.append(playerBtn);
-
         const {topMenu} = game.settings.get(moduleName, 'general')
         const meisterBtn = $(`<li class="scene-control meistertools" data-control="meistertools" title="${game.i18n.localize("Meistertools.AppName")}">&nbsp;</li>`);
         meisterBtn[0].addEventListener('click', ev => this.toggleMeisterMenu(ev, html));
@@ -23,13 +22,9 @@ export default class MeistertoolsControls {
         else
             html.append(meisterBtn);
         const meisterOptions = $(`<li class="scene-control meistertools menu"><div id="meistertoolsOptions"><ol class="control-tools">${await this._getMenuEntry()}</ol></div></li>`);
-        //html.append(playerBtn);
         html.append(meisterOptions);
         html.find('#meistertoolsOptions li.control-tool').click(ev => this._openApp(ev, html))
-
         html.find('li.scene-control.player-view').click(ev => this._openApp(ev, html))
-
-
     }
 
 

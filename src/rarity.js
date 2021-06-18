@@ -56,7 +56,7 @@ export class MeistertoolsRarity extends Application {
         return mergeObject(super.defaultOptions, {
             classes: ['meistertools'],
             top: 50,
-            left: 50,
+            left: 100,
             width: 1000,
             height: 800,
             resizable: true,
@@ -68,9 +68,6 @@ export class MeistertoolsRarity extends Application {
     }
 
     async getData() {
-        const tables = game.tables.entities
-        //console.log(tables.filter(t => t.name === "encounter").map(t => t.data.results))
-
         return {
             currentLocation: this.currentLocation,
             dataSourceSelection: this.dataSourceSelection,

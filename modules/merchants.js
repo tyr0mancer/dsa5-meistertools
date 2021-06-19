@@ -157,6 +157,15 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             this.actor.setFlag(moduleName, 'merchant.cart', cart)
         })
 
+        html.find(".serve-now").click(async (event) => {
+            const categoryId = $(event.currentTarget).attr("data-category-id")
+            const entryId = $(event.currentTarget).attr("data-entry-id")
+            const entry = this.merchantFlags.supply[categoryId].current.find(e => e.item._id === entryId)
+            await this._serveOrder([entry])
+            await this._requestPayment(entry.price)
+        })
+
+
         html.find(".clear-cart").click(() => {
             this.actor.setFlag(moduleName, 'merchant.cart', [])
         })
@@ -180,7 +189,6 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         })
 
         html.find("input.merchant,select.merchant").change(e => this._handleChange(e))
-        //html.find("input.merchant,select.merchant").change(e => this._handleChange(e))
 
         html.find(".show-entry").click(event => {
             const categoryId = $(event.currentTarget).attr("data-category-id")
@@ -216,12 +224,11 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
 
     }
 
-    async _serveOrder() {
+    async _serveOrder(order = this.merchantFlags.cart) {
         let content = ``
-        for (let {item, link} of this.merchantFlags.cart) {
+        for (let {item, link} of order) {
             content += `<div><img src="${item.img}" style="height: 48px; border: none" /><b>${link}</b></div>`
         }
-
         const message = await ChatMessage.create({
             speaker: {alias: this.merchantFlags.general["tavern-name"]},
             content
@@ -229,11 +236,11 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         this.displayMessages.push(message)
     }
 
-    async _requestPayment() {
-        let sum = 0
-        for (let {price} of this.merchantFlags.cart)
-            sum += price
-        let money = DSA5Payment._getPaymoney(sum.toString())
+    async _requestPayment(amount = 0) {
+        if (amount === 0)
+            for (let {price} of this.merchantFlags.cart)
+                amount += price
+        let money = DSA5Payment._getPaymoney(amount.toString())
         if (!money) return
         const message = await ChatMessage.create({
             speaker: {alias: (this.merchantFlags.general.merchantType === "tavern") ? this.merchantFlags.general["tavern-name"] : this.actor.name},

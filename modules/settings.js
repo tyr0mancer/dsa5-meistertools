@@ -214,6 +214,7 @@ export default class MeistertoolsSettings extends MeisterApplication {
         html.find("button[name=reset]").click(() => this._resetConfirm())
         html.find("button[name=magic]").click(() => this._magicConfirm())
         html.find("button[name=reload]").click(() => this._reload())
+        html.find("a.update-regions").click(() => this._updateRegions(html))
 
 
         html.find("button.report-bug").click(async () => {
@@ -231,11 +232,8 @@ export default class MeistertoolsSettings extends MeisterApplication {
 
     _updateObject(event, formData) {
         formData = Meistertools.expandObjectAndArray(formData)
-        console.log(formData)
         for (let {key: category} of MeistertoolsSettings.categories) {
             mergeObject(this.settings[category], formData[category])
-            if (category === "locations")
-                console.log(this.settings[category])
             game.settings.set(moduleName, category, this.settings[category]);
         }
         this._callHook()
@@ -247,4 +245,40 @@ export default class MeistertoolsSettings extends MeisterApplication {
     }
 
 
+    async _updateRegions(html) {
+        const collection = html.find("select[name='locations.locationsCollection']")[0].value
+        const clearBiomes = html.find("input[name='locations.clearBiomes']")[0].checked || false
+        const clearRegions = html.find("input[name='locations.clearRegions']")[0].checked || false
+        const overwriteRegions = html.find("input[name='locations.overwriteRegions']")[0].checked || false
+        const overwriteBiomes = html.find("input[name='locations.overwriteBiomes']")[0].checked || false
+
+
+        let biomes = (clearBiomes) ? [] : this.settings.locations.biomes
+        let regions = (clearRegions) ? [] : this.settings.locations.regions
+        const pack = game.packs.get(collection)
+        const content = await pack.getContent()
+        for (const entry of content) {
+            const key = entry.data.data.regionKey?.value
+            if (!key) continue
+            const category = entry.data.data.regionType?.value || "biome"
+            const herbmod = entry.data.data.herbmod?.value || 0
+            const biome = entry.data.data.defaultBiome?.value
+            const {name, img} = entry
+            if (category === "biome") {
+                if (biomes.find(b => b.key === key)) {
+                    if (overwriteBiomes) {}
+                        biomes = await biomes.filter(b => b.key !== key)
+                    biomes.push({name, key, img, herbmod})
+                }
+            } else {
+                if (overwriteRegions && regions.find(r => r.key === key))
+                    regions = await regions.filter(r => r.key !== key)
+                regions.push({name, key, category, img, herbmod, biome})
+            }
+        }
+        this.settings.locations.biomes = duplicate(biomes)
+        this.settings.locations.regions = duplicate(regions)
+        await game.settings.set(moduleName, "locations", this.settings.locations)
+        this.render()
+    }
 }

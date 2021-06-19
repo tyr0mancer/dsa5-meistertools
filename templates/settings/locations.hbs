@@ -1,62 +1,134 @@
 <div class="tab general" data-tab="locations">
 
     <div class="box header">
-        <h1>Regionen</h1>
+        <h1>Regionen und Landschafts-Typen</h1>
+        <div class="top-bar">
+            <a class="update-regions"><i class="fas fa-wrench"></i> importieren </a>
+        </div>
 
+        <div class="form-group">
+            <label class="label-text">{{localize "MeisterSettings.Pack"}}</label>
+            <select name="locations.locationsCollection">
+                {{#select locations.locationsCollection}}
+                    <option></option>
+                    {{#each itemPacks}}
+                        <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
 
-        <label class="label-text">{{localize "MeisterSettings.Pack"}}</label>
-        <select name="locations.locationsCollection">
-            {{#select locations.locationsCollection}}
-                <option></option>
-                {{#each itemPacks}}
-                    <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
-                {{/each}}
-            {{/select}}
-        </select>
-        <button>update from pack</button>
-
+        <div class="form-group">
+            <label class="label-text">Aktuelle Landschafts-Typen</label>
+            <div>
+                <div>
+                    <input {{checked locations.clearBiomes}}
+                            data-dtype="Boolean" class="switch" id="locations.clearBiomes"
+                            name="locations.clearBiomes" type="checkbox"/>
+                    <label for="locations.clearBiomes"></label>
+                    <label for="locations.clearBiomes">alle Landschafts-Typen vor Import entfernen</label>
+                </div>
+                <div>
+                    <input {{checked locations.overwriteBiomes}}
+                            data-dtype="Boolean" class="switch" id="locations.overwriteBiomes"
+                            name="locations.overwriteBiomes" type="checkbox"/>
+                    <label for="locations.overwriteBiomes"></label>
+                    <label for="locations.overwriteBiomes">Schlüsselgleiche überschreiben</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label-text">Aktuelle Regionen</label>
+            <div>
+                <div>
+                    <input {{checked locations.clearRegions}}
+                            data-dtype="Boolean" class="switch" id="locations.clearRegions"
+                            name="locations.clearRegions" type="checkbox"/>
+                    <label for="locations.clearRegions"></label>
+                    <label for="locations.clearRegions">Regionen vor Import entfernen</label>
+                </div>
+                <div>
+                    <input {{checked locations.overwriteRegions}}
+                            data-dtype="Boolean" class="switch" id="locations.overwriteRegions"
+                            name="locations.overwriteRegions" type="checkbox"/>
+                    <label for="locations.overwriteRegions"></label>
+                    <label for="locations.overwriteRegions">Schlüsselgleiche überschreiben</label>
+                </div>
+            </div>
+        </div>
 
         <div class="box header">
-
-            <h2>{{#toggle "region-categories-list" _expandedTargets}}{{localize
-                    "MeisterSettings.RegionCategories"}}{{/toggle}}</h2>
-            <div class="top-bar">
-                <a class="insert-entry" data-path="region-categories-list"><i class="fas fa-plus-square"></i></a>
-            </div>
+            <h2>{{localize "MeisterSettings.RegionDrawingStyle"}}</h2>
             <p>{{localize "Help.Locations.RegionCategories"}}</p>
-            {{#collapsible "region-categories-list" _expandedTargets}}
-                <div id="region-categories-list">
-                    {{#each ../locations.regionCategories as |this n|}}
-                        <div class="inner box header">
-                            <div class="top-bar">
-                                <a class="sort-up"><i class="fas fa-sort-up"></i></a>
-                                <a class="remove-entry"><i class="fas fa-trash-alt"></i></a>
-                            </div>
-                            <div class="form-group">
-                                <label class="label-text">{{localize "MeisterSettings.Name"}}</label>
-                                <input type="text" value="{{name}}" name="locations.regionCategories[{{n}}].name"/>
-                            </div>
-                            <div class="form-group">
-                                <label class="label-text">{{localize "MeisterSettings.Key"}}</label>
-                                <input type="text" value="{{key}}" name="locations.regionCategories[{{n}}].key"/>
-                            </div>
-                            <div class="form-group">
-                                <label class="label-text">{{localize "MeisterSettings.DrawingBackground"}}</label>
-                                <select name="locations.regionCategories[{{n}}].style.fillColor">
-                                    {{#select style.fillColor}}
-                                        <option></option>
-                                        <option value="random">zufällige Farbe</option>
-                                        <option value="#ff0000">rot</option>
-                                        <option value="#00ff00">grün</option>
-                                        <option value="#0000ff">blau</option>
-                                    {{/select}}
-                                </select>
-                            </div>
-                        </div>
-                    {{/each}}
-                </div>
-            {{/collapsible}}
+            <div id="region-categories-list">
+                {{#each locations.regionCategories as |this n|}}
+                    <input type="hidden" value="{{name}}" name="locations.regionCategories[{{n}}].name"/>
+                    <input type="hidden" value="{{key}}" name="locations.regionCategories[{{n}}].key"/>
+                    <div class="form-group">
+                        <label class="label-text">{{name}}</label>
+                        <select name="locations.regionCategories[{{n}}].style.fillColor">
+                            {{#select style.fillColor}}
+                                <option></option>
+                                <option value="random">zufällige Hintergrund-Farben</option>
+                                <option value="#ff0000" style="background-color: #ff0000">roter Hintergrund</option>
+                                <option value="#00ff00">grüner Hintergrund</option>
+                                <option value="#0000ff">blauer Hintergrund</option>
+                            {{/select}}
+                        </select>
+                    </div>
+                {{/each}}
+            </div>
         </div>
+    </div>
+
+    <div class="box header">
+        <h2>{{#toggle "biome-list" _expandedTargets}}
+            Aktuelle Landschafts-Typen
+        {{/toggle}}</h2>
+        {{#collapsible "biome-list" _expandedTargets}}
+            {{#each ../locations.biomes}}
+                <div class="float">
+                    {{#if img}}
+                        <figure class="thumb"><img src="{{img}}"/></figure>
+                    {{/if}}
+                    <div>
+                        <h3><b>{{name}}</b></h3>
+                        <div class="float">
+                            <div class="inner box"><b>key</b> <i>{{key}}</i></div>
+                            {{#if herbmod}}
+                                <div class="inner box"><b>herbmod</b> <i>{{herbmod}}</i></div>{{/if}}
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/collapsible}}
+    </div>
+
+    <div class="box header">
+        <h2>{{#toggle "region-list" _expandedTargets}}
+            Aktuelle Regionen
+        {{/toggle}}</h2>
+        {{#collapsible "region-list" _expandedTargets}}
+
+            {{#each ../locations.regions}}
+                <div class="float">
+                    {{#if img}}
+                        <figure class="thumb small"><img src="{{img}}"/></figure>
+                    {{/if}}
+                    <div>
+                        <h3><b>{{name}}</b></h3>
+                        <div class="float">
+                            <div class="inner box"><b>key</b> <i>{{key}}</i></div>
+                            <div class="inner box"><b>category</b> <i>{{category}}</i></div>
+                            {{#if biome}}
+                                <div class="inner box"><b>biome</b> <i>{{biome}}</i></div>{{/if}}
+                            {{#if herbmod}}
+                                <div class="inner box"><b>herbmod</b> <i>{{herbmod}}</i></div>{{/if}}
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/collapsible}}
     </div>
 
 </div>

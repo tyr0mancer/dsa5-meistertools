@@ -36,7 +36,8 @@
     "Herbmod": "Modifikator Pflanzensuche",
     "DrawingStyle": "Stil der Karten-Zeichnungen",
     "DrawingBackground": "Karten-Zeichnungen Hintergrund",
-    "ImagePath": "Bildpfad"
+    "ImagePath": "Bildpfad",
+    "RegionDrawingStyle": "Kartenzeichnung Stile"
   },
   "Availability": {
     "unknown": "unbekannt",

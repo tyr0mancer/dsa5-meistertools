@@ -841,3 +841,45 @@ a.load-pattern {
 div.box.in-world {
     background-color: var(--color-quaternary);
 }
+
+
+
+
+/* ---------------------------------
+    Images
+ --------------------------------- */
+
+.meistertools figure.thumb img {
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+.meistertools figure.thumb img:hover {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+}
+
+.meistertools figure.thumb {
+    width: 128px;
+    height: 128px;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+}
+
+
+
+.meistertools figure.thumb.small img {
+    width: 64px;
+    height: 64px;
+}
+
+.meistertools figure.thumb.small {
+    width: 64px;
+    height: 64px;
+}

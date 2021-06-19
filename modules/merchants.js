@@ -1,7 +1,7 @@
 import {moduleName, Meistertools} from "../meistertools.js";
 import DSA5Payment from "../../../systems/dsa5/modules/system/payment.js";
 import ActorSheetdsa5NPC from "../../../systems/dsa5/modules/actor/npc-sheet.js";
-import {MeistertoolsRarity} from "./rarity.js";
+import {MeistertoolsRarity} from "../src/rarity.js";
 import {
     MERCHANT_TYPE,
     PRICE,
@@ -66,9 +66,9 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
 
     get template() {
         if (this.playerViewEnabled())
-            return `modules/${moduleName}/templates/merchant-player.hbs`
+            return `modules/${moduleName}/templates/actor/merchant-player.hbs`
         else
-            return `modules/${moduleName}/templates/merchant-sheet.html`
+            return `modules/${moduleName}/templates/actor/merchant-sheet.html`
     }
 
     async getData() {

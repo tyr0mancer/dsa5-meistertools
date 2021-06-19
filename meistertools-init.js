@@ -10,7 +10,7 @@ import {MeistertoolsRarity} from "./src/rarity.js";
 import {MeistertoolsLocator} from "./src/locator.js";
 
 import {registerHandlebarHelper} from "./util/register-handlebar-helper.js";
-import MeistertoolsMerchantSheet from "./src/merchants.js";
+import MeistertoolsMerchantSheet from "./modules/merchants.js";
 import {ItemRegionDSA5, ItemAvailabilityDSA5} from "./src/item-sheet.js";
 import {PlayersView} from "./src/players-view.js";
 
@@ -82,7 +82,7 @@ Hooks.once('init', async () => {
         "modules/dsa5-meistertools/templates/settings/locations.hbs",
         "modules/dsa5-meistertools/templates/item/item-rarity.hbs",
         "modules/dsa5-meistertools/templates/item/item-region.hbs",
-        "modules/dsa5-meistertools/templates/merchant-gm.hbs",
+        "modules/dsa5-meistertools/templates/actor/merchant-gm.hbs",
     ])
 });
 

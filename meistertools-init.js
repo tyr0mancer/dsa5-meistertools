@@ -80,8 +80,8 @@ Hooks.once('init', async () => {
         "modules/dsa5-meistertools/templates/settings/nsc-factory.hbs",
         "modules/dsa5-meistertools/templates/settings/scene.hbs",
         "modules/dsa5-meistertools/templates/settings/locations.hbs",
-        "modules/dsa5-meistertools/templates/item-rarity.hbs",
-        "modules/dsa5-meistertools/templates/item-region.hbs",
+        "modules/dsa5-meistertools/templates/item/item-rarity.hbs",
+        "modules/dsa5-meistertools/templates/item/item-region.hbs",
         "modules/dsa5-meistertools/templates/merchant-gm.hbs",
     ])
 });

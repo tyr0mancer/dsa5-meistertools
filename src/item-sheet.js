@@ -12,7 +12,7 @@ export class ItemRegionDSA5 extends ItemSheetdsa5 {
     }
 
     get template() {
-        return `modules/${moduleName}/templates/item-sheet-region.hbs`
+        return `modules/${moduleName}/templates/item/item-sheet-region.hbs`
     }
 
     async getData(options) {
@@ -33,7 +33,7 @@ export class ItemAvailabilityDSA5 extends ItemSheetdsa5 {
     }
 
     get template() {
-        return `modules/${moduleName}/templates/item-sheet.hbs`
+        return `modules/${moduleName}/templates/item/item-sheet.hbs`
     }
 
     async updateRarity({name, key, category, img, value}) {

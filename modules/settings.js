@@ -266,16 +266,21 @@ export default class MeistertoolsSettings extends MeisterApplication {
             const {name, img} = entry
             if (category === "biome") {
                 if (biomes.find(b => b.key === key)) {
-                    if (overwriteBiomes) {}
-                        biomes = await biomes.filter(b => b.key !== key)
-                    biomes.push({name, key, img, herbmod})
+                    if (!overwriteBiomes)
+                        continue
+                    biomes = await biomes.filter(b => b.key !== key)
                 }
+                biomes.push({name, key, img, herbmod})
             } else {
-                if (overwriteRegions && regions.find(r => r.key === key))
+                if (regions.find(r => r.key === key)) {
+                    if (!overwriteRegions)
+                        continue
                     regions = await regions.filter(r => r.key !== key)
+                }
                 regions.push({name, key, category, img, herbmod, biome})
             }
         }
+
         this.settings.locations.biomes = duplicate(biomes)
         this.settings.locations.regions = duplicate(regions)
         await game.settings.set(moduleName, "locations", this.settings.locations)

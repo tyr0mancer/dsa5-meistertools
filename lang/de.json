@@ -57,6 +57,7 @@
     "biome": "Landschaft"
   },
   "Location": {
+    "current": "Aktueller Aufenthaltsort",
     "Key": "Schlüssel",
     "Category": "Kategorie"
   },

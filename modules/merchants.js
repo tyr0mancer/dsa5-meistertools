@@ -209,6 +209,10 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
             this.render()
         });
 
+        html.find("a.set-scene-name").click(() => {
+            const name = html.find("input[name='general.tavern-name'")[0].value
+            canvas.scene.update({name})
+        });
 
     }
 

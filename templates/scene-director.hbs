@@ -31,6 +31,20 @@
                     {{/select}}
                 </select>
             </div>
+
+
+            <div class="form-group">
+                <label class="label-text">Nur neue Scenen</label>
+                <div>
+                    <input {{checked filter.onlyNew}}
+                            data-dtype="Boolean" class="switch" id="onlyNew"
+                            name="onlyNew" type="checkbox"/>
+                    <label for="onlyNew"></label>
+                    <label for="onlyNew">Nur neue Scenen</label>
+                </div>
+            </div>
+
+
         </div>
         <div class="inner box">
             {{#each selectOptions.keywords}}
@@ -40,23 +54,27 @@
 
     </div>
 
-    {{#each scenes}}
-        <div class="scene-director box header {{source}}">
-            <h2>{{name}}</h2>
+    <div class="box header">
+        <h2>{{#toggle "world-scenes:" _expandedTargets}}In Welt{{/toggle}}</h2>
+
+        {{#collapsible "world-scenes:" _expandedTargets}}
             <div class="float">
-                {{#each scenes}}
+                {{#each ../worldScenes}}
                     {{#with data}}
                         <div class="inner box header">
                             <h3>{{name}}</h3>
-                            <figure><img class="scene-thumb" data-scene-id="{{_id}}"
-                                         data-scene-source="{{../../source}}"
-                                         src="{{img}}" title="Szene '{{name}}' ansehen"/></figure>
+                            <figure class="scene-thumb"><img class="scene-thumb" data-scene-id="{{_id}}"
+                                                             data-scene-source="folder"
+                                                             src="{{img}}" title="Szene '{{name}}' ansehen"/></figure>
+
                             {{#with flags.dsa5-meistertools}}
-                                <hr/>
                                 {{#if biome}}
-                                    <h3><i class="fas fa-globe"></i> {{biome.name}}</h3>
+                                    <div class="scene-list biome">
+                                        <h3><i class="fas fa-globe"></i> {{biome.name}}</h3>
+                                    </div>
                                 {{/if}}
                                 {{#if regions}}
+                                    <hr/>
                                     <h3><a class="toggle show" data-target=".region-list-{{../../_id}}"><i
                                             class="fas fa-globe-europe"></i> {{regions.length}} Karteneinträge</a></h3>
                                     <div class="inner box region-list-{{../../_id}} hidden">
@@ -65,26 +83,50 @@
                                         {{/each}}
                                     </div>
                                 {{/if}}
-                                {{#if props}}
-                                    <div class="inner box">
-                                        {{#each props}}
-                                            <h3><i class="fas fa-globe-europe"></i></h3>
-                                            <pre>{{stringify this}}</pre>
-                                        {{/each}}
-                                    </div>
-                                {{/if}}
                             {{/with}}
-                            <div>
-                                {{#each flags.dsa5-meistertools.props}}
-                                    <h3><i class="fas fa-globe-europe"></i></h3>
-                                    <pre>{{stringify this}}</pre>
-                                {{/each}}
-                            </div>
                         </div>
                     {{/with}}
                 {{/each}}
             </div>
+        {{/collapsible}}
+
+    </div>
+
+    <div class="box header">
+        <h1>Kompendium</h1>
+        <div class="float">
+            {{#each packScenes}}
+                <div class="inner box header {{#if inWorld}}in-world{{/if}}">
+                    {{#with data}}
+                        <h3>{{name}}</h3>
+                        <figure class="scene-thumb">
+                            <img class="scene-thumb" data-scene-id="{{_id}}" data-scene-source="pack"
+                                 src="{{img}}" title="Szene '{{name}}' ansehen"/>
+                        </figure>
+
+
+                        {{#with flags.dsa5-meistertools}}
+                            {{#if biome}}
+                                <div class="scene-list biome">
+                                    <h3><i class="fas fa-globe"></i> {{biome.name}}</h3>
+                                </div>
+                            {{/if}}
+                            {{#if regions}}
+                                <hr/>
+                                <h3><a class="toggle show" data-target=".region-list-{{../../_id}}"><i
+                                        class="fas fa-globe-europe"></i> {{regions.length}} Karteneinträge</a></h3>
+                                <div class="inner box region-list-{{../../_id}} hidden">
+                                    {{#each regions}}
+                                        <h3><i class="fas fa-globe-europe"></i> "{{region.name}}"</h3>
+                                    {{/each}}
+                                </div>
+                            {{/if}}
+                        {{/with}}
+                    {{/with}}
+                </div>
+            {{/each}}
         </div>
-    {{/each}}
+    </div>
+
 
 </form>

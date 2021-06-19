@@ -1,91 +1,63 @@
 <div class="tab general" data-tab="locations">
 
     <div class="box header">
-        <h1>{{#toggle "region-categories-list" _expandedTargets}}{{localize
-                "MeisterSettings.RegionCategories"}}{{/toggle}}</h1>
-        <div class="top-bar">
-            <a class="insert-entry" data-path="region-categories-list"><i class="fas fa-plus-square"></i></a>
-        </div>
-        <p>{{localize "Help.Locations.RegionCategories"}}</p>
-        {{#collapsible "region-categories-list" _expandedTargets}}
-            {{#each ../locations.regionCategories as |this n|}}
-                <div class="inner box header">
-                    <div class="top-bar">
-                        <a class="sort-up"><i class="fas fa-sort-up"></i></a>
-                        <a class="remove-entry"><i class="fas fa-trash-alt"></i></a>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-text">{{localize "MeisterSettings.Name"}}</label>
-                        <input type="text" value="{{name}}" name="locations.regionCategories[{{n}}].name"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-text">{{localize "MeisterSettings.Key"}}</label>
-                        <input type="text" value="{{key}}" name="locations.regionCategories[{{n}}].key"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-text">{{localize "MeisterSettings.DrawingStyle"}}</label>
-                        <textarea name="locations.regionCategories[{{n}}].style" data-dtype="JSON">{{stringify
-                                style}}</textarea>
-                    </div>
-                </div>
-            {{/each}}
-        {{/collapsible}}
-    </div>
+        <h1>Regionen</h1>
 
 
-    <div class="box header">
-        <h1>{{#toggle "biomes-list" _expandedTargets}}{{localize "MeisterSettings.Biomes"}}{{/toggle}}</h1>
-        <div class="top-bar">
-            <a class="insert-entry" data-path="biomes-list"><i class="fas fa-plus-square"></i></a>
-        </div>
-        <p>{{localize "Help.Locations.Biomes"}}</p>
+        <label class="label-text">{{localize "MeisterSettings.Pack"}}</label>
+        <select name="locations.locationsCollection">
+            {{#select locations.locationsCollection}}
+                <option></option>
+                {{#each itemPacks}}
+                    <option value="{{collection}}">{{metadata.label}} ({{collection}})</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        <button>update from pack</button>
 
-        {{#collapsible "biomes-list" _expandedTargets}}
-            {{#each ../locations.biomes as |this n|}}
-                <div class="inner box header item">
-                    <div class="top-bar">
-                        <a class="sort-up"><i class="fas fa-sort-up"></i></a>
-                        <a class="remove-entry"><i class="fas fa-trash-alt"></i></a>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-text">{{localize "MeisterSettings.Name"}}</label>
-                        <input type="text" value="{{name}}" name="locations.biomes[{{n}}].name"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-text">{{localize "MeisterSettings.Key"}}</label>
-                        <input type="text" value="{{key}}" name="locations.biomes[{{n}}].key"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-text">{{localize "MeisterSettings.Herbmod"}}</label>
-                        <input type="text" value="{{herbmod}}" name="locations.biomes[{{n}}].herbmod"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-text">{{localize "MeisterSettings.ImagePath"}}</label>
-                        <div class="form-fields">
-                            {{filePicker target=(concat 'locations.biomes[' (concat n '].img')) type="imagevideo"}}
-                            <input class="image" type="text" name="locations.biomes[{{n}}].img"
-                                   placeholder="path/image.png" value="{{img}}"/>
+
+        <div class="box header">
+
+            <h2>{{#toggle "region-categories-list" _expandedTargets}}{{localize
+                    "MeisterSettings.RegionCategories"}}{{/toggle}}</h2>
+            <div class="top-bar">
+                <a class="insert-entry" data-path="region-categories-list"><i class="fas fa-plus-square"></i></a>
+            </div>
+            <p>{{localize "Help.Locations.RegionCategories"}}</p>
+            {{#collapsible "region-categories-list" _expandedTargets}}
+                <div id="region-categories-list">
+                    {{#each ../locations.regionCategories as |this n|}}
+                        <div class="inner box header">
+                            <div class="top-bar">
+                                <a class="sort-up"><i class="fas fa-sort-up"></i></a>
+                                <a class="remove-entry"><i class="fas fa-trash-alt"></i></a>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-text">{{localize "MeisterSettings.Name"}}</label>
+                                <input type="text" value="{{name}}" name="locations.regionCategories[{{n}}].name"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-text">{{localize "MeisterSettings.Key"}}</label>
+                                <input type="text" value="{{key}}" name="locations.regionCategories[{{n}}].key"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-text">{{localize "MeisterSettings.DrawingBackground"}}</label>
+                                <select name="locations.regionCategories[{{n}}].style.fillColor">
+                                    {{#select style.fillColor}}
+                                        <option></option>
+                                        <option value="random">zufällige Farbe</option>
+                                        <option value="#ff0000">rot</option>
+                                        <option value="#00ff00">grün</option>
+                                        <option value="#0000ff">blau</option>
+                                    {{/select}}
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                    {{/each}}
                 </div>
-            {{/each}}
-        {{/collapsible}}
-    </div>
-
-
-    <div class="inner box header">
-        <h2>{{localize "MeisterSettings.Regions"}}</h2>
-        <div class="top-bar">
-            <a class="toggle {{#unless _expandedTargets.regions}}show{{/unless}}"
-               data-target=".regions"><i class="fab fa-js"></i></a>
-        </div>
-        <p>{{localize "Help.Locations.Regions"}}</p>
-        <div class="regions {{#unless _expandedTargets.regions}}hidden{{/unless}}">
-            <textarea class="large" name="locations.regions" data-dtype="JSON">{{stringify
-                    locations.regions}}</textarea>
+            {{/collapsible}}
         </div>
     </div>
-
 
 </div>
 

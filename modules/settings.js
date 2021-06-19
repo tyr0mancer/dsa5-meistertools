@@ -19,6 +19,7 @@ export default class MeistertoolsSettings extends MeisterApplication {
         this._reloadSettings()
         this.selectOptions = {
             actorPacks: game.packs.filter(p => p.metadata.entity === 'Actor'),
+            itemPacks: game.packs.filter(p => p.metadata.entity === 'Item'),
             scenePacks: game.packs.filter(p => p.metadata.entity === 'Scene'),
             sceneFolders: game.folders.entities.filter(f => f.type === "Scene"),
             actorFolders: game.folders.entities.filter(f => f.type === "Actor"),
@@ -230,8 +231,11 @@ export default class MeistertoolsSettings extends MeisterApplication {
 
     _updateObject(event, formData) {
         formData = Meistertools.expandObjectAndArray(formData)
+        console.log(formData)
         for (let {key: category} of MeistertoolsSettings.categories) {
             mergeObject(this.settings[category], formData[category])
+            if (category === "locations")
+                console.log(this.settings[category])
             game.settings.set(moduleName, category, this.settings[category]);
         }
         this._callHook()

@@ -19,7 +19,6 @@ export default class MeistertoolsMerchantSheet extends ActorSheetdsa5NPC {
         this.packOptions = []
         this.paymentMessages = []
         this.displayMessages = []
-        console.clear()
 
         this.ownStuff = []
         this.offeredStuff = []

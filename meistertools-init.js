@@ -92,28 +92,8 @@ Hooks.once('init', async () => {
  */
 Hooks.on('renderSceneControls', async (controls, html) => {
     await MeistertoolsControls.registerControls(controls, html)
-    controls.controls.find(c => (c.name === "token")).tools.push({
-        name: "players-view",
-        title: 'DSA MeisterTools',
-        icon: "fas fa-eye",
-        button: true,
-        onClick: (ev) => MeistertoolsControls._openApp(ev, html)
-    })
 });
 
-
-/**
- * Add Entries to the SceneControl
- */
-Hooks.on("getSceneControlButtons", (controls, html) => {
-    controls.find(c => (c.name === "token")).tools.push({
-        name: "players-view",
-        title: 'DSA MeisterTools',
-        icon: "fas fa-eye",
-        button: true,
-        onClick: (ev) => MeistertoolsControls._openApp(ev, html)
-    })
-})
 
 
 /**

@@ -36,20 +36,23 @@ export default class SceneDirector extends MeisterApplication {
         const filter = (s) => {
             if (this.filter.keyword && !s.name.toLowerCase().includes(this.filter.keyword.toLowerCase()))
                 return false
-
             if (this.filter.biome && this.filter.biome !== s.data.flags[moduleName]?.biome?.key)
                 return false
-
-            if (this.filter.playlist)
-                return this.filter.playlist === s.data.flags[moduleName]?.playlistName
+            if (this.filter.onlyNew)
+                return !s.inWorld
             return true
         }
+
+        const worldSceneImages = this.scenes.folder.map(f => f.data.img)
+        this.scenes.pack = this.scenes.pack.map(p => {
+            p.inWorld = worldSceneImages.includes(getSourceFromThumb(p.data.img))
+            return p
+        })
+
         return {
             filter: this.filter,
-            scenes: [
-                {source: "folder", name: "In Welt", scenes: this.scenes.folder?.filter(filter) || []},
-                {source: "pack", name: "Aus Kompendium", scenes: this.scenes.pack?.filter(filter) || []}
-            ],
+            worldScenes: this.scenes.folder?.filter(filter) || [],
+            packScenes: this.scenes.pack?.filter(filter) || [],
             activeCollection: this.activeCollection,
             selectOptions: {
                 sceneCollections: this.settings.sceneCollections,
@@ -77,6 +80,7 @@ export default class SceneDirector extends MeisterApplication {
                 await scene.update({"img": img})
             }
             await scene.view()
+            await this._reloadCollection()
             return this.close()
         })
 
@@ -92,8 +96,8 @@ export default class SceneDirector extends MeisterApplication {
             this.render()
         })
 
-        html.find("select[name=playlist]").change(event => {
-            this.filter.playlist = event.currentTarget.value
+        html.find("input[name=onlyNew]").change(event => {
+            this.filter.onlyNew = event.currentTarget.checked
             this.render()
         })
 
@@ -125,9 +129,7 @@ export default class SceneDirector extends MeisterApplication {
 
     }
 
-    async _pickCollection(index = 0) {
-        console.clear()
-        this.activeCollection = this.settings.sceneCollections[index]
+    async _reloadCollection() {
         this.folder = await Meistertools.getFolder(this.activeCollection.folder, "Scene")
         this.scenes.folder = this.folder.content
         this.pack = game.packs.get(this.activeCollection.collection)
@@ -142,8 +144,10 @@ export default class SceneDirector extends MeisterApplication {
                 const folder = await new FileBrowser().browse(path)
                 for (let img of folder.files) {
                     const {name: tmpName, keywords} = getKeyAndName(img)
-                    //console.log(tmpName, keywords)
-                    const scene = {name: `${name} ${keywords} ${tmpName}`, data: {img, name: `${name} - ${keywords || tmpName}`, _id}}
+                    const scene = {
+                        name: `${name} ${keywords} ${tmpName}`,
+                        data: {img, name: `${name} - ${keywords || tmpName}`, _id}
+                    }
                     mergeObject(scene, {data: {flags: {"dsa5-meistertools": {biome, playlistName}}}})
                     this.scenes.pack.push(scene)
                 }
@@ -151,6 +155,12 @@ export default class SceneDirector extends MeisterApplication {
         } else {
             this.scenes.pack = await this.pack?.getContent() || []
         }
+    }
+
+
+    async _pickCollection(index = 0) {
+        this.activeCollection = this.settings.sceneCollections[index]
+        await this._reloadCollection()
     }
 
     /**

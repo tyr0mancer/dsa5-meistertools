@@ -35,6 +35,7 @@
     "DynamicMap": "Dynamische Szenen",
     "Herbmod": "Modifikator Pflanzensuche",
     "DrawingStyle": "Stil der Karten-Zeichnungen",
+    "DrawingBackground": "Karten-Zeichnungen Hintergrund",
     "ImagePath": "Bildpfad"
   },
   "Availability": {
@@ -75,5 +76,7 @@
       "Biomes": " ",
       "RegionCategories": " "
     }
-  }
+  },
+
+  "unknown": "unbekannt"
 }

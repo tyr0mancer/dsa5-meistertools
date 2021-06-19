@@ -232,17 +232,27 @@ export class MeistertoolsRarity extends Application {
 
     static get rarityOptions() {
         return [
-            {key: 0, short: "nie", name: 'nie'},
-            {key: 1, short: "1/5", name: 'fast nie'},
-            {key: 2, short: "2/5", name: 'selten'},
-            {key: 3, short: "3/5", name: 'normal'},
-            {key: 4, short: "4/5", name: 'oft'},
-            {key: 5, short: "5/5", name: 'sehr oft'}
+            {key: undefined, short: "?", name: 'Availability.unknown'},
+            {key: 0, short: "nie", name: 'Availability.none'},
+            {key: 1, short: "1/5", name: 'Availability.very-rare'},
+            {key: 2, short: "2/5", name: 'Availability.rare'},
+            {key: 3, short: "3/5", name: 'Availability.normal'},
+            {key: 4, short: "4/5", name: 'Availability.common'},
+            {key: 5, short: "5/5", name: 'Availability.very-common'}
         ]
     }
 
+    static get regionTypes() {
+        return {
+            "city": "Region.city",
+            "province": "Region.province",
+            "realm": "Region.realm",
+            "biome": "Region.biome",
+        }
+    }
+
     static rarityDescription(rarity = this.defaultRarity) {
-        return this.rarityOptions.find(e => e.key === rarity)?.name
+        return this.rarityOptions.find(e => e.key === rarity)?.name || "unknown"
     }
 
     static cleanRarity(rarity) {

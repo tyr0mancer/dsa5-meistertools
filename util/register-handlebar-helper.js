@@ -3,9 +3,14 @@ import {MeistertoolsRarity} from "../src/rarity.js";
 
 export const HandlebarHelper = {
     stringify: (obj, formatted) => (formatted === true) ? new Handlebars.SafeString(`<pre>${JSON.stringify(obj, null, 2)}</pre>`) : JSON.stringify(obj, null, 2),
-    display_rarity: (rarity, title) => {
+    display_rarity: (rarity, comment = "", showRarityDescription = false) => {
+        rarity = parseInt(rarity)
         if (rarity === undefined) return ``
-        const result = `<span class="rarity star${rarity}" title="${MeistertoolsRarity.rarityDescription(rarity)} ${title}"> </span>`
+        const desc = game.i18n.localize(MeistertoolsRarity.rarityDescription(rarity))
+        if (typeof comment !== "string") comment = ""
+        const description = showRarityDescription ? desc : ""
+        const title = `${desc} ${comment}`
+        const result = `<span class="rarity star${rarity}" title="${title}"> ${description}</span>`
         return new Handlebars.SafeString(result);
     },
     /**

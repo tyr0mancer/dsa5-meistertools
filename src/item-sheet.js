@@ -42,6 +42,8 @@ export class ItemAvailabilityDSA5 extends ItemSheetdsa5 {
         if (key === "general") {
             if (value < 0 && !general)
                 general = ""
+            else if (general === undefined || general === "")
+                general = MeistertoolsRarity.defaultRarity
             else {
                 general = parseInt(general) + value || 0
                 if (general > 5) general = 5

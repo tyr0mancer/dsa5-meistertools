@@ -111,7 +111,7 @@ export class MeistertoolsRarity extends Application {
         )
 
         html.find("a.calculate-current-rarity").click(() => {
-            this.entities.forEach(async entity => await MeistertoolsRarity.getCurrentRarity(entity, this.currentTag, true))
+            this.entities.forEach(async entity => await MeistertoolsRarity.calculateRarity(entity, this.currentTag, true))
             this.render()
         })
 
@@ -275,7 +275,7 @@ export class MeistertoolsRarity extends Application {
         }
     }
 
-    static async getCurrentRarity(item, currentLocation = MeistertoolsLocator.currentLocation, force = false) {
+    static async calculateRarity(item, currentLocation = MeistertoolsLocator.currentLocation, force = false) {
         const rarity = item.data.data?.rarity
         if (!rarity) return this.defaultRarity
         let current

@@ -1,4 +1,5 @@
 import {moduleName} from "../meistertools.js";
+import {PlayersView} from "../src/players-view.js";
 
 /**
  * MeisterTools Controls
@@ -12,7 +13,7 @@ export default class MeistertoolsControls {
      * Add MeisterTools control panel to the menu
      */
     static async registerControls(controls, html) {
-        const playerBtn = $(`<li class="scene-control player-view" data-tool="players-view" title="${game.i18n.localize("Meistertools.PlayerView")}"><i class="fas fa-dsa5"></i></li>`);
+        const playerBtn = $(`<li class="scene-control player-view" module-name="players-view" no-toggle="true" title="${game.i18n.localize("Meistertools.PlayerView")}"><i class="fas fa-dsa5"></i></li>`);
         html.append(playerBtn);
         const {topMenu} = game.settings.get(moduleName, 'general')
         const meisterBtn = $(`<li class="scene-control meistertools" data-control="meistertools" title="${game.i18n.localize("Meistertools.AppName")}">&nbsp;</li>`);
@@ -23,8 +24,8 @@ export default class MeistertoolsControls {
             html.append(meisterBtn);
         const meisterOptions = $(`<li class="scene-control meistertools menu"><div id="meistertoolsOptions"><ol class="control-tools">${await this._getMenuEntry()}</ol></div></li>`);
         html.append(meisterOptions);
-        html.find('#meistertoolsOptions li.control-tool').click(ev => this._openApp(ev, html))
-        html.find('li.scene-control.player-view').click(ev => this._openApp(ev, html))
+        html.find('#meistertoolsOptions li.control-tool').click(ev => this._openModule(ev, html))
+        html.find('li.scene-control.player-view').click(ev => this._openModule(ev, html))
     }
 
 
@@ -77,8 +78,9 @@ export default class MeistertoolsControls {
     /**
      * Creates new instance of module class if not existing and toggles visibility
      */
-    static _openApp(event, html) {
-        const moduleKey = $(event.currentTarget).attr("data-tool")
+    static _openModule(event, html) {
+        const moduleKey = $(event.currentTarget).attr("data-tool") || $(event.currentTarget).attr("module-name")
+        const noToggle = $(event.currentTarget).attr("no-toggle")
         if (moduleKey) {
             let isB = false
             if (game.meistertools.applications[moduleKey] === undefined) {
@@ -94,7 +96,14 @@ export default class MeistertoolsControls {
             else
                 $(event.currentTarget).addClass('active')
 
-            game.meistertools.applications[moduleKey].toggle()
+            if (noToggle) {
+                game.meistertools.applications[moduleKey].render(true)
+
+            } else {
+                game.meistertools.applications[moduleKey].toggle()
+            }
         }
     }
+
+
 };

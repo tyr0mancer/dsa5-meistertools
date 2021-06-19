@@ -350,7 +350,7 @@ async function rollCategory(category, {quality, price}) {
     const results = []
     for (const item of itemsArray) {
         const rarity = filterRarity
-            ? await MeistertoolsRarity.getCurrentRarity(item) || MeistertoolsRarity.defaultRarity
+            ? await MeistertoolsRarity.calculateRarity(item) || MeistertoolsRarity.defaultRarity
             : MeistertoolsRarity.defaultRarity
 
         if (item?.compendium)

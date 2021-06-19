@@ -2,6 +2,7 @@ import ItemSheetdsa5 from "../../../systems/dsa5/modules/item/item-sheet.js";
 import DSA5 from "../../../systems/dsa5/modules/system/config-dsa5.js"
 import {moduleName} from "../meistertools.js";
 import {MeistertoolsRarity} from "./rarity.js";
+import {MeistertoolsLocator} from "./locator.js";
 
 export class ItemRegionDSA5 extends ItemSheetdsa5 {
     constructor(item, options) {
@@ -30,6 +31,11 @@ export class ItemAvailabilityDSA5 extends ItemSheetdsa5 {
         options.height = 570
         super(item, options);
         this.mce = null;
+
+        Hooks.on(moduleName + ".update-location", (newLocation) => {
+            this.render()
+        });
+
     }
 
     get template() {
@@ -94,13 +100,26 @@ export class ItemAvailabilityDSA5 extends ItemSheetdsa5 {
             const value = (event.which === 3) ? -1 : 1
             await this.updateRarity({key, category, value})
         })
+
+        html.find("button.reset-rarity").click(() => {
+            this.item.update({"data.rarity": []})
+            this.item.update({"data.rarity": {general: null, regions: [], biomes: [], current: null}})
+            this.render()
+        })
+        html.find("button.calculate-rarity").click(async () => {
+            const current = await MeistertoolsRarity.calculateRarity(this.item)
+            this.item.update({"data.rarity": {current}})
+            this.render()
+        })
     }
 
     async getData(options) {
         const data = await super.getData(options);
         data.data.rarity.regions = data.data.rarity.regions.sort((a, b) => b.value - a.value)
         data.data.rarity.biomes = data.data.rarity.biomes.sort((a, b) => b.value - a.value)
+
         data['equipmentTypes'] = DSA5.equipmentTypes;
+        data['currentLocation'] = MeistertoolsLocator.currentLocationExpanded
         return data
     }
 

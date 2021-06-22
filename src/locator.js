@@ -221,27 +221,31 @@ export class LocationPicker extends Dialog {
             this.close()
         });
 
+        function updateLocation(html) {
+            const selectedBiome = html.find("input[name='singleBiomeKey']:checked").val()
+            const selection = {regions: [], biomes: []}
+            html.find("input.region:checked[type='checkbox']").each((i, e) => selection.regions.push(e.id))
+            html.find("input.biome:checked[type='checkbox']").each((i, e) => selection.biomes.push(e.id))
+            const biomeSelection = multipleBiomes ? biomeOptions.filter(r => selection.biomes.includes(r.key)) : biomeOptions.filter(b => b.key === selectedBiome)
+            callback(
+                regionOptions.filter(r => selection.regions.includes(r.key)),
+                biomeSelection
+            )
+        }
+
         super({
-            title: "Region auswählen",
+            title: "Aktuelle Region und Landschafts-Typ",
             content,
             buttons: {
                 apply: {
                     icon: "<i class='fas fa-check'></i>",
                     label: "übernehmen",
-                    callback: (html) => {
-                        const selectedBiome = html.find("input[name='singleBiomeKey']:checked").val()
-                        const selection = {regions: [], biomes: []}
-                        html.find("input.region:checked[type='checkbox']").each((i, e) => selection.regions.push(e.id))
-                        html.find("input.biome:checked[type='checkbox']").each((i, e) => selection.biomes.push(e.id))
-                        const biomeSelection = multipleBiomes ? biomeOptions.filter(r => selection.biomes.includes(r.key)) : biomeOptions.filter(b => b.key === selectedBiome)
-                        callback(
-                            regionOptions.filter(r => selection.regions.includes(r.key)),
-                            biomeSelection
-                        )
-                    }
+                    callback: updateLocation,
                 }
             },
-            default: "apply"
+            default: "apply",
+            close: updateLocation
         });
     }
 }
+

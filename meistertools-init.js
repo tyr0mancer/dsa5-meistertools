@@ -36,12 +36,6 @@ Hooks.once('init', async () => {
         ],
         applications: {},
     }
-    game.meistertools.modules.push({
-        key: "players-view",
-        isButton: true,
-        class: PlayersView
-    })
-
 
     if (showMapMaker)
         game.meistertools.modules.push({
@@ -97,6 +91,26 @@ Hooks.on('renderSceneControls', async (controls, html) => {
     await MeistertoolsControls.registerControls(controls, html)
 });
 
+
+/**
+ * Add Player UI
+ */
+Hooks.on("getSceneControlButtons", (controls) => {
+
+    const {tools} = controls.find(c => c.name === "token")
+    tools.push(        {
+        name: "player-view",
+        title: "Helden Menü",
+        icon: "fas fa-dsa5",
+        onClick: () => {
+            if (game.meistertools.applications['player-view'] === undefined) {
+                game.meistertools.applications['player-view'] = new PlayersView()
+            }
+            game.meistertools.applications['player-view'].toggle()
+        },
+        button: true
+    })
+})
 
 
 /**

@@ -70,7 +70,8 @@ export default class SceneDirector extends MeisterApplication {
             const sceneId = $(event.currentTarget).attr("data-scene-id")
             const sceneSource = $(event.currentTarget).attr("data-scene-source")
             if (sceneSource !== "pack") {
-                const scene = await this.scenes[sceneSource].find(s => s._id === sceneId)
+                const scene = await this.scenes[sceneSource]?.find(s => s._id === sceneId)
+                if (!scene) return
                 await scene.view()
                 return this.close()
             }

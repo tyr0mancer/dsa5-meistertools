@@ -13,8 +13,21 @@ export default class MeistertoolsControls {
      * Add MeisterTools control panel to the menu
      */
     static async registerControls(controls, html) {
-        const playerBtn = $(`<li class="scene-control player-view" module-name="players-view" no-toggle="true" title="${game.i18n.localize("Meistertools.PlayerView")}"><i class="fas fa-dsa5"></i></li>`);
-        html.append(playerBtn);
+/*
+        const {tools} = controls.controls.find(c => c.name === "token")
+        tools.push(        {
+            name: game.i18n.localize("inlineView.gmShare.tools.name"),
+            title: game.i18n.localize("inlineView.gmShare.tools.title"),
+            icon: "fas fa-upload",
+            button: true
+        })
+        console.log(tools)
+        console.log(controls)*/
+
+
+        /*const playerBtn = $(`<li class="scene-control player-view" module-name="players-view" no-toggle="true" title="${game.i18n.localize("Meistertools.PlayerView")}"><i class="fas fa-dsa5"></i></li>`);
+        html.append(playerBtn);*/
+
         const {topMenu} = game.settings.get(moduleName, 'general')
         const meisterBtn = $(`<li class="scene-control meistertools" data-control="meistertools" title="${game.i18n.localize("Meistertools.AppName")}">&nbsp;</li>`);
         meisterBtn[0].addEventListener('click', ev => this.toggleMeisterMenu(ev, html));

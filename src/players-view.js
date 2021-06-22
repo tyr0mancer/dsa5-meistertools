@@ -41,7 +41,7 @@ export class PlayersView extends Application {
             resizable: true,
             template: `modules/${moduleName}/templates/players-view.hbs`,
             id: 'meistertools.players-view',
-            title: 'DSA MeisterTools',
+            title: 'Helden Menü',
             //tabs: [{navSelector: ".tabs", contentSelector: ".content", initial: "initial"}]
         });
     }

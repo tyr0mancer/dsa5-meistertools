@@ -800,7 +800,6 @@ a.load-pattern {
 }
 
 
-
 /* ---------------------------------
     Settings
  --------------------------------- */
@@ -861,6 +860,27 @@ div.box.in-world {
 }
 
 
+.meistertools .rulebook-menu {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 250px auto;
+}
+
+.meistertools .rulebook-menu .select-rule {
+    grid-template-columns: 48px auto;
+    cursor: pointer;
+    display: grid;
+    grid-gap: 10px;
+}
+
+.meistertools .rulebook-menu .select-rule:hover {
+    background-color: var(--color-light);
+}
+
+
+.meistertools .rulebook-menu button {
+    width: 100%;
+}
 
 
 /* ---------------------------------
@@ -876,6 +896,7 @@ div.box.in-world {
     -webkit-transition: .3s ease-in-out;
     transition: .3s ease-in-out;
 }
+
 .meistertools figure.thumb img:hover {
     -webkit-transform: scale(1.3);
     transform: scale(1.3);
@@ -889,7 +910,6 @@ div.box.in-world {
     background: #fff;
     overflow: hidden;
 }
-
 
 
 .meistertools figure.thumb.small img {

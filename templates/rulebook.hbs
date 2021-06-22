@@ -1,17 +1,16 @@
 <form>
-    <div class="col-2" style="grid-template-columns: 250px auto">
+    <div class="rulebook-menu">
         <div>
-            <div class="inner box header">
-                <h2>Favoriten</h2>
-                <div><a class="select-rule" data-rule-key="talents"><i class="fas fa-tools"></i> Talentproben</a></div>
-            </div>
-
             <div class="inner box header">
                 <h2>Fokusregeln</h2>
                 {{#each ruleBooks}}
-                    <h2 class="select-rule" data-rule-key="{{_id}}"><img src="{{img}}"/> {{name}}</h2>
+                    <div class="select-rule" data-rule-key="{{_id}}">
+                        <img src="{{img}}"/>
+                        <h3>{{name}}</h3>
+                    </div>
                 {{/each}}
             </div>
+            <button class="bold select-rule" data-rule-key="talents" type="button">Talentproben</button>
         </div>
 
         <div>

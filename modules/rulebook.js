@@ -123,7 +123,7 @@ export default class RuleBook extends MeisterApplication {
             this.render()
         })
 
-        html.find("button").click(event => {
+        html.find("button.request-roll").click(event => {
             const requestIndex = $(event.currentTarget).attr("data-request-index")
             const actionIndex = $(event.currentTarget).attr("data-action-index") || ""
             const talent = $(event.currentTarget).attr("data-talent")

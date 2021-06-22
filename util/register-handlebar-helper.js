@@ -3,6 +3,7 @@ import {MeistertoolsRarity} from "../src/rarity.js";
 
 export const HandlebarHelper = {
     stringify: (obj, formatted) => (formatted === true) ? new Handlebars.SafeString(`<pre>${JSON.stringify(obj, null, 2)}</pre>`) : JSON.stringify(obj, null, 2),
+
     display_rarity: (rarity, comment = "", showRarityDescription = false) => {
         rarity = parseInt(rarity)
         if (rarity === undefined) return ``

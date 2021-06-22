@@ -9,7 +9,7 @@ export default {
         "collection": "dsa5-homebrew.scene-dynamic-bm",
         "folder": "Meistertools - BM",
         "name": "Battlemaps",
-        "keywords": "main-road,side-road,statue,river",
+        "keywords": "side-road,river,building,clearing,main-road,fork,bridge,lake,waterfall,entrance,house,ravine",
         "isDynamicMap": true
     }, {
         "collection": "dsa5-meistertools.scenes-maps",
@@ -19,3 +19,4 @@ export default {
     }]
     , "updatePlaylist": true, "defaultPlaylist": ""
 }
+

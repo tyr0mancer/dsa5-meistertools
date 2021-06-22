@@ -1,27 +1,76 @@
 <form>
+    <div class="box header">
+        <h1>{{regeln.name}}</h1>
+        <img src="{{regeln.img}}"/>
+        {{#each regeln.actions as |this i|}}
 
-    <div class="box float player-actors">
-        {{#each options.players}}
-            <div>
-                <input id="player-{{_id}}" type="checkbox"
-                       name="player-{{_id}}"/>
-                <label for="player-{{_id}}">{{name}} </label>
+            <div class="box float player-actors">
+                {{#each ../options.players}}
+                    <div>
+                        <input id="player-{{i}}-{{_id}}" type="checkbox"
+                               name="player-{{i}}-{{_id}}"/>
+                        <label for="player-{{i}}-{{_id}}">{{name}} </label>
+                    </div>
+                {{/each}}
             </div>
+
+            <h1>{{name}}</h1>
+            <p>{{text}}</p>
+
+            {{#each requests as |this j|}}
+                <div class="inner box header">
+                    <h2>{{name}}</h2>
+                    <p>{{text}}</p>
+                    {{#each variations as |this k|}}
+                        <h3><b>{{name}}</b> (Dauer {{duration}})</h3>
+                        <div class="form-group">
+                            <label class="label-text">Modifikator</label>
+                            <input class="input-text" type="text" name="modifier-{{i}}-{{j}}-{{k}}"
+                                   value="{{baseModifier}}" data-dtype="Number"/>
+                        </div>
+                        {{#each modifierOptions as |modifierName m|}}
+                            <div class="form-group">
+                                <label class="label-text">{{modifierName}}</label>
+                                <select name="modifier-{{i}}-{{j}}-{{k}}" data-dtype="Number">
+                                    <option value="+5">+5 - Extreme Erleichterung</option>
+                                    <option value="+3">+3 - Erleichterung</option>
+                                    <option value="0" selected>Keine Veränderung</option>
+                                    <option value="-3">-3 - Erleichterung</option>
+                                    <option value="-5">-5 - Erleichterung</option>
+                                </select>
+                            </div>
+                        {{/each}}
+                        <div class="form-group">
+                            <label class="label-text">sonstige</label>
+                            <input class="input-text" type="text" name="modifier-{{i}}-{{j}}-{{k}}" value=""
+                                   data-dtype="Number"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-text"></label>
+                            <button data-request-index="{{i}}-{{j}}-{{k}}" data-action-index="{{i}}"
+                                    data-request="{{roll}}" type="button">Probe auf {{roll}} anfordern
+                            </button>
+                        </div>
+                    {{/each}}
+
+                    <table>
+                        <tr>
+                            <th>Ergebnis</th>
+                            <th>Konsequenzen</th>
+                        </tr>
+                        {{#each consequences as |this l|}}
+                            <tr>
+                                <td>{{result}}</td>
+                                <td>{{consequence}}</td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            {{/each}}
+
+            {{#if source.name}}
+                <div><b>Quelle:</b> <a href="{{source.href}}">{{source.name}}</a></div>
+            {{/if}}
         {{/each}}
-    </div>
-
-
-    <div class="float">
-        {{#each players}}
-            <div class="inner box player-selection checked">
-                <!--<textarea>{{stringify character}}</textarea>-->
-                <img src="{{character.img}}" style="width:64px"/>
-
-            </div>
-        {{/each}}
-    </div>
-    <div class="box">
-        Regel usw.
-
     </div>
 </form>

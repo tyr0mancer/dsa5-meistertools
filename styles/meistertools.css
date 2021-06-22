@@ -842,6 +842,29 @@ div.box.in-world {
     background-color: var(--color-quaternary);
 }
 
+/* ---------------------------------
+    Roll Request
+ --------------------------------- */
+
+.meistertools.rulebook th,
+.meistertools.rulebook td {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.meistertools table.roll-result .roll-outcome {
+    width: 48px;
+    font-weight: bold !important;
+}
+
+.meistertools.rulebook h2 {
+    margin-top: 24px;
+}
+
+.meistertools.rulebook table.roll-request {
+    margin-top: 16px;
+}
+
 
 
 

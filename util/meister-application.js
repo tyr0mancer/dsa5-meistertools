@@ -1,4 +1,4 @@
-import {moduleName} from "../meistertools.js";
+import {Meistertools, moduleName} from "../meistertools.js";
 
 export class MeisterApplication extends FormApplication {
     constructor(moduleKey) {
@@ -37,6 +37,12 @@ export class MeisterApplication extends FormApplication {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {top: 50, left: 110});
     }
+
+    _updateObject(event, formData) {
+        formData = Meistertools.expandObjectAndArray(formData)
+        console.log(formData)
+    }
+
 
     activateListeners(html) {
         super.activateListeners(html);

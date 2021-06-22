@@ -1,0 +1,50 @@
+<div class="box header">
+    <h1>Talentproben</h1>
+
+    <div class="top-bar">
+        {{#if selections.groupTalents}}
+            <h3>
+                <a class="set-data" data-name="groupTalents" data-dtype="Boolean" data-val="false">
+                    <i class="far fa-object-ungroup"></i> in einer Liste
+                </a>
+            </h3>
+        {{else}}
+            <h3>
+                <a class="set-data" data-name="groupTalents" data-dtype="Boolean" data-val="true">
+                    <i class="far fa-object-group"></i> gruppieren
+                </a>
+            </h3>
+        {{/if}}
+    </div>
+
+
+    <div class="float">
+        {{#each players}}
+            <div>
+                <input id="player-{{_id}}" type="checkbox" class="player" name="player--{{_id}}"/>
+                <label for="player-{{_id}}">{{name}} </label>
+            </div>
+        {{/each}}
+    </div>
+
+    {{#if selections.groupTalents}}
+        {{#each skillGroups as |group n|}}
+            <div class="inner box header">
+                <h2 class="toggle show skills {{group.name}}" data-target="#skillgroup-{{n}}">{{localize
+                        (concat "SKILL." group.name)}}</h2>
+                <div id="skillgroup-{{n}}" class="hidden">
+                    {{#each group.skills as |skill k|}}
+                        {{> modules/dsa5-meistertools/templates/rulebook/skill.hbs skill=skill id=(concat n (concat "-" k))}}
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        <div class="inner box header">
+            <h2>Alle Talente</h2>
+            {{#each skills as |skill k|}}
+                {{> modules/dsa5-meistertools/templates/rulebook/skill.hbs skill=skill id=(concat k)}}
+            {{/each}}
+        </div>
+    {{/if}}
+</div>

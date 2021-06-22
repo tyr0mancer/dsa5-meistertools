@@ -28,6 +28,13 @@
   ],
   "packs": [
     {
+      "name": "journal-regeln",
+      "label": "Haus- und Fokusregeln",
+      "path": "packs/journal-regeln.db",
+      "private": false,
+      "entity": "JournalEntry"
+    },
+    {
       "name": "item-tavern",
       "label": "Tavernen",
       "path": "packs/item-tavern.db",

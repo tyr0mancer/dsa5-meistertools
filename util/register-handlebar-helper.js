@@ -114,7 +114,7 @@ export const HandlebarHelper = {
             ]
             for (const {value, label, defaultText, regex} of modifiers) {
                 const match = regex.exec(description)
-                result += `<option value="${value}">${label} ≙ ${match ? match[1] : defaultText}</option>`
+                result += `<option value="${value}" ${!value ? "selected" : ""}>${label} ≙ ${match ? match[1] : defaultText}</option>`
             }
             return new Handlebars.SafeString(result);
         }

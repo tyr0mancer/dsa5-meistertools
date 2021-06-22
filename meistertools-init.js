@@ -83,6 +83,9 @@ Hooks.once('init', async () => {
         "modules/dsa5-meistertools/templates/item/item-rarity.hbs",
         "modules/dsa5-meistertools/templates/item/item-region.hbs",
         "modules/dsa5-meistertools/templates/actor/merchant-gm.hbs",
+        "modules/dsa5-meistertools/templates/rulebook/talents.hbs",
+        "modules/dsa5-meistertools/templates/rulebook/rulebook.hbs",
+        "modules/dsa5-meistertools/templates/rulebook/skill.hbs"
     ])
 });
 

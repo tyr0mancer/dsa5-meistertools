@@ -326,11 +326,6 @@ async function rollCategory(category, {quality, price}) {
             const e = await game.packs.get(data.collection).getEntity(data.resultId)
             if (e)
                 itemsArray.push(e)
-            else {
-                const pack = game.packs.get(data.collection)
-                const x = pack.get(data.resultId)
-                // todo item isnt in the compendium (any more?)
-            }
         }
     } else if (sourceType === "items") {
         const pack = game.packs.get(sourceId)
@@ -363,7 +358,7 @@ async function rollCategory(category, {quality, price}) {
                 img: item.img,
                 drawn: false,
                 range: [-1, -1],
-                flags: {}
+                flags: {rarity}
             })
     }
 
@@ -387,6 +382,7 @@ async function rollCategory(category, {quality, price}) {
         const item = await p?.getEntity(data.resultId)
         const price = parseInt(Math.floor(item?.data.data.price.value * sellFactor * 100).toString().replace(/./g, (c, i) => i <= 1 ? c : "0")) / 100
         const link = `@Compendium[${item.pack}.${item.id}]{${item.name}}`
-        category.current.push({item, visible: false, price, link})
+        const rarity = data.flags.rarity
+        category.current.push({item, visible: false, price, link, rarity})
     }
 }

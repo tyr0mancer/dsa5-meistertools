@@ -261,7 +261,7 @@
                                                                 {{{data.description.value}}}
                                                             </div>
                                                         </td>
-                                                        <td>{{display_rarity data.rarity.current}}</td>
+                                                        <td>{{display_rarity ../rarity}}</td>
                                                         <td class="price">{{{money ../price}}}</td>
                                                         <td class="cart">
                                                             <a class="add-to-cart" data-entry-id="{{_id}}"
@@ -271,7 +271,7 @@
                                                             <a class="serve-now" data-entry-id="{{_id}}"
                                                                data-category-id="{{n}}"><i
                                                                     class="fas fa-concierge-bell"></i></a>
-                                                            
+
                                                         </td>
                                                     </tr>
                                                 {{/with}}

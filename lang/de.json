@@ -53,8 +53,8 @@
   "Region": {
     "city": "Städte & Stätten",
     "province": "Provinz",
-    "realm": "Reich",
-    "biome": "Landschaft"
+    "land": "Sonstige Areale",
+    "realm": "Reich"
   },
   "Location": {
     "current": "Aktueller Aufenthaltsort",

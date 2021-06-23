@@ -116,8 +116,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 /**
  * when the locator token is moved, check for the new regions that apply
  */
-Hooks.on("preUpdateToken", async (token, delta, ...param) => {
-    let scene
+Hooks.on("preUpdateToken", async (token, delta) => {
     if (!game.user.isGM || (!delta.x && !delta.y)) return
     if (MeistertoolsLocator.currentLocatorToken === token._id) {
         mergeObject(token.data, delta)

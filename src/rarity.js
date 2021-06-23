@@ -244,10 +244,10 @@ export class MeistertoolsRarity extends Application {
 
     static get regionTypes() {
         return {
-            "city": "Region.city",
-            "province": "Region.province",
             "realm": "Region.realm",
-            "biome": "Region.biome",
+            "province": "Region.province",
+            "city": "Region.city",
+            "land": "Region.land",
         }
     }
 

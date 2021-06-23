@@ -1,4 +1,5 @@
 import zutatenNsc from "../config/nsc-factory.config.zutaten.js";
+import zutatenLocations from "../config/locations.config.zutaten.js";
 import scenesHomebrew from "../config/scenes.config.homebrew.js";
 
 export const SECRET_INGREDIENTS = [
@@ -8,6 +9,13 @@ export const SECRET_INGREDIENTS = [
         "module": "dsa5-meistertools-zutaten",
         "category": "nsc-factory",
         "defaultData": zutatenNsc,
+    },
+    {
+        "key": "locations-zutaten",
+        "text": "Zutaten für Regionen und Biome",
+        "module": "dsa5-meistertools-zutaten",
+        "category": "locations",
+        "defaultData": zutatenLocations,
     },
     {
         "key": "scenes-homebrew",

@@ -1,22 +1,25 @@
+//console.clear();console.log(JSON.stringify(game.settings.get("dsa5-meistertools", 'locations').regions))
 export default {
-    "regionCategories": [
-        {"name": "Reiche", "key": "realm", "style": {"fillColor": "random"}},
-        {"name": "Städte und Stätten", "key": "city", "style": {"fillColor": ""}},
-        {"name": "Provinzen", "key": "province", "style": {"fillColor": ""}},
-        {"name": "Sonstige Areale", "key": "land", "style": {"fillColor": ""}}
-    ],
-
+    "regionCategories": [{
+        "name": "Reiche",
+        "key": "realm",
+        "style": {"fillColor": "random"}
+    }, {"name": "Städte und Stätten", "key": "city", "style": {"fillColor": ""}}, {
+        "name": "Provinzen",
+        "key": "province",
+        "style": {"fillColor": ""}
+    }, {"name": "Sonstige Areale", "key": "land", "style": {"fillColor": ""}}],
     "regions": [{
         "name": "Andergast",
         "key": "andergast",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/heraldry/andergast.webp",
         "herbmod": 0
     }, {
         "name": "Shîkanydad",
         "key": "shikanydad",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Wälder und Inseln des Tiefen Südens",
@@ -28,43 +31,43 @@ export default {
         "name": "Herzogtum Paavi",
         "key": "paavi",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Thorwal",
         "key": "thorwal",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/heraldry/thorwal.webp",
         "herbmod": 0
     }, {
         "name": "Riva",
         "key": "riva",
         "category": "city",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Mengbilla",
         "key": "mengbilla",
         "category": "city",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/heraldry/mengbilla.webp",
         "herbmod": 0
     }, {
         "name": "Tulamidenlande",
         "key": "tulamidenlande",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Horasreich",
         "key": "horasreich",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Gjalskerland",
         "key": "gjalskerland",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Hoher Norden",
@@ -76,73 +79,73 @@ export default {
         "name": "Svellttal",
         "key": "svellttal",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Charypso",
         "key": "charypso",
         "category": "city",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Selem & Echsensümpfe",
         "key": "echsensuempfe",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Bornland",
         "key": "bornland",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Aranien",
         "key": "aranien",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/heraldry/zorgan.webp",
         "herbmod": 0
     }, {
         "name": "Schwarzmaraskan",
         "key": "schwarzmaraskan",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Greifenfurt (Markgrafschaft)",
         "key": "greifenfurt",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Albernia (Fürstentum)",
         "key": "albernia",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Bergkönigreiche",
         "key": "bergkoenigreiche",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Bjaldorn",
         "key": "bjaldorn",
         "category": "city",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Rommilyser Mark (Markgrafschaft)",
         "key": "rommilys",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Chorhop",
         "key": "chorhop",
         "category": "city",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Mittelaventurien",
@@ -154,214 +157,214 @@ export default {
         "name": "Nivesenlande",
         "key": "nivesen",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Sultanat Gorien",
         "key": "gorien",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Hôt-Alem",
         "key": "hot-alem",
         "category": "city",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Imperium von Al’Anfa",
         "key": "al-anfa",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/heraldry/al-anfa.webp",
         "herbmod": 0
     }, {
         "name": "Brabak",
         "key": "brabak",
         "category": "city",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Rabenmark (Markgrafschaft)",
         "key": "rabenmark",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Almada (Fürstentum)",
         "key": "almada",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Garetien (Königreich)",
         "key": "garetien",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Perricum (Markgrafschaft)",
         "key": "perricum",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Tobrien (Herzogtum)",
         "key": "tobrien",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Nostria",
         "key": "nostria",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/heraldry/nostria.webp",
         "herbmod": 0
     }, {
         "name": "Orkland",
         "key": "orkland",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Sylla",
         "key": "sylla",
         "category": "city",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Sonnenmark (Kirchenmark)",
         "key": "sonnenmark",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Weiden (Herzogtum)",
         "key": "weiden",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Nordmarken (Herzogtum)",
         "key": "nordmarken",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Freie Städte des Nordens und Elfenlande",
         "key": "elfenlande",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Kosch (Fürstentum)",
         "key": "kosch",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Mittelreich",
         "key": "mittelreich",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/heraldry/gareth.webp",
         "herbmod": 0
     }, {
         "name": "Kalifat und Wüste Khôm",
         "key": "khom",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Warunk (Markgrafschaft)",
         "key": "warunkei",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Windhag (Markgrafschaft)",
         "key": "windhag",
         "category": "province",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }, {
         "name": "Fürstkomturei",
         "key": "fuerstkomturei",
         "category": "realm",
-        "img": "modules/dsa5-meistertools/assets/images/regions/region-icon.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/regions/region-icon.webp",
         "herbmod": 0
     }],
     "biomes": [{
         "name": "Dorf",
         "key": "village",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/village.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/village.webp",
         "herbmod": 0
     }, {
         "name": "Metropolen",
         "key": "metropolis",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/metropolis.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/metropolis.webp",
         "herbmod": 0
     }, {
         "name": "Zur See",
         "key": "ocean",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/ocean.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/ocean.webp",
         "herbmod": 0
     }, {
         "name": "Städte",
         "key": "city",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/city.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/city.webp",
         "herbmod": 0
     }, {
         "name": "Wälder",
         "key": "forest",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/forest.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/forest.webp",
         "herbmod": 0
     }, {
         "name": "Hügel",
         "key": "hills",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/hills.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/hills.webp",
         "herbmod": 0
     }, {
         "name": "Marsch",
         "key": "marsh",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/marsh.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/marsh.webp",
         "herbmod": 0
     }, {
         "name": "Maraskan",
         "key": "maraskan",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/maraskan.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/maraskan.webp",
         "herbmod": 0
     }, {
         "name": "Regenwald",
         "key": "rainforest",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/rainforest.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/rainforest.webp",
         "herbmod": 0
     }, {
         "name": "Wüste",
         "key": "desert",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/desert.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/desert.webp",
         "herbmod": 0
     }, {
         "name": "weite Ebenen",
         "key": "plains",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/plains.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/plains.webp",
         "herbmod": 0
     }, {
         "name": "Steppe",
         "key": "steppe",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/steppe.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/steppe.webp",
         "herbmod": 0
     }, {
         "name": "Gebirge",
         "key": "mountains",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/mountains.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/mountains.webp",
         "herbmod": 0
     }, {
         "name": "Ewiges Eis",
         "key": "arctic",
-        "img": "modules/dsa5-meistertools/assets/images/biomes/arctic.webp",
+        "img": "modules/dsa5-meistertools-zutaten/images/locations/biomes/arctic.webp",
         "herbmod": 0
     }],
     "currentLocation": {"locatorToken": null, "locatorScene": null, "currentRegions": [], "currentBiome": {}},
-    "locationsCollection": "",
+    "locationsCollection": "dsa5-meistertools-zutaten.item-regions",
     "overwriteBiomes": true,
     "overwriteRegions": true,
     "clearBiomes": false,

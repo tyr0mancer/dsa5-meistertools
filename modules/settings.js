@@ -161,7 +161,7 @@ export default class MeistertoolsSettings extends MeisterApplication {
             await this._reload()
             this._callHook()
             ui.notifications.info(game.i18n.localize("MeisterSettings.Installed3rdParty"));
-            AudioHelper.play({src: "sounds/drums.wav", volume: 0.8, loop: false}, false);
+            AudioHelper.play({src: "sounds/drums.wav", volume: 0.2, loop: false}, false);
         }
 
     }

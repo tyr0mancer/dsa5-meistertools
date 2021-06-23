@@ -82,40 +82,29 @@ export const HandlebarHelper = {
      */
     "skill_options":
         (description) => {
-            let result = ``
             const modifiers = [
-                {
-                    value: 5, label: "+5", defaultText: "extrem leichte Probe",
-                    regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">\+5/
-                },
-                {
-                    value: 3, label: "+3", defaultText: "sehr leichte Probe",
-                    regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">\+3/
-                },
-                {
-                    value: 1, label: "+1", defaultText: "leichte Probe",
-                    regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">\+1/
-                },
-                {
-                    value: 0, label: "+-0", defaultText: "normale Probe",
-                    regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">\+-0/
-                },
-                {
-                    value: -1, label: "-1", defaultText: "schwere Probe",
-                    regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">-1/
-                },
-                {
-                    value: -3, label: "-3", defaultText: "sehr schwere Probe",
-                    regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">-3/
-                },
-                {
-                    value: -5, label: "-5", defaultText: "extrem schwere Probe",
-                    regex: /<span>([a-zA-ZäöüÄÖÜß\s]*)<\/span><\/div><div class="col five center">-5/
-                },
+                {value: 5, label: "+5", text: "extrem leichte Probe"},
+                {value: 3, label: "+3", text: "sehr leichte Probe"},
+                {value: 1, label: "+1", text: "leichte Probe"},
+                {value: 0, label: "+/- 0", text: "normale Probe"},
+                {value: -1, label: "-1", text: "schwere Probe"},
+                {value: -3, label: "-3", text: "sehr schwere Probe"},
+                {value: -5, label: "-5", text: "extrem schwere Probe"}
             ]
-            for (const {value, label, defaultText, regex} of modifiers) {
-                const match = regex.exec(description)
-                result += `<option value="${value}" ${!value ? "selected" : ""}>${label} ≙ ${match ? match[1] : defaultText}</option>`
+            $(`<div>${description}</div>`).find('div.row-section.wrap.lineheight2 div span').each((i, example) => {
+                const text = example.innerText
+
+                let modifier = $(example).parent()?.next()?.[0]?.innerText
+                if (!modifier || modifier.match(/[a-zA-Z]/i))
+                    return
+                const entry = modifiers.find(m => m.value === (parseInt(modifier) || 0))
+                if (!entry) return
+
+                entry.text = text
+            })
+            let result = ``
+            for (const {value, label, text} of modifiers) {
+                result += `<option value="${value}" ${!value ? "selected" : ""}>${label} ≙ ${text}</option>`
             }
             return new Handlebars.SafeString(result);
         }

@@ -25,7 +25,7 @@ export default class SceneDirector extends MeisterApplication {
             resizable: true,
             template: `modules/${moduleName}/templates/scene-director.hbs`,
             id: 'meistertools.scenes',
-            title: 'Szenen verwalten',
+            title: 'Szenenwechsel',
         });
     }
 

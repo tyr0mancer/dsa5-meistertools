@@ -1,4 +1,4 @@
-<div class="meistertools">
+<from class="meistertools">
     <div style="text-align: center">
         <button class="parse-scene" {{#unless newDrawings}}disabled{{/unless}}
                 title="Zeichnungen in Scene als Karteneinträge interpretieren">
@@ -16,16 +16,15 @@
         {{#each regionMap}}
             {{#with [1]}}
                 <div class="inner box header" style="max-width: 400px; width: 100%">
-                    <h2 class="toggle {{#if hidden}}show{{/if}}" data-target=".{{key}}.regions">{{name}}</h2>
+                    <h2>{{#toggle (concat key "-regions")  ../../_expandedTargets}}{{../name}}{{/toggle}}</h2>
                     <!--<div class="top-bar"><a><i class="far fa-eye"></i></a> <a><i class="far fa-eye-slash"></i></a></div>-->
-                    <div class="{{key}} regions {{#if hidden}}hidden{{/if}}">
-
+                    {{#collapsible (concat key "-regions")  ../../_expandedTargets}}
                         <table class="regions">
                             <tr>
                                 <th>Name</th>
                                 <th style="width: 100px">Zeichnungen</th>
                             </tr>
-                            {{#each regions as |region n|}}
+                            {{#each ../regions as |region n|}}
                                 {{#with region.[1]}}
                                     <tr class="add-drawing" data-label="{{category}}.{{key}}">
                                         <td><h3><b>{{name}}</b><br/><i style="color: gray">{{key}}</i></h3></td>
@@ -58,7 +57,7 @@
                                 {{/with}}
                             {{/each}}
                         </table>
-                    </div>
+                    {{/collapsible}}
                 </div>
             {{/with}}
         {{/each}}
@@ -89,5 +88,5 @@
         </div>
     </div>-->
 
-</div>
+</from>
 

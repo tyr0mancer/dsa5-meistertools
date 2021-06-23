@@ -27,6 +27,7 @@ export default class SceneParser extends Application {
         super();
         this.formData = {}
         this.hiddenBoxes = {}
+        this._expandedTargets = {}
 
         // another scene is viewed
         Hooks.on("canvasInit", () => {
@@ -107,12 +108,20 @@ export default class SceneParser extends Application {
             regionMap: this.regionMap,
             newDrawings: game.scenes.viewed.getEmbeddedCollection('Drawing')?.map(e => e).filter(e => !e.getFlag(moduleName, 'region')).length > 0,
             biomeOptions: this.biomeOptions,
-            sceneBiome: this.sceneBiome
+            sceneBiome: this.sceneBiome,
+            _expandedTargets: this._expandedTargets
         }
     }
 
     activateListeners(html) {
         super.activateListeners(html);
+        html.find(".toggle").click((event) => {
+            const target = $(event.currentTarget).attr("data-target")
+            this._expandedTargets[target.replace(".", "")] = $(event.currentTarget).hasClass('show')
+            $(event.currentTarget).toggleClass('show')
+            $(target).toggle()
+        })
+
         Meistertools.addDefaultListeners(html, {
             onChange: e => this._handleInput(e),
             onToggle: e => this._handleToggle(e)

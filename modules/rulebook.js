@@ -97,7 +97,7 @@ export default class RuleBook extends MeisterApplication {
         }
 
         return {
-            ruleBooks: this.journals.index,
+            ruleBooks: this.journals.index.filter(i => i.name !== "Vorlage"),
             currentRule: this.currentRule,
             currentRulebook: this.currentRulebook,
             skillGroups: this.skillGroups,

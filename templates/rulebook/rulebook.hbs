@@ -5,75 +5,86 @@
 {{#each currentRulebook.actions as |this i|}}
 
     <div class="box header">
-        <h2>{{name}}</h2>
+        <h2 class="toggle" data-target=".rule-{{i}}">{{name}}</h2>
         <p>{{text}}</p>
+        <div class="rule-{{i}}">
+            <div class="float player-actors">
+                <div style="margin-right: 16px; border: 1px solid grey"><b>Spieler<br/>auswählen</b></div>
+                {{#each ../players}}
+                    <div>
+                        <input id="player-{{i}}-{{_id}}" type="checkbox"
+                               name="player-{{i}}-{{_id}}"/>
+                        <label for="player-{{i}}-{{_id}}">{{name}} </label>
+                    </div>
+                {{/each}}
+            </div>
 
-        <div class="float player-actors">
-            {{#each ../players}}
-                <div>
-                    <input id="player-{{i}}-{{_id}}" type="checkbox"
-                           name="player-{{i}}-{{_id}}"/>
-                    <label for="player-{{i}}-{{_id}}">{{name}} </label>
+
+
+            {{#each requests as |this j|}}
+                <div class="inner box header" style="margin-top: 32px">
+                    <h2 class="toggle show" data-target=".request-{{j}}">{{name}}</h2>
+                    <p>{{text}}</p>
+
+                    <div class="request-{{j}} hidden">
+                        {{#each variations as |this k|}}
+                            <h3><b>{{name}}</b> (Dauer {{duration}})</h3>
+                            <div class="form-group">
+                                <label class="label-text">Grund-Modifikator</label>
+                                <input class="input-text" type="text" name="modifier-{{i}}-{{j}}-{{k}}"
+                                       value="{{baseModifier}}" data-dtype="Number"/>
+                            </div>
+                            {{#each modifierOptions as |modifierName m|}}
+                                <div class="form-group">
+                                    <label class="label-text">{{modifierName}}</label>
+                                    <select name="modifier-{{i}}-{{j}}-{{k}}" data-dtype="Number">
+                                        <option style="background-color: lightgreen" value="+5">+5 - Extreme
+                                            Erleichterung
+                                        </option>
+                                        <option style="background-color: lightgreen" value="+3">+3 - Starke
+                                            Erleichterung
+                                        </option>
+                                        <option style="background-color: lightgreen" value="+1">+1 - Erleichterung
+                                        </option>
+                                        <option value="0" selected>Kein Modifikator</option>
+                                        <option style="background-color: orange" value="-1">-1 - Erschwerung</option>
+                                        <option style="background-color: orange" value="-3">-3 - Starke Erschwerung
+                                        </option>
+                                        <option style="background-color: orange" value="-5">-5 - Extreme Erschwerung
+                                        </option>
+                                    </select>
+                                </div>
+                            {{/each}}
+                            <div class="form-group">
+                                <label class="label-text">Zusätzlicher Modifikator</label>
+                                <input class="input-text" type="text" name="modifier-{{i}}-{{j}}-{{k}}" value=""
+                                       data-dtype="Number"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-text"></label>
+                                <button class="request-roll" data-request-index="{{i}}-{{j}}-{{k}}"
+                                        data-action-index="{{i}}"
+                                        data-talent="{{talent}}" type="button">Probe auf {{talent}} anfordern
+                                </button>
+                            </div>
+                        {{/each}}
+
+                        <table>
+                            <tr>
+                                <th>Ergebnis</th>
+                                <th>Konsequenzen</th>
+                            </tr>
+                            {{#each consequences as |this l|}}
+                                <tr>
+                                    <td>{{result}}</td>
+                                    <td>{{consequence}}</td>
+                                </tr>
+                            {{/each}}
+                        </table>
+                    </div>
                 </div>
             {{/each}}
         </div>
-
-
-
-        {{#each requests as |this j|}}
-            <div class="inner box header" style="margin-top: 32px">
-                <h2>{{name}}</h2>
-                <p>{{text}}</p>
-                {{#each variations as |this k|}}
-                    <h3><b>{{name}}</b> (Dauer {{duration}})</h3>
-                    <div class="form-group">
-                        <label class="label-text">Grund-Modifikator</label>
-                        <input class="input-text" type="text" name="modifier-{{i}}-{{j}}-{{k}}"
-                               value="{{baseModifier}}" data-dtype="Number"/>
-                    </div>
-                    {{#each modifierOptions as |modifierName m|}}
-                        <div class="form-group">
-                            <label class="label-text">{{modifierName}}</label>
-                            <select name="modifier-{{i}}-{{j}}-{{k}}" data-dtype="Number">
-                                <option style="background-color: lightgreen" value="+5">+5 - Extreme Erleichterung
-                                </option>
-                                <option style="background-color: lightgreen" value="+3">+3 - Starke Erleichterung
-                                </option>
-                                <option style="background-color: lightgreen" value="+1">+1 - Erleichterung</option>
-                                <option value="0" selected>Kein Modifikator</option>
-                                <option style="background-color: orange" value="-1">-1 - Erschwerung</option>
-                                <option style="background-color: orange" value="-3">-3 - Starke Erschwerung</option>
-                                <option style="background-color: orange" value="-5">-5 - Extreme Erschwerung</option>
-                            </select>
-                        </div>
-                    {{/each}}
-                    <div class="form-group">
-                        <label class="label-text">Zusätzlicher Modifikator</label>
-                        <input class="input-text" type="text" name="modifier-{{i}}-{{j}}-{{k}}" value=""
-                               data-dtype="Number"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="label-text"></label>
-                        <button class="request-roll" data-request-index="{{i}}-{{j}}-{{k}}" data-action-index="{{i}}"
-                                data-talent="{{talent}}" type="button">Probe auf {{talent}} anfordern
-                        </button>
-                    </div>
-                {{/each}}
-
-                <table>
-                    <tr>
-                        <th>Ergebnis</th>
-                        <th>Konsequenzen</th>
-                    </tr>
-                    {{#each consequences as |this l|}}
-                        <tr>
-                            <td>{{result}}</td>
-                            <td>{{consequence}}</td>
-                        </tr>
-                    {{/each}}
-                </table>
-            </div>
-        {{/each}}
     </div>
 
     {{#if source.name}}

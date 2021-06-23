@@ -283,16 +283,20 @@ i.fa-meistertools {
     padding-right: 10px;
 }
 
-.meistertools .toggle.show {
-    cursor: pointer;
-}
-
 .meistertools .toggle.show::before {
     font-family: "Font Awesome 5 Free", serif;
     font-weight: 900;
     content: "\f103";
     padding-right: 10px;
 }
+
+.meistertools .toggle.info::before {
+    font-family: "Font Awesome 5 Free", serif;
+    font-weight: 900;
+    content: "\f05a";
+    padding-right: 10px;
+}
+
 
 .meistertools .hidden {
     display: none;

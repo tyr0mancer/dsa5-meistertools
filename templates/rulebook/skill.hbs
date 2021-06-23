@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label class="label-text">{{skill}}</label>
+    <label class="label-text toggle info" data-target=".skill.{{id}}">{{skill}}</label>
     <div class="col-2">
         <button class="request-roll" style="width: 32px"
                 data-talent="{{skill}}"
@@ -11,3 +11,7 @@
         </select>
     </div>
 </div>
+<div class="hidden skill {{id}}" style="margin-bottom: 48px; border-bottom: 2px solid black">
+    {{{localize (concat "SKILLdescr." skill)}}}
+</div>
+

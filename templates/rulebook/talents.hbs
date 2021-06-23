@@ -43,7 +43,7 @@
         <div class="inner box header">
             <h2>Alle Talente</h2>
             {{#each skills as |skill k|}}
-                {{> modules/dsa5-meistertools/templates/rulebook/skill.hbs skill=skill id=(concat k)}}
+                {{> modules/dsa5-meistertools/templates/rulebook/skill.hbs skill=skill id=k}}
             {{/each}}
         </div>
     {{/if}}

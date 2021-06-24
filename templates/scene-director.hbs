@@ -55,7 +55,8 @@
     </div>
 
     <div class="box header">
-        <h2>{{#toggle "world-scenes:" _expandedTargets}}In Welt{{/toggle}}</h2>
+        <h2>{{#toggle "world-scenes:" _expandedTargets}}In Welt ({{ ../worldScenes.length}}){{/toggle}}</h2>
+
 
         {{#collapsible "world-scenes:" _expandedTargets}}
             <div class="float">

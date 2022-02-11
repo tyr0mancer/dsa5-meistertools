@@ -11,7 +11,7 @@ import {MeistertoolsLocator} from "./src/locator.js";
 
 import {registerHandlebarHelper} from "./util/register-handlebar-helper.js";
 import MeistertoolsMerchantSheet from "./modules/merchants.js";
-import {ItemRegionDSA5, ItemAvailabilityDSA5} from "./src/item-sheet.js";
+import {LocationSheet, EquipmentRaritySheet} from "./src/item-sheet.js";
 import {PlayersView} from "./src/players-view.js";
 
 export const moduleName = "dsa5-meistertools";  // just in case I need to change the modules name
@@ -66,8 +66,8 @@ Hooks.once('init', async () => {
     /**
      * register Item Sheets to support Locations
      */
-    Items.registerSheet("dsa5", ItemRegionDSA5, {types: ["equipment"]});
-    Items.registerSheet("dsa5", ItemAvailabilityDSA5, {types: []});
+    Items.registerSheet("dsa5", LocationSheet, {types: []});
+    Items.registerSheet("dsa5", EquipmentRaritySheet, {types: []});
 
     loadTemplates([
         "modules/dsa5-meistertools/templates/settings/general.hbs",
@@ -75,7 +75,6 @@ Hooks.once('init', async () => {
         "modules/dsa5-meistertools/templates/settings/scene.hbs",
         "modules/dsa5-meistertools/templates/settings/locations.hbs",
         "modules/dsa5-meistertools/templates/item/item-rarity.hbs",
-        "modules/dsa5-meistertools/templates/item/item-region.hbs",
         "modules/dsa5-meistertools/templates/actor/merchant-gm.hbs",
         "modules/dsa5-meistertools/templates/rulebook/talents.hbs",
         "modules/dsa5-meistertools/templates/rulebook/rulebook.hbs",

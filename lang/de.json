@@ -59,7 +59,13 @@
   "Location": {
     "current": "Aktueller Aufenthaltsort",
     "Key": "Schlüssel",
-    "Category": "Kategorie"
+    "Category": "Kategorie",
+    "Biome": "Landschafts-Typ",
+    "Biomes": "Landschafts-Typen",
+    "Regions": "Regionen",
+    "HerbModifier": "Modifikator Kräutersuche",
+    "HuntingModifier": "Modifikator Jagd",
+    "DefaultBiome": "Landschafts-Typ"
   },
   "Help": {
     "nsc-factory": {

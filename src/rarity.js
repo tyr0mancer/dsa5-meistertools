@@ -110,12 +110,6 @@ export class MeistertoolsRarity extends Application {
             }
         )
 
-        html.find("a.calculate-current-rarity").click(() => {
-            this.entities.forEach(async entity => await MeistertoolsRarity.calculateRarity(entity, this.currentTag, true))
-            this.render()
-        })
-
-
         html.find(".entity-tag").mousedown((event) => {
             const entityId = $(event.currentTarget).attr("data-id")
             const entity = this.entities.find(e => e._id === entityId)
@@ -257,10 +251,10 @@ export class MeistertoolsRarity extends Application {
 
     static cleanRarity(rarity) {
         if (!rarity) return {general: this.defaultRarity}
-        let current = parseInt(rarity.current)
-        if (isNaN(current)) current = this.defaultRarity
+        //let current = parseInt(rarity.current)
+        //if (isNaN(current)) current = this.defaultRarity
         return {
-            current,
+            //current,
             general: (rarity.general !== undefined) ? parseInt(rarity.general) : this.defaultRarity,
             regions: (!Array.isArray(rarity.regions)) ? [] : rarity.regions
                 .map(r => {
@@ -275,29 +269,25 @@ export class MeistertoolsRarity extends Application {
         }
     }
 
-    static async calculateRarity(item, currentLocation = MeistertoolsLocator.currentLocation, force = false) {
+    static async calculateRarity(item, currentLocation = MeistertoolsLocator.currentLocation) {
         const rarity = item.data.data?.rarity
         if (!rarity) return this.defaultRarity
-        let current
+        let result
         const currentRegionArray = currentLocation.regions || currentLocation.currentRegions || []
         const currentRegionKeys = currentRegionArray.map(r => r.key)
         const regionRarityArray = rarity.regions?.filter(r => currentRegionKeys.includes(r.key)).map(r => r.value)
         if (regionRarityArray?.length)
-            current = Math.max(...regionRarityArray)
+            result = Math.max(...regionRarityArray)
         const currentBiomeKeys = currentLocation.currentBiome ? [currentLocation.currentBiome.key] : currentLocation.biomes?.map(r => r.key) || []
         const biomeRarityArray = rarity.biomes?.filter(b => currentBiomeKeys.includes(b.key)).map(b => b.value)
         if (biomeRarityArray?.length) {
             const biomeMin = Math.max(...biomeRarityArray)
-            if (current === undefined || biomeMin < current)
-                current = biomeMin
+            if (result === undefined || biomeMin < result)
+                result = biomeMin
         }
-        if (current === undefined) current = rarity.general
+        if (result === undefined) result = rarity.general
 
-        if (force) {
-            rarity.current = current
-            await item.update({"data.rarity": duplicate(rarity)})
-        }
-        return current
+        return result
     }
 
     _setFilter() {

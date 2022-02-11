@@ -29,8 +29,7 @@
 
 
         <div class="box header">
-            <h2>Verfügbarkeit <a class="calculate-current-rarity" title="Aktuelle Verfügbarkeit berechnen">
-                <i class="fas fa-calculator"></i></a></h2>
+            <h2>Verfügbarkeit</h2>
             <div class="col-2" style="grid-template-columns: 70px auto;">
                 <div class="inner box header">
                     <h3>allg</h3>
@@ -89,14 +88,6 @@
                             class="fas fa-quote-right"></i></a></th>
                 {{/if}}
 
-                {{#if showCurrentRarity}}
-                    <th><a class="toggle-current-rarity" title="Aktuelle Verfügbarkeit ausblenden">Verfügbarkeit</a>
-                    </th>
-                {{else}}
-                    <th><a class="calculate-current-rarity" title="Aktuelle Verfügbarkeit anzeigen"><i
-                            class="fas fa-calculator"></i></a></th>
-                {{/if}}
-
                 <th>allg.</th>
                 <th>nach Region</th>
                 <th>nach Landschaftstyp</th>
@@ -111,12 +102,6 @@
 
                 {{#if showDescription}}
                     <th><input type="text" class="filter" name="description" value="{{filter.description}}"/></th>
-                {{else}}
-                    <th></th>
-                {{/if}}
-
-                {{#if showCurrentRarity}}
-                    <th>Filter</th>
                 {{else}}
                     <th></th>
                 {{/if}}
@@ -137,7 +122,7 @@
                         <td></td>
                     {{/if}}
 
-                    <td class="calculate-current" data-id="{{_id}}">{{display_rarity rarity.current}}</td>
+
                     <td class="entity-tag" data-id="{{_id}}">{{display_rarity rarity.general}}</td>
                     <td class="entity-tag" data-id="{{_id}}">
                         {{#each rarity.regions}}

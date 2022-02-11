@@ -1,13 +1,13 @@
-<div class="tab effects" data-tab="rarity">
+<div class="tab effects meistertools" data-tab="rarity">
     <div class="meistertools">
         <div class="form-group">
-            <label class="label-text">{{localize "Availability.general"}}</label>
+            <label class="label-text">{{localize "Availability.general"}} <a class="reset-general-rarity"><i class='far fa-trash-alt'></i></a></label>
             <div style="padding-left: 5px"><a class="update-rarity" data-entry-key="general"><h3><b>{{display_rarity
                     data.rarity.general "" true}}</b></h3></a></div>
         </div>
 
         <div class="form-group">
-            <label class="label-text">Regionen</label>
+            <label class="label-text">{{localize "Location.Regions"}} <a class="reset-regions-rarity"><i class='far fa-trash-alt'></i></a></label>
             <div style="padding-left: 5px">
                 {{#each data.rarity.regions}}
                     <a class="update-rarity" data-entry-key="{{key}}" data-entry-category="{{category}}">
@@ -18,7 +18,7 @@
         </div>
 
         <div class="form-group">
-            <label class="label-text">Landschafts-Typen</label>
+            <label class="label-text">{{localize "Location.Biomes"}} <a class="reset-biomes-rarity"><i class='far fa-trash-alt'></i></a></label>
             <div style="padding-left: 5px">
                 {{#each data.rarity.biomes}}
                     <a class="update-rarity" data-entry-key="{{key}}">
@@ -30,29 +30,29 @@
 
         <hr/>
 
-        <div class="form-group">
-            <label class="label-text">{{localize "Location.current"}}</label>
-            <div>
+        <div class="inner box header">
+            <h2>{{localize "Availability.current"}} </h2>
+            <div class="top-bar">
+                <b>{{display_rarity currentRarity "" true}}</b>
+            </div>
+
+            <div class="form-group">
+                <label class="label-text">{{localize "Location.Biome"}}</label>
+                <div style="padding-left: 5px">{{currentLocation.currentBiome.name}}</div>
+            </div>
+            <div class="form-group">
+                <label class="label-text">{{localize "Location.Regions"}}</label>
                 <div style="padding-left: 5px">
-                    <h3><b>{{currentLocation.currentBiome.name}}</b></h3>
                     {{#each currentLocation.currentRegions}}
-                        <b>{{name}}</b>:
-                        {{#each regions}}
-                            <span class="tag">{{name}}</span>
-                        {{/each}}
+                        <div>
+                            <b>{{name}}</b>:
+                            {{#each regions}}
+                                <span class="tag">{{name}}</span>
+                            {{/each}}
+                        </div>
                     {{/each}}
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="label-text">{{localize "Availability.current"}}</label>
-            <div>
-                <div style="padding-left: 5px"><h3><b>{{display_rarity data.rarity.current "" true}}</b></h3></div>
-                <!--<div style="padding-left: 5px"><a>reset</a> <a>berechnen</a></div>-->
-            </div>
-        </div>
-        <button class="reset-rarity" type="button">zurücksetzen</button>
-        <button class="calculate-rarity" type="button">berechnen</button>
-
     </div>
 </div>

@@ -16,14 +16,15 @@ export default class MeistertoolsSettings extends MeisterApplication {
 
     constructor(moduleKey = MeistertoolsSettings.meisterModule.key) {
         super(moduleKey);
+
         this._reloadSettings()
         this.selectOptions = {
             actorPacks: game.packs.filter(p => p.metadata.entity === 'Actor'),
             itemPacks: game.packs.filter(p => p.metadata.entity === 'Item'),
             scenePacks: game.packs.filter(p => p.metadata.entity === 'Scene'),
-            sceneFolders: game.folders.entities.filter(f => f.type === "Scene"),
-            actorFolders: game.folders.entities.filter(f => f.type === "Actor"),
-            playlists: game.playlists.entities.map(p => p.name),
+            sceneFolders: game.folders.filter(f => f.type === "Scene"),
+            actorFolders: game.folders.filter(f => f.type === "Actor"),
+            playlists: game.playlists.map(p => p.name),
         }
 
     }

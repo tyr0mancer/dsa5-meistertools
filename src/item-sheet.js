@@ -4,16 +4,15 @@ import {moduleName} from "../meistertools.js";
 import {MeistertoolsRarity} from "./rarity.js";
 import {MeistertoolsLocator} from "./locator.js";
 
-export class ItemRegionDSA5 extends ItemSheetdsa5 {
+export class LocationSheet extends ItemSheetdsa5 {
     constructor(item, options) {
         options.width = 530
         options.height = 570
         super(item, options);
-        this.mce = null;
     }
 
     get template() {
-        return `modules/${moduleName}/templates/item/item-sheet-region.hbs`
+        return `modules/${moduleName}/templates/item/location-sheet.hbs`
     }
 
     async getData(options) {
@@ -22,21 +21,36 @@ export class ItemRegionDSA5 extends ItemSheetdsa5 {
         return data
     }
 
+    activateListeners(html) {
+        super.activateListeners(html);
+        this.form.ondrop = ev => this._onDrop(ev);
+    }
+
+    async _onDrop(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const {id, type} = JSON.parse(event.dataTransfer.getData('text/plain'));
+        if (type !== "Item") return
+        const item = game.items.get(id)
+        const key = item.data.data.location?.key?.value
+        const category = item.data.data.location?.category?.value
+        if (!key || category !== "biome") return
+        await this.item.update({"data.location.modifier.biome.value": key})
+    }
+
 }
 
 
-export class ItemAvailabilityDSA5 extends ItemSheetdsa5 {
+export class EquipmentRaritySheet extends ItemSheetdsa5 {
     constructor(item, options) {
         options.width = 530
         options.height = 570
         super(item, options);
-        Hooks.on(moduleName + ".update-location", async () => {
-            await this._updateCurrentRarity()
-        });
+        Hooks.on(moduleName + ".update-location", () => this._updateCurrentRarity());
     }
 
     get template() {
-        return `modules/${moduleName}/templates/item/item-sheet.hbs`
+        return `modules/${moduleName}/templates/item/equipment-rarity-sheet.hbs`
     }
 
     async updateRarity({name, key, category, img, value}) {
@@ -75,6 +89,7 @@ export class ItemAvailabilityDSA5 extends ItemSheetdsa5 {
             }
         }
         await this.item.update({"data.rarity": duplicate({general, regions, biomes})})
+        await this._updateCurrentRarity()
     }
 
     async _onDrop(event) {
@@ -91,8 +106,7 @@ export class ItemAvailabilityDSA5 extends ItemSheetdsa5 {
     }
 
     async _updateCurrentRarity() {
-        const current = await MeistertoolsRarity.calculateRarity(this.item)
-        this.item.update({"data.rarity": {current}})
+        this.currentRarity = await MeistertoolsRarity.calculateRarity(this.item)
         this.render()
     }
 
@@ -106,21 +120,43 @@ export class ItemAvailabilityDSA5 extends ItemSheetdsa5 {
             await this.updateRarity({key, category, value})
         })
 
-        html.find("button.reset-rarity").click(() => {
-            this.item.update({"data.rarity": []})
-            this.item.update({"data.rarity": {general: null, regions: [], biomes: [], current: null}})
-            this.render()
+        html.find("a.reset-rarity").click(async () => {
+            //await this.item.update({"data.rarity": []})
+            await this.item.update({"data.rarity": {general: null, regions: [], biomes: []}})
+            await this._updateCurrentRarity()
         })
+
+        html.find("a.reset-general-rarity").click(async () => {
+            await this.item.update({"data.rarity.general": null})
+            await this._updateCurrentRarity()
+        })
+
+        html.find("a.reset-regions-rarity").click(async () => {
+            await this.item.update({"data.rarity.regions": []})
+            await this._updateCurrentRarity()
+        })
+
+        html.find("a.reset-biomes-rarity").click(async () => {
+            await this.item.update({"data.rarity.biomes": []})
+            await this._updateCurrentRarity()
+        })
+
         html.find("button.calculate-rarity").click(() => this._updateCurrentRarity())
     }
 
     async getData(options) {
         const data = await super.getData(options);
+        if (!data.data.rarity) data.data.rarity = {}
         data.data.rarity.regions = data.data.rarity?.regions?.sort((a, b) => b.value - a.value) || []
         data.data.rarity.biomes = data.data.rarity?.biomes?.sort((a, b) => b.value - a.value) || []
 
         data['equipmentTypes'] = DSA5.equipmentTypes;
         data['currentLocation'] = MeistertoolsLocator.currentLocationExpanded
+
+        if (!this.currentRarity)
+            this.currentRarity = await MeistertoolsRarity.calculateRarity(this.item)
+        data['currentRarity'] = this.currentRarity;
+
         return data
     }
 

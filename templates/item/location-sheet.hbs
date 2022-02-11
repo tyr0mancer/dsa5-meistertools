@@ -1,0 +1,83 @@
+<form class="dsa5 item-sheet {{cssClass}}" autocomplete="off">
+
+    {{> systems/dsa5/templates/items/item-header.html}}
+
+    <div class="row-section ">
+        <div class="col ten">
+            <img src="{{item.img}}" {{#if showBorder}}class="no-image-border" {{/if}} data-edit="img"/>
+        </div>
+        <div class="col ninety item-main">
+            <div class="row-section">
+                <div class="col four">
+                    <label class="label-text table-title">{{localize "Location.Category"}}</label>
+                </div>
+                <div class="col four">
+                    <select name="data.location.category.value" data-dtype="String">
+                        {{#select data.location.category.value}}
+                            <option value="biome">{{localize "Location.Biome"}}</option>
+                            {{#each regionTypes as |ch char|}}
+                                <option value="{{char}}">{{localize ch}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+            </div>
+            <div class="row-section">
+                <div class="col four">
+                    <label class="label-text table-title">{{localize "Location.Key"}}</label>
+                </div>
+                <div class="col four">
+                    <input class="input-text" type="text" name="data.location.key.value"
+                           value="{{data.location.key.value}}"
+                           data-dtype="String"/>
+                </div>
+            </div>
+
+            {{#ifeq data.location.category.value "biome"}}
+                <div class="row-section">
+                    <div class="col four">
+                        <label class="label-text table-title">{{localize "Location.HerbModifier"}}</label>
+                    </div>
+                    <div class="col four">
+                        <input class="input-text" type="text" name="data.location.modifier.herbs.value"
+                               value="{{data.location.modifier.herbs.value}}"
+                               data-dtype="String"/>
+                    </div>
+                </div>
+                <div class="row-section">
+                    <div class="col four">
+                        <label class="label-text table-title">{{localize "Location.HuntingModifier"}}</label>
+                    </div>
+                    <div class="col four">
+                        <input class="input-text" type="text" name="data.location.modifier.hunting.value"
+                               value="{{data.location.modifier.hunting.value}}"
+                               data-dtype="String"/>
+                    </div>
+                </div>
+            {{else}}
+                <div class="row-section">
+                    <div class="col four">
+                        <label class="label-text table-title">{{localize "Location.DefaultBiome"}}</label>
+                    </div>
+                    <div class="col four">
+                        <input class="input-text" type="text" name="data.location.modifier.biome.value"
+                               value="{{data.location.modifier.biome.value}}"
+                               data-dtype="String"/>
+                    </div>
+                </div>
+
+            {{/ifeq}}
+
+        </div>
+    </div>
+
+
+    <nav class="sheet-tabs tabs" data-tab-container="primary">
+        <a class="item active" data-tab="description">{{localize "Description"}}</a>
+        <a class="item" data-tab="effects">{{localize "statuseffects"}}</a>
+    </nav>
+    <section class="content">
+        {{> systems/dsa5/templates/items/item-description.html}}
+        {{> systems/dsa5/templates/items/item-effects.html}}
+    </section>
+</form>

@@ -216,6 +216,7 @@
     background-color: var(--color-tertiary);
     color: var(--color-light);
 }
+
 .meistertools button.bold:hover {
     color: var(--color-secondary);
 }
@@ -224,6 +225,7 @@
     background-color: var(--color-red);
     color: var(--color-light);
 }
+
 .meistertools button.red:hover {
     color: white;
 }
@@ -396,4 +398,11 @@ label + label {
 input.switch[type=checkbox]:checked + label + label {
     font-weight: bolder;
     color: var(--color-primary);
+}
+
+.item-main .row-section select {
+    width: 100%;
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
 }
